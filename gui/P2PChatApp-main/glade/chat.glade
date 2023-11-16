@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.22.2 -->
+<interface>
+  <requires lib="gtk+" version="3.20"/>
+  <object class="GtkWindow" id="chatWnd">
+    <property name="name">window3</property>
+    <property name="width_request">507</property>
+    <property name="height_request">663</property>
+    <property name="can_focus">False</property>
+    <property name="default_width">507</property>
+    <property name="default_height">663</property>
+    <property name="destroy_with_parent">True</property>
+    <child type="titlebar">
+      <placeholder/>
+    </child>
+    <child>
+      <object class="GtkFixed" id="fixChat">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <child>
+          <object class="GtkLabel" id="chatLbl">
+            <property name="width_request">100</property>
+            <property name="height_request">80</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">Chat Box</property>
+            <attributes>
+              <attribute name="font-desc" value="Sans Bold 24"/>
+              <attribute name="foreground" value="#0000ffff06eb"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="x">101</property>
+            <property name="y">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkScrolledWindow" id="chatScrolledWnd">
+            <property name="width_request">460</property>
+            <property name="height_request">460</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="shadow_type">in</property>
+            <child>
+              <placeholder/>
+            </child>
+          </object>
+          <packing>
+            <property name="x">24</property>
+            <property name="y">86</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry" id="chatEntry">
+            <property name="width_request">360</property>
+            <property name="height_request">50</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+          </object>
+          <packing>
+            <property name="x">23</property>
+            <property name="y">568</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="sendBtn">
+            <property name="label" translatable="yes">Send</property>
+            <property name="width_request">85</property>
+            <property name="height_request">50</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="margin_bottom">2</property>
+          </object>
+          <packing>
+            <property name="x">400</property>
+            <property name="y">568</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>
