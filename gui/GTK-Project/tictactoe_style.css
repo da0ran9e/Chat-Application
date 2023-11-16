@@ -1,0 +1,10 @@
+#button {
+    border: 5px solid black;
+    padding: 0px;
+    text-decoration: none;
+    font-size: 40px;
+}
+#button > label{
+    background-color: white;
+    color: black;
+}
