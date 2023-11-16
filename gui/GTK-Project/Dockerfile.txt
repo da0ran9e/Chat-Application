@@ -1,0 +1,3 @@
+FROM mcr.microsoft.com/dotnet/aspnet:6.0
+WORKDIR "C:\Users\user\Desktop\C-C++programming\C_programming\GTK+\TicTacToe\app"
+COPY "C:\Users\user\Desktop\C-C++programming\C_programming\GTK+\TicTacToe\bin" "C:\Users\user\Desktop\C-C++programming\C_programming\GTK+\TicTacToe\app"
