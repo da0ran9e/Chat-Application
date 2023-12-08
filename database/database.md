@@ -17,6 +17,10 @@ To switch to the postgres account on your server, execute the following command:
 ```
 sudo -i -u postgres
 ```
+Create a role:
+```
+CREATE USER kali WITH PASSWORD '******';
+```
 See `psql --help` options:
 ```
 psql is the PostgreSQL interactive terminal.
