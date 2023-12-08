@@ -53,7 +53,7 @@ Input and output options:
   -S, --single-line        single-line mode (end of line terminates SQL command)
 
 Output format options:
-  -A, --no-align           unaligned table output mode
+  -A, --no-align           unaligned table outpupt mode
       --csv                CSV (Comma-Separated Values) table output mode
   -F, --field-separator=STRING
                            field separator for unaligned output (default: "|")
@@ -81,152 +81,146 @@ commands) from within psql, or consult the psql section in the PostgreSQL
 documentation.
 ```
 ```
-GNU bash, version 5.1.16(1)-release (x86_64-pc-linux-gnu)
-These shell commands are defined internally.  Type `help' to see this list.
-Type `help name' to find out more about the function `name'.
-Use `info bash' to find out more about the shell in general.
-Use `man -k' or `info' to find out more about commands not in this list.
+General
+  \bind [PARAM]...       set query parameters
+  \copyright             show PostgreSQL usage and distribution terms
+  \crosstabview [COLUMNS] execute query and display result in crosstab
+  \errverbose            show most recent error message at maximum verbosity
+  \g [(OPTIONS)] [FILE]  execute query (and send result to file or |pipe);
+                         \g with no arguments is equivalent to a semicolon
+  \gdesc                 describe result of query, without executing it
+  \gexec                 execute query, then execute each value in its result
+  \gset [PREFIX]         execute query and store result in psql variables
+  \gx [(OPTIONS)] [FILE] as \g, but forces expanded output mode
+  \q                     quit psql
+  \watch [[i=]SEC] [c=N] execute query every SEC seconds, up to N times
 
-A star (*) next to a name means that the command is disabled.
+Help
+  \? [commands]          show help on backslash commands
+  \? options             show help on psql command-line options
+  \? variables           show help on special variables
+  \h [NAME]              help on syntax of SQL commands, * for all commands
 
- job_spec [&]                                 history [-c] [-d offset] [n] or history ->
- (( expression ))                             if COMMANDS; then COMMANDS; [ elif COMMAN>
- . filename [arguments]                       jobs [-lnprs] [jobspec ...] or jobs -x co>
- :                                            kill [-s sigspec | -n signum | -sigspec] >
- [ arg... ]                                   let arg [arg ...]
- [[ expression ]]                             local [option] name[=value] ...
- alias [-p] [name[=value] ... ]               logout [n]
- bg [job_spec ...]                            mapfile [-d delim] [-n count] [-O origin]>
- bind [-lpsvPSVX] [-m keymap] [-f filename]>  popd [-n] [+N | -N]
- break [n]                                    printf [-v var] format [arguments]
- builtin [shell-builtin [arg ...]]            pushd [-n] [+N | -N | dir]
- caller [expr]                                pwd [-LP]
- case WORD in [PATTERN [| PATTERN]...) COMM>  read [-ers] [-a array] [-d delim] [-i tex>
- cd [-L|[-P [-e]] [-@]] [dir]                 readarray [-d delim] [-n count] [-O origi>
- command [-pVv] command [arg ...]             readonly [-aAf] [name[=value] ...] or rea>
- compgen [-abcdefgjksuv] [-o option] [-A ac>  return [n]
- complete [-abcdefgjksuv] [-pr] [-DEI] [-o >  select NAME [in WORDS ... ;] do COMMANDS;>
- compopt [-o|+o option] [-DEI] [name ...]     set [-abefhkmnptuvxBCHP] [-o option-name]>
- continue [n]                                 shift [n]
- coproc [NAME] command [redirections]         shopt [-pqsu] [-o] [optname ...]
- declare [-aAfFgiIlnrtux] [-p] [name[=value>  source filename [arguments]
- dirs [-clpv] [+N] [-N]                       suspend [-f]
- disown [-h] [-ar] [jobspec ... | pid ...]    test [expr]
- echo [-neE] [arg ...]                        time [-p] pipeline
- enable [-a] [-dnps] [-f filename] [name ..>  times
- eval [arg ...]                               trap [-lp] [[arg] signal_spec ...]
- exec [-cl] [-a name] [command [argument ..>  true
- exit [n]                                     type [-afptP] name [name ...]
- export [-fn] [name[=value] ...] or export >  typeset [-aAfFgiIlnrtux] [-p] name[=value>
- false                                        ulimit [-SHabcdefiklmnpqrstuvxPT] [limit]
- fc [-e ename] [-lnr] [first] [last] or fc >  umask [-p] [-S] [mode]
- fg [job_spec]                                unalias [-a] name [name ...]
- for NAME [in WORDS ... ] ; do COMMANDS; do>  unset [-f] [-v] [-n] [name ...]
- for (( exp1; exp2; exp3 )); do COMMANDS; d>  until COMMANDS; do COMMANDS; done
- function name { COMMANDS ; } or name () { >  variables - Names and meanings of some sh>
- getopts optstring name [arg ...]             wait [-fn] [-p var] [id ...]
- hash [-lr] [-p pathname] [-dt] [name ...]    while COMMANDS; do COMMANDS; done
- help [-dms] [pattern ...]                    { COMMANDS ; }
-```
-To access the PostgreSQL prompt:
-```
-psql
-```
-`\q` to exit and `\h` for query help:
-```
-Available help:
-  ABORT                            CREATE USER MAPPING
-  ALTER AGGREGATE                  CREATE VIEW
-  ALTER COLLATION                  DEALLOCATE
-  ALTER CONVERSION                 DECLARE
-  ALTER DATABASE                   DELETE
-  ALTER DEFAULT PRIVILEGES         DISCARD
-  ALTER DOMAIN                     DO
-  ALTER EVENT TRIGGER              DROP ACCESS METHOD
-  ALTER EXTENSION                  DROP AGGREGATE
-  ALTER FOREIGN DATA WRAPPER       DROP CAST
-  ALTER FOREIGN TABLE              DROP COLLATION
-  ALTER FUNCTION                   DROP CONVERSION
-  ALTER GROUP                      DROP DATABASE
-  ALTER INDEX                      DROP DOMAIN
-  ALTER LANGUAGE                   DROP EVENT TRIGGER
-  ALTER LARGE OBJECT               DROP EXTENSION
-  ALTER MATERIALIZED VIEW          DROP FOREIGN DATA WRAPPER
-  ALTER OPERATOR                   DROP FOREIGN TABLE
-  ALTER OPERATOR CLASS             DROP FUNCTION
-  ALTER OPERATOR FAMILY            DROP GROUP
-  ALTER POLICY                     DROP INDEX
-  ALTER PROCEDURE                  DROP LANGUAGE
-  ALTER PUBLICATION                DROP MATERIALIZED VIEW
-  ALTER ROLE                       DROP OPERATOR
-  ALTER ROUTINE                    DROP OPERATOR CLASS
-  ALTER RULE                       DROP OPERATOR FAMILY
-  ALTER SCHEMA                     DROP OWNED
-  ALTER SEQUENCE                   DROP POLICY
-  ALTER SERVER                     DROP PROCEDURE
-  ALTER STATISTICS                 DROP PUBLICATION
-  ALTER SUBSCRIPTION               DROP ROLE
-  ALTER SYSTEM                     DROP ROUTINE
-  ALTER TABLE                      DROP RULE
-  ALTER TABLESPACE                 DROP SCHEMA
-  ALTER TEXT SEARCH CONFIGURATION  DROP SEQUENCE
-  ALTER TEXT SEARCH DICTIONARY     DROP SERVER
-  ALTER TEXT SEARCH PARSER         DROP STATISTICS
-  ALTER TEXT SEARCH TEMPLATE       DROP SUBSCRIPTION
-  ALTER TRIGGER                    DROP TABLE
-  ALTER TYPE                       DROP TABLESPACE
-  ALTER USER                       DROP TEXT SEARCH CONFIGURATION
-  ALTER USER MAPPING               DROP TEXT SEARCH DICTIONARY
-  ALTER VIEW                       DROP TEXT SEARCH PARSER
-  ANALYZE                          DROP TEXT SEARCH TEMPLATE
-  BEGIN                            DROP TRANSFORM
-  CALL                             DROP TRIGGER
-  CHECKPOINT                       DROP TYPE
-  CLOSE                            DROP USER
-  CLUSTER                          DROP USER MAPPING
-  COMMENT                          DROP VIEW
-  COMMIT                           END
-  COMMIT PREPARED                  EXECUTE
-  COPY                             EXPLAIN
-  CREATE ACCESS METHOD             FETCH
-  CREATE AGGREGATE                 GRANT
-  CREATE CAST                      IMPORT FOREIGN SCHEMA
-  CREATE COLLATION                 INSERT
-  CREATE CONVERSION                LISTEN
-  CREATE DATABASE                  LOAD
-  CREATE DOMAIN                    LOCK
-  CREATE EVENT TRIGGER             MERGE
-  CREATE EXTENSION                 MOVE
-  CREATE FOREIGN DATA WRAPPER      NOTIFY
-  CREATE FOREIGN TABLE             PREPARE
-  CREATE FUNCTION                  PREPARE TRANSACTION
-  CREATE GROUP                     REASSIGN OWNED
-  CREATE INDEX                     REFRESH MATERIALIZED VIEW
-  CREATE LANGUAGE                  REINDEX
-  CREATE MATERIALIZED VIEW         RELEASE SAVEPOINT
-  CREATE OPERATOR                  RESET
-  CREATE OPERATOR CLASS            REVOKE
-  CREATE OPERATOR FAMILY           ROLLBACK
-  CREATE POLICY                    ROLLBACK PREPARED
-  CREATE PROCEDURE                 ROLLBACK TO SAVEPOINT
-  CREATE PUBLICATION               SAVEPOINT
-  CREATE ROLE                      SECURITY LABEL
-  CREATE RULE                      SELECT
-  CREATE SCHEMA                    SELECT INTO
-  CREATE SEQUENCE                  SET
-  CREATE SERVER                    SET CONSTRAINTS
-  CREATE STATISTICS                SET ROLE
-  CREATE SUBSCRIPTION              SET SESSION AUTHORIZATION
-  CREATE TABLE                     SET TRANSACTION
-  CREATE TABLE AS                  SHOW
-  CREATE TABLESPACE                START TRANSACTION
-  CREATE TEXT SEARCH CONFIGURATION TABLE
-  CREATE TEXT SEARCH DICTIONARY    TRUNCATE
-  CREATE TEXT SEARCH PARSER        UNLISTEN
-  CREATE TEXT SEARCH TEMPLATE      UPDATE
-  CREATE TRANSFORM                 VACUUM
-  CREATE TRIGGER                   VALUES
-  CREATE TYPE                      WITH
-  CREATE USER                      
+Query Buffer
+  \e [FILE] [LINE]       edit the query buffer (or file) with external editor
+  \ef [FUNCNAME [LINE]]  edit function definition with external editor
+  \ev [VIEWNAME [LINE]]  edit view definition with external editor
+  \p                     show the contents of the query buffer
+  \r                     reset (clear) the query buffer
+  \s [FILE]              display history or save it to file
+  \w FILE                write query buffer to file
+
+Input/Output
+  \copy ...              perform SQL COPY with data stream to the client host
+  \echo [-n] [STRING]    write string to standard output (-n for no newline)
+  \i FILE                execute commands from file
+  \ir FILE               as \i, but relative to location of current script
+  \o [FILE]              send all query results to file or |pipe
+  \qecho [-n] [STRING]   write string to \o output stream (-n for no newline)
+  \warn [-n] [STRING]    write string to standard error (-n for no newline)
+
+Conditional
+  \if EXPR               begin conditional block
+  \elif EXPR             alternative within current conditional block
+  \else                  final alternative within current conditional block
+  \endif                 end conditional block  
+  Informational
+  (options: S = show system objects, + = additional detail)
+  \d[S+]                 list tables, views, and sequences
+  \d[S+]  NAME           describe table, view, sequence, or index
+  \da[S]  [PATTERN]      list aggregates
+  \dA[+]  [PATTERN]      list access methods
+  \dAc[+] [AMPTRN [TYPEPTRN]]  list operator classes
+  \dAf[+] [AMPTRN [TYPEPTRN]]  list operator families
+  \dAo[+] [AMPTRN [OPFPTRN]]   list operators of operator families
+  \dAp[+] [AMPTRN [OPFPTRN]]   list support functions of operator families
+  \db[+]  [PATTERN]      list tablespaces
+  \dc[S+] [PATTERN]      list conversions
+  \dconfig[+] [PATTERN]  list configuration parameters
+  \dC[+]  [PATTERN]      list casts
+  \dd[S]  [PATTERN]      show object descriptions not displayed elsewhere
+  \dD[S+] [PATTERN]      list domains
+  \ddp    [PATTERN]      list default privileges
+  \dE[S+] [PATTERN]      list foreign tables
+  \des[+] [PATTERN]      list foreign servers
+  \det[+] [PATTERN]      list foreign tables
+  \deu[+] [PATTERN]      list user mappings
+  \dew[+] [PATTERN]      list foreign-data wrappers
+  \df[anptw][S+] [FUNCPTRN [TYPEPTRN ...]]
+                         list [only agg/normal/procedure/trigger/window] functions
+  \dF[+]  [PATTERN]      list text search configurations
+  \dFd[+] [PATTERN]      list text search dictionaries
+  \dFp[+] [PATTERN]      list text search parsers
+  \dFt[+] [PATTERN]      list text search templates
+  \dg[S+] [PATTERN]      list roles
+  \di[S+] [PATTERN]      list indexes
+  \dl[+]                 list large objects, same as \lo_list
+  \dL[S+] [PATTERN]      list procedural languages
+  \dm[S+] [PATTERN]      list materialized views
+  \dn[S+] [PATTERN]      list schemas
+  \do[S+] [OPPTRN [TYPEPTRN [TYPEPTRN]]]
+                         list operators
+  \dO[S+] [PATTERN]      list collations
+  \dp[S]  [PATTERN]      list table, view, and sequence access privileges
+  \dP[itn+] [PATTERN]    list [only index/table] partitioned relations [n=nested]
+  \drds [ROLEPTRN [DBPTRN]] list per-database role settings
+  \drg[S] [PATTERN]      list role grants
+  \dRp[+] [PATTERN]      list replication publications
+  \dRs[+] [PATTERN]      list replication subscriptions
+  \ds[S+] [PATTERN]      list sequences
+  \dt[S+] [PATTERN]      list tables
+  \dT[S+] [PATTERN]      list data types
+  \du[S+] [PATTERN]      list roles
+  \dv[S+] [PATTERN]      list views
+  \dx[+]  [PATTERN]      list extensions
+  \dX     [PATTERN]      list extended statistics
+  \dy[+]  [PATTERN]      list event triggers
+  \l[+]   [PATTERN]      list databases
+  \sf[+]  FUNCNAME       show a function's definition
+  \sv[+]  VIEWNAME       show a view's definition
+  \z[S]   [PATTERN]      same as \dp
+Large Objects
+  \lo_export LOBOID FILE write large object to file
+  \lo_import FILE [COMMENT]
+                         read large object from file
+  \lo_list[+]            list large objects
+  \lo_unlink LOBOID      delete a large object
+
+Formatting
+  \a                     toggle between unaligned and aligned output mode
+  \C [STRING]            set table title, or unset if none
+  \f [STRING]            show or set field separator for unaligned query output
+  \H                     toggle HTML output mode (currently off)
+  \pset [NAME [VALUE]]   set table output option
+                         (border|columns|csv_fieldsep|expanded|fieldsep|
+                         fieldsep_zero|footer|format|linestyle|null|
+                         numericlocale|pager|pager_min_lines|recordsep|
+                         recordsep_zero|tableattr|title|tuples_only|
+                         unicode_border_linestyle|unicode_column_linestyle|
+                         unicode_header_linestyle)
+  \t [on|off]            show only rows (currently off)
+  \T [STRING]            set HTML <table> tag attributes, or unset if none
+  \x [on|off|auto]       toggle expanded output (currently off)
+
+Connection
+  \c[onnect] {[DBNAME|- USER|- HOST|- PORT|-] | conninfo}
+                         connect to new database (currently "postgres")
+  \conninfo              display information about current connection
+  \encoding [ENCODING]   show or set client encoding
+  \password [USERNAME]   securely change the password for a user
+
+Operating System
+  \cd [DIR]              change the current working directory
+  \getenv PSQLVAR ENVVAR fetch environment variable
+  \setenv NAME [VALUE]   set or unset environment variable
+  \timing [on|off]       toggle timing of commands (currently off)
+  \! [COMMAND]           execute command in shell or start interactive shell
+
+Variables
+  \prompt [TEXT] NAME    prompt user to set internal variable
+  \set [NAME [VALUE]]    set internal variable, or list all if no parameters
+  \unset NAME            unset (delete) internal variable
+                 
 ```
 
+- To see list of database `\l`
