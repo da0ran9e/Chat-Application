@@ -9,10 +9,8 @@ project_root/
 |       |-- constants.h      // Shared header file with constants
 |       |-- utility.h        // Shared header file for utility functions
 |       |-- protocol.h       // Shared header file to define the communication protocol
-|-- build/
-|   // Add build artifacts or compiled files here (gitignore this directory)
-|-- bin/
-|   // Add executable files here after building
+|-- build/                   // Add build artifacts or compiled files here (gitignore this directory)
+|-- bin/                     // Add executable files here after building
 |-- src/
 |   |-- server/
 |   |   |-- server.c
@@ -40,6 +38,8 @@ project_root/
 |-- tests/                   // Include your test files here
 |-- docs/
 |   |-- README.md            // Project documentation and instructions
+|-- .gitignore               // Specify files and directories to be ignored by version control
 |-- Makefile                 // Makefile for building the project
+
 
 ```
