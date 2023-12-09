@@ -8,10 +8,14 @@ CREATE TABLE account
 CREATE TABLE room
 (
   room_id SERIAL PRIMARY KEY,
-  room_name VARCHAR(50) NOT NULL,
-  admin_id INT NOT NULL,
+  room_name VARCHAR(50) DEFAULT NULL,
+  admin_id INT DEFAULT NULL,
   FOREIGN KEY (admin_id) REFERENCES account(user_id) ON DELETE SET NULL
 );
+-- Alter the table to allow NULL values for room_name, admin_id
+-- ALTER TABLE room
+-- ALTER COLUMN admin_id DROP NOT NULL;
+
 
 CREATE TABLE friendship
 (
@@ -71,7 +75,7 @@ INSERT INTO message (timestamp, msg, user_id, room_id) VALUES
   ('2023-12-01 12:10:00', 'Welcome to Room B!', 2, 2),
   ('2023-12-01 12:15:00', 'Thanks!', 3, 2);
 
---
+-- current time
 INSERT INTO message (timestamp, msg, user_id, room_id)
 VALUES (CURRENT_TIMESTAMP, 'Now!', 1, 1);
 

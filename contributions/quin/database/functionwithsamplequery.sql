@@ -203,20 +203,57 @@ $$ LANGUAGE plpgsql;
 SELECT delete_friend('user1', 'user5') AS delete_friend_status;
 
 
-
--- Function to get the room list (get a list of rooms a user belongs to)
+-- -- Function to get the room list (get a list of rooms a user belongs to)
+-- CREATE OR REPLACE FUNCTION get_room_list(in_username VARCHAR(50))
+-- RETURNS TABLE (room_id INT, room_name VARCHAR(50)) AS $$
+-- BEGIN
+--     RETURN QUERY
+--     SELECT r.room_id, r.room_name
+--     FROM room r
+--     JOIN member_in_room mir ON r.room_id = mir.room_id
+--     WHERE mir.user_id = (SELECT user_id FROM account WHERE username = in_username);
+-- END;
+-- $$ LANGUAGE plpgsql;
+-- DROP FUNCTION IF EXISTS get_room_list(character varying);
+-- Function to get the room list with special handling for private chats
 CREATE OR REPLACE FUNCTION get_room_list(in_username VARCHAR(50))
-RETURNS TABLE (room_id INT, room_name VARCHAR(50)) AS $$
+RETURNS TABLE (room_id INT, room_display_name VARCHAR(50)) AS $$
 BEGIN
     RETURN QUERY
-    SELECT r.room_id, r.room_name
+    SELECT
+        r.room_id,
+        CASE
+            WHEN COUNT(DISTINCT mir.user_id) < 3 THEN
+                -- If less than 3 people in the room
+                CASE
+                    WHEN r.room_name IS NULL THEN
+                        -- If room_name is NULL, return the other username
+                        (SELECT a2.username
+                         FROM member_in_room mir2
+                         JOIN account a2 ON mir2.user_id = a2.user_id
+                         WHERE mir2.room_id = r.room_id AND a2.username <> in_username
+                         LIMIT 1)
+                    ELSE
+                        -- If room_name is not NULL, return the room_name
+                        r.room_name
+                END
+            ELSE
+                -- If 3 or more people in the room, return the room_name
+                r.room_name
+        END AS room_display_name
     FROM room r
     JOIN member_in_room mir ON r.room_id = mir.room_id
-    WHERE mir.user_id = (SELECT user_id FROM account WHERE username = in_username);
+    JOIN account a ON mir.user_id = a.user_id
+    WHERE a.username = in_username
+    GROUP BY r.room_id, r.room_name;
+
+    RETURN;
 END;
 $$ LANGUAGE plpgsql;
+
+
 -- query to get room list
-SELECT * FROM get_room_list('user1');
+SELECT * FROM get_room_list('user2');
 
 
 -- Function to get the list of people in a room
@@ -233,6 +270,33 @@ $$ LANGUAGE plpgsql;
 -- query to get list of people in a room
 SELECT * FROM get_people_in_room(1); -- if room_id = 1
 
+-- Function to create a private room between two users
+CREATE OR REPLACE FUNCTION create_private_room(user1_username VARCHAR(50), user2_username VARCHAR(50))
+RETURNS INT AS $$
+DECLARE
+    user1_id INT;
+    user2_id INT;
+    new_room_id INT;
+BEGIN
+    -- Get user IDs
+    user1_id := (SELECT user_id FROM account WHERE username = user1_username);
+    user2_id := (SELECT user_id FROM account WHERE username = user2_username);
+
+    -- Create a new room with no admin and no room name
+    INSERT INTO room (admin_id)
+    VALUES (NULL)
+    RETURNING room_id INTO new_room_id;
+
+    -- Add users to the room
+    INSERT INTO member_in_room (user_id, room_id)
+    VALUES (user1_id, new_room_id), (user2_id, new_room_id);
+
+    RETURN new_room_id;
+END;
+$$ LANGUAGE plpgsql;
+-- query to create a private room between 'user1' and 'user2'
+SELECT create_private_room('user2', 'user5') AS new_room_id;
+
 
 -- Function to create a new room (add a room to the database)
 CREATE OR REPLACE FUNCTION create_new_room(in_roomname VARCHAR(50))
@@ -241,14 +305,14 @@ DECLARE
     new_room_id INT;
 BEGIN
     INSERT INTO room (room_name, admin_id)
-    VALUES (in_roomname, 1) -- Default admin_id is 1 (you may adjust this based on your requirement)
+    VALUES (in_roomname, 1) -- Default admin_id is 1 (may adjust this)
     RETURNING room_id INTO new_room_id;
 
     RETURN new_room_id;
 END;
 $$ LANGUAGE plpgsql;
 -- query to create a new room
-SELECT create_new_room('Room C') AS new_room_id;
+SELECT create_new_room('Room D') AS new_room_id;
 
 
 -- Function to add a person to a room
@@ -385,4 +449,5 @@ SELECT add_message_to_conversation('user5', 3, 'Hello, I am user5!') AS add_mess
 --DROP FUNCTION IF EXISTS add_person_to_room(INT, INT);
 --DROP FUNCTION IF EXISTS remove_person_from_room(INT, INT);
 -- DROP FUNCTION IF EXISTS add_message_to_conversation(INT, INT, VARCHAR(500));
+
 
