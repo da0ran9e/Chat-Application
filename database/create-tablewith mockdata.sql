@@ -10,7 +10,7 @@ CREATE TABLE room
   room_id SERIAL PRIMARY KEY,
   room_name VARCHAR(50) NOT NULL,
   admin_id INT NOT NULL,
-  FOREIGN KEY (admin_id) REFERENCES account(user_id) ON DELETE CASCADE
+  FOREIGN KEY (admin_id) REFERENCES account(user_id) ON DELETE SET NULL
 );
 
 CREATE TABLE friendship
@@ -34,11 +34,11 @@ CREATE TABLE member_in_room
 CREATE TABLE message
 (
   timestamp TIMESTAMP NOT NULL,
-  message VARCHAR(500) NOT NULL,
+  msg VARCHAR(500) NOT NULL,
   user_id INT NOT NULL,
   room_id INT NOT NULL,
   PRIMARY KEY (timestamp, user_id, room_id),
-  FOREIGN KEY (user_id, room_id) REFERENCES member_in_room(user_id, room_id) ON DELETE CASCADE
+  FOREIGN KEY (user_id, room_id) REFERENCES member_in_room(user_id, room_id) 
 );
 
 -- Insert mock data into the account table
@@ -65,11 +65,14 @@ INSERT INTO member_in_room (user_id, room_id) VALUES
   (3, 2);
 
 -- Insert mock data into the message table
-INSERT INTO message (timestamp, message, user_id, room_id) VALUES
+INSERT INTO message (timestamp, msg, user_id, room_id) VALUES
   ('2023-12-01 12:00:00', 'Hello, Room A!', 1, 1),
   ('2023-12-01 12:05:00', 'Hi, user1!', 2, 1),
   ('2023-12-01 12:10:00', 'Welcome to Room B!', 2, 2),
   ('2023-12-01 12:15:00', 'Thanks!', 3, 2);
 
+--
+INSERT INTO message (timestamp, msg, user_id, room_id)
+VALUES (CURRENT_TIMESTAMP, 'Now!', 1, 1);
 
 
