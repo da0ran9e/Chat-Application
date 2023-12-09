@@ -1,5 +1,0 @@
-bin/**
-core
-.vscode/**
-.fuse_hidden*
-db/*.bak
