@@ -68,6 +68,27 @@ void initializeServer(int serverSocket) {
     printf("Server is listening on port %d...\n", PORT);
 }
 
+void runServer(int  serverSocket){
+    struct sockaddr_in clientAddr;
+    socklen_t clientAddrLen = sizeof(clientAddr);
+
+	int connfd, sockfd;
+	int nready;
+    while (1) {
+        if ((clientSocket = accept(serverSocket, (struct sockaddr*)&clientAddr, &clientAddrLen)) == -1) {
+            perror("Error accepting client connection");
+            continue; 
+        }
+
+        char buffer[1024]; 
+        int received = receiveMessage(clientSocket, buffer);
+        printf("Received: %d, content: %s from ", received, buffer);
+
+        int sent = sendMessage(clientSocket, "response!", 9);
+        printf(" sent response: %d\n",sent);
+    }
+}
+
 int main(int argc, char *argv[]){
 	if (argc != 2) {
 		printf("Usage: %s PortNumber\n", argv[0]);
@@ -79,19 +100,7 @@ int main(int argc, char *argv[]){
 
     initializeServer(serverSocket);
 
-    while (1) {
-        if ((clientSocket = accept(serverSocket, (struct sockaddr*)&clientAddr, &clientAddrLen)) == -1) {
-            perror("Error accepting client connection");
-            continue; 
-        }
-
-        char buffer[1024]; 
-        int received = receiveMessage(clientSocket, buffer);
-        printf("Received: %d, content: %s", received, buffer);
-
-        int sent = sendMessage(clientSocket, "response!", 9);
-        printf(" sent response: %d\n",sent);
-    }
+    runServer(serverSocket);
 
     close(serverSocket);
 
