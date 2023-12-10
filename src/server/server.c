@@ -5,7 +5,6 @@ ssize_t receiveMessage(int clientSocket, char *buf) {
     char buffer[BUFFER];
     ssize_t bytesRead;
 
-    // Receive message from the client
     bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
     if (bytesRead <= 0) {
         perror("Error receiving message from client");
@@ -13,11 +12,11 @@ ssize_t receiveMessage(int clientSocket, char *buf) {
         return;
     }
 
-    // Process the received message (modify as needed)
-    buffer[bytesRead] = '\0'; // Ensure null-terminated string
+    buffer[bytesRead] = '\0';
     printf("Received message from client: %s\n", buffer);
 
     close(clientSocket);
+
     return bytesRead;
 }
 
@@ -85,6 +84,9 @@ int main() {
         char[1024] buffer; 
         int received = receiveMessage(clientSocket, buffer);
         printf("Received: %d, content: %s", received, buffer);
+
+        int sent = sendMessage(clientSocket, "response!", 9);
+        printf(" sent response: %d\n",sent);
     }
 
     close(serverSocket);
