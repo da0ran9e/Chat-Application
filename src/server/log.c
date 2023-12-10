@@ -7,11 +7,13 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
+#include "../../include/server/log.h"
+
 
 #define MAX_LOG_SIZE 1024
 
 void write_log(char *log){
-    FILE *logFile = fopen("../log.json", "a");
+    FILE *logFile = fopen("../../log.json", "a");
     if (logFile == NULL) {
         perror("Error opening log file");
         exit(EXIT_FAILURE);
@@ -34,7 +36,7 @@ void get_log_time(char * time){
 }
 
 void get_username(char *ip, int id, char *name){
-    
+
 }
 
 void serverLog(enum ServerStatus status, int port) {
