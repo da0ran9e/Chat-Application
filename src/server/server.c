@@ -73,7 +73,7 @@ void runServer(int  serverSocket){
     struct sockaddr_in clientAddr;
     socklen_t clientAddrLen = sizeof(clientAddr);
 
-	int connfd, sockfd;
+	int clientSocket, sockfd;
 	int nready;
     while (1) {
         if ((clientSocket = accept(serverSocket, (struct sockaddr*)&clientAddr, &clientAddrLen)) == -1) {
