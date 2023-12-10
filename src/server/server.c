@@ -103,6 +103,8 @@ int main(int argc, char *argv[]){
 
     runServer(serverSocket);
 
+    serverLog(RUNNING, serverSocket);
+
     close(serverSocket);
 
     return 0;
