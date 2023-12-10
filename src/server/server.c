@@ -1,5 +1,6 @@
 #include "../../include/server.h"
 #include "../../include/shared/constants.h"
+#include "../../include/server/log.h"
 
 ssize_t receiveMessage(int clientSocket, char *buf) {
     char buffer[BUFFER];
