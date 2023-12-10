@@ -28,6 +28,7 @@ For each parameter in the "Parameters" field, use a length prefix followed by th
 | :---: | :---: | :---: | :---: | :---: | :---: |
 | [ 4 bytes ] | [ variable length ] | [ 4 bytes ] | [ variable length ] | [ 4 bytes ] | [ variable length ] |
 | 5 | admin | 8 | password | 0 | 0 |
+| 0x00000005 | 0x61 0x64 0x6d 0x69 0x6E | 0x00000008 | 0x70 0x61 0x73 0x73 0x77 0x6f 0x72 0x64 | 0 | 0 | 
 
 ## Server-client:
 | Opcode | Function | Parameters | Status | Response |
