@@ -30,7 +30,7 @@ ssize_t sendMessage(int clientSocket, const void *buf, size_t len) {
             perror("Error in send");
             return -1;
         } else if (sent == 0) {
-            fprintf(stderr, "Client %s is not online!\n", clientSocket);
+            fprintf(stderr, "Client %d is not online!\n", clientSocket);
             return 0; 
         }
 
@@ -81,7 +81,7 @@ int main() {
             continue; 
         }
 
-        char[1024] buffer; 
+        char buffer[1024]; 
         int received = receiveMessage(clientSocket, buffer);
         printf("Received: %d, content: %s", received, buffer);
 
