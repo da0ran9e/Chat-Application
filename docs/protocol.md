@@ -1,4 +1,5 @@
-## Binary Protocol Structure:
+# Binary Protocol Structure:
+## Client - Server:
 | Opcode | Function | Parameters | 
 | :---: | :---: | :---: |
 | [ 4 bytes ] | [ 4 bytes ] | [ variable length ] |
@@ -27,3 +28,23 @@ For each parameter in the "Parameters" field, use a length prefix followed by th
 | :---: | :---: | :---: | :---: | :---: | :---: |
 | [ 4 bytes ] | [ variable length ] | [ 4 bytes ] | [ variable length ] | [ 4 bytes ] | [ variable length ] |
 | 5 | admin | 8 | password | 0 | 0 |
+
+## Server-client:
+| Opcode | Function | Parameters | Status | Response |
+| :---: | :---: | :---: | :--: | :--: |
+| [ 4 bytes ] | [ 4 bytes ] | [ variable length ] | [ 4 bytes ] | [ variable length ] |
+
+| Opcode | Function | Parameters | Description |
+| :---: | :---: | :---: | :--: |
+| 0 | 0 | ["username", "ping"] | get online |
+| 0 | 1 | ["logged_in_timestamp"] | login done |
+| 0 | 2 | ["user_id"] | register done |
+| 0 | 3 | ["user_id"] | change password done |
+| 1 | 0 | ["username", "ping"] | get friend list |
+| 1 | 1 | ["destination", "username", "response”] | request response |
+| 2 | 0 | [ "room_id", "username" ] | get room list |
+| 2 | 1 | [ "room_id", "roomname" ] | create done |
+| 2 | 2 | [ "room_id", "guess username" ] | add done |
+| 2 | 3 | [ "room_id", "guess username" ] | remove done |
+| 3 | 0 | ["room_id", "timestamp", "username" | get conversation |
+| 3 | 1 | ["room_id", "timestamp", "message" | receive message |
