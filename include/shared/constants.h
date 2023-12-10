@@ -4,7 +4,7 @@
 enum Object {
     SERVER,
     CLIENT
-}
+};
 
 enum ServerStatus {
     RUNNING,
