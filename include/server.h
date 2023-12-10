@@ -13,17 +13,4 @@
 #define BUFFER 1024
 #define PORT 7788
 
-
-enum Object {
-    SERVER,
-    CLIENT
-}
-
-enum ServerStatus {
-    RUNNING,
-    CLOSED,
-    ONLINE,
-    OFFLINE
-};
-
 #endif
