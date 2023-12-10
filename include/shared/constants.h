@@ -15,6 +15,6 @@ enum ClientStatus {
     LOGIN,
     LOGOUT,
     REGISTER,
-}
+};
 
 #endif
