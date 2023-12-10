@@ -1,6 +1,37 @@
 #include "../../include/server.h"
 #include "../../include/shared/constants.h"
 
+void logServerEvent(enum object, enum status) {
+    FILE *logFile = fopen("../log.json", "a"); // Open the log file in append mode
+
+    if (logFile == NULL) {
+        perror("Error opening log file");
+        exit(EXIT_FAILURE);
+    }
+
+    // Get the current time
+    time_t currentTime = time(NULL);
+    struct tm* timeInfo = localtime(&currentTime);
+    char timeStr[20];
+    strftime(timeStr, sizeof(timeStr), "%Y-%m-%d %H:%M:%S", timeInfo);
+
+    // Create the log message
+    char logMessage[MAX_LOG_SIZE];
+    snprintf(logMessage, MAX_LOG_SIZE, "{\"time\": \"%s\", \"message\": \"[server] %s at %d\"}\n}", timeStr, status, PORT);
+
+    // Remove the trailing '}' character if it exists
+    fseek(logFile, -1, SEEK_END);
+    if (ftell(logFile) > 0) {
+        ftruncate(fileno(logFile), ftell(logFile));
+    }
+
+    // Write the log message to the file
+    fputs(logMessage, logFile);
+
+    // Close the file
+    fclose(logFile);
+}
+
 ssize_t receiveMessage(int clientSocket, char *buf) {
     char buffer[BUFFER];
     ssize_t bytesRead;
