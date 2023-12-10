@@ -76,8 +76,6 @@ int main(int argc, char *argv[]){
     
     int serverSocket = atoi(argv[1]);
     int clientSocket = 0;
-    struct sockaddr_in serverAddr, clientAddr;
-    socklen_t clientAddrLen = sizeof(clientAddr);
 
     initializeServer(serverSocket);
 
