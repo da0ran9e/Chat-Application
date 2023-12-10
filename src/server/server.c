@@ -1,6 +1,6 @@
 #include "../../include/server.h"
 #include "../../include/shared/constants.h"
-#include "../../include/server/log.h"
+// #include "../../include/server/log.h"
 
 ssize_t receiveMessage(int clientSocket, char *buf) {
     char buffer[BUFFER];
@@ -103,7 +103,7 @@ int main(int argc, char *argv[]){
 
     runServer(serverSocket);
 
-    serverLog(RUNNING, serverSocket);
+    // serverLog(RUNNING, serverSocket);
 
     close(serverSocket);
 
