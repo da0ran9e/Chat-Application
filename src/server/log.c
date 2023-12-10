@@ -29,11 +29,18 @@ void write_log(char *log){
     fclose(logFile);
 }
 
-void get_log_time(char * time){
-    time_t currentTime = time(NULL);
-    struct tm* timeInfo = localtime(&currentTime);
-    strftime(time, sizeof(time), "%Y-%m-%d %H:%M:%S", timeInfo);
-}
+void get_log_time(char * timeStr){
+    time_t rawtime;
+    struct tm* timeinfo;
+
+    time(&rawtime);
+    timeinfo = localtime(&rawtime);
+
+    // Format the time as YYYY-MM-DD hh:mm:ss
+    strftime(timeStr, sizeof(timeStr), "%Y-%m-%d %H:%M:%S", timeinfo);
+
+    printf("Current time: %s\n", timeStr);
+    }
 
 void get_username(char *ip, int id, char *name){
 
