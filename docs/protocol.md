@@ -46,5 +46,8 @@ For each parameter in the "Parameters" field, use a length prefix followed by th
 | 2 | 1 | [ "room_id", "roomname" ] | create done |
 | 2 | 2 | [ "room_id", "guess username" ] | add done |
 | 2 | 3 | [ "room_id", "guess username" ] | remove done |
-| 3 | 0 | ["room_id", "timestamp", "username" | get conversation |
-| 3 | 1 | ["room_id", "timestamp", "message" | receive message |
+| 3 | 0 | ["room_id", "timestamp", "username"] | get conversation |
+| 3 | 1 | ["room_id", "timestamp", "message"] | receive message |
+
+- Response Status: Success (0) or Error (non-zero)
+- Response Data: Success message or an error message
