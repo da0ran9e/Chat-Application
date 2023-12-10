@@ -9,7 +9,7 @@ ssize_t receiveMessage(int clientSocket, char *buf) {
     if (bytesRead <= 0) {
         perror("Error receiving message from client");
         close(clientSocket);
-        return;
+        return -1;
     }
 
     buffer[bytesRead] = '\0';
@@ -68,8 +68,14 @@ void initializeServer(int serverSocket) {
     printf("Server is listening on port %d...\n", PORT);
 }
 
-int main() {
-    int serverSocket, clientSocket;
+int main(int argc, char *argv[]){
+	if (argc != 2) {
+		printf("Usage: %s PortNumber\n", argv[0]);
+		exit(1);
+	}
+    
+    int serverSocket = atoi(argv[1]);
+    int clientSocket = 0;
     struct sockaddr_in serverAddr, clientAddr;
     socklen_t clientAddrLen = sizeof(clientAddr);
 
