@@ -5,11 +5,25 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include <time.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 
 #define BUFFER 1024
 #define PORT 7788
+
+
+enum Object {
+    SERVER,
+    CLIENT
+}
+
+enum ServerStatus {
+    RUNNING,
+    CLOSED,
+    ONLINE,
+    OFFLINE
+};
 
 #endif
