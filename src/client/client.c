@@ -7,7 +7,7 @@
 
 #define BUFFER_SIZE 1024
 
-void initializeClient(const char *address, int port){
+int initializeClient(const char *address, int port){
 	int clientSocket;
 	struct sockaddr_in serverAddr; /* server's address information */
 
@@ -29,7 +29,7 @@ void initializeClient(const char *address, int port){
 	return clientSocket;
 }
 
-ssize_t send_message (int socket, char *message){
+ssize_t send_message (int clientSocket, char *message){
     ssize_t bytesSent = send(clientSocket, message, strlen(message), 0);
 	if(bytesSent <= 0) {
 		perror("Error: ");
@@ -39,8 +39,8 @@ ssize_t send_message (int socket, char *message){
 	return bytesSent;
 }
 
-ssize_t receive_message (int socket, char *buffer){
-	ssize_t bytesReceived = recv(socket, buffer, BUFFER_SIZE, 0);
+ssize_t receive_message (int clientSocket, char *buffer){
+	ssize_t bytesReceived = recv(clientSocket, buffer, BUFFER_SIZE, 0);
 	if (bytesReceived <= 0) {
 		perror("NaN received: ");
 		return -1;
@@ -49,7 +49,7 @@ ssize_t receive_message (int socket, char *buffer){
 	return bytesReceived;
 }
 
-void run_client (char *address, int port){
+void run_client (const char *address, int port){
     char message[BUFFER_SIZE];
 
 	while (1) {
