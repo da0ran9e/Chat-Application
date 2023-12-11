@@ -2,6 +2,8 @@
 #include "../../include/shared/constants.h"
 // #include "../../include/server/log.h"
 
+#define MAX_CLIENTS 10
+
 ssize_t receiveMessage(int clientSocket, char *buf) {
     char buffer[BUFFER];
     ssize_t bytesRead;
@@ -69,7 +71,84 @@ void initializeServer(int serverSocket) {
     printf("Server is listening on port %d...\n", serverSocket);
 }
 
-void runServer(int  serverSocket){
+void runServer(int serverSocket){
+    int clientSockets[MAX_CLIENTS];
+    fd_set readfds, allset;
+    struct sockaddr_in clientAddr;
+    char buffer[BUFFER];
+
+    // Initialize client socket array
+    for (int i = 0; i < MAX_CLIENTS; i++) {
+        clientSockets[i] = -1;
+    }
+
+    FD_ZERO(&allset);
+    FD_SET(serverSocket, &allset);
+
+    while (1) {
+        readfds = allset;
+
+        // Wait for activity on any socket
+        if (select(FD_SETSIZE, &readfds, NULL, NULL, NULL) == -1) {
+            perror("Select failed");
+            exit(EXIT_FAILURE);
+        }
+
+        // Check for incoming connection on the server socket
+        if (FD_ISSET(serverSocket, &readfds)) {
+            // Accept the connection
+            int clientSocket = accept(serverSocket, (struct sockaddr*)&clientAddr, &addrLen);
+            if (clientSocket == -1) {
+                perror("Accept failed");
+                exit(EXIT_FAILURE);
+            }
+
+            // Add the new client socket to the array
+            for (int i = 0; i < MAX_CLIENTS; i++) {
+                if (clientSockets[i] == -1) {
+                    clientSockets[i] = clientSocket;
+                    FD_SET(clientSocket, &allset);
+                    break;
+                }
+            }
+
+            printf("New connection from %s:%d\n", inet_ntoa(clientAddr.sin_addr), ntohs(clientAddr.sin_port));
+        }
+
+        // Check for data from existing clients
+        for (int i = 0; i < MAX_CLIENTS; i++) {
+            int clientSocket = clientSockets[i];
+            if (clientSocket != -1 && FD_ISSET(clientSocket, &readfds)) {
+                memset(buffer, 0, sizeof(buffer));
+                ssize_t bytesRead = recv(clientSocket, buffer, sizeof(buffer) - 1, 0);
+
+                if (bytesRead <= 0) {
+                    // Connection closed or error, remove the client
+                    printf("Client %d disconnected\n", i);
+                    close(clientSocket);
+                    FD_CLR(clientSocket, &allset);
+                    clientSockets[i] = -1;
+                } else {
+                    // Echo the message to all connected clients
+                    printf("Received from client %d: %s\n", i, buffer);
+
+                    for (int j = 0; j < MAX_CLIENTS; j++) {
+                        if (clientSockets[j] != -1 && clientSockets[j] != clientSocket) {
+                            send(clientSockets[j], buffer, strlen(buffer), 0);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Close all client sockets
+    for (int i = 0; i < MAX_CLIENTS; i++) {
+        if (clientSockets[i] != -1) {
+            close(clientSockets[i]);
+        }
+    }
+    /*
     struct sockaddr_in clientAddr;
     socklen_t clientAddrLen = sizeof(clientAddr);
 
@@ -88,6 +167,7 @@ void runServer(int  serverSocket){
         int sent = sendMessage(clientSocket, "response!", 9);
         printf(" sent response: %d\n",sent);
     }
+    */
 }
 
 int main(int argc, char *argv[]){
