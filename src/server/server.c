@@ -51,7 +51,7 @@ void initializeServer(int serverSocket) {
 
     memset(&serverAddr, 0, sizeof(serverAddr));
     serverAddr.sin_family = AF_INET;
-    serverAddr.sin_port = htons(PORT);
+    serverAddr.sin_port = htons(serverSocket);
     serverAddr.sin_addr.s_addr = INADDR_ANY;
 
     if (bind(serverSocket, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) == -1) {
@@ -66,7 +66,7 @@ void initializeServer(int serverSocket) {
         exit(EXIT_FAILURE);
     }
 
-    printf("Server is listening on port %d...\n", PORT);
+    printf("Server is listening on port %d...\n", serverSocket);
 }
 
 void runServer(int  serverSocket){
