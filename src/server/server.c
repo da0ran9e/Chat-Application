@@ -7,7 +7,7 @@
 ssize_t receiveMessage (int clientSocket, char *buffer) {
     ssize_t bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
     if (bytesRead <= 0) {
-        perror("Connection lost from: %d", clientSocket);
+        perror("Connection lost from: ");
         return -1;
     }
     buffer[bytesRead] = '\0'; // end message
