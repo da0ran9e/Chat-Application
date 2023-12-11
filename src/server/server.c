@@ -9,6 +9,7 @@
 #include <arpa/inet.h>
 
 #define BUFFER 1024
+#define MAX_CLIENTS 10
 
 ssize_t receiveMessage(int clientSocket, char *buffer) {
     ssize_t bytesRead = recv(clientSocket, buffer, BUFFER - 1, 0);
