@@ -10,7 +10,7 @@ ssize_t receiveMessage(int clientSocket, char *buf) {
 
     bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
     if (bytesRead <= 0) {
-        perror("Error receiving message from client");
+        perror("Connection lost from: %d", clientSocket);
         close(clientSocket);
         return -1;
     }
@@ -119,26 +119,12 @@ void runServer(int serverSocket){
         // Check for data from existing clients
         for (int i = 0; i < MAX_CLIENTS; i++) {
             int clientSocket = clientSockets[i];
+
             if (clientSocket != -1 && FD_ISSET(clientSocket, &readfds)) {
                 memset(buffer, 0, sizeof(buffer));
-                ssize_t bytesRead = recv(clientSocket, buffer, sizeof(buffer) - 1, 0);
+                ssize_t bytesReceived = receiveMessage(clientSocket, buffer);
 
-                if (bytesRead <= 0) {
-                    // Connection closed or error, remove the client
-                    printf("Client %d disconnected\n", i);
-                    close(clientSocket);
-                    FD_CLR(clientSocket, &allset);
-                    clientSockets[i] = -1;
-                } else {
-                    // Echo the message to all connected clients
-                    printf("Received from client %d: %s\n", i, buffer);
-
-                    for (int j = 0; j < MAX_CLIENTS; j++) {
-                        if (clientSockets[j] != -1 && clientSockets[j] != clientSocket) {
-                            send(clientSockets[j], buffer, strlen(buffer), 0);
-                        }
-                    }
-                }
+                printf ("%s\n", buffer);
             }
         }
     }
@@ -149,26 +135,6 @@ void runServer(int serverSocket){
             close(clientSockets[i]);
         }
     }
-    /*
-    struct sockaddr_in clientAddr;
-    socklen_t clientAddrLen = sizeof(clientAddr);
-
-	int clientSocket, sockfd;
-	int nready;
-    while (1) {
-        if ((clientSocket = accept(serverSocket, (struct sockaddr*)&clientAddr, &clientAddrLen)) == -1) {
-            perror("Error accepting client connection");
-            continue; 
-        }
-
-        char buffer[1024]; 
-        int received = receiveMessage(clientSocket, buffer);
-        printf("Received: %d, content: %s from ", received, buffer);
-
-        int sent = sendMessage(clientSocket, "response!", 9);
-        printf(" sent response: %d\n",sent);
-    }
-    */
 }
 
 int main(int argc, char *argv[]){
