@@ -29,12 +29,29 @@ void initializeClient(char *address, int port){
 	return clientSocket;
 }
 
-void send_message (int socket, char *message){
-	// Send the message to the server
-    send(clientSocket, message, strlen(message), 0);
+ssize_t send_message (int socket, char *message){
+    ssize_t bytesSent = send(clientSocket, message, strlen(message), 0);
+	if(bytesSent <= 0) {
+		perror("Error: ");
+		return -1;
+	}
+
+	return bytesSent;
+}
+
+ssize_t receive_message (int socket, char *buffer){
+	ssize_t bytesReceived = recv(socket, buffer, BUFFER_SIZE, 0);
+	if (bytesReceived <= 0) {
+		perror("NaN received: ");
+		return -1;
+	}
+
+	return bytesReceived;
 }
 
 void run_client (int port, char *address){
+    char message[BUFFER_SIZE];
+
 	while (1) {
         printf("Enter a message (or 'exit' to quit): ");
         fgets(message, sizeof(message), stdin);
@@ -43,25 +60,18 @@ void run_client (int port, char *address){
         size_t len = strlen(message);
         if (len > 0 && message[len - 1] == '\n') {
             message[len - 1] = '\0';
+            send_message(port, message);
         }
-
-		send_message(port, message);
 
         // Exit the loop if the user entered "exit"
         if (strcmp(message, "exit") == 0) {
             break;
         }
 
-        // Receive and print the echoed message from the server
-        memset(message, 0, sizeof(message));
-        ssize_t bytesRead = recv(clientSocket, message, sizeof(message) - 1, 0);
+        char buffer[BUFFER_SIZE];
+        receive_message(port, buffer);
 
-        if (bytesRead <= 0) {
-            perror("Connection closed or error");
-            break;
-        }
-
-        printf("Server response: %s\n", message);
+        printf("Server response: %s\n", buffer);
     }
 }
 
