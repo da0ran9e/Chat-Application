@@ -4,30 +4,23 @@
 
 #define MAX_CLIENTS 10
 
-ssize_t receiveMessage(int clientSocket, char *buf) {
-    char buffer[BUFFER];
-    ssize_t bytesRead;
-
-    bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
+ssize_t receiveMessage (int clientSocket, char *buffer) {
+    ssize_t bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
     if (bytesRead <= 0) {
         perror("Connection lost from: %d", clientSocket);
-        close(clientSocket);
         return -1;
     }
-
-    buffer[bytesRead] = '\0';
-    printf("Received message from client: %s\n", buffer);
-
-    close(clientSocket);
+    buffer[bytesRead] = '\0'; // end message
+    printf("Received message from client %d: %s\n", clientSocket, buffer);
 
     return bytesRead;
 }
 
-ssize_t sendMessage(int clientSocket, const void *buf, size_t len) {
+ssize_t sendMessage (int clientSocket, const void *message, size_t len) {
     size_t totalSent = 0;
 
     while (totalSent < len) {
-        ssize_t sent = send(clientSocket, buf + totalSent, len - totalSent, 0);
+        ssize_t sent = send(clientSocket, message + totalSent, len - totalSent, 0);
 
         if (sent == -1) {
             perror("Error in send");
