@@ -28,71 +28,57 @@ void initializeClient(char *address, int port){
 
 	return clientSocket;
 }
-int main(int argc, char const *argv[])
-{
-	if (argc != 3) {
-		printf("Usage: %s IPAddress PortNumber\n", argv[0]);
-		exit(1);
-	}
-    int clientSocket;
-    struct sockaddr_in serverAddr;
-    char buffer[BUFFER_SIZE];
 
-    // Create client socket
-    if ((clientSocket = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
-        perror("Socket creation failed");
-        exit(EXIT_FAILURE);
-    }
+void send_message (int socket, char *message){
+	// Send the message to the server
+    send(clientSocket, message, strlen(message), 0);
+}
 
-    // Set up server address struct
-    memset(&serverAddr, 0, sizeof(serverAddr));
-    serverAddr.sin_family = AF_INET;
-    serverAddr.sin_port = htons(atoi(argv[2]));
-	serverAddr.sin_addr.s_addr = inet_addr(argv[1]);
-
-    // Convert IPv4 and IPv6 addresses from text to binary form
-    if (inet_pton(AF_INET, "127.0.0.1", &serverAddr.sin_addr) <= 0) {
-        perror("Invalid address/ Address not supported");
-        exit(EXIT_FAILURE);
-    }
-
-    // Connect to the server
-    if (connect(clientSocket, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) == -1) {
-        perror("Connection failed");
-        exit(EXIT_FAILURE);
-    }
-
-    printf("Connected to the server.\n");
-
-    while (1) {
+void run_client (int port, char *address){
+	while (1) {
         printf("Enter a message (or 'exit' to quit): ");
-        fgets(buffer, sizeof(buffer), stdin);
+        fgets(message, sizeof(message), stdin);
 
         // Remove the newline character from the input
-        size_t len = strlen(buffer);
-        if (len > 0 && buffer[len - 1] == '\n') {
-            buffer[len - 1] = '\0';
+        size_t len = strlen(message);
+        if (len > 0 && message[len - 1] == '\n') {
+            message[len - 1] = '\0';
         }
 
-        // Send the message to the server
-        send(clientSocket, buffer, strlen(buffer), 0);
+		send_message(port, message);
 
         // Exit the loop if the user entered "exit"
-        if (strcmp(buffer, "exit") == 0) {
+        if (strcmp(message, "exit") == 0) {
             break;
         }
 
         // Receive and print the echoed message from the server
-        memset(buffer, 0, sizeof(buffer));
-        ssize_t bytesRead = recv(clientSocket, buffer, sizeof(buffer) - 1, 0);
+        memset(message, 0, sizeof(message));
+        ssize_t bytesRead = recv(clientSocket, message, sizeof(message) - 1, 0);
 
         if (bytesRead <= 0) {
             perror("Connection closed or error");
             break;
         }
 
-        printf("Server response: %s\n", buffer);
+        printf("Server response: %s\n", message);
     }
+}
+
+int main(int argc, char const *argv[])
+{
+	if (argc != 3) {
+		printf("Usage: %s IPAddress PortNumber\n", argv[0]);
+		exit(1);
+	}
+
+    int clientSocket;
+    struct sockaddr_in serverAddr;
+    char buffer[BUFFER_SIZE];
+
+    initializeClient(argv[1], atoi(argv[2]));
+
+	run_client(argv[1], atoi(argv[2]));
 
     // Close the socket
     close(clientSocket);
