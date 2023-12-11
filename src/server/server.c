@@ -76,7 +76,7 @@ void runServer(int serverSocket){
     fd_set readfds, allset;
     struct sockaddr_in clientAddr;
     socklen_t addrLen = sizeof(clientAddr);
-    char buffer[BUFFER_SIZE];
+    char buffer[BUFFER];
 
     // Initialize client socket array
     for (int i = 0; i < MAX_CLIENTS; i++) {
