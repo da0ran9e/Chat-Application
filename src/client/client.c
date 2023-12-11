@@ -7,7 +7,7 @@
 
 #define BUFFER_SIZE 1024
 
-void initializeClient(char *address, int port){
+void initializeClient(const char *address, int port){
 	int clientSocket;
 	struct sockaddr_in serverAddr; /* server's address information */
 
@@ -15,12 +15,12 @@ void initializeClient(char *address, int port){
 	clientSocket = socket(AF_INET, SOCK_STREAM, 0);
 	
 	//Specify server address
-	server_addr.sin_family = AF_INET;
-	server_addr.sin_port = htons(port);
-	server_addr.sin_addr.s_addr = inet_addr(address);
+	serverAddr.sin_family = AF_INET;
+	serverAddr.sin_port = htons(port);
+	serverAddr.sin_addr.s_addr = inet_addr(address);
 	
 	// Request to connect server
-	if(connect(clientSocket, (struct sockaddr*)&server_addr, sizeof(struct sockaddr)) < 0) {
+	if(connect(clientSocket, (struct sockaddr*)&serverAddr, sizeof(struct sockaddr)) < 0) {
 		printf("Cannot connect to server!\n");
 		close(clientSocket);
 		exit(0);
@@ -49,7 +49,7 @@ ssize_t receive_message (int socket, char *buffer){
 	return bytesReceived;
 }
 
-void run_client (int port, char *address){
+void run_client (char *address, int port){
     char message[BUFFER_SIZE];
 
 	while (1) {
