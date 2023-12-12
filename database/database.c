@@ -194,12 +194,14 @@ void execute_create_private_room_query(PGconn *conn, const char *username1, cons
     PQclear(result);
 }
 
-void execute_create_new_room_query(PGconn *conn, const char *roomName) {
-    const char *query = "SELECT create_new_room($1) AS new_room_id";
-    const char *paramValues[1] = {roomName};
+
+//create group chat with admin 
+void execute_create_new_room_query(PGconn *conn, const char *roomName, const char *adminUsername) {
+    const char *query = "SELECT create_new_room($1, $2) AS new_room_id";
+    const char *paramValues[2] = {roomName, adminUsername};
 
     // Execute the query
-    PGresult *result = PQexecParams(conn, query, 1, NULL, paramValues, NULL, NULL, 0);
+    PGresult *result = PQexecParams(conn, query, 2, NULL, paramValues, NULL, NULL, 0);
 
     // Check the result
     check_result(result, conn);
@@ -383,7 +385,7 @@ int main() {
     execute_create_private_room_query(conn, "user4", "user5");
 
     // Create new room (for group chat)
-    execute_create_new_room_query(conn, "Room D");
+    execute_create_new_room_query(conn, "Room E", "user3");
 
     // Add a person to the room
     execute_add_person_to_room_query(conn, "user4", 3);
