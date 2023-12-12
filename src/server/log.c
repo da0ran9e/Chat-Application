@@ -73,7 +73,7 @@ void serverLog(enum ServerStat status, int port) {
     write_log(logMessage);
 }
 
-void serverLog(enum ServerStat status, char *ip) {
+void connectionLog(enum ServerStat status, int port, char *ip) {
     char time[20];
     get_log_time(time);
 
@@ -91,7 +91,7 @@ void serverLog(enum ServerStat status, char *ip) {
 
     // Create the log message
     char logMessage[MAX_LOG_SIZE];
-    snprintf(logMessage, MAX_LOG_SIZE, "\t{\"%s\": \"[SERVER] %s ip: %s\"}\n}", time, stat, ip);
+    snprintf(logMessage, MAX_LOG_SIZE, "\t{\"%s\": \"[SERVER] %d %s ip: %s\"}\n}", time, port, stat, ip);
     
     write_log(logMessage);
 }
