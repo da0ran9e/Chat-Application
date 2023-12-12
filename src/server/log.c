@@ -7,15 +7,10 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
-// #include "../../include/server/log.h"
+#include "../../include/server/log.h"
 
 
 #define MAX_LOG_SIZE 1024
-
-enum ServerStat {
-    START,
-    END,
-};
 
 void write_log(char *log){
     FILE *logFile = fopen("../../log.json", "a");
@@ -67,6 +62,7 @@ void serverLog(enum ServerStat status, int port) {
         strcpy(stat, "END");
         break;
     default:
+        strcpy(stat, "UNKNOWN");
         break;
     }
 
@@ -77,6 +73,30 @@ void serverLog(enum ServerStat status, int port) {
     write_log(logMessage);
 }
 
+void serverLog(enum ServerStat status, char *ip) {
+    char time[20];
+    get_log_time(time);
+
+    char stat[20];
+
+    switch (status)
+    {
+    case START:
+        strcpy(stat, "CONNECT");
+        break;
+    default:
+        strcpy(stat, "UNKNOWN");
+        break;
+    }
+
+    // Create the log message
+    char logMessage[MAX_LOG_SIZE];
+    snprintf(logMessage, MAX_LOG_SIZE, "\t{\"%s\": \"[SERVER] %s ip: %s\"}\n}", time, stat, ip);
+    
+    write_log(logMessage);
+}
+
+/*
 void clientLog(enum ClientStat status, int port, char *ipAddress){
     char time[20];
     get_log_time(time);
@@ -93,3 +113,4 @@ void clientLog(enum ClientStat status, int port, char *ipAddress){
     write_log(logMessage);
 }
 
+*/
