@@ -8,6 +8,8 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
+#include "../../include/server/log.h"
+
 #define BUFFER 1024
 #define MAX_CLIENTS 10
 
