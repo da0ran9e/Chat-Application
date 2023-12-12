@@ -29,6 +29,6 @@ void get_log_time(char * timeString);
 void get_username(char *ip, int id, char *name);
 void serverLog(enum ServerStat status, int port);
 
-void serverLog(enum ServerStat status, char *ip);
+void connectionLog(enum ServerStat status,int port, char *ip);
 //void clientLog(enum ClientStat status, int port, char *ipAddress);
 #endif
