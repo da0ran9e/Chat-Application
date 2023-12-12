@@ -12,6 +12,11 @@
 
 #define MAX_LOG_SIZE 1024
 
+enum serverStat {
+    START,
+    END,
+};
+
 void write_log(char *log){
     FILE *logFile = fopen("../../log.json", "a");
     if (logFile == NULL) {
@@ -46,13 +51,27 @@ void get_username(char *ip, int id, char *name){
 
 }
 
-void serverLog(enum ServerStatus status, int port) {
+void serverLog(enum ServerStat status, int port) {
     char time[20];
     get_log_time(time);
 
+    char stat[20];
+
+    switch (status)
+    {
+    case START:
+        strcpy(stat, "START");
+        break;
+    case END:
+        strcpy(stat, "END");
+        break;
+    default:
+        break;
+    }
+
     // Create the log message
     char logMessage[MAX_LOG_SIZE];
-    snprintf(logMessage, MAX_LOG_SIZE, "\t{\"%s\": \"[SERVER] %s Port: %d\"}\n}", time, status, port);
+    snprintf(logMessage, MAX_LOG_SIZE, "\t{\"%s\": \"[SERVER] %s Port: %d\"}\n}", time, stat, port);
     
     write_log(logMessage);
 }
