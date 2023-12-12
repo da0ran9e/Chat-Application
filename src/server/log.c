@@ -12,7 +12,7 @@
 
 #define MAX_LOG_SIZE 1024
 
-enum serverStat {
+enum ServerStat {
     START,
     END,
 };
@@ -34,17 +34,18 @@ void write_log(char *log){
     fclose(logFile);
 }
 
-void get_log_time(char * timeStr){
-    time_t rawtime;
-    struct tm* timeinfo;
+void get_log_time(char * timeString){
+    time_t currentTime = time(NULL);
 
-    time(&rawtime);
-    timeinfo = localtime(&rawtime);
+    if (currentTime == -1) {
+        perror("Error getting current time");
+        // Handle error as needed
+        return;
+    }
 
-    // Format the time as YYYY-MM-DD hh:mm:ss
-    strftime(timeStr, sizeof(timeStr), "%Y-%m-%d %H:%M:%S", timeinfo);
+    struct tm* timeInfo = localtime(&currentTime);
 
-    printf("Current time: %s\n", timeStr);
+    strftime(timeString, 20, "%Y-%m-%d %H:%M:%S", timeInfo);
     }
 
 void get_username(char *ip, int id, char *name){
@@ -76,7 +77,7 @@ void serverLog(enum ServerStat status, int port) {
     write_log(logMessage);
 }
 
-void clientLog(enum ClientStatus status, int port, char *ipAddress){
+void clientLog(enum ClientStat status, int port, char *ipAddress){
     char time[20];
     get_log_time(time);
 
