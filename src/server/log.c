@@ -7,7 +7,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
-#include "../../include/server/log.h"
+// #include "../../include/server/log.h"
 
 
 #define MAX_LOG_SIZE 1024
