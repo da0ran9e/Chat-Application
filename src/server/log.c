@@ -29,35 +29,75 @@ void write_log(char *log){
     fclose(logFile);
 }
 
-void get_log_time(char * timeStr){
-    time_t rawtime;
-    struct tm* timeinfo;
+void get_log_time(char * timeString){
+    time_t currentTime = time(NULL);
 
-    time(&rawtime);
-    timeinfo = localtime(&rawtime);
+    if (currentTime == -1) {
+        perror("Error getting current time");
+        // Handle error as needed
+        return;
+    }
 
-    // Format the time as YYYY-MM-DD hh:mm:ss
-    strftime(timeStr, sizeof(timeStr), "%Y-%m-%d %H:%M:%S", timeinfo);
+    struct tm* timeInfo = localtime(&currentTime);
 
-    printf("Current time: %s\n", timeStr);
+    strftime(timeString, 20, "%Y-%m-%d %H:%M:%S", timeInfo);
     }
 
 void get_username(char *ip, int id, char *name){
 
 }
 
-void serverLog(enum ServerStatus status, int port) {
+void serverLog(enum ServerStat status, int port) {
     char time[20];
     get_log_time(time);
 
+    char stat[20];
+
+    switch (status)
+    {
+    case START:
+        strcpy(stat, "START");
+        break;
+    case END:
+        strcpy(stat, "END");
+        break;
+    default:
+        strcpy(stat, "UNKNOWN");
+        break;
+    }
+
     // Create the log message
     char logMessage[MAX_LOG_SIZE];
-    snprintf(logMessage, MAX_LOG_SIZE, "\t{\"%s\": \"[SERVER] %s Port: %d\"}\n}", time, status, port);
+    snprintf(logMessage, MAX_LOG_SIZE, "\t{\"%s\": \"[SERVER] %s Port: %d\"}\n}", time, stat, port);
     
     write_log(logMessage);
 }
 
-void clientLog(enum ClientStatus status, int port, char *ipAddress){
+void connectionLog(enum ServerStat status, int port, char *ip) {
+    char time[20];
+    get_log_time(time);
+
+    char stat[20];
+
+    switch (status)
+    {
+    case START:
+        strcpy(stat, "CONNECT");
+        break;
+    default:
+        strcpy(stat, "UNKNOWN");
+        break;
+    }
+
+    // Create the log message
+    char logMessage[MAX_LOG_SIZE];
+    snprintf(logMessage, MAX_LOG_SIZE, "\t{\"%s\": \"[SERVER] %d %s ip: %s\"}\n}", time, port, stat, ip);
+    
+    write_log(logMessage);
+}
+
+/*
+void clientLog(enum ClientStat status, int port, char *ipAddress){
     char time[20];
     get_log_time(time);
 
@@ -73,3 +113,4 @@ void clientLog(enum ClientStatus status, int port, char *ipAddress){
     write_log(logMessage);
 }
 
+*/

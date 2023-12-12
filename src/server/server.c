@@ -8,6 +8,8 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
+#include "../../include/server/log.h"
+
 #define BUFFER 1024
 #define MAX_CLIENTS 10
 
@@ -86,6 +88,7 @@ void runServer(int serverSocket) {
     FD_ZERO(&allset);
     FD_SET(serverSocket, &allset);
 
+    serverLog (START, serverSocket);
     while (1) {
         readfds = allset;
 
@@ -114,6 +117,7 @@ void runServer(int serverSocket) {
             }
 
             printf("New connection from %s:%d\n", inet_ntoa(clientAddr.sin_addr), ntohs(clientAddr.sin_port));
+            connectionLog(CONNECT, serverSocket, inet_ntoa(clientAddr.sin_addr));
         }
 
         // Check for data from existing clients
@@ -149,8 +153,6 @@ int main(int argc, char *argv[]) {
     initializeServer(&serverSocket, port);
 
     runServer(serverSocket);
-
-    // serverLog(RUNNING, serverSocket);
 
     close(serverSocket);
 
