@@ -154,8 +154,6 @@ int main(int argc, char *argv[]) {
 
     runServer(serverSocket);
 
-    serverLog(START, serverSocket);
-
     close(serverSocket);
 
     return 0;
