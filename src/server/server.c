@@ -1,38 +1,40 @@
-#include "../../include/server.h"
-#include "../../include/shared/constants.h"
-#include "../../include/server/log.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <time.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 
-ssize_t receiveMessage(int clientSocket, char *buf) {
-    char buffer[BUFFER];
-    ssize_t bytesRead;
+#define BUFFER 1024
+#define MAX_CLIENTS 10
 
-    bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
+ssize_t receiveMessage(int clientSocket, char *buffer) {
+    ssize_t bytesRead = recv(clientSocket, buffer, BUFFER - 1, 0);
     if (bytesRead <= 0) {
-        perror("Error receiving message from client");
-        close(clientSocket);
+        perror("Connection lost from: ");
         return -1;
     }
-
-    buffer[bytesRead] = '\0';
-    printf("Received message from client: %s\n", buffer);
-
-    close(clientSocket);
+    buffer[bytesRead] = '\0'; // end message
+    printf("Received message from client %d: %s\n", clientSocket, buffer);
 
     return bytesRead;
 }
 
-ssize_t sendMessage(int clientSocket, const void *buf, size_t len) {
+ssize_t sendMessage(int clientSocket, const void *message, size_t len) {
     size_t totalSent = 0;
 
     while (totalSent < len) {
-        ssize_t sent = send(clientSocket, buf + totalSent, len - totalSent, 0);
+        ssize_t sent = send(clientSocket, message + totalSent, len - totalSent, 0);
 
         if (sent == -1) {
             perror("Error in send");
             return -1;
         } else if (sent == 0) {
             fprintf(stderr, "Client %d is not online!\n", clientSocket);
-            return 0; 
+            return 0;
         }
 
         totalSent += sent;
@@ -41,67 +43,114 @@ ssize_t sendMessage(int clientSocket, const void *buf, size_t len) {
     return totalSent;
 }
 
-void initializeServer(int serverSocket) {
+void initializeServer(int *serverSocket, int port) {
     struct sockaddr_in serverAddr;
 
-    if ((serverSocket = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
+    if ((*serverSocket = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
         perror("Error creating server socket");
         exit(EXIT_FAILURE);
     }
 
     memset(&serverAddr, 0, sizeof(serverAddr));
     serverAddr.sin_family = AF_INET;
-    serverAddr.sin_port = htons(PORT);
+    serverAddr.sin_port = htons(port);
     serverAddr.sin_addr.s_addr = INADDR_ANY;
 
-    if (bind(serverSocket, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) == -1) {
+    if (bind(*serverSocket, (struct sockaddr *)&serverAddr, sizeof(serverAddr)) == -1) {
         perror("Error binding server socket");
-        close(serverSocket);
+        close(*serverSocket);
         exit(EXIT_FAILURE);
     }
 
-    if (listen(serverSocket, 5) == -1) {
+    if (listen(*serverSocket, 5) == -1) {
         perror("Error listening for connections");
-        close(serverSocket);
+        close(*serverSocket);
         exit(EXIT_FAILURE);
     }
 
-    printf("Server is listening on port %d...\n", PORT);
+    printf("Server is listening on port %d...\n", port);
 }
 
-void runServer(int  serverSocket){
+void runServer(int serverSocket) {
+    int clientSockets[MAX_CLIENTS];
+    fd_set readfds, allset;
     struct sockaddr_in clientAddr;
-    socklen_t clientAddrLen = sizeof(clientAddr);
+    socklen_t addrLen = sizeof(clientAddr);
+    char buffer[BUFFER];
 
-	int connfd, sockfd;
-	int nready;
+    // Initialize client socket array
+    for (int i = 0; i < MAX_CLIENTS; i++) {
+        clientSockets[i] = -1;
+    }
+
+    FD_ZERO(&allset);
+    FD_SET(serverSocket, &allset);
+
     while (1) {
-        if ((clientSocket = accept(serverSocket, (struct sockaddr*)&clientAddr, &clientAddrLen)) == -1) {
-            perror("Error accepting client connection");
-            continue; 
+        readfds = allset;
+
+        // Wait for activity on any socket
+        if (select(FD_SETSIZE, &readfds, NULL, NULL, NULL) == -1) {
+            perror("Select failed");
+            exit(EXIT_FAILURE);
         }
 
-        char buffer[1024]; 
-        int received = receiveMessage(clientSocket, buffer);
-        printf("Received: %d, content: %s from ", received, buffer);
+        // Check for incoming connection on the server socket
+        if (FD_ISSET(serverSocket, &readfds)) {
+            // Accept the connection
+            int clientSocket = accept(serverSocket, (struct sockaddr *)&clientAddr, &addrLen);
+            if (clientSocket == -1) {
+                perror("Accept failed");
+                exit(EXIT_FAILURE);
+            }
 
-        int sent = sendMessage(clientSocket, "response!", 9);
-        printf(" sent response: %d\n",sent);
+            // Add the new client socket to the array
+            for (int i = 0; i < MAX_CLIENTS; i++) {
+                if (clientSockets[i] == -1) {
+                    clientSockets[i] = clientSocket;
+                    FD_SET(clientSocket, &allset);
+                    break;
+                }
+            }
+
+            printf("New connection from %s:%d\n", inet_ntoa(clientAddr.sin_addr), ntohs(clientAddr.sin_port));
+        }
+
+        // Check for data from existing clients
+        for (int i = 0; i < MAX_CLIENTS; i++) {
+            int clientSocket = clientSockets[i];
+
+            if (clientSocket != -1 && FD_ISSET(clientSocket, &readfds)) {
+                memset(buffer, 0, sizeof(buffer));
+                ssize_t bytesReceived = receiveMessage(clientSocket, buffer);
+
+                printf("%s\n", buffer);
+            }
+        }
+    }
+
+    // Close all client sockets
+    for (int i = 0; i < MAX_CLIENTS; i++) {
+        if (clientSockets[i] != -1) {
+            close(clientSockets[i]);
+        }
     }
 }
 
-int main(int argc, char *argv[]){
-	if (argc != 2) {
-		printf("Usage: %s PortNumber\n", argv[0]);
-		exit(1);
-	}
-    
-    int serverSocket = atoi(argv[1]);
-    int clientSocket = 0;
+int main(int argc, char *argv[]) {
+    if (argc != 2) {
+        printf("Usage: %s PortNumber\n", argv[0]);
+        exit(1);
+    }
 
-    initializeServer(serverSocket);
+    int serverSocket;
+    int port = atoi(argv[1]);
+
+    initializeServer(&serverSocket, port);
 
     runServer(serverSocket);
+
+    // serverLog(RUNNING, serverSocket);
 
     close(serverSocket);
 

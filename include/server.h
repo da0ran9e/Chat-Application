@@ -11,6 +11,5 @@
 #include <netinet/in.h>
 
 #define BUFFER 1024
-#define PORT 7788
 
 #endif
