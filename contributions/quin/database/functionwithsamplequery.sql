@@ -298,21 +298,27 @@ $$ LANGUAGE plpgsql;
 SELECT create_private_room('user2', 'user5') AS new_room_id;
 
 
--- Function to create a new room (add a room to the database)
-CREATE OR REPLACE FUNCTION create_new_room(in_roomname VARCHAR(50))
+-- Function to create a new room with admin (add a room to the database)
+--DROP FUNCTION IF EXISTS create_new_room(VARCHAR(50), VARCHAR(50));
+CREATE OR REPLACE FUNCTION create_new_room(in_roomname VARCHAR(50), in_username VARCHAR(50))
 RETURNS INT AS $$
 DECLARE
     new_room_id INT;
 BEGIN
+    -- Insert new room
     INSERT INTO room (room_name, admin_id)
-    VALUES (in_roomname, 1) -- Default admin_id is 1 (may adjust this)
+    VALUES (in_roomname, (SELECT user_id FROM account WHERE username = in_username))
     RETURNING room_id INTO new_room_id;
+
+    -- Insert the admin as a member of the room
+    INSERT INTO member_in_room (room_id, user_id)
+    VALUES (new_room_id, (SELECT user_id FROM account WHERE username = in_username));
 
     RETURN new_room_id;
 END;
 $$ LANGUAGE plpgsql;
 -- query to create a new room
-SELECT create_new_room('Room D') AS new_room_id;
+SELECT create_new_room('Room 5','user5') AS new_room_id;
 
 
 -- Function to add a person to a room
