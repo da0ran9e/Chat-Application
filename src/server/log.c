@@ -47,7 +47,7 @@ void get_username(char *ip, int id, char *name){
 
 }
 
-void serverLog(enum ServerStat status, int port) {
+void serverLog(enum ServerStat status, const int port) {
     char time[20];
     get_log_time(time);
 
@@ -73,7 +73,7 @@ void serverLog(enum ServerStat status, int port) {
     write_log(logMessage);
 }
 
-void connectionLog(enum ServerStat status, int port, char *ip) {
+void connectionLog(enum ServerStat status, const int port, const char *ip) {
     char time[20];
     get_log_time(time);
 
