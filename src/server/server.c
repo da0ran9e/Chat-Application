@@ -117,7 +117,7 @@ void runServer(int serverSocket) {
             }
 
             printf("New connection from %s:%d\n", inet_ntoa(clientAddr.sin_addr), ntohs(clientAddr.sin_port));
-            connectionLog(CONNECT, serverLog, inet_ntoa(clientAddr.sin_addr));
+            connectionLog(CONNECT, serverSocket, inet_ntoa(clientAddr.sin_addr));
         }
 
         // Check for data from existing clients
