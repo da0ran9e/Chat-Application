@@ -91,7 +91,6 @@ void execute_get_friend_list_query(PGconn *conn, const char *username, char *fri
 
     // Process the result
     int rows = PQntuples(result);
-    printf("Friend List for %s:\n", username);
     for (int i = 0; i < rows; ++i) {
         strcpy(friend[i], PQgetvalue(result, i, 0))
     }
@@ -119,7 +118,7 @@ int execute_add_friend_query(PGconn *conn, const char *username1, const char *us
     return addFriendStatus;
 }
 
-void execute_delete_friend_query(PGconn *conn, const char *username1, const char *username2) {
+int execute_delete_friend_query(PGconn *conn, const char *username1, const char *username2) {
     const char *query = "SELECT delete_friend($1, $2) AS delete_friend_status";
     const char *paramValues[2] = {username1, username2};
 
@@ -131,13 +130,14 @@ void execute_delete_friend_query(PGconn *conn, const char *username1, const char
 
     // Process the result
     int deleteFriendStatus = atoi(PQgetvalue(result, 0, 0));
-    printf("Delete Friend Status: %d\n", deleteFriendStatus);
 
     // Free the result
     PQclear(result);
+
+    return deleteFriendStatus;
 }
 
-void execute_get_room_list_query(PGconn *conn, const char *username) {
+void execute_get_room_list_query(PGconn *conn, const char *username, char *roomlist) {
     const char *query = "SELECT * FROM get_room_list($1)";
     const char *paramValues[1] = {username};
 
@@ -149,7 +149,6 @@ void execute_get_room_list_query(PGconn *conn, const char *username) {
 
     // Process the result
     int rows = PQntuples(result);
-    printf("Room List for %s:\n", username);
     for (int i = 0; i < rows; ++i) {
         printf("%s\n", PQgetvalue(result, i, 0));
     }
@@ -158,10 +157,11 @@ void execute_get_room_list_query(PGconn *conn, const char *username) {
     PQclear(result);
 }
 
-void execute_get_people_in_room_query(PGconn *conn, int room_id) {
+void execute_get_people_in_room_query(PGconn *conn, int room_id, char * peoplelist) {
     const char *query = "SELECT * FROM get_people_in_room($1)";
     char* room_id_str = int_to_str(room_id);
     const char *paramValues[1] = {room_id_str};
+    char people[20][50];
 
     // Execute the query
     PGresult *result = PQexecParams(conn, query, 1, NULL, paramValues, NULL, NULL, 0);
@@ -171,9 +171,8 @@ void execute_get_people_in_room_query(PGconn *conn, int room_id) {
 
     // Process the result
     int rows = PQntuples(result);
-    printf("People in Room %d:\n", room_id);
     for (int i = 0; i < rows; ++i) {
-        printf("%s\n", PQgetvalue(result, i, 0));
+        strcpy(people[i], PQgetvalue(result, i, 0));
     }
 
     // Free the result
@@ -181,7 +180,7 @@ void execute_get_people_in_room_query(PGconn *conn, int room_id) {
 }
 
 
-void execute_create_private_room_query(PGconn *conn, const char *username1, const char *username2) {
+int execute_create_private_room_query(PGconn *conn, const char *username1, const char *username2) {
     const char *query = "SELECT create_private_room($1, $2) AS new_room_id";
     const char *paramValues[2] = {username1, username2};
 
@@ -193,10 +192,11 @@ void execute_create_private_room_query(PGconn *conn, const char *username1, cons
 
     // Process the result
     int newRoomId = atoi(PQgetvalue(result, 0, 0));
-    printf("New Private Room ID: %d\n", newRoomId);
 
     // Free the result
     PQclear(result);
+
+    return newRoomId;
 }
 
 
