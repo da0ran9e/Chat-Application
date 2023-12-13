@@ -59,7 +59,7 @@ int execute_register_query(PGconn *conn, const char *username, const char *passw
     return registrationStatus;
 }
 
-void execute_change_password_query(PGconn *conn, const char *username, const char *oldPassword, const char *newPassword) {
+int execute_change_password_query(PGconn *conn, const char *username, const char *oldPassword, const char *newPassword) {
     const char *query = "SELECT change_password($1, $2, $3) AS password_change_status";
     const char *paramValues[3] = {username, oldPassword, newPassword};
 
@@ -71,15 +71,17 @@ void execute_change_password_query(PGconn *conn, const char *username, const cha
 
     // Process the result
     int passwordChangeStatus = atoi(PQgetvalue(result, 0, 0));
-    printf("Password Change Status: %d\n", passwordChangeStatus);
 
     // Free the result
     PQclear(result);
+
+    return passwordChangeStatus;
 }
 
-void execute_get_friend_list_query(PGconn *conn, const char *username) {
+void execute_get_friend_list_query(PGconn *conn, const char *username, char *friendlist) {
     const char *query = "SELECT * FROM get_friend_list($1)";
     const char *paramValues[1] = {username};
+    char friends[100][50];
 
     // Execute the query
     PGresult *result = PQexecParams(conn, query, 1, NULL, paramValues, NULL, NULL, 0);
@@ -91,14 +93,14 @@ void execute_get_friend_list_query(PGconn *conn, const char *username) {
     int rows = PQntuples(result);
     printf("Friend List for %s:\n", username);
     for (int i = 0; i < rows; ++i) {
-        printf("%s\n", PQgetvalue(result, i, 0));
+        strcpy(friend[i], PQgetvalue(result, i, 0))
     }
 
     // Free the result
     PQclear(result);
 }
 
-void execute_add_friend_query(PGconn *conn, const char *username1, const char *username2) {
+int execute_add_friend_query(PGconn *conn, const char *username1, const char *username2) {
     const char *query = "SELECT add_friend($1, $2) AS add_friend_status";
     const char *paramValues[2] = {username1, username2};
 
@@ -110,10 +112,11 @@ void execute_add_friend_query(PGconn *conn, const char *username1, const char *u
 
     // Process the result
     int addFriendStatus = atoi(PQgetvalue(result, 0, 0));
-    printf("Add Friend Status: %d\n", addFriendStatus);
 
     // Free the result
     PQclear(result);
+
+    return addFriendStatus;
 }
 
 void execute_delete_friend_query(PGconn *conn, const char *username1, const char *username2) {
