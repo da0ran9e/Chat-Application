@@ -1,6 +1,4 @@
 #include "database.h"
-#include "libpq-fe.h"
-#include "queries.h"
 
 PGconn * database_start (){
 
