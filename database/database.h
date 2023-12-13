@@ -5,46 +5,14 @@
 #include <stdlib.h>
 #include "libpq-fe.h"
 
-enum LoginStatus{
+enum DBStatus{
     DENY,
-    ACCEPT
-};
-
-enum RegisterStatus{
-    USERNAME_CONFLICT,
-    SERVER_FULL,
-    DONE
-};
-
-enum PasswordInChangeStatus{
-    DONE,
-    DENY
-};
-
-enum AddFriendStatus{
+    ACCEPT,
+    CONFLICT,
+    NOTFOUND,
+    FULL,
     DONE,
     ERROR
-};
-
-enum DeleteFiendStatus{
-    DONE,
-    ERROR
-};
-
-enum CreateRoomStatus{
-    DONE,
-    ERROR
-};
-
-enum AddMemberStatus{
-    DONE,
-    MEMBER_CONFLICT,
-    ROOM_FULL
-};
-
-enum RemoveMemberStatus{
-    DONE,
-    MEMBER_NOTFOUND,
 };
 
 PGconn * database_start ();
