@@ -33,7 +33,7 @@ uint32_t getProtocolFunctionCode (const char *message){
 
 void getProtocolPayload (const char *message, char * buffer){
     // Extract the payload from the entire of the message
-    strcpy(buffer, message + 2*sizeof(uint32_t));
+    memcpy(buffer, message + 2*sizeof(uint32_t), 1016);
 }
 
 void getProtocolParameters(const char *payload, Parameters parameters){
