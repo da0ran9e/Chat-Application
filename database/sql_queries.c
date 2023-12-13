@@ -1,8 +1,3 @@
-//#include "../../include/database.h"
-
-#include <stdio.h>
-#include <stdlib.h>
-
 #include "libpq-fe.h"
 #include "queries.h"
 
@@ -79,7 +74,7 @@ int execute_change_password_query(PGconn *conn, const char *username, const char
     return passwordChangeStatus;
 }
 
-void execute_get_friend_list_query(PGconn *conn, const char *username, char *friendlist) {
+int execute_get_friend_list_query(PGconn *conn, const char *username, char *friendlist) {
     const char *query = "SELECT * FROM get_friend_list($1)";
     const char *paramValues[1] = {username};
 
@@ -97,6 +92,8 @@ void execute_get_friend_list_query(PGconn *conn, const char *username, char *fri
 
     // Free the result
     PQclear(result);
+
+    return rows;
 }
 
 int execute_add_friend_query(PGconn *conn, const char *username1, const char *username2) {
@@ -137,12 +134,7 @@ int execute_delete_friend_query(PGconn *conn, const char *username1, const char 
     return deleteFriendStatus;
 }
 
-typedef struct Room{
-    int roomId;
-    char roomName[50];
-}Room;
-
-void execute_get_room_list_query(PGconn *conn, const char *username, char *roomlist, Room * roomlist) {
+int execute_get_room_list_query(PGconn *conn, const char *username, char *roomlist, Room * roomlist) {
     const char *query = "SELECT * FROM get_room_list($1)";
     const char *paramValues[1] = {username};
 
@@ -161,9 +153,11 @@ void execute_get_room_list_query(PGconn *conn, const char *username, char *rooml
 
     // Free the result
     PQclear(result);
+
+    return rows;
 }
 
-void execute_get_people_in_room_query(PGconn *conn, int room_id, char * peoplelist) {
+int execute_get_people_in_room_query(PGconn *conn, int room_id, char * peoplelist) {
     const char *query = "SELECT * FROM get_people_in_room($1)";
     char* room_id_str = int_to_str(room_id);
     const char *paramValues[1] = {room_id_str};
@@ -182,8 +176,9 @@ void execute_get_people_in_room_query(PGconn *conn, int room_id, char * peopleli
 
     // Free the result
     PQclear(result);
-}
 
+    return rows;
+}
 
 int execute_create_private_room_query(PGconn *conn, const char *username1, const char *username2) {
     const char *query = "SELECT create_private_room($1, $2) AS new_room_id";
@@ -204,9 +199,8 @@ int execute_create_private_room_query(PGconn *conn, const char *username1, const
     return newRoomId;
 }
 
-
 //create group chat with admin 
-void execute_create_new_room_query(PGconn *conn, const char *roomName, const char *adminUsername) {
+int execute_create_new_room_query(PGconn *conn, const char *roomName, const char *adminUsername) {
     const char *query = "SELECT create_new_room($1, $2) AS new_room_id";
     const char *paramValues[2] = {roomName, adminUsername};
 
@@ -265,7 +259,7 @@ int execute_remove_person_from_room_query(PGconn *conn, const char *username, in
     return removePersonStatus;
 }
 
-void execute_get_room_current_conversation_query(PGconn *conn, int room_id, char * messageList) {
+int execute_get_room_current_conversation_query(PGconn *conn, int room_id, char * messageList) {
     const char *query = "SELECT * FROM get_room_conversation($1, CURRENT_TIMESTAMP::TIMESTAMP)";
     char* room_id_str = int_to_str(room_id);
     const char *paramValues[1] = {room_id_str};
@@ -288,11 +282,12 @@ void execute_get_room_current_conversation_query(PGconn *conn, int room_id, char
 
     // Free the room_id_str after using it
     free(room_id_str);
+
+    return rows;
 }
 
-
 // Get Room Conversation before any time
-void execute_get_room_conversation_query(PGconn *conn, int room_id, char *timestamp) {
+int execute_get_room_conversation_query(PGconn *conn, int room_id, char *timestamp) {
     const char *query = "SELECT * FROM get_room_conversation($1, $2)";
     char* room_id_str = int_to_str(room_id);
     const char *paramValues[2] = {room_id_str, timestamp};
@@ -312,17 +307,11 @@ void execute_get_room_conversation_query(PGconn *conn, int room_id, char *timest
 
     // Free the result
     PQclear(result);
+
+    return rows;
 }
 
-
-typedef struct Message{
-    int roomId;
-    int userId;
-    char timestamp[20];
-    char content[500];
-}Message;
-
-void execute_get_conversation_content_query(PGconn *conn, int room_id, const char *timestamp, Message message) {
+int execute_get_conversation_content_query(PGconn *conn, int room_id, const char *timestamp, Message message) {
     const char *query = "SELECT * FROM get_conversation_content($1, $2)";
     char* room_id_str = int_to_str(room_id);
     const char *paramValues[2] = {room_id_str, timestamp};
@@ -333,6 +322,8 @@ void execute_get_conversation_content_query(PGconn *conn, int room_id, const cha
     // Check the result
     check_result(result, conn);
 
+    if (PQntuples(result)<=0) return 0;
+
     // Process the result
     message.roomId = room_id;
     message.userId = atoi(PQgetvalue(result, 0, 0));
@@ -341,9 +332,11 @@ void execute_get_conversation_content_query(PGconn *conn, int room_id, const cha
 
     // Free the result
     PQclear(result);
+
+    return 1;
 }
 
-void execute_add_message_to_conversation_query(PGconn *conn, const char *username, int room_id, const char *message) {
+int execute_add_message_to_conversation_query(PGconn *conn, const char *username, int room_id, const char *message) {
     const char *query = "SELECT add_message_to_conversation($1, $2, $3) AS add_message_status";
     char* room_id_str = int_to_str(room_id);
     const char *paramValues[3] = {username, room_id_str, message};
