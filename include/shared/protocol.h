@@ -2,7 +2,7 @@
 #define PROTOCOL_H
 
 // Define opcodes for different functions
-enum Opcode {
+enum ServerProtocol {
     OPCODE_PING = 0,
     OPCODE_LOGIN = 1,
     OPCODE_REGISTER = 2,
