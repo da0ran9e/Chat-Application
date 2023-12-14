@@ -38,8 +38,6 @@ void *handleClient(void *args) {
         sendMessage(clientSocket, buffer, strlen(buffer));
     }
 
-    // Log disconnection
-    connectionLog(DISCONNECT, -1, "Client disconnected");
     close(clientSocket);
     free(threadArgs); // Free the memory allocated for thread arguments
     pthread_exit(NULL);
