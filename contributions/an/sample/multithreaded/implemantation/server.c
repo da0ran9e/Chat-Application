@@ -55,7 +55,6 @@ void runServer(int serverSocket) {
         clientSockets[i] = -1;
     }
 
-    serverLog(START, serverSocket);
     while (1) {
         // Accept the connection
         int clientSocket = accept(serverSocket, (struct sockaddr *)&clientAddr, &addrLen);
