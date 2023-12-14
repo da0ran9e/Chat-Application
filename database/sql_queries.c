@@ -133,7 +133,7 @@ int execute_delete_friend_query(PGconn *conn, const char *username1, const char 
     return deleteFriendStatus;
 }
 
-int execute_get_room_list_query(PGconn *conn, const char *username, char *roomlist, Room * roomlist) {
+int execute_get_room_list_query(PGconn *conn, const char *username, Room * roomlist) {
     const char *query = "SELECT * FROM get_room_list($1)";
     const char *paramValues[1] = {username};
 
@@ -286,7 +286,7 @@ int execute_get_room_current_conversation_query(PGconn *conn, int room_id, char 
 }
 
 // Get Room Conversation before any time
-int execute_get_room_conversation_query(PGconn *conn, int room_id, char *timestamp) {
+int execute_get_room_conversation_query(PGconn *conn, int room_id, char *timestamp, char * messageList) {
     const char *query = "SELECT * FROM get_room_conversation($1, $2)";
     char* room_id_str = int_to_str(room_id);
     const char *paramValues[2] = {room_id_str, timestamp};
