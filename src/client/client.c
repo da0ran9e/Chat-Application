@@ -10,10 +10,8 @@ int initializeClient(const char *address, int port) {
     int clientSocket;
     struct sockaddr_in serverAddr; /* server's address information */
 
-    // Construct socket
     clientSocket = socket(AF_INET, SOCK_STREAM, 0);
-
-    // Specify server address
+    
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_port = htons(port);
     serverAddr.sin_addr.s_addr = inet_addr(address);
@@ -45,7 +43,7 @@ ssize_t receive_message(int clientSocket, char *buffer) {
         return -1;
     }
 
-    buffer[bytesReceived] = '\0'; // end message
+    buffer[bytesReceived] = '\0'; 
     return bytesReceived;
 }
 
@@ -59,7 +57,6 @@ void run_client(const char *address, int port) {
         printf("Enter a message (or 'exit' to quit): ");
         fgets(message, sizeof(message), stdin);
 
-        // Remove the newline character from the input
         size_t len = strlen(message);
         if (len > 0 && message[len - 1] == '\n') {
             message[len - 1] = '\0';
@@ -77,7 +74,6 @@ void run_client(const char *address, int port) {
         printf("Server response: %s\n", buffer);
     }
 
-    // Close the socket
     close(clientSocket);
 }
 
