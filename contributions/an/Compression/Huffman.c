@@ -4,9 +4,9 @@
   
 // This constant can be avoided by explicitly 
 // calculating height of Huffman Tree 
-#define MAX_TREE_HT 100 
+#define MAX_TREE_HT 105 
 
-int readFromFile(const char *filename, char data[], int freq[], int *size) {
+int readFromFile(const char *filename, char data[], int freq[]) {
     FILE *file = fopen(filename, "r");
 
     if (file == NULL) {
@@ -14,22 +14,29 @@ int readFromFile(const char *filename, char data[], int freq[], int *size) {
         return 0; // Indicates failure
     }
 
-    int i = 0;
-    while (fscanf(file, "%c %d", &data[i], &freq[i]) == 2) {
+    int i = 0; // for indexing
+    char ch;    // character 
+    int f[127]; // frequence of ascii
+    int c = 0; // count of freq index
+    int max = 0;
+
+    for (int j=0; j<127; j++) f[j] = 0;
+
+    while ((ch = fgetc(file)) != EOF) {
+        f[ch]++;
         i++;
-        if (i >= MAX_TREE_HT) {
-            fprintf(stderr, "Too many entries in the file. Increase MAX_TREE_HT.\n");
-            fclose(file);
-            return 0; // Indicates failure
+    }
+    for (int j=0; j<127; j++) {
+        if (j> 33 && j< 126){
+            data[c] = j;
+            freq[c] = f[j];
+            c++;
         }
     }
 
-    *size = i;
-
     fclose(file);
-    return 1; // Indicates success
+    return i; // Indicates success
 }
-
   
 // A Huffman tree node 
 struct MinHeapNode { 
@@ -318,15 +325,15 @@ void HuffmanCodes(char data[], int freq[], int size)
 // Driver code 
 int main() 
 { 
-    char filename[] = "alice.txt"; // Change this to your file name
+    char filename[] = "alice1.txt"; // Change this to your file name
     int file_size;
-    char file_data[MAX_TREE_HT];
-    int file_freq[MAX_TREE_HT];
+    char file_data[105];
+    int file_freq[105];
 
-    if (readFromFile(filename, file_data, file_freq, &file_size)) {
-        // Call HuffmanCodes with data and frequencies from the file
-        HuffmanCodes(file_data, file_freq, file_size);
-    }
+    file_size = readFromFile(filename, file_data, file_freq);
+    // Call HuffmanCodes with data and frequencies from the file
+    HuffmanCodes(file_data, file_freq, 105);
+
 
     return 0;
 }
