@@ -94,7 +94,7 @@ void *handleClient(void *args) {
         // Process the received message
         printf("Processing message from client %d: \n", clientSocket);
 
-        read(buffer);
+        Read(buffer, sizeof(buffer));
 
         // Echo the message back to the client
         sendMessage(clientSocket, buffer, strlen(buffer));
@@ -228,7 +228,7 @@ void generateMessage(uint32_t op, uint32_t func, Parameters parameters, char * b
     buffer[bufferSize-1] = '\0';
 }
 
-int read(const char * binaryString, int size) {
+int Read(const char * binaryString, int size) {
     printf("Opcode: %d\n", getProtocolOpcode(binaryString));
     printf("Func: %d\n", getProtocolFunctionCode(binaryString));
     char payload[size];
