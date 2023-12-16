@@ -63,11 +63,11 @@ void run_client(const char *address, int port) {
             continue;
         }
 
-        size_t len = strlen(message);
-        if (len > 0 && message[len - 1] == '\n') {
-            message[len - 1] = '\0';
-            send_message(clientSocket, message);
-        }
+        // size_t len = strlen(message);
+        // if (len > 0 && message[len - 1] == '\n') {
+        //     message[len - 1] = '\0';
+        //     send_message(clientSocket, message);
+        // }
 
         // Exit the loop if the user entered "exit"
         if (strcmp(message, "exit") == 0) {
