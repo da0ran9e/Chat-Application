@@ -27,7 +27,9 @@ int initializeClient(const char *address, int port) {
 }
 
 ssize_t send_message(int clientSocket, char *message) {
-    ssize_t bytesSent = send(clientSocket, message, strlen(message), 0);
+    char testStr[] = "\x01\x00\x00\x00\x0f\x00\x00\x00\x0a\x00\x00\x00helloworld\x00\x00\x00\x00\x00\x00\x00\x00";
+
+    ssize_t bytesSent = send(clientSocket, testStr, strlen(testStr), 0);
     if (bytesSent <= 0) {
         perror("Error: ");
         return -1;
@@ -57,16 +59,11 @@ void run_client(const char *address, int port) {
         printf("Enter a message (or 'exit' to quit): ");
         fgets(message, sizeof(message), stdin);
 
-        if (strcmp(message, "test") == 0) {
-            char testStr[] = "\x01\x00\x00\x00\x0f\x00\x00\x00\x0a\x00\x00\x00helloworld\x00\x00\x00\x00\x00\x00\x00\x00";
-            send_message(clientSocket, testStr);
+        size_t len = strlen(message);
+        if (len > 0 && message[len - 1] == '\n') {
+            message[len - 1] = '\0';
+            send_message(clientSocket, message);
         }
-
-        // size_t len = strlen(message);
-        // if (len > 0 && message[len - 1] == '\n') {
-        //     message[len - 1] = '\0';
-        //     send_message(clientSocket, message);
-        // }
 
         // Exit the loop if the user entered "exit"
         if (strcmp(message, "exit") == 0) {
