@@ -57,6 +57,12 @@ void run_client(const char *address, int port) {
         printf("Enter a message (or 'exit' to quit): ");
         fgets(message, sizeof(message), stdin);
 
+        if (strcmp(message, "test") == 0) {
+            char testStr[] = "\x01\x00\x00\x00\x0f\x00\x00\x00\x0a\x00\x00\x00helloworld\x00\x00\x00\x00\x00\x00\x00\x00";
+            send_message(clientSocket, testStr);
+            continue;
+        }
+
         size_t len = strlen(message);
         if (len > 0 && message[len - 1] == '\n') {
             message[len - 1] = '\0';
@@ -66,11 +72,6 @@ void run_client(const char *address, int port) {
         // Exit the loop if the user entered "exit"
         if (strcmp(message, "exit") == 0) {
             break;
-        }
-
-        if (strcmp(message, "test") == 0) {
-            char testStr[] = "\x01\x00\x00\x00\x0f\x00\x00\x00\x0a\x00\x00\x00helloworld\x00\x00\x00\x00\x00\x00\x00\x00";
-            send_message(clientSocket, testStr);
         }
 
         char buffer[BUFFER_SIZE];
