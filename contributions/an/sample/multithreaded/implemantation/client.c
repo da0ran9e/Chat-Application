@@ -60,7 +60,6 @@ void run_client(const char *address, int port) {
         if (strcmp(message, "test") == 0) {
             char testStr[] = "\x01\x00\x00\x00\x0f\x00\x00\x00\x0a\x00\x00\x00helloworld\x00\x00\x00\x00\x00\x00\x00\x00";
             send_message(clientSocket, testStr);
-            continue;
         }
 
         // size_t len = strlen(message);
