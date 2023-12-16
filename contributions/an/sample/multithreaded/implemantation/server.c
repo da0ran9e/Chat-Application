@@ -9,6 +9,26 @@
 #include <arpa/inet.h>
 #include <pthread.h>
 
+#include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct Parameters{
+    char Param1[1024];
+    char Param2[1024];
+    char Param3[1024];
+} Parameters;
+
+void substring(const char *string, char *buffer, int pos, int len);
+uint32_t getProtocolOpcode (const char *message);
+uint32_t getProtocolFunctionCode (const char *message);
+void getProtocolPayload (const char *message, char * buffer, int size);
+Parameters getProtocolParameters(const char *payload, Parameters parameters);
+void undoTranslation(uint32_t intValue, char charValue, char* undoBuffer, size_t bufferSize);
+void generateMessage(uint32_t op, uint32_t func, Parameters parameters, char * buffer);
+int Read(const char * binaryString, int size);
+
 #define BUFFER 1024
 #define MAX_CLIENTS 100
 
@@ -149,16 +169,7 @@ void runServer(int serverSocket) {
 }
 
 
-#include <stdio.h>
-#include <stdint.h>
-#include <stdlib.h>
-#include <string.h>
-
-typedef struct Parameters{
-    char Param1[1024];
-    char Param2[1024];
-    char Param3[1024];
-} Parameters;
+/////////////////////////////////////////////////////////////////////////////////////
 
 void substring(const char *string, char *buffer, int pos, int len)
 {
