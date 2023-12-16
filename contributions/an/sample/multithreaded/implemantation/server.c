@@ -112,7 +112,7 @@ void *handleClient(void *args) {
         }
 
         // Process the received message
-        printf("Processing message from client %d: \n", clientSocket);
+        printf("Processing message from client %d: %s\n", clientSocket, buffer);
 
         Read(buffer, sizeof(buffer));
 
