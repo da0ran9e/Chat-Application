@@ -29,7 +29,7 @@ int initializeClient(const char *address, int port) {
 ssize_t send_message(int clientSocket, char *message) {
     char testStr[] = "\x01\x00\x00\x00\x0f\x00\x00\x00\x0a\x00\x00\x00helloworld\x00\x00\x00\x00\x00\x00\x00\x00";
 
-    ssize_t bytesSent = send(clientSocket, testStr, strlen(testStr), 0);
+    ssize_t bytesSent = send(clientSocket, testStr, 31, 0);
     if (bytesSent <= 0) {
         perror("Error: ");
         return -1;
