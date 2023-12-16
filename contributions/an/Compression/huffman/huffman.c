@@ -1,44 +1,9 @@
-/* Title: Huffman Coding for files
-   URL: htts://github.com/TheniL/huffman
-   Date_start: 25/11/2014
-   OC 1: 01/12/2014
-   Author: niLesh	*/
-/*
-TODO: handle Codewords longer than MAX
-TODO: Use free() to deallocate memory
-TODO: sort linked list in non-increasing order, at genCode().
-TODO: Store code in bit array form(in Header), rather than string form, to save space
-*/
-
 #include<stdio.h>
 #include<malloc.h>
 #include<string.h>
 #include "huffman.h"
 #define INTERNAL 1
 #define LEAF 0
-
-typedef struct node
-{
-	char x;
-	int freq;
-	char *code;
-	int type;
-	struct node *next;
-	struct node *left;
-	struct node *right;
-}node;
-
-node *HEAD,*ROOT;
-
-void printll();
-void makeTree();
-void genCode(node *p,char* code);
-void insert(node *p,node *m);
-void addSymbol(char c);
-void writeHeader(FILE *f);
-void writeBit(int b,FILE *f);
-void writeCode(char ch,FILE *f);
-char *getCode(char ch);
 
 node* newNode(char c)
 {
@@ -105,7 +70,7 @@ printf("\nAssigning Codewords.\n");
 genCode(ROOT,"\0");	//preorder traversal
 
 printf("\n[Pass2]");
-fp=fopen(argv[1],"r");
+fp = fopen(argv[1], "rb");
 if(fp==NULL)
 {
 	printf("\n[!]Input file cannot be opened.\n");
@@ -216,17 +181,22 @@ void writeBit(int b,FILE *f)
 	return;
 }
 
-char *getCode(char ch)
-{
-node *p=HEAD;
-	while(p!=NULL)
-	{
-	    if(p->x==ch)
-		  return p->code;
-	    p=p->next;
-	}
-	return NULL; //not found
+char *getCode(char ch) {
+    node *p = HEAD;
+    while (p != NULL) {
+        if (p->x == ch) {
+            char *codeCopy = strdup(p->code);
+            if (codeCopy == NULL) {
+                perror("Memory allocation error");
+                exit(EXIT_FAILURE);
+            }
+            return codeCopy;
+        }
+        p = p->next;
+    }
+    return NULL; // not found
 }
+
 
 void insert(node *p,node *m)
 { // insert p in list as per its freq., start from m to right,
