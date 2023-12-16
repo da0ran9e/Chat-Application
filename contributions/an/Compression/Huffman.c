@@ -17,6 +17,11 @@ int readFromFile(const char *filename, char data[], int freq[], int *size) {
     int i = 0;
     while (fscanf(file, "%c %d", &data[i], &freq[i]) == 2) {
         i++;
+        if (i >= MAX_TREE_HT) {
+            fprintf(stderr, "Too many entries in the file. Increase MAX_TREE_HT.\n");
+            fclose(file);
+            return 0; // Indicates failure
+        }
     }
 
     *size = i;
@@ -24,6 +29,7 @@ int readFromFile(const char *filename, char data[], int freq[], int *size) {
     fclose(file);
     return 1; // Indicates success
 }
+
   
 // A Huffman tree node 
 struct MinHeapNode { 
