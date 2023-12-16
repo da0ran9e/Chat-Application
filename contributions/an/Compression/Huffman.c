@@ -2,8 +2,6 @@
 #include <stdio.h> 
 #include <stdlib.h> 
   
-// This constant can be avoided by explicitly 
-// calculating height of Huffman Tree 
 #define MAX_TREE_HT 105 
 
 int readFromFile(const char *filename, char data[], int freq[]) {
