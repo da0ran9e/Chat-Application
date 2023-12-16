@@ -11,7 +11,7 @@
 #include "../../include/server/log.h"
 
 #define BUFFER 1024
-#define MAX_CLIENTS 10
+#define MAX_CLIENTS 100
 
 ssize_t receiveMessage(int clientSocket, char *buffer) {
     ssize_t bytesRead = recv(clientSocket, buffer, BUFFER - 1, 0);
