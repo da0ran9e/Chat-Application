@@ -13,7 +13,7 @@
 | 0 | 3 | ["username", "old_password", "new_password"] | Change Password |
 | 1 | 0 | None | Get Friend List |
 | 1 | 1 | ["username", "destination", "timeout"] | Send Friend Request |
-| 1 | 2 | ["destination", "username", "response"] | Respond to Request |
+| 1 | 2 | ["destination", "username", "response"] | Response to Request |
 | 2 | 0 | ["username"] | Get Room List |
 | 2 | 1 | ["room_id"] | Get member list |
 | 2 | 2 | ["room_name"] | Create Room |

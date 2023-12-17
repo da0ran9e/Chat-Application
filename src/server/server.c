@@ -1,17 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <time.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-
-#include "../../include/server/log.h"
-
-#define BUFFER 1024
-#define MAX_CLIENTS 10
+#include "../../include/server.h"
 
 ssize_t receiveMessage(int clientSocket, char *buffer) {
     ssize_t bytesRead = recv(clientSocket, buffer, BUFFER - 1, 0);
@@ -71,74 +58,108 @@ void initializeServer(int *serverSocket, int port) {
     }
 
     printf("Server is listening on port %d...\n", port);
+    serverLog(START, port);
+}
+
+// Function to handle I/O asynchronously in a thread
+void *handleClient(void *args) {
+    struct ThreadArgs *threadArgs = (struct ThreadArgs *)args;
+    int clientSocket = threadArgs->clientSocket;
+    char buffer[BUFFER];
+
+    while (1) {
+        memset(buffer, 0, sizeof(buffer));
+        ssize_t bytesReceived = receiveMessage(clientSocket, buffer);
+
+        if (bytesReceived <= 0) {
+            break; // Connection closed or error
+        }
+
+        // Process the received message
+        printf("Processing message from client %d: %s\n", clientSocket, buffer);
+
+        Read(buffer, sizeof(buffer));
+
+        // Echo the message back to the client
+        sendMessage(clientSocket, buffer, strlen(buffer));
+    }
+
+    close(clientSocket);
+    free(threadArgs); // Free the memory allocated for thread arguments
+    pthread_exit(NULL);
 }
 
 void runServer(int serverSocket) {
     int clientSockets[MAX_CLIENTS];
-    fd_set readfds, allset;
     struct sockaddr_in clientAddr;
     socklen_t addrLen = sizeof(clientAddr);
-    char buffer[BUFFER];
 
     // Initialize client socket array
     for (int i = 0; i < MAX_CLIENTS; i++) {
         clientSockets[i] = -1;
     }
 
-    FD_ZERO(&allset);
-    FD_SET(serverSocket, &allset);
-
-    serverLog (START, serverSocket);
     while (1) {
-        readfds = allset;
-
-        // Wait for activity on any socket
-        if (select(FD_SETSIZE, &readfds, NULL, NULL, NULL) == -1) {
-            perror("Select failed");
+        // Accept the connection
+        int clientSocket = accept(serverSocket, (struct sockaddr *)&clientAddr, &addrLen);
+        if (clientSocket == -1) {
+            perror("Accept failed");
             exit(EXIT_FAILURE);
         }
 
-        // Check for incoming connection on the server socket
-        if (FD_ISSET(serverSocket, &readfds)) {
-            // Accept the connection
-            int clientSocket = accept(serverSocket, (struct sockaddr *)&clientAddr, &addrLen);
-            if (clientSocket == -1) {
-                perror("Accept failed");
-                exit(EXIT_FAILURE);
-            }
-
-            // Add the new client socket to the array
-            for (int i = 0; i < MAX_CLIENTS; i++) {
-                if (clientSockets[i] == -1) {
-                    clientSockets[i] = clientSocket;
-                    FD_SET(clientSocket, &allset);
-                    break;
-                }
-            }
-
-            printf("New connection from %s:%d\n", inet_ntoa(clientAddr.sin_addr), ntohs(clientAddr.sin_port));
-            connectionLog(CONNECT, serverSocket, inet_ntoa(clientAddr.sin_addr));
-        }
-
-        // Check for data from existing clients
+        // Add the new client socket to the array
         for (int i = 0; i < MAX_CLIENTS; i++) {
-            int clientSocket = clientSockets[i];
-
-            if (clientSocket != -1 && FD_ISSET(clientSocket, &readfds)) {
-                memset(buffer, 0, sizeof(buffer));
-                ssize_t bytesReceived = receiveMessage(clientSocket, buffer);
-
-                printf("%s\n", buffer);
+            if (clientSockets[i] == -1) {
+                clientSockets[i] = clientSocket;
+                break;
             }
         }
-    }
 
-    // Close all client sockets
-    for (int i = 0; i < MAX_CLIENTS; i++) {
-        if (clientSockets[i] != -1) {
-            close(clientSockets[i]);
+        printf("New connection from %s:%d\n", inet_ntoa(clientAddr.sin_addr), ntohs(clientAddr.sin_port));
+        connectionLog(CONNECT, ntohs(clientAddr.sin_port), inet_ntoa(clientAddr.sin_addr));
+        // Create thread arguments
+        struct ThreadArgs *threadArgs = (struct ThreadArgs *)malloc(sizeof(struct ThreadArgs));
+        threadArgs->clientSocket = clientSocket;
+
+        // Create a new thread to handle the client
+        pthread_t thread;
+        if (pthread_create(&thread, NULL, handleClient, (void *)threadArgs) != 0) {
+            perror("Error creating thread");
+            exit(EXIT_FAILURE);
         }
+
+        // Detach the thread to clean up resources automatically
+        pthread_detach(thread);
     }
+}
+
+int Read(const char * binaryString, int size) {
+    printf("Opcode: %d\n", getProtocolOpcode(binaryString));
+    printf("Func: %d\n", getProtocolFunctionCode(binaryString));
+    char payload[size];
+
+    getProtocolPayload(binaryString, payload, sizeof(payload));
+    Parameters p;
+    p = getProtocolParameters(payload, p);
+    
+    printf("len1: %d\n", strlen(p.Param1));
+    printf("Param1: %s\n", p.Param1);
+    printf("len2: %d\n", strlen(p.Param2));
+    printf("Param2: %s\n", p.Param2);
+    printf("len3: %d\n", strlen(p.Param3));
+    printf("Param3: %s\n", p.Param3);
+
+    
+
+    // Print the binary string
+
+    printf("Binary String : \n");
+    for (size_t i = 0; i < size; i++) {
+        printf("\\x%02X", (unsigned char)binaryString[i]);
+    }
+    printf("\n");
+
+    return 0;
 }
 
 int main(int argc, char *argv[]) {

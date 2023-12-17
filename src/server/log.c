@@ -1,18 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <time.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-
 #include "../../include/server/log.h"
 
-
-#define MAX_LOG_SIZE 1024
-
-void write_log(char *log){
+void write_log(const char *log){
     FILE *logFile = fopen("../../log.json", "a");
     if (logFile == NULL) {
         perror("Error opening log file");
@@ -29,27 +17,12 @@ void write_log(char *log){
     fclose(logFile);
 }
 
-void get_log_time(char * timeString){
-    time_t currentTime = time(NULL);
-
-    if (currentTime == -1) {
-        perror("Error getting current time");
-        // Handle error as needed
-        return;
-    }
-
-    struct tm* timeInfo = localtime(&currentTime);
-
-    strftime(timeString, 20, "%Y-%m-%d %H:%M:%S", timeInfo);
-    }
-
-void get_username(char *ip, int id, char *name){
-
+void get_username(const char *ip, int id){
 }
 
 void serverLog(enum ServerStat status, int port) {
     char time[20];
-    get_log_time(time);
+    util_get_time(time);
 
     char stat[20];
 
@@ -67,15 +40,15 @@ void serverLog(enum ServerStat status, int port) {
     }
 
     // Create the log message
-    char logMessage[MAX_LOG_SIZE];
-    snprintf(logMessage, MAX_LOG_SIZE, "\t{\"%s\": \"[SERVER] %s Port: %d\"}\n}", time, stat, port);
+    char logMessage[BUFFER];
+    snprintf(logMessage, BUFFER, "\t{\"%s\": \"[SERVER] %s Port: %d\"}\n}", time, stat, port);
     
     write_log(logMessage);
 }
 
-void connectionLog(enum ServerStat status, int port, char *ip) {
+void connectionLog(enum ServerStat status, int port, const char *ip) {
     char time[20];
-    get_log_time(time);
+    util_get_time(time);
 
     char stat[20];
 
@@ -90,8 +63,8 @@ void connectionLog(enum ServerStat status, int port, char *ip) {
     }
 
     // Create the log message
-    char logMessage[MAX_LOG_SIZE];
-    snprintf(logMessage, MAX_LOG_SIZE, "\t{\"%s\": \"[SERVER] %d %s ip: %s\"}\n}", time, port, stat, ip);
+    char logMessage[BUFFER];
+    snprintf(logMessage, BUFFER, "\t{\"%s\": \"[SERVER] %d %s ip: %s\"}\n}", time, port, stat, ip);
     
     write_log(logMessage);
 }
@@ -99,7 +72,7 @@ void connectionLog(enum ServerStat status, int port, char *ip) {
 /*
 void clientLog(enum ClientStat status, int port, char *ipAddress){
     char time[20];
-    get_log_time(time);
+    util_get_time(time);
 
     int userid;
     char username[50];

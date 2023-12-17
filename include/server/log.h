@@ -1,7 +1,7 @@
 #ifndef LOG_H
 #define LOG_H
 
-#define MAX_LOG_SIZE 1024
+#include "../../include/shared/common.h"
 
 enum ServerStat {
     CONNECT,
@@ -15,11 +15,10 @@ enum ClientStat {
     REGISTER,
 };
 
-void write_log(char *log);
-void get_log_time(char * timeString);
-void get_username(char *ip, int id, char *name);
+void write_log(const char *log);
+void get_username(const char *ip, int id);
 void serverLog(enum ServerStat status, int port);
-void connectionLog(enum ServerStat status, int port, char *ip);
+void connectionLog(enum ServerStat status, int port, const char *ip);
 //void clientLog(enum ClientStat status, int port, char *ipAddress);
 
 #endif

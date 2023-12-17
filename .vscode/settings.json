@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "dbc.h": "c",
+        "feature.h": "c",
+        "database.h": "c",
+        "log.h": "c"
+    }
+}

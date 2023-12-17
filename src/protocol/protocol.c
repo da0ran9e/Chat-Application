@@ -1,26 +1,4 @@
-#include <stdio.h>
-#include <stdint.h>
-#include <stdlib.h>
-#include <string.h>
-
-typedef struct Parameters{
-    char Param1[1024];
-    char Param2[1024];
-    char Param3[1024];
-} Parameters;
-
-void substring(const char *string, char *buffer, int pos, int len)
-{
-    // printf("Binary String : \n");
-    for (size_t i = 0; i < len; i++) {
-        printf("\\x%02X", (unsigned char)string[i]+pos);
-    }
-    printf("\n");
-    char * temp = (char *) malloc((len + 1)*sizeof(char));
-    strcpy(temp, string + pos);
-    temp[len] = '\0';  // Null-terminate the string
-    strcpy(buffer, temp);
-}
+#include "../../include/shared/protocol.h"
 
 uint32_t getProtocolOpcode (const char *message){
     // Extract the integer from the first 4 bytes
@@ -53,21 +31,13 @@ Parameters getProtocolParameters(const char *payload, Parameters parameters){
     // printf("ParamLen2: %d\n", paramLen2);
     // printf("ParamLen3: %d\n", paramLen3);
 
-    substring(payload, parameters.Param1, 4, paramLen1);
-    substring(payload, parameters.Param2, 8+paramLen1, paramLen2);
-    substring(payload, parameters.Param3, 12+paramLen1+paramLen2, paramLen3);
+    util_substring(payload, parameters.Param1, 4, paramLen1);
+    util_substring(payload, parameters.Param2, 8+paramLen1, paramLen2);
+    util_substring(payload, parameters.Param3, 12+paramLen1+paramLen2, paramLen3);
     // printf("Param1: %s\n", parameters.Param1);
     // printf("Param2: %s\n", parameters.Param2);
     // printf("Param3: %s\n", parameters.Param3);
     return parameters;
-}
-
-void undoTranslation(uint32_t intValue, char charValue, char* undoBuffer, size_t bufferSize) {
-    // Copy the integer into the buffer
-    memcpy(undoBuffer, &intValue, sizeof(intValue));
-
-    // Copy the character into the buffer after the integer
-    memcpy(undoBuffer + sizeof(intValue), &charValue, sizeof(charValue));
 }
 
 int generateMessage(uint32_t op, uint32_t func, Parameters parameters, char * buffer){
