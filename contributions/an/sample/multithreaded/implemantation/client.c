@@ -82,13 +82,13 @@ void run_client(const char *address, int port) {
             // message[len - 1] = '\0';
             // send_message(clientSocket, message);
             Parameters parms;
-            parms.Param1 = "Hello. ";
-            parms.Param2 = "This is message from";
-            parms.Param3 = " Client";
+            strcpy(parms.Param1, "Hello. ");
+            strcpy(parms.Param2, "This is message from");
+            strcpy(parms.Param3, " Client");
 
             int siz = 20 + strlen(parms.Param1) + strlen(parms.Param2) + strlen(parms.Param3);
             char buff[siz];
-            int siz = generateMessage (1, 4, parms, buff);
+            int bufsiz = generateMessage (1, 4, parms, buff);
 
             send_message(clientSocket, buff, siz);
         }
