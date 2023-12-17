@@ -1,9 +1,4 @@
-#include "../../database/dbc.h"
-#include "../../include/shared/common.h"
-
-int s_room_list (const char *username, Room * roomList, int count);
-int s_room_members (const int roomId, char * peopleList, int count);
-int s_room_create (const char *roomName, const char *adminUsername, int roomId);
+#include "../../include/server/feature.h"
 
 /*
 * 202: success
