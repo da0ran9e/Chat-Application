@@ -21,7 +21,7 @@ uint32_t getProtocolFunctionCode (const char *message);
 void getProtocolPayload (const char *message, char * buffer, int size);
 Parameters getProtocolParameters(const char *payload, Parameters parameters);
 void undoTranslation(uint32_t intValue, char charValue, char* undoBuffer, size_t bufferSize);
-void generateMessage(uint32_t op, uint32_t func, Parameters parameters, char * buffer);
+int generateMessage(uint32_t op, uint32_t func, Parameters parameters, char * buffer);
 int Read(const char * binaryString, int size);
 
 #define BUFFER_SIZE 1024
