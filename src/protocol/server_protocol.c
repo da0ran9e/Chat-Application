@@ -70,7 +70,7 @@ void undoTranslation(uint32_t intValue, char charValue, char* undoBuffer, size_t
     memcpy(undoBuffer + sizeof(intValue), &charValue, sizeof(charValue));
 }
 
-void generateMessage(uint32_t op, uint32_t func, Parameters parameters, char * buffer){
+int generateMessage(uint32_t op, uint32_t func, Parameters parameters, char * buffer){
     int len1 = strlen(parameters.Param1);
     int len2 = strlen(parameters.Param2);
     int len3 = strlen(parameters.Param3);
@@ -78,7 +78,7 @@ void generateMessage(uint32_t op, uint32_t func, Parameters parameters, char * b
     printf("len2: %d\n", len2);
     printf("len3: %d\n", len3);
 
-    int bufferSize = 20 + len1 + len2 + len3 + 1;
+    int bufferSize = 20 + len1 + len2 + len3;
 
     memcpy(buffer, &op, sizeof(op));
     memcpy(buffer+4, &func, sizeof(func));
@@ -89,6 +89,8 @@ void generateMessage(uint32_t op, uint32_t func, Parameters parameters, char * b
     memcpy(buffer+16+len1+len2, (uint32_t*)&len3, sizeof(uint32_t));
     memcpy(buffer+20+len1+len2, parameters.Param3, len3*sizeof(uint32_t));
     buffer[bufferSize-1] = '\0';
+
+    return bufferSize;
 }
 
 int main() {
@@ -120,8 +122,8 @@ int main() {
     printf("\n");
 
     char newBinaryString[45];
-    generateMessage(1, 15, p, newBinaryString);
-    printf("Binary String : \n");
+    int s = generateMessage(1, 15, p, newBinaryString);
+    printf("Binary String %d: \n", s);
     for (size_t i = 0; i < sizeof(newBinaryString); i++) {
         printf("\\x%02X", (unsigned char)newBinaryString[i]);
     }
