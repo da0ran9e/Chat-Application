@@ -6,8 +6,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-
-#define BUFFER 1024
+#include "constants.h"
+#include "utility.h"
+#include "protocol.h"
 
 typedef struct Parameters{
     char Param1[BUFFER];
