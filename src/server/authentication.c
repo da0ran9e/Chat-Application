@@ -1,9 +1,4 @@
-#include "../../database/dbc.h"
-
-int s_auth_handle_login (const char * username, const char * password);
-int s_auth_handle_register (const char * username, const char * password);
-int s_auth_change_password (const char *username, const char * oldpass, const char * newpass);
-
+#include "../../include/server/feature.h"
 /*
 * 210 mean login successfully
 * 110 mean login failed
