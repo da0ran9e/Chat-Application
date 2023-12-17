@@ -1,4 +1,4 @@
-#include "queries.h"
+#include "../../include/database/queries.h"
 
 // Function to convert an integer to a string
 char* int_to_str(int value) {
