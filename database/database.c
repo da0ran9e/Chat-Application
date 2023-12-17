@@ -1,4 +1,4 @@
-#include "database.h"
+#include "../../include/database/database.h"
 
 PGconn * database_start (){
 
