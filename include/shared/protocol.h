@@ -1,8 +1,6 @@
 #ifndef PROTOCOL_H
 #define PROTOCOL_H
 
-#include "common.h"
-
 typedef struct Parameters{
     char Param1[BUFFER];
     char Param2[BUFFER];
