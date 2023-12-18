@@ -31,9 +31,9 @@ Parameters getProtocolParameters(const char *payload, Parameters parameters){
     // printf("ParamLen2: %d\n", paramLen2);
     // printf("ParamLen3: %d\n", paramLen3);
 
-    util_substring(payload, parameters.Param1, 4, paramLen1);
-    util_substring(payload, parameters.Param2, 8+paramLen1, paramLen2);
-    util_substring(payload, parameters.Param3, 12+paramLen1+paramLen2, paramLen3);
+    util_get_substring(payload, parameters.Param1, 4, paramLen1);
+    util_get_substring(payload, parameters.Param2, 8+paramLen1, paramLen2);
+    util_get_substring(payload, parameters.Param3, 12+paramLen1+paramLen2, paramLen3);
     // printf("Param1: %s\n", parameters.Param1);
     // printf("Param2: %s\n", parameters.Param2);
     // printf("Param3: %s\n", parameters.Param3);
