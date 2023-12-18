@@ -84,7 +84,7 @@ void run_client(const char *address, int port) {
             Parameters parms;
             strcpy(parms.Param1, "Hello. ");
             strcpy(parms.Param2, "This is message from");
-            strcpy(parms.Param3, " Client");
+            strcpy(parms.Param3, "Client.");
 
             int siz = 20 + strlen(parms.Param1) + strlen(parms.Param2) + strlen(parms.Param3);
             char buff[siz];
