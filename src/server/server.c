@@ -1,5 +1,34 @@
 #include "../../include/server.h"
-int readMessage(const char * binaryString, int size);
+
+
+int readMessage(const char * binaryString, int size) {
+    printf("Opcode: %d\n", getProtocolOpcode(binaryString));
+    printf("Func: %d\n", getProtocolFunctionCode(binaryString));
+    char payload[size];
+
+    getProtocolPayload(binaryString, payload, sizeof(payload));
+    Parameters p;
+    p = getProtocolParameters(payload, p);
+    
+    printf("len1: %d\n", strlen(p.Param1));
+    printf("Param1: %s\n", p.Param1);
+    printf("len2: %d\n", strlen(p.Param2));
+    printf("Param2: %s\n", p.Param2);
+    printf("len3: %d\n", strlen(p.Param3));
+    printf("Param3: %s\n", p.Param3);
+
+    
+
+    // Print the binary string
+
+    printf("Binary String : \n");
+    for (size_t i = 0; i < size; i++) {
+        printf("\\x%02X", (unsigned char)binaryString[i]);
+    }
+    printf("\n");
+
+    return 0;
+}
 
 ssize_t receiveMessage(int clientSocket, char *buffer) {
     ssize_t bytesRead = recv(clientSocket, buffer, BUFFER - 1, 0);
@@ -132,35 +161,6 @@ void runServer(int serverSocket) {
         // Detach the thread to clean up resources automatically
         pthread_detach(thread);
     }
-}
-
-int readMessage(const char * binaryString, int size) {
-    printf("Opcode: %d\n", getProtocolOpcode(binaryString));
-    printf("Func: %d\n", getProtocolFunctionCode(binaryString));
-    char payload[size];
-
-    getProtocolPayload(binaryString, payload, sizeof(payload));
-    Parameters p;
-    p = getProtocolParameters(payload, p);
-    
-    printf("len1: %d\n", strlen(p.Param1));
-    printf("Param1: %s\n", p.Param1);
-    printf("len2: %d\n", strlen(p.Param2));
-    printf("Param2: %s\n", p.Param2);
-    printf("len3: %d\n", strlen(p.Param3));
-    printf("Param3: %s\n", p.Param3);
-
-    
-
-    // Print the binary string
-
-    printf("Binary String : \n");
-    for (size_t i = 0; i < size; i++) {
-        printf("\\x%02X", (unsigned char)binaryString[i]);
-    }
-    printf("\n");
-
-    return 0;
 }
 
 int main(int argc, char *argv[]) {
