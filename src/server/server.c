@@ -1,5 +1,4 @@
 #include "../../include/server.h"
-
 int readMessage(const char * binaryString, int size);
 
 ssize_t receiveMessage(int clientSocket, char *buffer) {
