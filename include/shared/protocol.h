@@ -8,9 +8,9 @@
 #include <time.h>
 
 typedef struct Parameters{
-    char Param1[BUFFER];
-    char Param2[BUFFER];
-    char Param3[BUFFER];
+    char Param1[1024];
+    char Param2[1024];
+    char Param3[1024];
 } Parameters;
 
 uint32_t getProtocolOpcode (const char *message);
