@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <unistd.h>
 #include "constants.h"
 #include "utility.h"
 #include "protocol.h"

@@ -1,6 +1,5 @@
 #include "../../include/server.h"
 
-
 int readMessage(const char * binaryString, int size) {
     printf("Opcode: %d\n", getProtocolOpcode(binaryString));
     printf("Func: %d\n", getProtocolFunctionCode(binaryString));
