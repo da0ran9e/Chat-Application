@@ -8,7 +8,6 @@
 #include <pthread.h>
 
 #include "shared/common.h"
-#include "shared/protocol.h"
 #include "server/log.h"
 
 #define MAX_CLIENTS 100
