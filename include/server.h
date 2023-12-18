@@ -7,8 +7,8 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <pthread.h>
-
 #include "server/log.h"
+#include "shared/utility.h"
 
 #define MAX_CLIENTS 100
 
