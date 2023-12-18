@@ -8,7 +8,6 @@
 #include <time.h>
 #include <unistd.h>
 #include "constants.h"
-#include "utility.h"
 #include "protocol.h"
 
 typedef struct Room{

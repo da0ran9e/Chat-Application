@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include "utility.h"
 
 typedef struct Parameters{
     char Param1[1024];
