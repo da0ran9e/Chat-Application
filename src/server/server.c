@@ -1,5 +1,7 @@
 #include "../../include/server.h"
 
+int readMessage(const char * binaryString, int size);
+
 ssize_t receiveMessage(int clientSocket, char *buffer) {
     ssize_t bytesRead = recv(clientSocket, buffer, BUFFER - 1, 0);
     if (bytesRead <= 0) {
