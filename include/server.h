@@ -6,9 +6,6 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <pthread.h>
-
-#include "shared/common.h"
-#include "shared/protocol.h"
 #include "server/log.h"
 
 #define MAX_CLIENTS 100
@@ -18,5 +15,11 @@ struct ThreadArgs {
     int clientSocket;
 };
 
+ssize_t receiveMessage(int clientSocket, char *buffer);
+ssize_t sendMessage(int clientSocket, const void *message, size_t len);
+void initializeServer(int *serverSocket, int port);
+void *handleClient(void *args);
+void runServer(int serverSocket);
+int readMessage(const char * binaryString, int size);
 
 #endif

@@ -1,12 +1,17 @@
 #ifndef PROTOCOL_H
 #define PROTOCOL_H
 
-#include "common.h"
+#include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#include "utility.h"
 
 typedef struct Parameters{
-    char Param1[BUFFER];
-    char Param2[BUFFER];
-    char Param3[BUFFER];
+    char Param1[1024];
+    char Param2[1024];
+    char Param3[1024];
 } Parameters;
 
 uint32_t getProtocolOpcode (const char *message);

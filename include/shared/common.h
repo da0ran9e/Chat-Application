@@ -6,15 +6,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <unistd.h>
 #include "constants.h"
-#include "utility.h"
 #include "protocol.h"
-
-typedef struct Parameters{
-    char Param1[BUFFER];
-    char Param2[BUFFER];
-    char Param3[BUFFER];
-} Parameters;
 
 typedef struct Room{
     int roomId;

@@ -3,6 +3,10 @@
         "dbc.h": "c",
         "feature.h": "c",
         "database.h": "c",
-        "log.h": "c"
+        "log.h": "c",
+        "protocol.h": "c",
+        "constants.h": "c",
+        "utility.h": "c",
+        "server.h": "c"
     }
 }
