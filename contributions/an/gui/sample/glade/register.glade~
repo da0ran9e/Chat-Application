@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.22.2 -->
+<interface>
+  <requires lib="gtk+" version="3.20"/>
+  <object class="GtkWindow" id="signupWnd">
+    <property name="width_request">440</property>
+    <property name="height_request">515</property>
+    <property name="can_focus">False</property>
+    <property name="default_width">440</property>
+    <property name="default_height">517</property>
+    <child type="titlebar">
+      <placeholder/>
+    </child>
+    <child>
+      <object class="GtkFixed" id="fixLogin">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <child>
+          <object class="GtkButton" id="signupBtn">
+            <property name="label" translatable="yes">Sign up</property>
+            <property name="width_request">101</property>
+            <property name="height_request">40</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="margin_bottom">30</property>
+            <signal name="clicked" handler="on_confirmBtn_clicked" swapped="no"/>
+            <signal name="enter-notify-event" handler="on_confirmBtn_enter_notify_event" swapped="no"/>
+          </object>
+          <packing>
+            <property name="x">175</property>
+            <property name="y">538</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry" id="pwdEty">
+            <property name="width_request">360</property>
+            <property name="height_request">50</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="text" translatable="yes">Password</property>
+            <signal name="changed" handler="on_pwdEntry_changed" swapped="no"/>
+          </object>
+          <packing>
+            <property name="x">41</property>
+            <property name="y">300</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry" id="usrEty">
+            <property name="width_request">360</property>
+            <property name="height_request">50</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="text" translatable="yes">Username</property>
+            <signal name="changed" handler="on_usnEntry_changed" swapped="no"/>
+          </object>
+          <packing>
+            <property name="x">40</property>
+            <property name="y">200</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="register">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">Sign Up</property>
+            <attributes>
+              <attribute name="font-desc" value="Sans Bold Italic 8"/>
+              <attribute name="foreground" value="#cccc00000000"/>
+              <attribute name="size" value="40000"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="x">105</property>
+            <property name="y">78</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry" id="cpwdEty">
+            <property name="width_request">360</property>
+            <property name="height_request">50</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="text" translatable="yes">Password</property>
+          </object>
+          <packing>
+            <property name="x">40</property>
+            <property name="y">400</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>
