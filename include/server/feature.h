@@ -11,7 +11,7 @@ int s_auth_change_password (const char *username, const char * oldpass, const ch
 int s_conv_get_conversation (const int roomId, const char *timestamp, char * messageList, int count);
 int s_conv_new_message (const char *username, const int roomId, const char *message);
 int s_rela_friend_list (const char * username, char * friendlist, int count);
-int s_rela_addfriendship(const char * username, const char * destination, int room)
+int s_rela_addfriendship(const char * username, const char * destination, int room);
 int s_room_list (const char *username, Room * roomList, int count);
 int s_room_members (const int roomId, char * peopleList, int count);
 int s_room_create (const char *roomName, const char *adminUsername, int roomId);

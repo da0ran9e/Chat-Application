@@ -256,6 +256,73 @@ int feat_response_request (int clientSock, const char * username, const char * d
     return destSock;
 }
 
+// get room list
+int feat_room_list (const int clientSock, const char * username){
+    Room rooms[MAX_CLIENTS];
+    int count=0;
+    int res = s_room_list (username, rooms, count);
+    if (res==202){
+        for(int i=0; i<count; i++){
+            //serialize message
+            Parameters p;
+            char buffer[BUFFER];
+            strcpy(p.Param1, util_int_to_str(rooms[i]->roomId));
+            strcpy(p.Param2, rooms[i]->roomName);
+            int len = writeMessage(2, 0, p, buffer);
+            sendMessage(clientSock, buffer, len);
+        }
+    }else{
+        Parameters p;
+        char message[BUFFER];
+        strcpy(p.Param1, "error");
+        int len = writeMessage(2, 0, p, message);
+        sendMessage(clientSock, message, len);
+    }
+    return res;
+}
+
+// get memberlist
+int feat_room_members (const int clientSock, const int roomId){
+    char peopleList[MAX_CLIENTS][50];
+    int count=0;
+    int res = s_room_members(roomId, peopleList, count);
+    if (res == 212){
+        //serialize message
+        for (int i=0; i<count; i++){
+            Parameters p;
+            char buffer[BUFFER];
+            strcpy(p.Param1, peopleList[i]);
+            int len = writeMessage(2, 1, p, buffer);
+            sendMessage(clientSock, buffer, len);
+        }
+    }else{
+        Parameters p;
+        char message[BUFFER];
+        strcpy(p.Param1, "error");
+        int len = writeMessage(2, 1, p, message);
+        sendMessage(clientSock, message, len);
+    }
+    return res;
+}
+
+//create room
+int feat_room_create(const int clientSock, const char name, const char * username){
+    int roomId;
+    int res = s_room_create(name, username, roomId);
+    if (res==222){
+        Parameters p;
+        char buffer[BUFFER];
+        strcpy(p.Param1, util_int_to_str(roomId));
+        int len = writeMessage(2, 2, p, buffer);
+        sendMessage(clientSock, buffer, len);
+    }else{
+        Parameters p;
+        char message[BUFFER];
+        strcpy(p.Param1, "error");
+        int len = writeMessage(2, 2, p, message);
+        sendMessage(clientSock, message, len);
+    }
+}
 /************************************************
 *           server-side handler
 *************************************************/
