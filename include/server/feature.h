@@ -2,7 +2,8 @@
 #define FEATURE_H
 
 #include "../../database/dbc.h"
-#include "../../include/shared/common.h"
+#include "connection.h"
+#include "log.h"
 
 int s_auth_handle_login (const char * username, const char * password);
 int s_auth_handle_register (const char * username, const char * password);
