@@ -1,12 +1,5 @@
 #include "../../include/database/queries.h"
 
-// Function to convert an integer to a string
-char* int_to_str(int value) {
-    char* str = (char*)malloc(15);  // a maximum of 12 digits for an int
-    snprintf(str, 15, "%d", value);
-    return str;
-}
-
 void check_result(PGresult *result, PGconn *conn) {
     if (PQresultStatus(result) != PGRES_TUPLES_OK) {
         fprintf(stderr, "Query execution failed: %s", PQerrorMessage(conn));
@@ -158,7 +151,7 @@ int execute_get_room_list_query(PGconn *conn, const char *username, Room * rooml
 
 int execute_get_people_in_room_query(PGconn *conn, int room_id, char * peoplelist) {
     const char *query = "SELECT * FROM get_people_in_room($1)";
-    char* room_id_str = int_to_str(room_id);
+    char* room_id_str = util_int_to_str(room_id);
     const char *paramValues[1] = {room_id_str};
 
     // Execute the query
@@ -220,7 +213,7 @@ int execute_create_new_room_query(PGconn *conn, const char *roomName, const char
 
 int execute_add_person_to_room_query(PGconn *conn, const char *username, int room_id) {
     const char *query = "SELECT add_person_to_room($1, $2) AS add_person_status";
-    char* room_id_str = int_to_str(room_id);
+    char* room_id_str = util_int_to_str(room_id);
     const char *paramValues[2] = {username, room_id_str};
 
     // Execute the query
@@ -240,7 +233,7 @@ int execute_add_person_to_room_query(PGconn *conn, const char *username, int roo
 
 int execute_remove_person_from_room_query(PGconn *conn, const char *username, int room_id) {
     const char *query = "SELECT remove_person_from_room($1, $2) AS remove_person_status";
-    char* room_id_str = int_to_str(room_id);
+    char* room_id_str = util_int_to_str(room_id);
     const char *paramValues[2] = {username, room_id_str};
 
     // Execute the query
@@ -260,7 +253,7 @@ int execute_remove_person_from_room_query(PGconn *conn, const char *username, in
 
 int execute_get_room_current_conversation_query(PGconn *conn, int room_id, char * messageList) {
     const char *query = "SELECT * FROM get_room_conversation($1, CURRENT_TIMESTAMP::TIMESTAMP)";
-    char* room_id_str = int_to_str(room_id);
+    char* room_id_str = util_int_to_str(room_id);
     const char *paramValues[1] = {room_id_str};
 
     // Execute the query
@@ -288,7 +281,7 @@ int execute_get_room_current_conversation_query(PGconn *conn, int room_id, char 
 // Get Room Conversation before any time
 int execute_get_room_conversation_query(PGconn *conn, int room_id, char *timestamp, char * messageList) {
     const char *query = "SELECT * FROM get_room_conversation($1, $2)";
-    char* room_id_str = int_to_str(room_id);
+    char* room_id_str = util_int_to_str(room_id);
     const char *paramValues[2] = {room_id_str, timestamp};
 
     // Execute the query
@@ -312,7 +305,7 @@ int execute_get_room_conversation_query(PGconn *conn, int room_id, char *timesta
 
 int execute_get_conversation_content_query(PGconn *conn, int room_id, const char *timestamp, Message message) {
     const char *query = "SELECT * FROM get_conversation_content($1, $2)";
-    char* room_id_str = int_to_str(room_id);
+    char* room_id_str = util_int_to_str(room_id);
     const char *paramValues[2] = {room_id_str, timestamp};
 
     // Execute the query
@@ -337,7 +330,7 @@ int execute_get_conversation_content_query(PGconn *conn, int room_id, const char
 
 int execute_add_message_to_conversation_query(PGconn *conn, const char *username, int room_id, const char *message) {
     const char *query = "SELECT add_message_to_conversation($1, $2, $3) AS add_message_status";
-    char* room_id_str = int_to_str(room_id);
+    char* room_id_str = util_int_to_str(room_id);
     const char *paramValues[3] = {username, room_id_str, message};
 
     // Execute the query

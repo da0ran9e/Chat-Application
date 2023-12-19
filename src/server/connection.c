@@ -55,96 +55,22 @@ void initializeServer(int *serverSocket, int port) {
     }
 
     printf("Server is listening on port %d...\n", port);
-    serverLog(START, port);
 }
 
-// Function to handle I/O asynchronously in a thread
-void *handleClient(void *args) {
-    struct ThreadArgs *threadArgs = (struct ThreadArgs *)args;
-    int clientSocket = threadArgs->clientSocket;
-    char buffer[BUFFER];
+// int main(int argc, char *argv[]) {
+//     if (argc != 2) {
+//         printf("Usage: %s PortNumber\n", argv[0]);
+//         exit(1);
+//     }
 
-    while (1) {
-        memset(buffer, 0, sizeof(buffer));
-        ssize_t bytesReceived = receiveMessage(clientSocket, buffer);
+//     int serverSocket;
+//     int port = atoi(argv[1]);
 
-        if (bytesReceived <= 0) {
-            break; // Connection closed or error
-        }
+//     initializeServer(&serverSocket, port);
 
-        // Process the received message
-        printf("Processing message from client %d: %s\n", clientSocket, buffer);
+//     runServer(serverSocket);
 
-        readMessage(buffer, sizeof(buffer));
+//     close(serverSocket);
 
-        // Echo the message back to the client
-        sendMessage(clientSocket, buffer, strlen(buffer));
-    }
-
-    close(clientSocket);
-    free(threadArgs); // Free the memory allocated for thread arguments
-    pthread_exit(NULL);
-}
-
-void runServer(int serverSocket, int * clientSocket) {
-
-    struct sockaddr_in clientAddr;
-    socklen_t addrLen = sizeof(clientAddr);
-
-    // Initialize client socket array
-    for (int i = 0; i < MAX_CLIENTS; i++) {
-        clientSockets[i] = -1;
-    }
-
-    while (1) {
-        // Accept the connection
-        int clientSocket = accept(serverSocket, (struct sockaddr *)&clientAddr, &addrLen);
-        if (clientSocket == -1) {
-            perror("Accept failed");
-            exit(EXIT_FAILURE);
-        }
-
-        // Add the new client socket to the array
-        for (int i = 0; i < MAX_CLIENTS; i++) {
-            if (clientSockets[i] == -1) {
-                clientSockets[i] = clientSocket;
-                break;
-            }
-        }
-
-        printf("New connection from %s:%d\n", inet_ntoa(clientAddr.sin_addr), ntohs(clientAddr.sin_port));
-        connectionLog(CONNECT, ntohs(clientAddr.sin_port), inet_ntoa(clientAddr.sin_addr));
-        // Create thread arguments
-        struct ThreadArgs *threadArgs = (struct ThreadArgs *)malloc(sizeof(struct ThreadArgs));
-        threadArgs->clientSocket = clientSocket;
-
-        // Create a new thread to handle the client
-        pthread_t thread;
-        if (pthread_create(&thread, NULL, handleClient, (void *)threadArgs) != 0) {
-            perror("Error creating thread");
-            exit(EXIT_FAILURE);
-        }
-
-        // Detach the thread to clean up resources automatically
-        pthread_detach(thread);
-    }
-    close(serverSocket);
-}
-
-int main(int argc, char *argv[]) {
-    if (argc != 2) {
-        printf("Usage: %s PortNumber\n", argv[0]);
-        exit(1);
-    }
-
-    int serverSocket;
-    int port = atoi(argv[1]);
-
-    initializeServer(&serverSocket, port);
-
-    runServer(serverSocket);
-
-    close(serverSocket);
-
-    return 0;
-}
+//     return 0;
+// }
