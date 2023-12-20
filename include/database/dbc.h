@@ -1,7 +1,7 @@
 #ifndef DBC_H
 #define DBC_H
 
-#include "database.h"
+#include "queries.h"
 
 enum DBStatus   dbc_client_login        (char * username, char * password);
 enum DBStatus   dbc_client_register     (char * username, char * password);

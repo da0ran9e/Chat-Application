@@ -5,8 +5,10 @@
 #include "connection.h"
 #include "log.h"
 
+int g_port;
 int g_clientSockets[MAX_CLIENTS];
 char g_clientNames[MAX_CLIENTS][50];
+char g_ipAddr[MAX_CLIENTS][15];
 int g_rtds[MAX_CLIENTS]; //  round-trip delay (time) or RTT
 
 int handle_features(const int user, int op, int func, const Parameters params);
@@ -21,7 +23,7 @@ int feat_room_list (const int clientSock, const char * username);
 int feat_room_members (const int clientSock, const int roomId);
 int feat_room_create(const int clientSock, const char name, const char * username);
 int feat_add_member(const int clientSock, const int roomId, const char * username);
-int feat_remove_member(const int clientSock, const int roomId, const int roomId);
+int feat_remove_member(const int clientSock, const int roomId, const char * username);
 int feat_conversation (const int clientSock, const int roomId);
 int feat_load_more(const int clientSock, const int roomId, const char * timestamp);
 int feat_new_message(const int clientSock, const char * username, const int roomId, const char * message);

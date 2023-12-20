@@ -1,11 +1,7 @@
 #ifndef QUERIES_H
 #define QUERIES_H
 
-#include <stdio.h>
-#include <stdlib.h>
-
-#include "libpq-fe.h"
-#include "../shared/common.h"
+#include "database.h"
 
 int execute_login_query(PGconn *conn, const char *username, const char *password);
 int execute_register_query(PGconn *conn, const char *username, const char *password);
