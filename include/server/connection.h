@@ -13,6 +13,7 @@
 #include <pthread.h>
 
 #define MAX_CLIENTS 100
+#define BUFFER 1024
 
 // Structure to pass arguments to the thread
 struct ThreadArgs {
