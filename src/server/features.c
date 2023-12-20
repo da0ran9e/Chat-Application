@@ -1,38 +1,56 @@
 #include "../../include/server/feature.h"
 
-int handle_features(const int user, int op, int func, const Parameters params){
+int handle_features(const int userSock, int op, int func, const Parameters params){
+    int result = 0;
     switch (10*func + op)
     {
     case 0: // op 0, func 0
+        result = feat_online_list(userSock, atoi(params.Param1));
         break;
     case 10: // op 0, func 1
+        result = feat_login(userSock, params.Param1, params.Param2);
         break;
     case 20: // op 0, func 2
+        result = feat_register(userSock, params.Param1, params.Param2);
         break;
     case 30: // op 0, func 3
+        result = feat_change_password(userSock, params.Param1, params.Param2, params.Param3);
         break;
     case 1:
+        result = feat_friend_list(userSock);
         break;
     case 11:
+        result = feat_request_friend(userSock, params.Param1, params.Param2);
         break;
     case 21:
+        result = feat_response_request(userSock, params.Param1, params.Param2, params.Param3);
         break;
     case 2:
+        result = feat_room_list(userSock, params.Param1);
         break;
     case 12:
+        result = feat_room_members(userSock, params.Param1);
         break;
     case 22:
+        result = feat_room_create(userSock, params.Param1, params.Param2);
         break;
     case 32:
+        result = feat_add_member(userSock, atoi(params.Param1), params.Param2);
+        break;
+    case 42:
+        result = feat_remove_member (userSock, atoi(params.Param1), params.Param2);
         break;
     case 3:
+        result = feat_conversation (userSock, atoi(params.Param1));
         break;
     case 13:
+        result = feat_new_message (userSock, params.Param1, atoi(params.Param2), params.Param3);
         break;
     default:
         return -1;
         break;
     }
+    return result;
 }
 /************************************************
 *           server-side feature 
@@ -72,6 +90,8 @@ int feat_login (const int clientSock, const char * username, const char * passwo
         for (int i=0; i<MAX_CLIENTS; i++){
             if(g_clientSockets[i] == clientSock){
                 strcpy(g_clientNames[i], username);
+                g_rtds[i] = 99;
+                clientLog(LOGIN, username, g_ipAddr[i], g_port);
             }
         }
         //sent response
@@ -345,7 +365,7 @@ int feat_add_member(const int clientSock, const int roomId, const char * usernam
 }
 
 //remove
-int feat_remove_member(const int clientSock, const int roomId, const int roomId){
+int feat_remove_member(const int clientSock, const int roomId, const char * username){
     int res = dbc_remove_member(username, roomId);
     if (res == 242){
         //sent response
@@ -537,7 +557,14 @@ void *handleClient(void *args) {
 
         sendMessage(clientSocket, buffer, strlen(buffer));        // Echo the message back to the client
     }
-
+    for (int i=0; i<MAX_CLIENTS; i++){
+        if (g_rtds[i] < 9999){
+            g_rtds[i] = 9999;
+            g_clientNames[i][0] = '\0';
+            g_clientSockets[i] = -1;
+            clientLog(LOGOUT, g_clientNames[i], g_ipAddr[i], g_port);
+        }
+    }
     close(clientSocket);
     free(threadArgs); // Free the memory allocated for thread arguments
     pthread_exit(NULL);
@@ -560,10 +587,12 @@ void runServer(int serverSocket) {
         for (int i = 0; i < MAX_CLIENTS; i++) {
             if (g_clientSockets[i] == -1) {
                 g_clientSockets[i] = clientSocket;
+                strcpy(g_ipAddr[i], inet_ntoa(clientAddr.sin_addr));
                 break;
             }
         }
         printf("New connection from %s:%d\n", inet_ntoa(clientAddr.sin_addr), ntohs(clientAddr.sin_port));
+       
         connectionLog(CONNECT, ntohs(clientAddr.sin_port), inet_ntoa(clientAddr.sin_addr));
         //thread arguments
         struct ThreadArgs *threadArgs = (struct ThreadArgs *)malloc(sizeof(struct ThreadArgs));
