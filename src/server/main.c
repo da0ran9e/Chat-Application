@@ -5,7 +5,7 @@ int main(int argc, char const *argv[]) {
     //     printf("Usage: %s PortNumber\n", argv[0]);
     //     exit(1);
     // }
-
+    // gcc -o app main.c feature.c log.c authentication.c connection.c conversation.c relation.c rooms.c ../../database/dbc.c ../../database/database.c ../../database/query.c ../../
     // run_client(argv[1], atoi(argv[2]));
     Parameters p;
     p.Param1 = 99;

@@ -2,7 +2,6 @@
 #define DATABASE_H
 
 #include "queries.h"
-#include "libpq-fe.h"
 
 enum DBStatus{
     DENY,
