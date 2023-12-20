@@ -17,9 +17,6 @@ void write_log(const char *log){
     fclose(logFile);
 }
 
-void get_username(const char *ip, int id){
-}
-
 void serverLog(enum ServerStat status, int port) {
     char time[20];
     util_get_time(time);
@@ -69,21 +66,17 @@ void connectionLog(enum ServerStat status, int port, const char *ip) {
     write_log(logMessage);
 }
 
-/*
-void clientLog(enum ClientStat status, int port, char *ipAddress){
+void clientLog(enum ClientStat status, const char * username, const char *ipAddress, const int port){
     char time[20];
     util_get_time(time);
 
     int userid;
     char username[50];
 
-    get_username(ipAddress, userid, username);
-
     // Create the log message
     char logMessage[MAX_LOG_SIZE];
-    snprintf(logMessage, MAX_LOG_SIZE, "\t{\"%s\": \"[CLIENT]%s %s as %s address: %s port: %d\"}\n}", time, userid, status, username, ipAddress, port);
+    snprintf(logMessage, MAX_LOG_SIZE, "\t{\"%s\": \"[CLIENT] %s as %s address: %s port: %d\"}\n}", time, status, username, ipAddress, port);
     
     write_log(logMessage);
 }
 
-*/
