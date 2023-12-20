@@ -20,7 +20,7 @@
 | 2 | 3 | ["room_id", "guest_username"] | Add User to Room |
 | 2 | 4 | ["room_id", "guest_username"] | Remove User from Room |
 | 3 | 0 | ["room_id"] | Get Conversation |
-| 3 | 1 | ["room_id", "message"] | Send Message |
+| 3 | 1 | ["username", "room_id", "message"] | Send Message |
 
 For each parameter in the "Parameters" field, use a length prefix followed by the actual parameter bytes. For example:
 
