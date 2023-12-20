@@ -28,3 +28,41 @@ int s_room_create (const char *roomName, const char *adminUsername, int roomId){
     if (count >= 0) return 222;
     else return 122;
 }
+
+/*
+* 232: success
+* 132: maximum member reached
+*/
+int s_room_add_member (const int roomId, const char * username){
+    switch (dbc_add_member(username, roomId))
+    {
+    case ACCEPT:
+        return 232;
+        break;
+    case FULL:
+        return 132;
+        break;
+    default:
+        return 432;
+        break;
+    }
+}
+
+/*
+* 242: success
+* 142: maximum member reached
+*/
+int s_room_remove_member (const int roomId, const char * username){
+    switch (dbc_remove_member(username, roomId))
+    {
+    case ACCEPT:
+        return 242;
+        break;
+    case ERROR:
+        return 142;
+        break;
+    default:
+        return 442;
+        break;
+    }
+}
