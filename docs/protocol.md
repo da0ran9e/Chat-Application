@@ -50,8 +50,9 @@ For each parameter in the "Parameters" field, use a length prefix followed by th
 | 0 | 3 | ["user_id"] | change password done |
 | 1 | 0 | ["username", "ping"] | get friend list |
 | 1 | 1 | ["destination", "username", "response”] | request response |
+| 1 | 2 | ["destination"] | request alert |
 | 2 | 0 | [ "room_id", "username" ] | get room list |
-| 2 | 1 | ["user_id"] | Send member list |
+| 2 | 1 | ["username"] | Send member list |
 | 2 | 2 | [ "room_id", "roomname" ] | create done |
 | 2 | 3 | [ "room_id", "guess username" ] | add done |
 | 2 | 4 | [ "room_id", "guess username" ] | remove done |

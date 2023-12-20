@@ -5,7 +5,7 @@
 #include <stdlib.h>
 
 #include "libpq-fe.h"
-#include "../include/shared/common.h"
+#include "../shared/common.h"
 
 int execute_login_query(PGconn *conn, const char *username, const char *password);
 int execute_register_query(PGconn *conn, const char *username, const char *password);

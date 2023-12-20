@@ -1,7 +1,12 @@
 #ifndef LOG_H
 #define LOG_H
 
-#include "../../include/shared/common.h"
+#include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#include <unistd.h>
 
 enum ServerStat {
     CONNECT,

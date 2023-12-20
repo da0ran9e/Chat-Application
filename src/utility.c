@@ -1,5 +1,12 @@
 #include "../include/shared/utility.h"
- 
+
+// Function to convert an integer to a string
+char* util_int_to_str(int value) {
+    char* str = (char*)malloc(15);  // a maximum of 12 digits for an int
+    snprintf(str, 15, "%d", value);
+    return str;
+}
+
 // get current timestamp as string (format: YYYY-mm-dd HH:MM:SS)
 void util_get_time(char * timeString){
     time_t currentTime = time(NULL);

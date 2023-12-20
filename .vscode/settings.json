@@ -7,6 +7,9 @@
         "protocol.h": "c",
         "constants.h": "c",
         "utility.h": "c",
-        "server.h": "c"
+        "server.h": "c",
+        "queries.h": "c",
+        "common.h": "c",
+        "connection.h": "c"
     }
 }

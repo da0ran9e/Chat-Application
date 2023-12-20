@@ -11,5 +11,7 @@
 void util_get_time(char * timeString);
 // get a substring from a binary string
 void util_get_substring(const char *string, char *buffer, int pos, int len);
+// Function to convert an integer to a string
+char* util_int_to_str(int value);
 
 #endif
