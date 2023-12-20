@@ -1,9 +1,5 @@
 #include "../../include/server/feature.h"
 
-int g_clientSockets[MAX_CLIENTS];
-char g_clientNames[MAX_CLIENTS][50];
-int g_rtds[MAX_CLIENTS]; //  round-trip delay (time) or RTT
-
 int handle_features(const int user, int op, int func, const Parameters params){
     switch (10*func + op)
     {
@@ -256,6 +252,233 @@ int feat_response_request (int clientSock, const char * username, const char * d
     return destSock;
 }
 
+// get room list
+int feat_room_list (const int clientSock, const char * username){
+    Room rooms[MAX_CLIENTS];
+    int count=0;
+    int res = s_room_list (username, rooms, count);
+    if (res==202){
+        for(int i=0; i<count; i++){
+            //serialize message
+            Parameters p;
+            char buffer[BUFFER];
+            strcpy(p.Param1, util_int_to_str(rooms[i]->roomId));
+            strcpy(p.Param2, rooms[i]->roomName);
+            int len = writeMessage(2, 0, p, buffer);
+            sendMessage(clientSock, buffer, len);
+        }
+    }else{
+        Parameters p;
+        char message[BUFFER];
+        strcpy(p.Param1, "error");
+        int len = writeMessage(2, 0, p, message);
+        sendMessage(clientSock, message, len);
+    }
+    return res;
+}
+
+// get memberlist
+int feat_room_members (const int clientSock, const int roomId){
+    char peopleList[MAX_CLIENTS][50];
+    int count=0;
+    int res = s_room_members(roomId, peopleList, count);
+    if (res == 212){
+        //serialize message
+        for (int i=0; i<count; i++){
+            Parameters p;
+            char buffer[BUFFER];
+            strcpy(p.Param1, peopleList[i]);
+            int len = writeMessage(2, 1, p, buffer);
+            sendMessage(clientSock, buffer, len);
+        }
+    }else{
+        Parameters p;
+        char message[BUFFER];
+        strcpy(p.Param1, "error");
+        int len = writeMessage(2, 1, p, message);
+        sendMessage(clientSock, message, len);
+    }
+    return res;
+}
+
+//create room
+int feat_room_create(const int clientSock, const char name, const char * username){
+    int roomId;
+    int res = s_room_create(name, username, roomId);
+    if (res==222){
+        Parameters p;
+        char buffer[BUFFER];
+        strcpy(p.Param1, util_int_to_str(roomId));
+        strcpy(p.Param2, name);
+        int len = writeMessage(2, 2, p, buffer);
+        sendMessage(clientSock, buffer, len);
+    }else{
+        Parameters p;
+        char message[BUFFER];
+        strcpy(p.Param1, "error");
+        int len = writeMessage(2, 2, p, message);
+        sendMessage(clientSock, message, len);
+    }
+}
+
+//add members
+int feat_add_member(const int clientSock, const int roomId, const char * username) {
+    int res = s_room_add_member(roomId, username);
+    if (res == 232){
+        //sent response
+        Parameters p;
+        char message[BUFFER];
+        strcpy(p.Param1, util_int_to_str(roomId));
+        strcpy(p.Param2, username);
+        int len = writeMessage(2, 3, p, message);
+        sendMessage(clientSock, message, len);
+    }
+    else{
+        //sent response
+        Parameters p;
+        char message[BUFFER];
+        strcpy(p.Param1, "error");
+        int len = writeMessage(2, 3, p, message);
+        sendMessage(clientSock, message, len);
+    }
+    return res;
+}
+
+//remove
+int feat_remove_member(const int clientSock, const int roomId, const int roomId){
+    int res = dbc_remove_member(username, roomId);
+    if (res == 242){
+        //sent response
+        Parameters p;
+        char message[BUFFER];
+        strcpy(p.Param1, util_int_to_str(roomId));
+        strcpy(p.Param2, username);
+        int len = writeMessage(2, 4, p, message);
+        sendMessage(clientSock, message, len);
+    }
+    else{
+        //sent response
+        Parameters p;
+        char message[BUFFER];
+        strcpy(p.Param1, "error");
+        int len = writeMessage(2, 4, p, message);
+        sendMessage(clientSock, message, len);
+    }
+    return res;
+}   
+
+//get conversation
+int feat_conversation (const int clientSock, const int roomId){
+    int count;
+    char conv[100][50];
+    int res = s_conv_get_conversation(roomId, NULL, conv, count);
+    if (res==203){
+        
+        if (count == 0){
+            Parameters p;
+            char buffer[BUFFER];
+            strcpy(p.Param1, "success");
+            int len = writeMessage(3, 0, p, buffer);
+            sendMessage(clientSock, message, len);
+        }
+        else{
+            for (int i=0; i<count; i++){
+                Parameters p;
+                char buffer[BUFFER];
+                strcpy(p.Param1, util_int_to_str(roomId));
+                strcpy(p.Param2, conv[i]);
+                strcpy(p.Param3, username);
+                int len = writeMessage(3, 0, p, buffer);
+                sendMessage(clientSock, message, len);
+                Message m;
+                res = s_conv_get_message(roomId, timestamp, m);
+                if (res==203){
+                    Parameters p2;
+                    char buffer2[BUFFER];
+                    strcpy(p1.Param1, util_int_to_str(roomId));
+                    strcpy(p1.Param2, m.timestamp);
+                    strcpy(p1.Param3, m.content);
+                    int len2 = writeMessage(3, 1, p, buffer2);
+                    sendMessage(clientSock, buffer2, len2);
+                }
+            }     
+        }
+    }else{
+        Parameters p;
+        char message[BUFFER];
+        strcpy(p.Param1, "error");
+        int len = writeMessage(3, 0, p, message);
+        sendMessage(clientSock, message, len);  
+    }
+    return res;
+}
+
+int feat_load_more(const int clientSock, const int roomId, const char * timestamp){
+    int count;
+    char conv[100][50];
+    int res = s_conv_get_conversation(roomId, timestamp, conv, count);
+    if (res==203){
+        
+        if (count == 0){
+            Parameters p;
+            char buffer[BUFFER];
+            strcpy(p.Param1, "success");
+            int len = writeMessage(3, 0, p, buffer);
+            sendMessage(clientSock, message, len);
+        }
+        else{
+            for (int i=0; i<count; i++){
+                Parameters p1;
+                char buffer1[BUFFER];
+                strcpy(p1.Param1, util_int_to_str(roomId));
+                strcpy(p1.Param2, conv[i]);
+                strcpy(p1.Param3, username);
+                int len1 = writeMessage(3, 0, p, buffer1);
+                sendMessage(clientSock, buffer1, len1);
+                Message m;
+                res = s_conv_get_message(roomId, timestamp, m);
+                if (res==203){
+                    Parameters p2;
+                    char buffer2[BUFFER];
+                    strcpy(p1.Param1, util_int_to_str(roomId));
+                    strcpy(p1.Param2, m.timestamp);
+                    strcpy(p1.Param3, m.content);
+                    int len2 = writeMessage(3, 1, p, buffer2);
+                    sendMessage(clientSock, buffer2, len2);
+                }
+            }     
+        }
+    }else{
+        Parameters p;
+        char message[BUFFER];
+        strcpy(p.Param1, "error");
+        int len = writeMessage(3, 0, p, message);
+        sendMessage(clientSock, message, len);  
+    }
+    return res;
+}
+
+// send message
+int feat_new_message(const int clientSock, const char * username, const int roomId, const char * message){
+    int res = s_conv_new_message(username, roomId, message);
+    if (res == 213){
+        //sent response
+        Parameters p;
+        char message[BUFFER];
+        strcpy(p.Param1, "succes");
+        int len = writeMessage(0, 3, p, message);
+        sendMessage(clientSock, message, len);
+    }
+    else{
+        //sent response
+        Parameters p;
+        char message[BUFFER];
+        strcpy(p.Param1, "error");
+        int len = writeMessage(0, 3, p, message);
+        sendMessage(clientSock, message, len);
+    }
+    return res;
+}
 /************************************************
 *           server-side handler
 *************************************************/

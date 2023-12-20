@@ -20,7 +20,7 @@
 | 2 | 3 | ["room_id", "guest_username"] | Add User to Room |
 | 2 | 4 | ["room_id", "guest_username"] | Remove User from Room |
 | 3 | 0 | ["room_id"] | Get Conversation |
-| 3 | 1 | ["room_id", "message"] | Send Message |
+| 3 | 1 | ["username", "room_id", "message"] | Send Message |
 
 For each parameter in the "Parameters" field, use a length prefix followed by the actual parameter bytes. For example:
 
@@ -51,13 +51,14 @@ For each parameter in the "Parameters" field, use a length prefix followed by th
 | 1 | 0 | ["username", "ping"] | get friend list |
 | 1 | 1 | ["destination", "username", "response”] | request response |
 | 1 | 2 | ["destination"] | request alert |
-| 2 | 0 | [ "room_id", "username" ] | get room list |
+| 2 | 0 | [ "room_id", "roomname" ] | get room list |
 | 2 | 1 | ["username"] | Send member list |
 | 2 | 2 | [ "room_id", "roomname" ] | create done |
 | 2 | 3 | [ "room_id", "guess username" ] | add done |
 | 2 | 4 | [ "room_id", "guess username" ] | remove done |
 | 3 | 0 | ["room_id", "timestamp", "username"] | get conversation |
-| 3 | 1 | ["room_id", "timestamp", "message"] | receive message |
+| 3 | 1 | ["room_id", "timestamp", "username"] | get conversation |
+| 3 | 2 | ["response"] | response message |
 
 - Response Status: Success (0) or Error (non-zero)
 - Response Data: Success message or an error message
