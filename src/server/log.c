@@ -37,8 +37,8 @@ void serverLog(enum ServerStat status, int port) {
     }
 
     // Create the log message
-    char logMessage[BUFFER];
-    snprintf(logMessage, BUFFER, "\t{\"%s\": \"[SERVER] %s Port: %d\"}\n}", time, stat, port);
+    char logMessage[1024];
+    snprintf(logMessage, 1024, "\t{\"%s\": \"[SERVER] %s Port: %d\"}\n}", time, stat, port);
     
     write_log(logMessage);
 }
@@ -60,8 +60,8 @@ void connectionLog(enum ServerStat status, int port, const char *ip) {
     }
 
     // Create the log message
-    char logMessage[BUFFER];
-    snprintf(logMessage, BUFFER, "\t{\"%s\": \"[SERVER] %d %s ip: %s\"}\n}", time, port, stat, ip);
+    char logMessage[1024];
+    snprintf(logMessage, 1024, "\t{\"%s\": \"[SERVER] %d %s ip: %s\"}\n}", time, port, stat, ip);
     
     write_log(logMessage);
 }

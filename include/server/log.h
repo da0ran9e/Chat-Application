@@ -8,6 +8,8 @@
 #include <time.h>
 #include <unistd.h>
 
+#define MAX_LOG_SIZE 1024
+
 enum ServerStat {
     CONNECT,
     START,
