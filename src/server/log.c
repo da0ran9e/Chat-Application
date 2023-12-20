@@ -70,9 +70,6 @@ void clientLog(enum ClientStat status, const char * username, const char *ipAddr
     char time[20];
     util_get_time(time);
 
-    int userid;
-    char username[50];
-
     // Create the log message
     char logMessage[MAX_LOG_SIZE];
     snprintf(logMessage, MAX_LOG_SIZE, "\t{\"%s\": \"[CLIENT] %s as %s address: %s port: %d\"}\n}", time, status, username, ipAddress, port);
