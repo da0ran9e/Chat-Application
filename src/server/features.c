@@ -68,8 +68,8 @@ int feat_online_list (const int clientSock, const int rtd){
             char buffer[BUFFER];
             Parameters p;
             strcpy(p.Param1, g_clientNames[i][0]);
-            p.Param2 = '\0';
-            p.Param3 = '\0';
+            p.Param2[0] = '\0';
+            p.Param3[0] = '\0';
             int len = writeMessage(0, 0, p, buffer);
 
             //send message
@@ -259,7 +259,7 @@ int feat_response_request (int clientSock, const char * username, const char * d
         int len2 = writeMessage (2, 2, p1, buffer2);
         sendMessage(clientSock, buffer2, len2);//send to friend
         strcpy(p2.Param2, username);
-        int len2 = writeMessage (2, 2, p1, buffer2);
+        len2 = writeMessage (2, 2, p1, buffer2);
         sendMessage(destSock, buffer2, len2); //send to client
     }
     else{
@@ -282,8 +282,8 @@ int feat_room_list (const int clientSock, const char * username){
             //serialize message
             Parameters p;
             char buffer[BUFFER];
-            strcpy(p.Param1, util_int_to_str(rooms[i]->roomId));
-            strcpy(p.Param2, rooms[i]->roomName);
+            strcpy(p.Param1, util_int_to_str(rooms[i].roomId));
+            strcpy(p.Param2, rooms[i].roomName);
             int len = writeMessage(2, 0, p, buffer);
             sendMessage(clientSock, buffer, len);
         }
@@ -399,28 +399,30 @@ int feat_conversation (const int clientSock, const int roomId){
             char buffer[BUFFER];
             strcpy(p.Param1, "success");
             int len = writeMessage(3, 0, p, buffer);
-            sendMessage(clientSock, message, len);
+            sendMessage(clientSock, buffer, len);
         }
         else{
             for (int i=0; i<count; i++){
                 Parameters p;
                 char buffer[BUFFER];
+                Parameters p2;
+                char buffer2[BUFFER];
+                Message m;
+
                 strcpy(p.Param1, util_int_to_str(roomId));
                 strcpy(p.Param2, conv[i]);
-                strcpy(p.Param3, username);
+                res = s_conv_get_message(roomId, conv[i], m);
+                strcpy(p.Param3, m.userId);
+
                 int len = writeMessage(3, 0, p, buffer);
                 sendMessage(clientSock, message, len);
-                Message m;
-                res = s_conv_get_message(roomId, timestamp, m);
-                if (res==203){
-                    Parameters p2;
-                    char buffer2[BUFFER];
-                    strcpy(p1.Param1, util_int_to_str(roomId));
-                    strcpy(p1.Param2, m.timestamp);
-                    strcpy(p1.Param3, m.content);
-                    int len2 = writeMessage(3, 1, p, buffer2);
-                    sendMessage(clientSock, buffer2, len2);
-                }
+
+                strcpy(p1.Param1, util_int_to_str(roomId));
+                strcpy(p1.Param2, m.timestamp);
+                strcpy(p1.Param3, m.content);
+
+                int len2 = writeMessage(3, 1, p1, buffer2);
+                sendMessage(clientSock, buffer2, len2);
             }     
         }
     }else{
@@ -444,7 +446,7 @@ int feat_load_more(const int clientSock, const int roomId, const char * timestam
             char buffer[BUFFER];
             strcpy(p.Param1, "success");
             int len = writeMessage(3, 0, p, buffer);
-            sendMessage(clientSock, message, len);
+            sendMessage(clientSock, buffer, len);
         }
         else{
             for (int i=0; i<count; i++){
@@ -453,17 +455,17 @@ int feat_load_more(const int clientSock, const int roomId, const char * timestam
                 strcpy(p1.Param1, util_int_to_str(roomId));
                 strcpy(p1.Param2, conv[i]);
                 strcpy(p1.Param3, username);
-                int len1 = writeMessage(3, 0, p, buffer1);
+                int len1 = writeMessage(3, 0, p1, buffer1);
                 sendMessage(clientSock, buffer1, len1);
                 Message m;
                 res = s_conv_get_message(roomId, timestamp, m);
                 if (res==203){
                     Parameters p2;
                     char buffer2[BUFFER];
-                    strcpy(p1.Param1, util_int_to_str(roomId));
-                    strcpy(p1.Param2, m.timestamp);
-                    strcpy(p1.Param3, m.content);
-                    int len2 = writeMessage(3, 1, p, buffer2);
+                    strcpy(p2.Param1, util_int_to_str(roomId));
+                    strcpy(p2.Param2, m.timestamp);
+                    strcpy(p2.Param3, m.content);
+                    int len2 = writeMessage(3, 1, p2, buffer2);
                     sendMessage(clientSock, buffer2, len2);
                 }
             }     
@@ -509,9 +511,9 @@ int writeMessage(const int op, const int func, const Parameters params, char * b
 }
 
 // process message from client
-int readMessage(const char * buffer, const int size, Parameters params) {
-    int op = getProtocolOpcode(buffer)
-    int fun = getProtocolFunctionCode(buffer);
+int readMessage(const char * buffer, const int size, Parameters p) {
+    int op = getProtocolOpcode(buffer);
+    int func = getProtocolFunctionCode(buffer);
     char payload[size];
 
     getProtocolPayload(buffer, payload, sizeof(payload));
@@ -553,7 +555,8 @@ void *handleClient(void *args) {
 
         // Process the received message
         printf("Processing message from client %d: %s\n", clientSocket, buffer);
-        readMessage(buffer, sizeof(buffer));
+        Parameters p;
+        readMessage(buffer, sizeof(buffer), p);
 
         sendMessage(clientSocket, buffer, strlen(buffer));        // Echo the message back to the client
     }

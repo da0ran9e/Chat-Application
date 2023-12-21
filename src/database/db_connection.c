@@ -161,7 +161,7 @@ int dbc_get_members (int roomId, char * memberList){
 int dbc_create_private_room (char * username1, char * username2){
     PGconn * conn = database_start ();
     
-    int rommId = execute_create_private_room_query(conn, username1, username2);
+    int roomId = execute_create_private_room_query(conn, username1, username2);
 
     database_exit(conn);
 

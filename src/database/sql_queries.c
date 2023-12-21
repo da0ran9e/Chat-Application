@@ -318,7 +318,7 @@ int execute_get_conversation_content_query(PGconn *conn, int room_id, const char
 
     // Process the result
     message.roomId = room_id;
-    message.userId = atoi(PQgetvalue(result, 0, 0));
+    strcpy(message.userId, PQgetvalue(result, 0, 0));
     strcpy(message.timestamp, timestamp);
     strcpy(message.content, PQgetvalue(result, 0, 1));
 
