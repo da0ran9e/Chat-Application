@@ -79,7 +79,7 @@ int execute_get_friend_list_query(PGconn *conn, const char *username, char *frie
     // Process the result
     int rows = PQntuples(result);
     for (int i = 0; i < rows; ++i) {
-        strcpy(friendlist[i], PQgetvalue(result, i, 0))
+        strcpy(friendlist[i], PQgetvalue(result, i, 0));
     }
 
     // Free the result

@@ -19,7 +19,7 @@ void getProtocolPayload (const char *message, char * buffer, int size){
     memcpy(buffer, message + 2*sizeof(uint32_t), size);
 }
 
-Parameters getProtocolParameters(const char *payload, Parameters parameters){
+void getProtocolParameters(const char *payload, Parameters parameters){
     // Extract parameters from the payload 
     uint32_t paramLen1;
     uint32_t paramLen2;
