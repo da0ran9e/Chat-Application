@@ -519,7 +519,7 @@ int readMessage(const char * buffer, const int size, Parameters params) {
 
     getProtocolPayload(buffer, payload, sizeof(payload));
 
-    getProtocolParameters(payload, p);
+    getProtocolParameters(payload, params);
 
     printf("Opcode: %d\n", op);
     printf("Func: %d\n", func);
