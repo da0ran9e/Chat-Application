@@ -1,6 +1,7 @@
 #include "../../include/database/database.h"
 
 PGconn * database_start (){
+    PGconn *conn;
 
     // Establish a connection to the database
     conn = PQconnectdb("dbname=chat user=postgres password=anquynh123 host=localhost");

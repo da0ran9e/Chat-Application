@@ -25,7 +25,7 @@ int s_room_members (const int roomId, char * peopleList, int count){
 */
 int s_room_create (const char *roomName, const char *adminUsername, int roomId){
     roomId = dbc_create_room(roomName, adminUsername);
-    if (count >= 0) return 222;
+    if (roomId >= 0) return 222;
     else return 122;
 }
 
