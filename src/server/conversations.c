@@ -4,7 +4,7 @@
 * 203: success
 * 103: fail
 */
-int s_conv_get_conversation (const int roomId, const char *timestamp, char * messageList, int count){
+int s_conv_get_conversation (const int roomId, const char *timestamp, char (* messageList)[50], int count){
     if (timestamp == NULL){
         count = dbc_get_new_conversation(roomId, messageList);
     }
@@ -13,6 +13,19 @@ int s_conv_get_conversation (const int roomId, const char *timestamp, char * mes
     }
     if (count > 0) return 203;
     else return 103;
+}
+
+int s_conv_get_message(int roomId, char * timestamp, Message message){
+    switch(dbc_get_message(roomId, timestamp, message)){
+        case ACCEPT: 
+            return 203;
+            break;
+        case:
+            return 103;
+            break;
+        case:
+            return 403;
+    }
 }
 
 /*

@@ -10,13 +10,13 @@ int             dbc_get_friendlist      (char * username, char * friendList);
 enum DBStatus   dbc_add_friend          (char * username, char * friendname);
 enum DBStatus   dbc_delete_friend       (char * username1, char * username2);
 int             dbc_get_roomlist        (char * username, Room * roomList);
-int             dbc_get_members         (int roomId, char * memberList);
+int             dbc_get_members         (int roomId, char (*memberList)[50]);
 int             dbc_create_private_room (char * username1, char * username2);
 int             dbc_create_room         (char * roomname, char * username);
 enum DBStatus   dbc_add_member          (char * username, int roomId);
 enum DBStatus   dbc_remove_member       (char * username, int roomId);
-int             dbc_get_new_conversation(int roomId, char * messageList);
-int             dbc_get_prev_conversation(int roomId, char * timestamp, char * messageList);
+int             dbc_get_new_conversation(int roomId, char (*messageList)[50]);
+int             dbc_get_prev_conversation(int roomId, char * timestamp, char (*messageList)[50]);
 enum DBStatus   dbc_get_message         (int roomId, char * timestamp, Message message);
 enum DBStatus   dbc_new_message         (char * username, int roomId, char * message);
 

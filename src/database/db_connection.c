@@ -140,7 +140,7 @@ int dbc_get_roomlist (char * username, Room * roomList){
 *
 * [OUT] number of rows
 */
-int dbc_get_members (int roomId, char * memberList){
+int dbc_get_members (int roomId, char (*memberList)[50]){
     PGconn * conn = database_start ();
     
     int result = execute_get_people_in_room_query(conn, roomId, memberList);
@@ -232,7 +232,7 @@ enum DBStatus dbc_remove_member (char * username, int roomId){
 *
 * [OUT] number of rows
 */
-int dbc_get_new_conversation (int roomId, char * messageList){
+int dbc_get_new_conversation (int roomId, char (*messageList)[50]){
     PGconn * conn = database_start ();
     
     int result = execute_get_room_current_conversation_query(conn, roomId, messageList);
@@ -251,7 +251,7 @@ int dbc_get_new_conversation (int roomId, char * messageList){
 *
 * [OUT] number of rows
 */
-int dbc_get_prev_conversation (int roomId, char * timestamp, char * messageList){
+int dbc_get_prev_conversation (int roomId, char * timestamp, char (*messageList)[50]){
     PGconn * conn = database_start ();
     
     int result = execute_get_room_conversation_query(conn, roomId, timestamp, messageList);

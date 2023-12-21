@@ -29,7 +29,7 @@ int handle_features(const int userSock, int op, int func, const Parameters param
         result = feat_room_list(userSock, params.Param1);
         break;
     case 12:
-        result = feat_room_members(userSock, params.Param1);
+        result = feat_room_members(userSock, atoi(params.Param1));
         break;
     case 22:
         result = feat_room_create(userSock, params.Param1, params.Param2);
@@ -67,7 +67,7 @@ int feat_online_list (const int clientSock, const int rtd){
             //serialize message
             char buffer[BUFFER];
             Parameters p;
-            strcpy(p.Param1, g_clientNames[i][0]);
+            strcpy(p.Param1, g_clientNames[i]);
             p.Param2[0] = '\0';
             p.Param3[0] = '\0';
             int len = writeMessage(0, 0, p, buffer);
@@ -165,7 +165,7 @@ int feat_friend_list (const int clientSock){
     int count;
     //get username
     for (int i=0; i<MAX_CLIENTS; i++){
-        if (g_clientSockets == clientSock) {
+        if (g_clientSockets[i] == clientSock) {
             strcpy(username, g_clientNames[i]);
         }
     }
@@ -322,14 +322,14 @@ int feat_room_members (const int clientSock, const int roomId){
 }
 
 //create room
-int feat_room_create(const int clientSock, const char name, const char * username){
+int feat_room_create(const int clientSock, const char * roomName, const char * username){
     int roomId;
-    int res = s_room_create(name, username, roomId);
+    int res = s_room_create(roomName, username, roomId);
     if (res==222){
         Parameters p;
         char buffer[BUFFER];
         strcpy(p.Param1, util_int_to_str(roomId));
-        strcpy(p.Param2, name);
+        strcpy(p.Param2, roomName);
         int len = writeMessage(2, 2, p, buffer);
         sendMessage(clientSock, buffer, len);
     }else{
