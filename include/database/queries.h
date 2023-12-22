@@ -13,10 +13,10 @@ int execute_add_person_to_room_query(PGconn *conn, const char *username, int roo
 int execute_remove_person_from_room_query(PGconn *conn, const char *username, int room_id);
 int execute_get_friend_list_query(PGconn *conn, const char *username, char *friendlist);
 int execute_get_room_list_query(PGconn *conn, const char *username, Room * roomlist);
-int execute_get_people_in_room_query(PGconn *conn, int room_id, char * peoplelist);
+int execute_get_people_in_room_query(PGconn *conn, int room_id, char (* peoplelist)[50]);
 int execute_create_new_room_query(PGconn *conn, const char *roomName, const char *adminUsername);
-int execute_get_room_current_conversation_query(PGconn *conn, int room_id, char * messageList);
-int execute_get_room_conversation_query(PGconn *conn, int room_id, char *timestamp);
+int execute_get_room_current_conversation_query(PGconn *conn, int room_id, char (*messageList)[50]);
+int execute_get_room_conversation_query(PGconn *conn, int room_id, char *timestamp, char (* messageList)[50]);
 int execute_get_conversation_content_query(PGconn *conn, int room_id, const char *timestamp, Message message);
 int execute_add_message_to_conversation_query(PGconn *conn, const char *username, int room_id, const char *message);
 

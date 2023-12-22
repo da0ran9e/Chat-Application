@@ -14,7 +14,7 @@ int s_room_list (const char *username, Room * roomList, int count){
 * 212: success
 * 112: fail
 */
-int s_room_members (const int roomId, char * peopleList, int count){
+int s_room_members (const int roomId, char (* peopleList)[50], int count){
     count = dbc_get_members(roomId, peopleList);
     if (count > 0) return 212;
     else return 112;
@@ -25,7 +25,7 @@ int s_room_members (const int roomId, char * peopleList, int count){
 */
 int s_room_create (const char *roomName, const char *adminUsername, int roomId){
     roomId = dbc_create_room(roomName, adminUsername);
-    if (count >= 0) return 222;
+    if (roomId >= 0) return 222;
     else return 122;
 }
 

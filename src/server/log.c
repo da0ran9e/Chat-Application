@@ -18,7 +18,7 @@ void write_log(const char *log){
 }
 
 void serverLog(enum ServerStat status, int port) {
-    char time[20];
+    char timeStr[20];
     time_t currentTime = time(NULL);
 
     if (currentTime == -1) {
@@ -26,7 +26,7 @@ void serverLog(enum ServerStat status, int port) {
         return;
     }
     struct tm* timeInfo = localtime(&currentTime);
-    strftime(time, 20, "%Y-%m-%d %H:%M:%S", timeInfo);
+    strftime(timeStr, 20, "%Y-%m-%d %H:%M:%S", timeInfo);
 
     char stat[20];
 
@@ -51,7 +51,7 @@ void serverLog(enum ServerStat status, int port) {
 }
 
 void connectionLog(enum ServerStat status, int port, const char *ip) {
-    char time[20];
+    char timeStr[20];
     time_t currentTime = time(NULL);
 
     if (currentTime == -1) {
@@ -59,7 +59,7 @@ void connectionLog(enum ServerStat status, int port, const char *ip) {
         return;
     }
     struct tm* timeInfo = localtime(&currentTime);
-    strftime(time, 20, "%Y-%m-%d %H:%M:%S", timeInfo);
+    strftime(timeStr, 20, "%Y-%m-%d %H:%M:%S", timeInfo);
 
     char stat[20];
 
@@ -81,7 +81,7 @@ void connectionLog(enum ServerStat status, int port, const char *ip) {
 }
 
 void clientLog(enum ClientStat status, const char * username, const char *ipAddress, const int port){
-    char time[20];
+    char timeStr[20];
     time_t currentTime = time(NULL);
 
     if (currentTime == -1) {
@@ -89,7 +89,7 @@ void clientLog(enum ClientStat status, const char * username, const char *ipAddr
         return;
     }
     struct tm* timeInfo = localtime(&currentTime);
-    strftime(time, 20, "%Y-%m-%d %H:%M:%S", timeInfo);
+    strftime(timeStr, 20, "%Y-%m-%d %H:%M:%S", timeInfo);
 
     // Create the log message
     char logMessage[MAX_LOG_SIZE];
