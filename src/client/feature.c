@@ -31,7 +31,7 @@ int handle_receive_message(const char * messsge){
             status = 310;
         }else{
             status = 210;
-            in_login_done(params.Param2);
+            in_login_done(params.Param1);
         }
         break;
     case 20:
@@ -155,6 +155,13 @@ void in_room_list(const int roomId, const char * roomName){
         if (g_rooms[i].roomId == -1 || g_rooms[i].roomName[0] == '\0'){
             g_rooms[i].roomId == roomId;
             strcpy(g_rooms[i].roomName, roomName);
+
+            Parameters params;
+            char buffer[BUFFER];
+            // online 
+            strcpy(params.Param1, util_int_to_str(roomId)); 
+            int len = generateMessage(3, 0, p, buffer);
+            send_message(g_socket, buffer, len);
         }
     }
 }
@@ -188,10 +195,83 @@ void in_message(const int roomId, const char * timestamp, const char * message){
 
 void in_login_done(const char * username){
     // request initial data for running
+    Parameters params;
+    char buffer[BUFFER];
     // online 
+    strcpy(params.Param1, util_int_to_str(g_rtd)); 
+    int len = generateMessage(0, 0, p, buffer);
+    send_message(g_socket, buffer, len);
     // friend 
-    // conversation
-    // message
+    params.Param1[0]='\0';
+    len = generateMessage(1, 0, params, buffer);
+    send_message(g_socket, buffer, len);
+    //room
+    strcpy(params.Param1, username);    
+    len = generateMessage(2, 0, params, buffer);
+    send_message(g_socket, buffer, len);
 
 }
 
+void out_login(const char * username, const char * password){
+    Parameters params;
+    char buffer[BUFFER]; 
+    strcpy(params.Param1, username); 
+    strcpy(params.Param2, password); 
+    int len = generateMessage(0, 1, p, buffer);
+    send_message(g_socket, buffer, len);
+}
+
+void out_register(const char * username, const char * password){
+    Parameters params;
+    char buffer[BUFFER]; 
+    strcpy(params.Param1, username); 
+    strcpy(params.Param2, password); 
+    int len = generateMessage(0, 2, p, buffer);
+    send_message(g_socket, buffer, len);
+}
+
+void out_change_password(const char * username, const char * oldpass, const char * newpass){
+    Parameters params;
+    char buffer[BUFFER]; 
+    strcpy(params.Param1, username); 
+    strcpy(params.Param2, oldpass);
+    strcpy(params.Param3, newpass); 
+    int len = generateMessage(0, 3, p, buffer);
+    send_message(g_socket, buffer, len);
+}
+
+void out_get_friend_list(){
+
+}
+
+void out_sent_friend_request(const char * username, const char * friendname){
+
+}
+
+void out_sent_friend_response(const char * username, const char * friendname){
+
+}
+
+void out_get_room_list(const char * username){
+
+}
+
+void out_get_room_members(const int roomId){
+
+}
+
+void out_create_room(const char * roomName, const char * username){
+
+}
+
+void out_add_member(const int roomId, const char * username){
+
+}
+
+void out_remove_member(const int roomId, const char * username){
+    
+}
+
+void out_get_conversation(const int roomId){
+
+}
