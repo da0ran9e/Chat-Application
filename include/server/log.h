@@ -27,5 +27,6 @@ void get_username(const char *ip, int id);
 void serverLog(enum ServerStat status, int port);
 void connectionLog(enum ServerStat status, int port, const char *ip);
 void clientLog(enum ClientStat status, const char * username, const char *ipAddress,const int port);
+void eventLog(enum RequestEvent status, int port);
 
 #endif
