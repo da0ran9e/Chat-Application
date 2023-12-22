@@ -8,7 +8,7 @@
 *
 * [OUT]: enum {DENY/ACCEPT}
 */
-enum DBStatus dbc_client_login (char * username, char * password){
+enum DBStatus dbc_client_login (const char * username, const char * password){
     PGconn * conn = database_start ();
 
     int result = execute_login_query(conn, username, password);
@@ -27,7 +27,7 @@ enum DBStatus dbc_client_login (char * username, char * password){
 *
 * [OUT]: enum {CONFLICT/DONE}
 */
-enum DBStatus dbc_client_register (char * username, char * password){
+enum DBStatus dbc_client_register (const char * username, const char * password){
     PGconn * conn = database_start ();
     
     int result = execute_register_query(conn, username, password);
@@ -47,7 +47,7 @@ enum DBStatus dbc_client_register (char * username, char * password){
 *
 * [OUT]: enum {DENY/ACCEPT}
 */
-enum DBStatus dbc_change_password (char * username, char * oldpass, char * newpass){
+enum DBStatus dbc_change_password (const char * username, const char * oldpass, const char * newpass){
     PGconn * conn = database_start ();
     
     int result = execute_change_password_query(conn, username, oldpass, newpass);
@@ -66,7 +66,7 @@ enum DBStatus dbc_change_password (char * username, char * oldpass, char * newpa
 *
 * [OUT]: number of rows
 */
-int dbc_get_friendlist (char * username, char * friendList){
+int dbc_get_friendlist (const char * username, char (* friendList)[50]){
     PGconn * conn = database_start ();
     
     int result = execute_get_friend_list_query(conn, username, friendList);
@@ -83,7 +83,7 @@ int dbc_get_friendlist (char * username, char * friendList){
 *
 * [OUT]: enum {DENY/ACCEPT}
 */
-enum DBStatus dbc_add_friend (char * username, char * friendname){
+enum DBStatus dbc_add_friend (const char * username, const char * friendname){
     PGconn * conn = database_start ();
     
     int result = execute_add_friend_query(conn, username, friendname);
@@ -102,7 +102,7 @@ enum DBStatus dbc_add_friend (char * username, char * friendname){
 *
 * [OUT]: enum {NOTFOUND/ACCEPT}
 */
-enum DBStatus dbc_delete_friend (char * username1, char * username2){
+enum DBStatus dbc_delete_friend (const char * username1, const char * username2){
     PGconn * conn = database_start ();
     
     int result = execute_delete_friend_query(conn, username1, username2);
@@ -122,7 +122,7 @@ enum DBStatus dbc_delete_friend (char * username1, char * username2){
 *
 * [OUT] number of rows
 */
-int dbc_get_roomlist (char * username, Room * roomList){
+int dbc_get_roomlist (const char * username, Room * roomList){
     PGconn * conn = database_start ();
     
     int result = execute_get_room_list_query(conn, username, roomList);
@@ -140,7 +140,7 @@ int dbc_get_roomlist (char * username, Room * roomList){
 *
 * [OUT] number of rows
 */
-int dbc_get_members (int roomId, char (*memberList)[50]){
+int dbc_get_members (const int roomId, char (*memberList)[50]){
     PGconn * conn = database_start ();
     
     int result = execute_get_people_in_room_query(conn, roomId, memberList);
@@ -158,7 +158,7 @@ int dbc_get_members (int roomId, char (*memberList)[50]){
 *
 * [OUT] roomId
 */
-int dbc_create_private_room (char * username1, char * username2){
+int dbc_create_private_room (const char * username1, const char * username2){
     PGconn * conn = database_start ();
     
     int roomId = execute_create_private_room_query(conn, username1, username2);
@@ -176,7 +176,7 @@ int dbc_create_private_room (char * username1, char * username2){
 *
 * [OUT] roomId
 */
-int dbc_create_room (char * roomname, char * username){
+int dbc_create_room (const char * roomname, const char * username){
     PGconn * conn = database_start ();
     
     int roomId = execute_create_new_room_query(conn, roomname, username);
@@ -194,7 +194,7 @@ int dbc_create_room (char * roomname, char * username){
 *
 * [OUT] enum {FULL/ACCEPT}
 */
-enum DBStatus dbc_add_member (char * username, int roomId){
+enum DBStatus dbc_add_member (const char * username, const int roomId){
     PGconn * conn = database_start ();
     
     int result = execute_add_person_to_room_query(conn, username, roomId);
@@ -213,7 +213,7 @@ enum DBStatus dbc_add_member (char * username, int roomId){
 *
 * [OUT] enum {ERROR/ACCEPT}
 */
-enum DBStatus dbc_remove_member (char * username, int roomId){
+enum DBStatus dbc_remove_member (const char * username, const int roomId){
     PGconn * conn = database_start ();
     
     int result = execute_remove_person_from_room_query(conn, username, roomId);
@@ -232,7 +232,7 @@ enum DBStatus dbc_remove_member (char * username, int roomId){
 *
 * [OUT] number of rows
 */
-int dbc_get_new_conversation (int roomId, char (*messageList)[50]){
+int dbc_get_new_conversation (const int roomId, char (*messageList)[50]){
     PGconn * conn = database_start ();
     
     int result = execute_get_room_current_conversation_query(conn, roomId, messageList);
@@ -251,7 +251,7 @@ int dbc_get_new_conversation (int roomId, char (*messageList)[50]){
 *
 * [OUT] number of rows
 */
-int dbc_get_prev_conversation (int roomId, char * timestamp, char (*messageList)[50]){
+int dbc_get_prev_conversation (const int roomId, const char * timestamp, char (*messageList)[50]){
     PGconn * conn = database_start ();
     
     int result = execute_get_room_conversation_query(conn, roomId, timestamp, messageList);
@@ -271,7 +271,7 @@ int dbc_get_prev_conversation (int roomId, char * timestamp, char (*messageList)
 *
 * [OUT] enum{ERROR/ACCEPT}
 */
-enum DBStatus dbc_get_message (int roomId, char * timestamp, Message message){
+enum DBStatus dbc_get_message (const int roomId, const char * timestamp, Message message){
     PGconn * conn = database_start ();
     
     int result = execute_get_conversation_content_query(conn, roomId, timestamp, message);
@@ -291,7 +291,7 @@ enum DBStatus dbc_get_message (int roomId, char * timestamp, Message message){
 *
 * [OUT] enum{ERROR/ACCEPT}
 */
-enum DBStatus dbc_new_message (char * username, int roomId, char * message){
+enum DBStatus dbc_new_message (const char * username, const int roomId, const char * message){
     PGconn * conn = database_start ();
     
     int result = execute_add_message_to_conversation_query(conn, username, roomId, message);
@@ -302,6 +302,6 @@ enum DBStatus dbc_new_message (char * username, int roomId, char * message){
     else return ACCEPT;
 }
 
-int main() {
-    return 0;
-}
+// int main() {
+//     return 0;
+// }
