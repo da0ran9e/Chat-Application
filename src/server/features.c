@@ -2,7 +2,9 @@
 
 int handle_features(const int userSock, int op, int func, const Parameters params){
     int result = 0;
-    switch (10*func + op)
+    int code = 10*func + op;
+    eventLog(code, g_port);
+    switch (code)
     {
     case 0: // op 0, func 0
         result = feat_online_list(userSock, atoi(params.Param1));
@@ -68,7 +70,7 @@ int feat_online_list (const int clientSock, const int rtd){
             char buffer[BUFFER];
             Parameters p;
             strcpy(p.Param1, g_clientNames[i]);
-            p.Param2[0] = '\0';
+            strcpy(p.Param2, util_int_to_str(g_rtds[i]));
             p.Param3[0] = '\0';
             int len = writeMessage(0, 0, p, buffer);
 
@@ -100,6 +102,7 @@ int feat_login (const int clientSock, const char * username, const char * passwo
         char message[BUFFER];
         util_get_time(time);
         strcpy(p.Param1, time);
+        strcpy(p.Param2, username);
         int len = writeMessage(0, 1, p, message);
         sendMessage(clientSock, message, len);
     }
@@ -308,6 +311,7 @@ int feat_room_members (const int clientSock, const int roomId){
             Parameters p;
             char buffer[BUFFER];
             strcpy(p.Param1, peopleList[i]);
+            strcpy(p.Param2, util_int_to_str(roomId));
             int len = writeMessage(2, 1, p, buffer);
             sendMessage(clientSock, buffer, len);
         }
@@ -339,6 +343,7 @@ int feat_room_create(const int clientSock, const char * roomName, const char * u
         int len = writeMessage(2, 2, p, message);
         sendMessage(clientSock, message, len);
     }
+    return res;
 }
 
 //add members
@@ -521,14 +526,14 @@ int readMessage(const char * buffer, const int size, Parameters params) {
 
     getProtocolParameters(payload, params);
 
-    printf("Opcode: %d\n", op);
-    printf("Func: %d\n", func);
-    printf("len1: %d\n", strlen(params.Param1));
-    printf("Param1: %s\n", params.Param1);
-    printf("len2: %d\n", strlen(params.Param2));
-    printf("Param2: %s\n", params.Param2);
-    printf("len3: %d\n", strlen(params.Param3));
-    printf("Param3: %s\n", params.Param3);
+    // printf("Opcode: %d\n", op);
+    // printf("Func: %d\n", func);
+    // printf("len1: %d\n", strlen(params.Param1));
+    // printf("Param1: %s\n", params.Param1);
+    // printf("len2: %d\n", strlen(params.Param2));
+    // printf("Param2: %s\n", params.Param2);
+    // printf("len3: %d\n", strlen(params.Param3));
+    // printf("Param3: %s\n", params.Param3);
     // // Print the binary string
 
     // printf("Binary String : \n");
