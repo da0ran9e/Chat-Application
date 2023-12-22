@@ -12,7 +12,7 @@ int s_conv_get_conversation (const int roomId, const char *timestamp, char (* me
         count = dbc_get_prev_conversation(roomId, timestamp, messageList);
     }
     if (count > 0) return 203;
-    else return 103;
+    else return 103;    
 }
 
 int s_conv_get_message(int roomId, char * timestamp, Message message){
@@ -20,11 +20,12 @@ int s_conv_get_message(int roomId, char * timestamp, Message message){
         case ACCEPT: 
             return 203;
             break;
-        case:
+        case ERROR:
             return 103;
             break;
-        case:
+        default:
             return 403;
+            break;
     }
 }
 
