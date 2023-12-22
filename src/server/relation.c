@@ -4,7 +4,7 @@
 * 201: success
 * 101: fail
 */
-int s_rela_friend_list (const char * username, char * friendlist, int count){
+int s_rela_friend_list (const char * username, char( * friendlist)[50], int count){
     count = dbc_get_friendlist(username, friendlist);
     if (count > 0) return 202;
     else return 102;

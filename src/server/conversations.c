@@ -15,7 +15,7 @@ int s_conv_get_conversation (const int roomId, const char *timestamp, char (* me
     else return 103;    
 }
 
-int s_conv_get_message(int roomId, char * timestamp, Message message){
+int s_conv_get_message(const int roomId, const char * timestamp, Message message){
     switch(dbc_get_message(roomId, timestamp, message)){
         case ACCEPT: 
             return 203;

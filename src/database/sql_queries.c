@@ -66,7 +66,7 @@ int execute_change_password_query(PGconn *conn, const char *username, const char
     return passwordChangeStatus;
 }
 
-int execute_get_friend_list_query(PGconn *conn, const char *username, char *friendlist) {
+int execute_get_friend_list_query(PGconn *conn, const char *username, char (*friendlist)[50]) {
     const char *query = "SELECT * FROM get_friend_list($1)";
     const char *paramValues[1] = {username};
 
@@ -149,7 +149,7 @@ int execute_get_room_list_query(PGconn *conn, const char *username, Room * rooml
     return rows;
 }
 
-int execute_get_people_in_room_query(PGconn *conn, int room_id, char (* peoplelist)[50]) {
+int execute_get_people_in_room_query(PGconn *conn, const int room_id, char (* peoplelist)[50]) {
     const char *query = "SELECT * FROM get_people_in_room($1)";
     char* room_id_str = util_int_to_str(room_id);
     const char *paramValues[1] = {room_id_str};
@@ -211,7 +211,7 @@ int execute_create_new_room_query(PGconn *conn, const char *roomName, const char
     return newRoomId;
 }
 
-int execute_add_person_to_room_query(PGconn *conn, const char *username, int room_id) {
+int execute_add_person_to_room_query(PGconn *conn, const char *username, const int room_id) {
     const char *query = "SELECT add_person_to_room($1, $2) AS add_person_status";
     char* room_id_str = util_int_to_str(room_id);
     const char *paramValues[2] = {username, room_id_str};
@@ -231,7 +231,7 @@ int execute_add_person_to_room_query(PGconn *conn, const char *username, int roo
     return addPersonStatus;
 }
 
-int execute_remove_person_from_room_query(PGconn *conn, const char *username, int room_id) {
+int execute_remove_person_from_room_query(PGconn *conn, const char *username, const int room_id) {
     const char *query = "SELECT remove_person_from_room($1, $2) AS remove_person_status";
     char* room_id_str = util_int_to_str(room_id);
     const char *paramValues[2] = {username, room_id_str};
@@ -251,7 +251,7 @@ int execute_remove_person_from_room_query(PGconn *conn, const char *username, in
     return removePersonStatus;
 }
 
-int execute_get_room_current_conversation_query(PGconn *conn, int room_id, char (*messageList)[50]) {
+int execute_get_room_current_conversation_query(PGconn *conn, const int room_id, char (*messageList)[50]) {
     const char *query = "SELECT * FROM get_room_conversation($1, CURRENT_TIMESTAMP::TIMESTAMP)";
     char* room_id_str = util_int_to_str(room_id);
     const char *paramValues[1] = {room_id_str};
@@ -279,7 +279,7 @@ int execute_get_room_current_conversation_query(PGconn *conn, int room_id, char 
 }
 
 // Get Room Conversation before any time
-int execute_get_room_conversation_query(PGconn *conn, int room_id, char *timestamp, char (* messageList)[50]) {
+int execute_get_room_conversation_query(PGconn *conn, const int room_id, const char *timestamp, char (* messageList)[50]) {
     const char *query = "SELECT * FROM get_room_conversation($1, $2)";
     char* room_id_str = util_int_to_str(room_id);
     const char *paramValues[2] = {room_id_str, timestamp};
@@ -303,7 +303,7 @@ int execute_get_room_conversation_query(PGconn *conn, int room_id, char *timesta
     return rows;
 }
 
-int execute_get_conversation_content_query(PGconn *conn, int room_id, const char *timestamp, Message message) {
+int execute_get_conversation_content_query(PGconn *conn, const int room_id, const char *timestamp, Message message) {
     const char *query = "SELECT * FROM get_conversation_content($1, $2)";
     char* room_id_str = util_int_to_str(room_id);
     const char *paramValues[2] = {room_id_str, timestamp};
@@ -328,7 +328,7 @@ int execute_get_conversation_content_query(PGconn *conn, int room_id, const char
     return 1;
 }
 
-int execute_add_message_to_conversation_query(PGconn *conn, const char *username, int room_id, const char *message) {
+int execute_add_message_to_conversation_query(PGconn *conn, const char *username, const int room_id, const char *message) {
     const char *query = "SELECT add_message_to_conversation($1, $2, $3) AS add_message_status";
     char* room_id_str = util_int_to_str(room_id);
     const char *paramValues[3] = {username, room_id_str, message};

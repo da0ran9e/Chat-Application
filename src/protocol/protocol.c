@@ -37,7 +37,7 @@ void getProtocolParameters(const char *payload, Parameters parameters){
     // printf("Param1: %s\n", parameters.Param1);
     // printf("Param2: %s\n", parameters.Param2);
     // printf("Param3: %s\n", parameters.Param3);
-    return parameters;
+    //return parameters;
 }
 
 int generateMessage(uint32_t op, uint32_t func, Parameters parameters, char * buffer){
