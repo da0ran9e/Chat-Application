@@ -54,8 +54,8 @@ void connectionLog(enum ServerStat status, int port, const char *ip) {
     char timeStr[20];
     time_t currentTime = time(NULL);
 
-    if (currentStr == -1) {
-        perror("Error getting current Str");
+    if (currentTime == -1) {
+        perror("Error getting current time");
         return;
     }
     struct tm* timeInfo = localtime(&currentTime);
