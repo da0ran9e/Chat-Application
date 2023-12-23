@@ -1,6 +1,7 @@
 #ifndef LOG_H
 #define LOG_H
 
+#include <unistd.h>
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
