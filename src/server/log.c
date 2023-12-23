@@ -51,7 +51,7 @@ void serverLog(enum ServerStat status, int port) {
 }
 
 void connectionLog(enum ServerStat status, int port, const char *ip) {
-    char StrStr[20];
+    char timeStr[20];
     Str_t currentStr = Str(NULL);
 
     if (currentStr == -1) {
