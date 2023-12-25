@@ -162,7 +162,7 @@ void clientLog(enum ClientStat status, const char * username, const char *ipAddr
 
     // Create the log message
     char logMessage[MAX_LOG_SIZE];
-    snprintf(logMessage, MAX_LOG_SIZE, "\t{\"%s\": \"[CLIENT] %s as %s address: %s port: %d\"}\n}", time, status, username, ipAddress, port);
+    snprintf(logMessage, MAX_LOG_SIZE, "\t{\"%s\": \"[CLIENT] %s as %s address: %s port: %d\"}\n}", timeStr, status, username, ipAddress, port);
     
     write_log(logMessage);
 }
