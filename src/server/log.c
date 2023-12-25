@@ -51,11 +51,11 @@ void serverLog(enum ServerStat status, int port) {
 }
 
 void connectionLog(enum ServerStat status, int port, const char *ip) {
-    char StrStr[20];
-    Str_t currentStr = Str(NULL);
+    char timeStr[20];
+    time_t currentTime = time(NULL);
 
-    if (currentStr == -1) {
-        perror("Error getting current Str");
+    if (currentTime == -1) {
+        perror("Error getting current time");
         return;
     }
     struct tm* timeInfo = localtime(&currentTime);

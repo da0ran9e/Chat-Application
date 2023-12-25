@@ -1,6 +1,7 @@
 #ifndef LOG_H
 #define LOG_H
 
+#include <unistd.h>
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -9,6 +10,24 @@
 #include <unistd.h>
 
 #define MAX_LOG_SIZE 1024
+
+
+enum RequestEvent {
+    REQ_PING            = 00,
+    REQ_LOGIN           = 10,
+    REQ_REGISTER        = 20,
+    REQ_CHANGE_PASS     = 30,
+    REQ_FRIEND_LIST     = 01,
+    REQ_FRIEND_REQUEST  = 11,
+    REQ_RESPONSE_REQUEST= 21,
+    REQ_ROOM_LIST       = 02,
+    REQ_ROOM_MEMBER     = 12,
+    REQ_CREATE_ROOM     = 22,
+    REQ_ADD_MEMBER      = 32,
+    REQ_REMOVE_MEMBER   = 42,
+    REQ_CONVERSATION    = 03,
+    REQ_MESSAGE         = 13,
+};
 
 enum ServerStat {
     CONNECT,
