@@ -55,7 +55,7 @@
 <!-- Messenger Clone -->
 <div class="h-screen w-full flex antialiased text-gray-200 bg-gray-900 overflow-hidden">
     <div class="flex-1 flex flex-col">
-        <div class="border-b-2 border-gray-800 p-2 flex flex-row z-20">
+        <div name = "control-bar" class="border-b-2 border-gray-800 p-2 flex flex-row z-20">
             <div class="bg-red-600 w-3 h-3 rounded-full mr-2"></div>
             <div class="bg-yellow-500 w-3 h-3 rounded-full mr-2"></div>
             <div class="bg-green-500 w-3 h-3 rounded-full mr-2"></div>
@@ -64,8 +64,7 @@
             <section class="flex flex-col flex-none overflow-auto w-24 hover:w-64 group lg:max-w-sm md:w-2/5 transition-all duration-300 ease-in-out">
                 <div class="header p-4 flex flex-row justify-between items-center flex-none">
                     <div class="w-16 h-16 relative flex flex-shrink-0" style="filter: invert(100%);">
-                        <img class="rounded-full w-full h-full object-cover" alt="ravisankarchinnam"
-                             src="img.png"/>
+                        <img class="rounded-full w-full h-full object-cover" alt="0ran9e" src="img.png"/>    
                     </div>
                     <p class="text-md font-bold hidden md:block group-hover:block">ChatPals</p>
                     <a href="#" class="block rounded-full hover:bg-gray-700 bg-gray-800 w-10 h-10 p-2">
@@ -75,7 +74,7 @@
                     </a>
                 </div>
         
-                <div class="active-users flex flex-row p-2 overflow-auto w-0 min-w-full">
+                <div id="friend-list" class="active-users flex flex-row p-2 overflow-auto w-0 min-w-full">
                     <div class="text-sm text-center mr-4"><div class="p-1 border-4 border-transparent rounded-full"><div class="w-16 h-16 relative flex flex-shrink-0">
                         <img class="shadow-md rounded-full w-full h-full object-cover"
                              src="img.png"
@@ -93,70 +92,48 @@
                     </div></div><p>Online Friend</p></div>
 
                 </div>
-                <div class="contacts p-2 flex-1 overflow-y-scroll">
+                <div id="contact-list" class="contacts p-2 flex-1 overflow-y-scroll">
                     <div class="flex justify-between items-center p-3 hover:bg-gray-800 rounded-lg relative">
                         <div class="w-16 h-16 relative flex flex-shrink-0">
                             <img class="shadow-md rounded-full w-full h-full object-cover"
-                                 src="img.png"
-                                 alt=""
+                                name="chat-room-name"
+                                src="img.png"
+                                alt=""
                             />
                         </div>
                         <div class="flex-auto min-w-0 ml-4 mr-6 hidden md:block group-hover:block">
-                            <p>Friend chat room but not online</p>
+                            <p name="chat-room-name">Friend chat room but not online</p>
                             <div class="flex items-center text-sm text-gray-600">
                                 <div class="min-w-0">
-                                    <p class="truncate">Ok, see you at the subway in a bit.</p>
+                                    <p name="chat-room-recent" class="truncate">Ok, see you at the subway in a bit.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="flex justify-between items-center p-3 hover:bg-gray-800 rounded-lg relative">
-                        <div class="w-16 h-16 relative flex flex-shrink-0">
-                            <img class="shadow-md rounded-full w-full h-full object-cover"
-                                 src="img.png"
-                                 alt="User2"
-                            />
-                            <div class="absolute bg-gray-900 p-1 rounded-full bottom-0 right-0">
-                                <div class="bg-green-500 rounded-full w-3 h-3"></div>
-                            </div>
-                        </div>
-                        <div class="flex-auto min-w-0 ml-4 mr-6 hidden md:block group-hover:block">
-                            <p>Chat Room of online friend</p>
-                            <div class="flex items-center text-sm text-gray-600">
-                                <div class="min-w-0">
-                                    <p class="truncate">Ah, it was an awesome one night stand.
-                                    </p>
-                                </div>
-                                <p class="ml-2 whitespace-no-wrap">1 Feb</p>
-                            </div>
-                        </div>
-                    </div>
+                    
                     <div class="flex justify-between items-center p-3 hover:bg-gray-800 rounded-lg relative">
                         <div class="w-16 h-16 relative flex flex-shrink-0">
                             <img class="shadow-md rounded-full w-10 h-10 object-cover absolute ml-6"
-                                 src="img.png"
-                                 alt="User2"
+                                name="chat-group-user1-img"
+                                src="img.png"
+                                alt="User1"
                             />
                             <img class="shadow-md rounded-full w-10 h-10 object-cover absolute mt-6"
-                                 src="img.png"
-                                 alt="User2"
+                                name="chat-group-user2-img"
+                                src="img.png"
+                                alt="User2"
                             />
-                            <div class="absolute bg-gray-900 p-1 rounded-full bottom-0 right-0">
-                                <div class="bg-green-500 rounded-full w-3 h-3"></div>
-                            </div>
                         </div>
                         <div class="flex-auto min-w-0 ml-4 mr-6 hidden md:block group-hover:block">
-                            <p>Quinn An Group</p>
+                            <p name="chat-group-name">Quinn An Group</p>
                             <div class="flex items-center text-sm text-gray-600">
                                 <div class="min-w-0">
-                                    <p class="truncate">Adam: Hurray, Version 2 is out now!!.
+                                    <p name="chat-recent" class="truncate">An: Hurray, Version 2 is out now!!.
                                     </p>
                                 </div>
-                                <p class="ml-2 whitespace-no-wrap">23 Jan</p>
                             </div>
                         </div>
                     </div>
-
             </section>
             <section class="flex flex-col flex-auto border-l border-gray-800">
                 <div class="chat-header px-6 py-4 flex flex-row flex-none justify-between items-center shadow">
@@ -168,8 +145,8 @@
                             />
                         </div>
                         <div class="text-sm">
-                            <p class="font-bold">Quinn</p>
-                            <p>Online</p>
+                            <p id="chat-name" class="font-bold">Quinn</p>
+                            <p id="chat-status">Online</p>
                         </div>
                     </div>
 
@@ -182,14 +159,13 @@
                         </a>
                     </div>
                 </div>
-                <div class="chat-body p-4 flex-1 overflow-y-scroll">
+                <div id="chat-body" class="chat-body p-4 flex-1 overflow-y-scroll">
                     <div class="flex flex-row justify-start">
                         <div class="w-8 h-8 relative flex flex-shrink-0 mr-4">
                             <img class="shadow-md rounded-full w-full h-full object-cover" src="img.png" alt="">
                         </div>
                         <div class="messages text-sm text-gray-700 grid grid-flow-row gap-2">
-                            
-                            
+                            <p class="p-0 text-left text-sm text-gray-50">user1</p>
                             <div class="flex items-center group">
                                 <p class="px-6 py-3 rounded-b-full rounded-r-full bg-gray-800 max-w-xs lg:max-w-md text-gray-200">Lorem ipsum
                                     dolor sit
@@ -220,11 +196,11 @@
                         <div class="relative flex-grow">
                             <label>
                                 <input class="rounded-full py-2 pl-3 pr-10 w-full border border-gray-800 focus:border-gray-700 bg-gray-800 focus:bg-gray-900 focus:outline-none text-gray-200 focus:shadow-md transition duration-300 ease-in"
-                                       type="text" value="" placeholder="Type your message here."/>
+                                       type="text" id="messageInput" value="" placeholder="Type your message here."/>
                                 
                             </label>
                         </div>
-                        <button type="button" class="flex flex-shrink-0 focus:outline-none mx-2 block text-blue-600 hover:text-blue-700 w-6 h-6">
+                        <button onclick="sendMessage()" type="button" class="flex flex-shrink-0 focus:outline-none mx-2 block text-blue-600 hover:text-blue-700 w-6 h-6">
                             <svg viewBox="0 0 20 20" class="w-full h-full fill-current">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M16.0636 0.199431C18.1242 -0.65915 20.1914 1.40807 19.3328 3.46866L13.4093 17.6851C12.2509 20.4654 8.17606 19.9954 7.68089 17.0245L6.94188 12.5904L2.5078 11.8514C-0.463191 11.3562 -0.933129 7.2814 1.84715 6.12295L16.0636 0.199431ZM17.4867 2.69943C17.6584 2.28731 17.2449 1.87387 16.8328 2.04558L2.61638 7.9691C1.68962 8.35525 1.84627 9.71352 2.83659 9.87857L7.27068 10.6176C8.11362 10.7581 8.77417 11.4186 8.91467 12.2616L9.65368 16.6957C9.81873 17.686 11.177 17.8426 11.5631 16.9159L17.4867 2.69943Z" fill="#777E91"/>
                             </svg>
@@ -239,7 +215,11 @@
                         <img class="rounded-full w-full h-full object-cover" alt="ravisankarchinnam"
                              src="img.png"/>
                     </div>
-                    <p class="text-md font-bold hidden md:block group-hover:block">Username</p>
+                    
+                    <div class="text-sm">
+                        <p name="username-label" class="text-md font-bold hidden md:block group-hover:block">Username</p>
+                        <p name="username-ping">29ms</p>
+                    </div>
                     <a href="#" class="block rounded-full hover:bg-gray-700 bg-gray-800 w-10 h-10 p-2">
                         <svg class="w-full h-full fill-current" viewBox="-2 -2 24 24">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M15.5 13C15.0478 13 14.4089 13.0625 13.7438 13.1536C13.4331 13.1962 13.1962 13.4331 13.1536 13.7438C13.0625 14.4089 13 15.0478 13 15.5C13 15.9522 13.0625 16.5911 13.1536 17.2562C13.1962 17.5669 13.4331 17.8038 13.7438 17.8464C14.4089 17.9375 15.0478 18 15.5 18C15.9522 18 16.5911 17.9375 17.2562 17.8464C17.5669 17.8038 17.8038 17.5669 17.8464 17.2562C17.9375 16.5911 18 15.9522 18 15.5C18 15.0478 17.9375 14.4089 17.8464 13.7438C17.8038 13.4331 17.5669 13.1962 17.2562 13.1536C16.5911 13.0625 15.9522 13 15.5 13ZM13.4724 11.1721C12.2725 11.3364 11.3364 12.2725 11.1721 13.4724C11.0778 14.1606 11 14.9082 11 15.5C11 16.0918 11.0778 16.8394 11.1721 17.5276C11.3364 18.7275 12.2725 19.6636 13.4724 19.8279C14.1606 19.9222 14.9082 20 15.5 20C16.0918 20 16.8394 19.9222 17.5276 19.8279C18.7275 19.6636 19.6636 18.7275 19.8279 17.5276C19.9222 16.8394 20 16.0918 20 15.5C20 14.9082 19.9222 14.1606 19.8279 13.4724C19.6636 12.2725 18.7275 11.3364 17.5276 11.1721C16.8394 11.0778 16.0918 11 15.5 11C14.9082 11 14.1606 11.0778 13.4724 11.1721Z" fill="#5F6388"/>
@@ -251,7 +231,7 @@
                     </a>
                 </div>
         
-                <div class="contacts p-2 flex-1 overflow-y-scroll">
+                <div id="active-list" class="contacts p-2 flex-1 overflow-y-scroll">
                     <div class="flex justify-between items-center p-3 hover:bg-gray-800 rounded-lg relative">
                         <div class="w-16 h-16 relative flex flex-shrink-0">
                             <img class="shadow-md rounded-full w-full h-full object-cover"
@@ -259,18 +239,22 @@
                                  alt=""
                             />
                         </div>
-                        <div class="flex-auto min-w-0 ml-4 mr-6 hidden md:block group-hover:block">
-                            <p>user1</p>
-                            <div class="flex items-center text-sm text-gray-600">
-                            </div>
+                        <div name="online-name" class="flex-auto min-w-0 ml-4 mr-6 hidden md:block group-hover:block">
+                            <p>online</p>
                         </div>
+                        <a href="#" name="online-add-friend-bnt" class="hidden rounded-full hover:bg-gray-700 bg-gray-800 w-10 h-10 p-2">
+                            <svg class="w-full h-full fill-current" viewBox="0 0 24 24">
+                                <path d="M17 11a1 1 0 0 1 0 2h-4v4a1 1 0 0 1-2 0v-4H7a1 1 0 0 1 0-2h4V7a1 1 0 0 1 2 0v4h4z"></path>
+                            </svg>
+                        </a>
                     </div>
-
+                </div>
             </section>
         </main>
     </div>
 </div>
 
 </body>
+<script type="text/javascript" src="app.js"></script>
 
 </html>

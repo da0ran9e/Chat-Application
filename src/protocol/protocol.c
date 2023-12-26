@@ -19,25 +19,20 @@ void getProtocolPayload (const char *message, char * buffer, int size){
     memcpy(buffer, message + 2*sizeof(uint32_t), size);
 }
 
-void getProtocolParameters(const char *payload, Parameters parameters){
-    // Extract parameters from the payload 
-    uint32_t paramLen1;
-    uint32_t paramLen2;
-    uint32_t paramLen3;
+void getProtocolParameters(const char *payload, Parameters *parameters) {
+    // Extract parameters from the payload
+    uint32_t paramLen1, paramLen2, paramLen3;
     memcpy(&paramLen1, payload, sizeof(paramLen1));
     memcpy(&paramLen2, payload + sizeof(uint32_t) + paramLen1, sizeof(paramLen2));
-    memcpy(&paramLen3, payload + 2*sizeof(uint32_t) + paramLen1 + paramLen2, sizeof(paramLen3));
-    // printf("ParamLen1: %d\n", paramLen1);
-    // printf("ParamLen2: %d\n", paramLen2);
-    // printf("ParamLen3: %d\n", paramLen3);
+    memcpy(&paramLen3, payload + 2 * sizeof(uint32_t) + paramLen1 + paramLen2, sizeof(paramLen3));
 
-    util_get_substring(payload, parameters.Param1, 4, paramLen1);
-    util_get_substring(payload, parameters.Param2, 8+paramLen1, paramLen2);
-    util_get_substring(payload, parameters.Param3, 12+paramLen1+paramLen2, paramLen3);
-    // printf("Param1: %s\n", parameters.Param1);
-    // printf("Param2: %s\n", parameters.Param2);
-    // printf("Param3: %s\n", parameters.Param3);
-    //return parameters;
+    // printf("paramlen1: %d\n", paramLen1);
+    // printf("paramlen2: %d\n", paramLen2);
+    // printf("paramlen3: %d\n", paramLen3);
+
+    util_get_substring(payload, parameters->Param1, 4, paramLen1);
+    util_get_substring(payload, parameters->Param2, 8 + paramLen1, paramLen2);
+    util_get_substring(payload, parameters->Param3, 12 + paramLen1 + paramLen2, paramLen3);
 }
 
 int generateMessage(uint32_t op, uint32_t func, Parameters parameters, char * buffer){

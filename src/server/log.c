@@ -75,7 +75,7 @@ void connectionLog(enum ServerStat status, int port, const char *ip) {
 
     // Create the log message
     char logMessage[1024];
-    snprintf(logMessage, 1024, "\t{\"%s\": \"[SERVER] %d %s ip: %s\"}\n}", timeStr, port, stat, ip);
+    snprintf(logMessage, 1024, "\t{\"%s\": \"[CONNECT] %d %s ip: %s\"}\n}", timeStr, port, stat, ip);
     
     write_log(logMessage);
 }
