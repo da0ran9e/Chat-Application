@@ -160,9 +160,27 @@ void clientLog(enum ClientStat status, const char * username, const char *ipAddr
     struct tm* timeInfo = localtime(&currentTime);
     strftime(timeStr, 20, "%Y-%m-%d %H:%M:%S", timeInfo);
 
+    char stat[20];
+
+    switch (status)
+    {
+    case LOGIN:
+        strcpy(stat,"LOGIN");
+        break;
+    case LOGOUT:
+        strcpy(stat,"LOGOUT");
+        break;
+    case REGISTER:
+        strcpy(stat,"REGISTER");
+        break;
+    default:
+        strcpy(stat,"UNKNOWN");
+        break;
+    }
+
     // Create the log message
     char logMessage[MAX_LOG_SIZE];
-    snprintf(logMessage, MAX_LOG_SIZE, "\t{\"%s\": \"[CLIENT] %s as %s address: %s port: %d\"}\n}", timeStr, status, username, ipAddress, port);
+    snprintf(logMessage, MAX_LOG_SIZE, "\t{\"%s\": \"[CLIENT] %s as %s address: %s port: %d\"}\n}", timeStr, stat, username, ipAddress, port);
     
     write_log(logMessage);
 }

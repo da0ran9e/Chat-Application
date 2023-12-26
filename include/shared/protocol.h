@@ -1,11 +1,6 @@
 #ifndef PROTOCOL_H
 #define PROTOCOL_H
 
-#include <stdio.h>
-#include <stdint.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
 #include "utility.h"
 
 typedef struct Parameters{
