@@ -44,6 +44,7 @@ void *receiveThread(void *args) {
 
         // Process the received message
         printf("Received message from server: %s\n", buffer);
+        handle_receive_message(buffer);
     }
 
     pthread_exit(NULL);
