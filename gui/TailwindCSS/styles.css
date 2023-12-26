@@ -1,0 +1,98 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #141414; /* Set the main background color */
+    color: #fff; /* Set the text color */
+}
+
+.container {
+    width: 80%;
+    margin: 20px auto;
+    height: 100vh; /* Fix the height to 100% of the viewport height */
+    overflow: hidden; /* Ensure the container doesn't overflow */
+}
+
+.title-bar {
+    display: flex;
+    height: 7vh; /* Set the height of the title bar */
+    background-color: rgba(255, 255, 255, 0.3); /* Set the title bar background color with 30% opacity */
+    border-radius: 10px; /* Round the corners of the title bar */
+    overflow: hidden; /* Hide any content that overflows the rounded corners */
+}
+
+.column {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+.title-content {
+    display: flex;
+    align-items: center;
+}
+
+.app-logo {
+    max-width: 100%;
+    height: auto;
+    margin-right: 10px;
+}
+
+.app-name {
+    font-size: 18px;
+}
+
+.user-icon {
+    max-width: 100%;
+    height: auto;
+    margin-right: 10px;
+}
+
+.row {
+    display: flex;
+    height: 90vh; /* Set the height of the main body */
+}
+
+.main-content {
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #141414; /* Set the main content background color */
+    border-radius: 10px; /* Round the corners of the main content */
+    overflow-y: auto; /* Enable vertical scrolling for the main content */
+}
+
+.bottom-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    background-color: #141414; /* Set the background color of the bottom bar */
+}
+
+#messageInput {
+    flex: 1;
+    margin-right: 10px;
+}
+
+button {
+    background-color: #0084ff; /* Set the button background color */
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.scroll-box {
+    overflow-y: auto; /* Enable vertical scrolling for the scroll boxes */
+    max-height: 100%; /* Ensure the scroll boxes do not exceed the height of the parent container */
+}
+
+/* New styles for the chat box */
+.chat-box {
+    display: flex;
+    flex-direction: column;
+    height: 90%;
+}
