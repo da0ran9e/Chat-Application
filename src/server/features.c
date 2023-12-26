@@ -567,7 +567,7 @@ void *handleClient(void *args) {
         int plSize = sizeof(buffer);
         char payload[plSize];
         getProtocolPayload(buffer, payload, plSize);
-        getProtocolParameters(payload, params);
+        getProtocolParameters(payload, &params);
         //readMessage(buffer, sizeof(buffer), p);
         handle_features(clientSocket, op, func, params);
 
