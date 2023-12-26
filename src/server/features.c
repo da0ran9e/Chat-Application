@@ -493,7 +493,7 @@ int feat_new_message(const int clientSock, const char * username, const int room
         //sent response
         Parameters p;
         char message[BUFFER];
-        strcpy(p.Param1, "succes");
+        strcpy(p.Param1, "success");
         int len = writeMessage(0, 3, p, message);
         sendMessage(clientSock, message, len);
     }
