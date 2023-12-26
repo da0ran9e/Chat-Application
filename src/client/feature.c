@@ -17,7 +17,7 @@ int handle_receive_message(const char * messsge){
     char payload[BUFFER-8];
     int plSize=0;
     getProtocolPayload(messsge, payload, plSize);
-    getProtocolParameters(payload, params);
+    getProtocolParameters(payload, &params);
     
     //handle
     switch (code)
