@@ -124,7 +124,7 @@ int feat_register (const int clientSock, const char * username, const char * pas
         //sent response
         Parameters p;
         char message[BUFFER];
-        strcpy(p.Param1, "succes");
+        strcpy(p.Param1, "success");
         int len = writeMessage(0, 2, p, message);
         sendMessage(clientSock, message, len);
     }
@@ -146,7 +146,7 @@ int feat_change_password (const int clientSock, const char *username, const char
         //sent response
         Parameters p;
         char message[BUFFER];
-        strcpy(p.Param1, "succes");
+        strcpy(p.Param1, "success");
         int len = writeMessage(0, 3, p, message);
         sendMessage(clientSock, message, len);
     }
@@ -558,7 +558,7 @@ void *handleClient(void *args) {
         if (bytesReceived <= 0) {
             break; // Connection closed or error
         }
-
+        
         // Process the received message
         printf("Processing message from client %d: %s\n", clientSocket, buffer);
         int op = getProtocolOpcode(buffer);
