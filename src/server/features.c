@@ -516,34 +516,34 @@ int writeMessage(const int op, const int func, const Parameters params, char * b
     return generateMessage(op, func, params, buffer);
 }
 
-// process message from client
-int readMessage(const char * buffer, const int size, Parameters params) {
-    int op = getProtocolOpcode(buffer);
-    int func = getProtocolFunctionCode(buffer);
-    char payload[size];
+// // process message from client
+// int readMessage(const char * buffer, const int size, Parameters params) {
+//     int op = getProtocolOpcode(buffer);
+//     int func = getProtocolFunctionCode(buffer);
+//     char payload[size];
 
-    getProtocolPayload(buffer, payload, sizeof(payload));
+//     getProtocolPayload(buffer, payload, sizeof(payload));
 
-    getProtocolParameters(payload, params);
+//     getProtocolParameters(payload, params);
 
-    // printf("Opcode: %d\n", op);
-    // printf("Func: %d\n", func);
-    // printf("len1: %d\n", strlen(params.Param1));
-    // printf("Param1: %s\n", params.Param1);
-    // printf("len2: %d\n", strlen(params.Param2));
-    // printf("Param2: %s\n", params.Param2);
-    // printf("len3: %d\n", strlen(params.Param3));
-    // printf("Param3: %s\n", params.Param3);
-    // // Print the binary string
+//     // printf("Opcode: %d\n", op);
+//     // printf("Func: %d\n", func);
+//     // printf("len1: %d\n", strlen(params.Param1));
+//     // printf("Param1: %s\n", params.Param1);
+//     // printf("len2: %d\n", strlen(params.Param2));
+//     // printf("Param2: %s\n", params.Param2);
+//     // printf("len3: %d\n", strlen(params.Param3));
+//     // printf("Param3: %s\n", params.Param3);
+//     // // Print the binary string
 
-    // printf("Binary String : \n");
-    // for (size_t i = 0; i < size; i++) {
-    //     printf("\\x%02X", (unsigned char)buffer[i]);
-    // }
-    // printf("\n");
+//     // printf("Binary String : \n");
+//     // for (size_t i = 0; i < size; i++) {
+//     //     printf("\\x%02X", (unsigned char)buffer[i]);
+//     // }
+//     // printf("\n");
 
-    return 10*func+op;
-}
+//     return 10*func+op;
+// }
 
 // Function to handle I/O asynchronously in a thread
 void *handleClient(void *args) {
@@ -561,8 +561,15 @@ void *handleClient(void *args) {
 
         // Process the received message
         printf("Processing message from client %d: %s\n", clientSocket, buffer);
-        Parameters p;
-        readMessage(buffer, sizeof(buffer), p);
+        int op = getProtocolOpcode(buffer);
+        int func = getProtocolFunctionCode(buffer);
+        Parameters params;
+        int plSize = sizeof(buffer);
+        char payload[plSize];
+        getProtocolPayload(buffer, payload, plSize);
+        getProtocolParameters(payload, params);
+        //readMessage(buffer, sizeof(buffer), p);
+        handle_features(clientSocket, op, func, params);
 
         sendMessage(clientSocket, buffer, strlen(buffer));        // Echo the message back to the client
     }
