@@ -3,4 +3,140 @@
 	{"2023-12-18 01:10:56": "[SERVER] START Port: 5500"}
 	{"2023-12-18 01:11:01": "[SERVER] 45388 UNKNOWN ip: 127.0.0.1"}
 	{"2023-12-18 01:12:15": "[SERVER] 45390 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-26 15:17:18": "[SERVER] 65050 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-26 15:17:18": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:17:23": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:17:28": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:17:33": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:17:38": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:17:43": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:17:48": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:17:53": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:17:58": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:18:03": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:18:08": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:18:13": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:18:18": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:18:23": "[SERVER] 65054 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-26 15:18:23": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:18:28": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:18:33": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:18:38": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:18:43": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:18:48": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:18:53": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:18:58": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:19:03": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:19:08": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:19:11": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-26 15:19:13": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:19:19": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:19:24": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:19:29": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:19:34": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:19:39": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:19:44": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:19:49": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:19:54": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:19:59": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:20:04": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:20:09": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:20:14": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:20:19": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:20:24": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:20:29": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:20:34": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:20:39": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:20:44": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:20:49": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:20:54": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:20:59": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:21:04": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:21:09": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:21:14": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:21:19": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:21:24": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:21:29": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:21:34": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:21:39": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:21:44": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:21:49": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:21:54": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:21:59": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:22:04": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:22:09": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:22:14": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:22:19": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:22:24": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:22:29": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:22:34": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:22:39": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:22:43": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-26 15:22:44": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:22:49": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:22:54": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:22:59": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:27:22": "[SERVER] 65139 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-26 15:27:22": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:27:27": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:27:32": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-26 15:27:32": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:27:37": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:27:42": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:27:47": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:27:52": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:27:57": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:28:02": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:28:07": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:28:12": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:28:17": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:28:22": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:28:27": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:28:32": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:28:37": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:28:42": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:28:47": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:28:52": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:28:57": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:29:02": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:29:07": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:29:12": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-26 15:29:17": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 00:24:46": "[CONNECT] 50291 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 00:24:46": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 00:24:51": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 00:24:56": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 00:24:58": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-27 00:25:01": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 00:25:06": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 00:32:29": "[CONNECT] 50357 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 00:32:29": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 00:32:34": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 00:32:38": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-27 00:32:39": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 00:38:35": "[CONNECT] 50400 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 00:38:35": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 00:38:40": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 00:38:43": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-27 00:38:45": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 00:41:26": "[CONNECT] 50428 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 00:41:26": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 00:41:31": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 00:41:34": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-27 00:41:36": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 00:45:00": "[CONNECT] 50475 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 00:45:00": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 00:45:06": "[CONNECT] 50480 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 00:45:06": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 00:45:11": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 00:45:16": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 00:45:17": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-27 00:45:17": "[CLIENT] (null) as user1 address: 127.0.0.1 port: 0"}
+	{"2023-12-27 00:45:21": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 00:57:33": "[CONNECT] 50742 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 00:57:33": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 00:57:38": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 00:57:43": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-27 00:57:43": "[CLIENT] LOGIN as user1 address: 127.0.0.1 port: 0"}
+	{"2023-12-27 00:57:43": "[EVENT] UNKNOWN           Port: 0"}
 }
