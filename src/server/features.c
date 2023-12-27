@@ -179,6 +179,7 @@ int feat_friend_list (const int clientSock){
         for (int i=0; i<count; i++){
 
             for (int j=0; j<MAX_CLIENTS; j++){
+                printf("%s\n", friendList[i]);
                 //serialize message
                 Parameters p;
                 strcpy(p.Param1, friendList[i]);
@@ -195,6 +196,7 @@ int feat_friend_list (const int clientSock){
         }
     }
     else{
+        printf("people not found!\n");
         //sent response
         Parameters p;
         char message[BUFFER];
@@ -215,6 +217,7 @@ int feat_request_friend (int clientSock, const char * username, const char * des
         }
     }
     if (destSock != -1){
+        printf("found destination user at socket %d\n", destSock);
         //send invitation
         char buffer[BUFFER];
         Parameters p;
@@ -223,6 +226,7 @@ int feat_request_friend (int clientSock, const char * username, const char * des
         sendMessage(destSock, buffer, len);
     }
     else{
+        printf("user not online!\n");
         Parameters p;
         char message[BUFFER];
         strcpy(p.Param1, "error");
@@ -242,6 +246,7 @@ int feat_response_request (int clientSock, const char * username, const char * d
         }
     }
     if (destSock != -1){
+        printf("accept request!\n");
         int room = -1;
         if(!strcmp(response, "accept")){
             s_rela_addfriendship(username, destination, room);
@@ -266,6 +271,7 @@ int feat_response_request (int clientSock, const char * username, const char * d
         sendMessage(destSock, buffer2, len2); //send to client
     }
     else{
+        printf("user not online!\n");
         Parameters p;
         char message[BUFFER];
         strcpy(p.Param1, "error");
@@ -282,6 +288,7 @@ int feat_room_list (const int clientSock, const char * username){
     int res = s_room_list (username, rooms, count);
     if (res==202){
         for(int i=0; i<count; i++){
+            printf("room %d found: %s \n", rooms[i].roomId, rooms[i].roomName);
             //serialize message
             Parameters p;
             char buffer[BUFFER];
@@ -291,6 +298,7 @@ int feat_room_list (const int clientSock, const char * username){
             sendMessage(clientSock, buffer, len);
         }
     }else{
+        printf("no room found!\n");
         Parameters p;
         char message[BUFFER];
         strcpy(p.Param1, "error");
@@ -308,6 +316,7 @@ int feat_room_members (const int clientSock, const int roomId){
     if (res == 212){
         //serialize message
         for (int i=0; i<count; i++){
+            printf("people: %s at %d\n", peopleList[i], roomId);
             Parameters p;
             char buffer[BUFFER];
             strcpy(p.Param1, peopleList[i]);
@@ -316,6 +325,7 @@ int feat_room_members (const int clientSock, const int roomId){
             sendMessage(clientSock, buffer, len);
         }
     }else{
+        printf("people not found!\n");
         Parameters p;
         char message[BUFFER];
         strcpy(p.Param1, "error");
@@ -371,7 +381,7 @@ int feat_add_member(const int clientSock, const int roomId, const char * usernam
 
 //remove
 int feat_remove_member(const int clientSock, const int roomId, const char * username){
-    int res = dbc_remove_member(username, roomId);
+    int res = s_room_remove_member(roomId, username);
     if (res == 242){
         //sent response
         Parameters p;
