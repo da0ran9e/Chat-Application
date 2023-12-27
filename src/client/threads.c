@@ -98,7 +98,7 @@ void run_client(){
     // Create thread arguments
      // Create thread arguments
     struct ThreadArgs *threadArgs = (struct ThreadArgs *)malloc(sizeof(struct ThreadArgs));
-    threadArgs->clientSocket = clientSocket;
+    threadArgs->clientSocket = g_socket;
 
     // Create threads for sending and receiving messages, and sending ping messages
     pthread_t sendThreadID, receiveThreadID, pingThreadID;
@@ -106,7 +106,7 @@ void run_client(){
         pthread_create(&receiveThreadID, NULL, receiveThread, (void *)threadArgs) != 0 ||
         pthread_create(&pingThreadID, NULL, sendPingMessages, (void *)threadArgs) != 0) {
         perror("Error creating threads");
-        close(clientSocket);
+        close(g_socket);
         free(threadArgs);
         exit(EXIT_FAILURE);
     }
@@ -116,6 +116,6 @@ void run_client(){
     pthread_join(receiveThreadID, NULL);
     pthread_join(pingThreadID, NULL);
 
-    close(clientSocket);
+    close(g_socket);
     free(threadArgs);
 }

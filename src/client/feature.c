@@ -2,10 +2,11 @@
 
 int handle_send_message(enum RequestEvent request, const Parameters params, char * message){
     int op = request%10;
-    int func = (request%100)\10;
+    int func = (request%100)/10;
     int len = generateMessage(op, func, params, message);
 
     send_message(g_socket, message, len);
+    return len;
 }
 
 int handle_receive_message(const char * messsge){
@@ -137,7 +138,7 @@ void in_online_list(const char * username, const int rtd){
     for(int i=0; i<MAX_CLIENTS; i++){
         if (g_user[i][0]!='\0') {
             strcpy(g_user[i], username);
-            g_rtds[i] = *rtd;
+            g_rtds[i] = rtd;
         }
     }
 }
@@ -153,14 +154,14 @@ void in_friend_list(const char * username){
 void in_room_list(const int roomId, const char * roomName){
     for (int i=0; i<MAX_CLIENTS; i++){
         if (g_rooms[i].roomId == -1 || g_rooms[i].roomName[0] == '\0'){
-            g_rooms[i].roomId == roomId;
+            g_rooms[i].roomId = roomId;
             strcpy(g_rooms[i].roomName, roomName);
 
             Parameters params;
             char buffer[BUFFER];
             // online 
             strcpy(params.Param1, util_int_to_str(roomId)); 
-            int len = generateMessage(3, 0, p, buffer);
+            int len = generateMessage(3, 0, params, buffer);
             send_message(g_socket, buffer, len);
         }
     }
@@ -170,7 +171,7 @@ void in_member_list(const char * member, const int roomId){
     for (int i=0; i<10000; i++){
         if (g_room_member[i].memName[0] != '\0'){
             g_room_member[i].roomId = roomId;
-            strcpy(g_room_member[i], member);
+            strcpy(g_room_member[i].memName, member);
         }
     }
 }
@@ -199,7 +200,7 @@ void in_login_done(const char * username){
     char buffer[BUFFER];
     // online 
     strcpy(params.Param1, util_int_to_str(g_rtd)); 
-    int len = generateMessage(0, 0, p, buffer);
+    int len = generateMessage(0, 0, params, buffer);
     send_message(g_socket, buffer, len);
     // friend 
     params.Param1[0]='\0';
@@ -217,7 +218,7 @@ void out_login(const char * username, const char * password){
     char buffer[BUFFER]; 
     strcpy(params.Param1, username); 
     strcpy(params.Param2, password); 
-    int len = generateMessage(0, 1, p, buffer);
+    int len = generateMessage(0, 1, params, buffer);
     send_message(g_socket, buffer, len);
 }
 
@@ -226,7 +227,7 @@ void out_register(const char * username, const char * password){
     char buffer[BUFFER]; 
     strcpy(params.Param1, username); 
     strcpy(params.Param2, password); 
-    int len = generateMessage(0, 2, p, buffer);
+    int len = generateMessage(0, 2, params, buffer);
     send_message(g_socket, buffer, len);
 }
 
@@ -236,7 +237,7 @@ void out_change_password(const char * username, const char * oldpass, const char
     strcpy(params.Param1, username); 
     strcpy(params.Param2, oldpass);
     strcpy(params.Param3, newpass); 
-    int len = generateMessage(0, 3, p, buffer);
+    int len = generateMessage(0, 3, params, buffer);
     send_message(g_socket, buffer, len);
 }
 
@@ -246,7 +247,7 @@ void out_get_friend_list(){
     strcpy(params.Param1, "\0"); 
     strcpy(params.Param2, "\0");
     strcpy(params.Param3, "\0"); 
-    int len = generateMessage(1, 0, p, buffer);
+    int len = generateMessage(1, 0, params, buffer);
     send_message(g_socket, buffer, len);
 }
 
@@ -256,7 +257,7 @@ void out_sent_friend_request(const char * username, const char * friendname){
     strcpy(params.Param1, username); 
     strcpy(params.Param2, friendname);
     strcpy(params.Param3, "\0"); 
-    int len = generateMessage(1, 1, p, buffer);
+    int len = generateMessage(1, 1, params, buffer);
     send_message(g_socket, buffer, len);
 }
 
@@ -266,7 +267,7 @@ void out_sent_friend_response(const char * username, const char * friendname){
     strcpy(params.Param1, username); 
     strcpy(params.Param2, friendname);
     strcpy(params.Param3, "\0"); 
-    int len = generateMessage(1, 2, p, buffer);
+    int len = generateMessage(1, 2, params, buffer);
     send_message(g_socket, buffer, len);
 }
 
@@ -276,17 +277,17 @@ void out_get_room_list(const char * username){
     strcpy(params.Param1, username); 
     strcpy(params.Param2, "\0");
     strcpy(params.Param3, "\0"); 
-    int len = generateMessage(2, 0, p, buffer);
+    int len = generateMessage(2, 0, params, buffer);
     send_message(g_socket, buffer, len);
 }
 
 void out_get_room_members(const int roomId){
     Parameters params;
     char buffer[BUFFER]; 
-    strcpy(params.Param1, atoi(roomId)); 
+    strcpy(params.Param1, util_int_to_str(roomId)); 
     strcpy(params.Param2, "\0");
     strcpy(params.Param3, "\0"); 
-    int len = generateMessage(2, 1, p, buffer);
+    int len = generateMessage(2, 1, params, buffer);
     send_message(g_socket, buffer, len);
 }
 
@@ -296,46 +297,46 @@ void out_create_room(const char * roomName, const char * username){
     strcpy(params.Param1, roomName); 
     strcpy(params.Param2, username);
     strcpy(params.Param3, "\0"); 
-    int len = generateMessage(2, 2, p, buffer);
+    int len = generateMessage(2, 2, params, buffer);
     send_message(g_socket, buffer, len);
 }
 
 void out_add_member(const int roomId, const char * username){
     Parameters params;
     char buffer[BUFFER]; 
-    strcpy(params.Param1, atoi(roomId)); 
+    strcpy(params.Param1, util_int_to_str(roomId)); 
     strcpy(params.Param2, username);
     strcpy(params.Param3, "\0"); 
-    int len = generateMessage(2, 3, p, buffer);
+    int len = generateMessage(2, 3, params, buffer);
     send_message(g_socket, buffer, len);
 }
 
 void out_remove_member(const int roomId, const char * username){
     Parameters params;
     char buffer[BUFFER]; 
-    strcpy(params.Param1, atoi(roomId)); 
+    strcpy(params.Param1, util_int_to_str(roomId)); 
     strcpy(params.Param2, username);
     strcpy(params.Param3, "\0"); 
-    int len = generateMessage(2, 4, p, buffer);
+    int len = generateMessage(2, 4, params, buffer);
     send_message(g_socket, buffer, len);
 }
 
 void out_get_conversation(const int roomId){
     Parameters params;
     char buffer[BUFFER]; 
-    strcpy(params.Param1, stoi(roomId)); 
+    strcpy(params.Param1, util_int_to_str(roomId)); 
     strcpy(params.Param2, "\0");
     strcpy(params.Param3, "\0"); 
-    int len = generateMessage(3, 0, p, buffer);
+    int len = generateMessage(3, 0, params, buffer);
     send_message(g_socket, buffer, len);
 }
 
 void out_get_prev_conversation(const int roomId, const char * timestamp){
     Parameters params;
     char buffer[BUFFER]; 
-    strcpy(params.Param1, stoi(roomId)); 
+    strcpy(params.Param1, util_int_to_str(roomId)); 
     strcpy(params.Param2, timestamp);
     strcpy(params.Param3, "\0"); 
-    int len = generateMessage(3, 0, p, buffer);
+    int len = generateMessage(3, 0, params, buffer);
     send_message(g_socket, buffer, len);
 }
