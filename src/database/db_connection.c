@@ -271,11 +271,11 @@ int dbc_get_prev_conversation (const int roomId, const char * timestamp, char (*
 *
 * [OUT] enum{ERROR/ACCEPT}
 */
-enum DBStatus dbc_get_message (const int roomId, const char * timestamp, Message message){
+enum DBStatus dbc_get_message (const int roomId, const char * timestamp, Message *message){
     PGconn * conn = database_start ();
     
     int result = execute_get_conversation_content_query(conn, roomId, timestamp, message);
-    
+   //printf("dbc res: %d\n",result);
     database_exit(conn);
 
     if(result == 0) return ERROR;

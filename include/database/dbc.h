@@ -17,7 +17,7 @@ enum DBStatus   dbc_add_member          (const char * username, const int roomId
 enum DBStatus   dbc_remove_member       (const char * username, const int roomId);
 int             dbc_get_new_conversation(const int roomId, char (*messageList)[50]);
 int             dbc_get_prev_conversation(const int roomId, const char * timestamp, char (*messageList)[50]);
-enum DBStatus   dbc_get_message         (const int roomId, const char * timestamp, Message message);
+enum DBStatus   dbc_get_message         (const int roomId, const char * timestamp, Message *message);
 enum DBStatus   dbc_new_message         (const char * username, const int roomId, const char * message);
 
 #endif
