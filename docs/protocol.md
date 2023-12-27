@@ -16,7 +16,7 @@
 | 1 | 2 | ["destination", "username", "response"] | Response to Request |
 | 2 | 0 | ["username"] | Get Room List |
 | 2 | 1 | ["room_id"] | Get member list |
-| 2 | 2 | ["room_name"] | Create Room |
+| 2 | 2 | ["room_name, "admin username"] | Create Room |
 | 2 | 3 | ["room_id", "guest_username"] | Add User to Room |
 | 2 | 4 | ["room_id", "guest_username"] | Remove User from Room |
 | 3 | 0 | ["room_id"] | Get Conversation |

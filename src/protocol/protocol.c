@@ -53,7 +53,7 @@ int generateMessage(uint32_t op, uint32_t func, Parameters parameters, char * bu
     memcpy(buffer+16+len1, parameters.Param2, len2*sizeof(uint32_t));
     memcpy(buffer+16+len1+len2, (uint32_t*)&len3, sizeof(uint32_t));
     memcpy(buffer+20+len1+len2, parameters.Param3, len3*sizeof(uint32_t));
-    buffer[bufferSize-1] = '\0';
+    buffer[bufferSize] = '\0';
 
     return bufferSize;
 }
