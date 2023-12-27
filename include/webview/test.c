@@ -78,12 +78,14 @@ static const char html[] =
 void increment(const char *seq, const char *req, void *arg) {
   UNUSED(req);
   context_t *context = (context_t *)arg;
+
   char count_string[10] = {0};
   sprintf(count_string, "%u", ++context->count);
   char result[21] = {0};
   strcat(result, "{\"count\": ");
   strcat(result, count_string);
   strcat(result, "}");
+  
   webview_return(context->w, seq, 0, result);
 }
 

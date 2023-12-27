@@ -14,12 +14,31 @@ void *sendThread(void *args) {
     char buffer[BUFFER];
 
     while (1) {
-        // Get user input and send to the server
-        printf("Enter message to send to the server: ");
-        fgets(buffer, BUFFER, stdin);
+        int op;
+        int func;
+        Parameters params;
+        
+        printf("Enter Opcode: \n");
+        scanf("%d",&op);
+        printf("Enter Func: \n");
+        scanf("%d",&func);
+        printf("Enter param 1: \n");
+        scanf("%s", params.Param1);
+        printf("Enter param 2: \n");
+        scanf("%s", params.Param2);
+        printf("Enter param 3: \n");
+        scanf("%s", params.Param3);
+
+        int len = generateMessage(op, func, params, buffer);
+
+        // // Get user input and send to the server
+        // printf("Enter message to send to the server: ");
+        // fgets(buffer, BUFFER, stdin);
+
+
 
         // Send the message to the server
-        send(clientSocket, buffer, strlen(buffer), 0);
+        send(clientSocket, buffer, len, 0);
     }
 
     pthread_exit(NULL);
@@ -59,8 +78,11 @@ void *sendPingMessages(void *args) {
     while (1) {
         gettimeofday(&startTime, NULL);
         // Send a ping message to the server
-        const char *pingMessage = "PING";
-        send(clientSocket, pingMessage, strlen(pingMessage), 0);
+        char pingMessage[BUFFER];
+        Parameters p;
+        int len = generateMessage(0, 0, p, pingMessage);
+
+        send(clientSocket, pingMessage, len, 0);
 
         sleep(PING_INTERVAL);
         gettimeofday(&endTime, NULL);
