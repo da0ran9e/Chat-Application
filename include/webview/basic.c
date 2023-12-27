@@ -70,8 +70,6 @@ const char* readFromFile(const char* filename) {
     return content;
 }
 
-const char html[] = readFromFile("html.txt");
-
 void increment(const char *seq, const char *req, void *arg) {
   UNUSED(req);
   context_t *context = (context_t *)arg;
@@ -141,6 +139,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmdLine,
 #else
 int main() {
 #endif
+  const char* html = readFromFile("html.txt");
   webview_t w = webview_create(0, NULL);
   context_t context = {.w = w, .count = 0};
   webview_set_title(w, "Bind Example");
