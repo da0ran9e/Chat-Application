@@ -49,40 +49,41 @@ typedef struct {
   unsigned int count;
 } context_t;
 
-// Function to read the content of a file and return it as a string
-const char* readFromFile(const char* filename) {
-    FILE* file = fopen(filename, "r");
-    if (file == NULL) {
-        perror("Error opening file");
-        return NULL;
-    }
-
-    fseek(file, 0, SEEK_END);
-    long size = ftell(file);
-    fseek(file, 0, SEEK_SET);
-
-    char* content = (char*)malloc(size + 1);
-    fread(content, 1, size, file);
-    content[size] = '\0';
-
-    fclose(file);
-
-    return content;
-}
-
-const char html[] = readFromFile("html.txt");
+static const char html[] =
+    "<button id=\"increment\">Tap me</button>\n"
+    "<div>You tapped <span id=\"count\">0</span> time(s).</div>\n"
+    "<button id=\"compute\">Compute</button>\n"
+    "<div>Result of computation: <span id=\"compute-result\">0</span></div>\n"
+    "<script>\n"
+    "  const [incrementElement, countElement, computeElement, "
+    "computeResultElement] =\n"
+    "    document.querySelectorAll(\"#increment, #count, #compute, "
+    "#compute-result\");\n"
+    "  document.addEventListener(\"DOMContentLoaded\", () => {\n"
+    "    incrementElement.addEventListener(\"click\", () => {\n"
+    "      window.increment().then(result => {\n"
+    "        countElement.textContent = result.count;\n"
+    "      });\n"
+    "    });\n"
+    "    computeElement.addEventListener(\"click\", () => {\n"
+    "      computeElement.disabled = true;\n"
+    "      window.compute(6, 7).then(result => {\n"
+    "        computeResultElement.textContent = result;\n"
+    "        computeElement.disabled = false;\n"
+    "      });\n"
+    "    });\n"
+    "  });\n"
+    "</script>";
 
 void increment(const char *seq, const char *req, void *arg) {
   UNUSED(req);
   context_t *context = (context_t *)arg;
-
   char count_string[10] = {0};
   sprintf(count_string, "%u", ++context->count);
   char result[21] = {0};
   strcat(result, "{\"count\": ");
   strcat(result, count_string);
   strcat(result, "}");
-  
   webview_return(context->w, seq, 0, result);
 }
 
