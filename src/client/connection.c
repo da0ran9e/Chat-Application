@@ -14,8 +14,8 @@ int initializeClient(const char *address, int port) {
     // Configure server address
     memset(&serverAddr, 0, sizeof(serverAddr));
     serverAddr.sin_family = AF_INET;
-    serverAddr.sin_port = htons(atoi(argv[2]));
-    if (inet_pton(AF_INET, argv[1], &serverAddr.sin_addr) <= 0) {
+    serverAddr.sin_port = htons(port);
+    if (inet_pton(AF_INET, address, &serverAddr.sin_addr) <= 0) {
         perror("Invalid server address");
         close(clientSocket);
         exit(EXIT_FAILURE);
@@ -26,7 +26,7 @@ int initializeClient(const char *address, int port) {
         perror("Error connecting to the server");
         close(clientSocket);
         exit(EXIT_FAILURE);
-
+    }
     return clientSocket;
 }
 
