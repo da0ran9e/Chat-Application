@@ -406,7 +406,7 @@ int feat_remove_member(const int clientSock, const int roomId, const char * user
 int feat_conversation (const int clientSock, const int roomId){
     int count;
     char conv[100][50];
-    int res = s_conv_get_conversation(roomId, NULL, conv, count);
+    int res = s_conv_get_conversation(roomId, "\0", conv, count);
     if (res==203){
         
         if (count == 0){
