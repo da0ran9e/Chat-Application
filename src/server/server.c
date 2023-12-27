@@ -7,7 +7,7 @@ int readMessage(const char * binaryString, int size) {
 
     getProtocolPayload(binaryString, payload, sizeof(payload));
     Parameters p;
-    p = getProtocolParameters(payload, p);
+    p = getProtocolParameters(payload, &p);
     
     printf("len1: %d\n", strlen(p.Param1));
     printf("Param1: %s\n", p.Param1);
