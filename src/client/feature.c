@@ -133,11 +133,11 @@ int handle_receive_message(const char * messsge){
     return status;
 }
 
-void in_online_list(const char * username, int rtd){
+void in_online_list(const char * username, const int rtd){
     for(int i=0; i<MAX_CLIENTS; i++){
         if (g_user[i][0]!='\0') {
             strcpy(g_user[i], username);
-            g_rtds[i] = rtd;
+            g_rtds[i] = *rtd;
         }
     }
 }

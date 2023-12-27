@@ -25,7 +25,7 @@ RoomMember g_room_member[10000];
 
 int handle_send_message(enum RequestEvent request, const Parameters params, char * message);
 int handle_receive_message(const char * messsge);
-void in_online_list(const char * username, int rtd);
+void in_online_list(const char * username, const int rtd);
 void in_friend_list(const char * username);
 void in_room_list(const int roomId, const char * roomName);
 void in_member_list(const char * member, const int roomId);
