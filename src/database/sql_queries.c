@@ -139,7 +139,8 @@ int execute_get_room_list_query(PGconn *conn, const char *username, Room * rooml
     // Process the result
     int rows = PQntuples(result);
     for (int i = 0; i < rows; ++i) {
-        roomlist[i].roomId = atoi(PQgetvalue(result, 0, 0));
+        roomlist[i].roomId = atoi(PQgetvalue(result, i, 0));
+        //printf("query room id: %d\n", roomlist[i].roomId);
         strcpy(roomlist[i].roomName, PQgetvalue(result, i, 1));
     }
 
@@ -265,8 +266,10 @@ int execute_get_room_current_conversation_query(PGconn *conn, const int room_id,
     // Process the result
     int rows = PQntuples(result);
     printf("Room Conversation for Room %d at current timestamp:\n", room_id);
+    //printf("rows: %d\n", rows);
     for (int i = 0; i < rows; ++i) {
         strcpy(messageList[i], PQgetvalue(result, i, 0));
+        //printf("mess %d: %s\n",i,messageList[i]);
     }
 
     // Free the result
@@ -303,7 +306,7 @@ int execute_get_room_conversation_query(PGconn *conn, const int room_id, const c
     return rows;
 }
 
-int execute_get_conversation_content_query(PGconn *conn, const int room_id, const char *timestamp, Message message) {
+int execute_get_conversation_content_query(PGconn *conn, const int room_id, const char *timestamp, Message *message) {
     const char *query = "SELECT * FROM get_conversation_content($1, $2)";
     char* room_id_str = util_int_to_str(room_id);
     const char *paramValues[2] = {room_id_str, timestamp};
@@ -317,10 +320,15 @@ int execute_get_conversation_content_query(PGconn *conn, const int room_id, cons
     if (PQntuples(result)<=0) return 0;
 
     // Process the result
-    message.roomId = room_id;
-    strcpy(message.userId, PQgetvalue(result, 0, 0));
-    strcpy(message.timestamp, timestamp);
-    strcpy(message.content, PQgetvalue(result, 0, 1));
+    //printf("time: %s\n",timestamp);
+    message->roomId = room_id;
+    printf("mess room: %d\n", message->roomId);
+    strcpy(message->userId, PQgetvalue(result, 0, 0));
+    printf("username: %s\n", message->userId);
+    strcpy(message->timestamp, timestamp);
+    printf("time: %s\n", message->timestamp);
+    strcpy(message->content, PQgetvalue(result, 0, 1));
+    printf("chat: %s\n", message->content);
 
     // Free the result
     PQclear(result);

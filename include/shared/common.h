@@ -12,8 +12,8 @@ typedef struct Room{
 
 typedef struct Message{
     int roomId;
-    char userId[50];
-    char timestamp[20];
+    char userId[50];//username
+    char timestamp[50];
     char content[500];
 }Message;
 #endif

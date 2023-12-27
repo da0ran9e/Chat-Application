@@ -17,7 +17,7 @@ int execute_get_people_in_room_query(PGconn *conn, const int room_id, char (* pe
 int execute_create_new_room_query(PGconn *conn, const char *roomName, const char *adminUsername);
 int execute_get_room_current_conversation_query(PGconn *conn, const int room_id, char (*messageList)[50]);
 int execute_get_room_conversation_query(PGconn *conn, const int room_id, const char *timestamp, char (* messageList)[50]);
-int execute_get_conversation_content_query(PGconn *conn, const int room_id, const char *timestamp, Message message);
+int execute_get_conversation_content_query(PGconn *conn, const int room_id, const char *timestamp, Message *message);
 int execute_add_message_to_conversation_query(PGconn *conn, const char *username, const int room_id, const char *message);
 
 #endif

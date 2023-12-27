@@ -384,12 +384,13 @@ SELECT * FROM get_room_conversation(2, CURRENT_TIMESTAMP::TIMESTAMP);
 -- DROP FUNCTION IF EXISTS get_conversation_content(INT, TIMESTAMP);
 -- Function to get conversation content
 CREATE OR REPLACE FUNCTION get_conversation_content(in_room_id INT, in_timestamp TIMESTAMP)
-RETURNS TABLE (userid INT, msg_text VARCHAR(500)) AS $$
+RETURNS TABLE (username VARCHAR(50), msg_text VARCHAR(500)) AS $$
 BEGIN
     RETURN QUERY
-    SELECT user_id, msg AS msg_text
-    FROM message
-    WHERE room_id = in_room_id AND timestamp = in_timestamp;
+    SELECT a.username, m.msg AS msg_text
+    FROM message m
+    JOIN account a ON m.user_id = a.user_id
+    WHERE m.room_id = in_room_id AND m.timestamp = in_timestamp;
 END;
 $$ LANGUAGE plpgsql;
 -- query to get content of a message sent at a timestamp
