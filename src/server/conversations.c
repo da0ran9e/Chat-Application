@@ -5,7 +5,7 @@
 * 103: fail
 */
 int s_conv_get_conversation (const int roomId, const char *timestamp, char (* messageList)[50], int count){
-    if (timestamp == NULL){
+    if (timestamp[0] == '\0'){
         count = dbc_get_new_conversation(roomId, messageList);
     }
     else{
