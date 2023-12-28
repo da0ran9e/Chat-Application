@@ -1,6 +1,6 @@
 #include "../../include/client/feature.h"
 
-#define PING_INTERVAL 5 // Interval in seconds for sending ping messages
+#define PING_INTERVAL 500 // Interval in seconds for sending ping messages
 
 // Structure to pass arguments to the thread
 struct ThreadArgs {
@@ -94,9 +94,13 @@ void *sendPingMessages(void *args) {
 }
 
 void run_client(const char *address, const int port){
+    g_socket = -1;
+    g_port = -1;
+    g_rtd = 9999;
     strcpy(g_address, address);
     g_port = port;
     g_socket = initializeClient(g_address, g_port);
+    printf("run client sock: %d\n", g_socket);
     // Create thread arguments
     struct ThreadArgs *threadArgs = (struct ThreadArgs *)malloc(sizeof(struct ThreadArgs));
     threadArgs->clientSocket = g_socket;
@@ -107,6 +111,7 @@ void run_client(const char *address, const int port){
         pthread_create(&receiveThreadID, NULL, receiveThread, (void *)threadArgs) != 0 ||
         pthread_create(&pingThreadID, NULL, sendPingMessages, (void *)threadArgs) != 0) {
         perror("Error creating threads");
+        printf("run close thread sock: %d\n", g_socket);
         close(g_socket);
         free(threadArgs);
         exit(EXIT_FAILURE);
@@ -116,7 +121,7 @@ void run_client(const char *address, const int port){
     pthread_join(sendThreadID, NULL);
     pthread_join(receiveThreadID, NULL);
     pthread_join(pingThreadID, NULL);
-
+printf("run close sock: %d\n", g_socket);
     close(g_socket);
     free(threadArgs);
 }
