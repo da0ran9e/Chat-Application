@@ -93,9 +93,7 @@ void *sendPingMessages(void *args) {
     pthread_exit(NULL);
 }
 
-void run_client(const char *address, const int port){
-    strcpy(g_address, address);
-    g_port = port;
+void run_client(){
     g_socket = initializeClient(g_address, g_port);
     // Create thread arguments
     struct ThreadArgs *threadArgs = (struct ThreadArgs *)malloc(sizeof(struct ThreadArgs));
