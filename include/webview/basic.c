@@ -139,7 +139,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmdLine,
 #else
 int main() {
 #endif
-  const char* html = readFromFile("html.txt");
+  const char* html = readFromFile("html.cui");
   webview_t w = webview_create(0, NULL);
   context_t context = {.w = w, .count = 0};
   webview_set_title(w, "Bind Example");
