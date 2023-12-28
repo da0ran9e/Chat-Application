@@ -427,22 +427,22 @@ int feat_conversation (const int clientSock, const int roomId){
                 char buffer[BUFFER];
                 Parameters p1;
                 char buffer2[BUFFER];
-                Message *m;
+                Message m;
                 //printf("util int to str: %s\n",util_int_to_str(roomId));
                 strcpy(p.Param1, util_int_to_str(roomId));
                 //printf("conv[i]: %s\n",conv[i]);
                 strcpy(p.Param2, conv[i]);
-                res = s_conv_get_message(roomId, conv[i], m);
-                strcpy(p.Param3, m->userId);
-                printf("m user: %s\n", m->userId);
-                printf("m time: %s\n", m->timestamp);
-                printf("m content: %s\n",m->content);  
+                res = s_conv_get_message(roomId, conv[i], &m);
+                strcpy(p.Param3, m.userId);
+                printf("m user: %s\n", m.userId);
+                printf("m time: %s\n", m.timestamp);
+                printf("m content: %s\n",m.content);  
                 int len = writeMessage(3, 0, p, buffer);
                 sendMessage(clientSock, buffer, len);
 
                 strcpy(p1.Param1, util_int_to_str(roomId));
-                strcpy(p1.Param2, m->timestamp);
-                strcpy(p1.Param3, m->content);
+                strcpy(p1.Param2, m.timestamp);
+                strcpy(p1.Param3, m.content);
 
                 int len2 = writeMessage(3, 1, p1, buffer2);
                 sendMessage(clientSock, buffer2, len2);
