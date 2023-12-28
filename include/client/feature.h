@@ -29,7 +29,7 @@ typedef struct RoomMember{
     //memName[0] = '\0';
 } RoomMember;
 
-int g_socket;
+int gc_socket;
 char g_address[15];
 int g_port;
 int g_rtd;

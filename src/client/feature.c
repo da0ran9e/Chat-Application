@@ -5,9 +5,9 @@ int handle_send_message(enum RequestEvent request, const Parameters params, char
     int func = (request%100)/10;
     int len = generateMessage(op, func, params, message);
 
-    printf("send mess sock: %d\n", g_socket);
+    printf("send mess sock: %d\n", gc_socket);
 
-    send_message(g_socket, message, len);
+    send_message(gc_socket, message, len);
     return len;
 }
 
@@ -22,6 +22,8 @@ int handle_receive_message(const char * messsge){
     getProtocolPayload(messsge, payload, plSize);
     getProtocolParameters(payload, &params);
     
+    printf("handle_receive_message\n");
+    printf("param1: %s, param2: %s, param3: %s\n", params.Param1, params.Param2, params.Param3);
     //handle
     switch (code)
     {
@@ -81,6 +83,7 @@ int handle_receive_message(const char * messsge){
             status = 302;
         }else{
             status = 202;
+            printf("client feature handle_receive param1: %s\n",params.Param1);
             in_room_list(atoi(params.Param1), params.Param2);
         }
         break;
@@ -162,10 +165,11 @@ void in_room_list(const int roomId, const char * roomName){
             Parameters params;
             char buffer[BUFFER];
             // online 
+            printf("in_room_list roomid: %d\n", roomId);
             strcpy(params.Param1, util_int_to_str(roomId)); 
             int len = generateMessage(3, 0, params, buffer);
-            printf("room list sock: %d\n", g_socket);
-            send_message(g_socket, buffer, len);
+            printf("room list sock: %d\n", gc_socket);
+            send_message(gc_socket, buffer, len);
         }
     }
 }
@@ -202,20 +206,21 @@ void in_login_done(const char * username){
     Parameters params;
     char buffer[BUFFER];
     // online 
+    printf("g_rtd login done: %d\n", g_rtd);
     strcpy(params.Param1, util_int_to_str(g_rtd)); 
     int len = generateMessage(0, 0, params, buffer);
-    printf("login online sock: %d\n", g_socket);
-    send_message(g_socket, buffer, len);
+    printf("login online sock: %d\n", gc_socket);
+    send_message(gc_socket, buffer, len);
     // friend 
     params.Param1[0]='\0';
     len = generateMessage(1, 0, params, buffer);
-    printf("login friend sock: %d\n", g_socket);
-    send_message(g_socket, buffer, len);
+    printf("login friend sock: %d\n", gc_socket);
+    send_message(gc_socket, buffer, len);
     //room
     strcpy(params.Param1, username);    
     len = generateMessage(2, 0, params, buffer);
-    printf("login room sock: %d\n", g_socket);
-    send_message(g_socket, buffer, len);
+    printf("login room sock: %d\n", gc_socket);
+    send_message(gc_socket, buffer, len);
 
 }
 
@@ -225,8 +230,8 @@ void out_login(const char * username, const char * password){
     strcpy(params.Param1, username); 
     strcpy(params.Param2, password); 
     int len = generateMessage(0, 1, params, buffer);
-    printf("out login sock: %d\n", g_socket);
-    send_message(g_socket, buffer, len);
+    printf("out login sock: %d\n", gc_socket);
+    send_message(gc_socket, buffer, len);
 }
 
 void out_register(const char * username, const char * password){
@@ -235,8 +240,8 @@ void out_register(const char * username, const char * password){
     strcpy(params.Param1, username); 
     strcpy(params.Param2, password); 
     int len = generateMessage(0, 2, params, buffer);
-    printf("out register sock: %d\n", g_socket);
-    send_message(g_socket, buffer, len);
+    printf("out register sock: %d\n", gc_socket);
+    send_message(gc_socket, buffer, len);
 }
 
 void out_change_password(const char * username, const char * oldpass, const char * newpass){
@@ -246,8 +251,8 @@ void out_change_password(const char * username, const char * oldpass, const char
     strcpy(params.Param2, oldpass);
     strcpy(params.Param3, newpass); 
     int len = generateMessage(0, 3, params, buffer);
-    printf("change pass sock: %d\n", g_socket);
-    send_message(g_socket, buffer, len);
+    printf("change pass sock: %d\n", gc_socket);
+    send_message(gc_socket, buffer, len);
 }
 
 void out_get_friend_list(){
@@ -257,8 +262,8 @@ void out_get_friend_list(){
     strcpy(params.Param2, "\0");
     strcpy(params.Param3, "\0"); 
     int len = generateMessage(1, 0, params, buffer);
-    printf("get friend list sock: %d\n", g_socket);
-    send_message(g_socket, buffer, len);
+    printf("get friend list sock: %d\n", gc_socket);
+    send_message(gc_socket, buffer, len);
 }
 
 void out_sent_friend_request(const char * username, const char * friendname){
@@ -268,8 +273,8 @@ void out_sent_friend_request(const char * username, const char * friendname){
     strcpy(params.Param2, friendname);
     strcpy(params.Param3, "\0"); 
     int len = generateMessage(1, 1, params, buffer);
-    printf("send friend req sock: %d\n", g_socket);
-    send_message(g_socket, buffer, len);
+    printf("send friend req sock: %d\n", gc_socket);
+    send_message(gc_socket, buffer, len);
 }
 
 void out_sent_friend_response(const char * username, const char * friendname){
@@ -279,8 +284,8 @@ void out_sent_friend_response(const char * username, const char * friendname){
     strcpy(params.Param2, friendname);
     strcpy(params.Param3, "\0"); 
     int len = generateMessage(1, 2, params, buffer);
-    printf("send friend response sock: %d\n", g_socket);
-    send_message(g_socket, buffer, len);
+    printf("send friend response sock: %d\n", gc_socket);
+    send_message(gc_socket, buffer, len);
 }
 
 void out_get_room_list(const char * username){
@@ -290,8 +295,8 @@ void out_get_room_list(const char * username){
     strcpy(params.Param2, "\0");
     strcpy(params.Param3, "\0"); 
     int len = generateMessage(2, 0, params, buffer);
-    printf("get room list sock: %d\n", g_socket);
-    send_message(g_socket, buffer, len);
+    printf("get room list sock: %d\n", gc_socket);
+    send_message(gc_socket, buffer, len);
 }
 
 void out_get_room_members(const int roomId){
@@ -301,8 +306,8 @@ void out_get_room_members(const int roomId){
     strcpy(params.Param2, "\0");
     strcpy(params.Param3, "\0"); 
     int len = generateMessage(2, 1, params, buffer);
-    printf("get room member sock: %d\n", g_socket);
-    send_message(g_socket, buffer, len);
+    printf("get room member sock: %d\n", gc_socket);
+    send_message(gc_socket, buffer, len);
 }
 
 void out_create_room(const char * roomName, const char * username){
@@ -312,8 +317,8 @@ void out_create_room(const char * roomName, const char * username){
     strcpy(params.Param2, username);
     strcpy(params.Param3, "\0"); 
     int len = generateMessage(2, 2, params, buffer);
-    printf("create room sock: %d\n", g_socket);
-    send_message(g_socket, buffer, len);
+    printf("create room sock: %d\n", gc_socket);
+    send_message(gc_socket, buffer, len);
 }
 
 void out_add_member(const int roomId, const char * username){
@@ -323,8 +328,8 @@ void out_add_member(const int roomId, const char * username){
     strcpy(params.Param2, username);
     strcpy(params.Param3, "\0"); 
     int len = generateMessage(2, 3, params, buffer);
-    printf("add mem sock: %d\n", g_socket);
-    send_message(g_socket, buffer, len);
+    printf("add mem sock: %d\n", gc_socket);
+    send_message(gc_socket, buffer, len);
 }
 
 void out_remove_member(const int roomId, const char * username){
@@ -334,8 +339,8 @@ void out_remove_member(const int roomId, const char * username){
     strcpy(params.Param2, username);
     strcpy(params.Param3, "\0"); 
     int len = generateMessage(2, 4, params, buffer);
-    printf("remove mem sock: %d\n", g_socket);
-    send_message(g_socket, buffer, len);
+    printf("remove mem sock: %d\n", gc_socket);
+    send_message(gc_socket, buffer, len);
 }
 
 void out_get_conversation(const int roomId){
@@ -345,8 +350,8 @@ void out_get_conversation(const int roomId){
     strcpy(params.Param2, "\0");
     strcpy(params.Param3, "\0"); 
     int len = generateMessage(3, 0, params, buffer);
-    printf("get conversation sock: %d\n", g_socket);
-    send_message(g_socket, buffer, len);
+    printf("get conversation sock: %d\n", gc_socket);
+    send_message(gc_socket, buffer, len);
 }
 
 void out_get_prev_conversation(const int roomId, const char * timestamp){
@@ -356,6 +361,6 @@ void out_get_prev_conversation(const int roomId, const char * timestamp){
     strcpy(params.Param2, timestamp);
     strcpy(params.Param3, "\0"); 
     int len = generateMessage(3, 0, params, buffer);
-    printf("get prev conversation sock: %d\n", g_socket);
-    send_message(g_socket, buffer, len);
+    printf("get prev conversation sock: %d\n", gc_socket);
+    send_message(gc_socket, buffer, len);
 }
