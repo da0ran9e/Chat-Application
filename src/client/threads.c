@@ -96,7 +96,6 @@ void *sendPingMessages(void *args) {
 void run_client(){
     g_socket = initializeClient(g_address, g_port);
     // Create thread arguments
-     // Create thread arguments
     struct ThreadArgs *threadArgs = (struct ThreadArgs *)malloc(sizeof(struct ThreadArgs));
     threadArgs->clientSocket = g_socket;
 
