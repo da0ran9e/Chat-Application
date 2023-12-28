@@ -56,21 +56,3 @@ void initializeServer(int *serverSocket, int port) {
 
     printf("Server is listening on port %d...\n", port);
 }
-
-// int main(int argc, char *argv[]) {
-//     if (argc != 2) {
-//         printf("Usage: %s PortNumber\n", argv[0]);
-//         exit(1);
-//     }
-
-//     int serverSocket;
-//     int port = atoi(argv[1]);
-
-//     initializeServer(&serverSocket, port);
-
-//     runServer(serverSocket);
-
-//     close(serverSocket);
-
-//     return 0;
-// }
