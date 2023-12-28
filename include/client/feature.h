@@ -29,10 +29,10 @@ typedef struct RoomMember{
     //memName[0] = '\0';
 } RoomMember;
 
-static int g_socket = -1;
-static char g_address[15];
-static int g_port = -1;
-static int g_rtd = 9999;
+int g_socket;
+char g_address[15];
+int g_port;
+int g_rtd;
 char g_user[MAX_CLIENTS][50];
 int g_rtds[MAX_CLIENTS];
 char g_friend[MAX_CLIENTS][50];
@@ -64,6 +64,6 @@ void out_get_conversation(const int roomId);
 void *sendThread(void *args);
 void *receiveThread(void *args);
 void *sendPingMessages(void *args);
-void run_client();
+void run_client(const char *clientIP, const int clientPort);
 
 #endif
