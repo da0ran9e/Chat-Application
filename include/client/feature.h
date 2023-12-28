@@ -2,7 +2,7 @@
 #define FEATURE_H
 
 #include "../shared/common.h"
-#include "connection.h"
+#include "../client/connection.h"
 
 #define MAX_CLIENTS 100
 
@@ -29,10 +29,10 @@ typedef struct RoomMember{
     //memName[0] = '\0';
 } RoomMember;
 
-int g_socket = -1;
-char g_address[15];
-int g_port = -1;
-int g_rtd = 9999;
+static int g_socket = -1;
+static char g_address[15];
+static int g_port = -1;
+static int g_rtd = 9999;
 char g_user[MAX_CLIENTS][50];
 int g_rtds[MAX_CLIENTS];
 char g_friend[MAX_CLIENTS][50];
