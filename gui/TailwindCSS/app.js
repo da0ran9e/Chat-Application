@@ -240,7 +240,7 @@ function displayChatMember(room){
     </div>`
 
     document.body.appendChild(memberListBody);
-    var closeBtn = document.getElementById("close_button").addEventListener("click", ()=>{memberListBody.style.display = "hidden"});
+    
     var memberListTable = document.getElementById("memlist");
     chatRooms.forEach(chatRoom=>{
         if(chatRoom.name == room){
@@ -249,6 +249,10 @@ function displayChatMember(room){
             })
         }
     })
+}
+
+function list_close(){
+    var closeBtn = document.getElementById()
 }
 
 function changeChatRoom(chatRoom) {

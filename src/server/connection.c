@@ -1,6 +1,6 @@
 #include "../../include/server/connection.h"
 
-ssize_t receiveMessage(int clientSocket, char *buffer) {
+ssize_t p-receiveMessage(int clientSocket, char *buffer) {
     ssize_t bytesRead = recv(clientSocket, buffer, BUFFER - 1, 0);
     if (bytesRead <= 0) {
         perror("Connection lost from: ");

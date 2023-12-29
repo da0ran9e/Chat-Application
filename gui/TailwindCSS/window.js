@@ -1,3 +1,29 @@
+function login(usn, psw){
+    window.login(usn, psw).then(result => {
+        if (result == 201){
+            username = getElementById("username").value
+            updateData();
+            showMainBody();
+        } else {
+            document.getElementById("username").value = "";
+            document.getElementById("password").value = "";
+        }
+    })
+}
+
+function register(usn, psw){
+    window.register(usn, psw).then(result => {
+        if (result == 211){
+            username = getElementById("username").value
+            updateData();
+            showMainBody();
+        } else {
+            document.getElementById("username").value = "";
+            document.getElementById("password").value = "";
+        }
+    })
+}
+
 function updateData(){
     window.updateData().then(result => {
         PORT = result.port;
