@@ -128,7 +128,7 @@ int dbc_get_roomlist (const char * username, Room * roomList){
     int result = execute_get_room_list_query(conn, username, roomList);
 
     database_exit(conn);
-    printf("dbc_get_room_list res: %d\n", result);
+
     return result;
 }
 

@@ -4,9 +4,6 @@ int handle_features(const int userSock, int op, int func, const Parameters param
     int result = 0;
     int code = 10*func + op;
     eventLog(code, g_port);
-
-    printf("handle_features\n");
-    printf("param1: %s, param2: %s, param3: %s\n", params.Param1, params.Param2, params.Param3);
     switch (code)
     {
     case 0: // op 0, func 0
@@ -46,7 +43,6 @@ int handle_features(const int userSock, int op, int func, const Parameters param
         result = feat_remove_member (userSock, atoi(params.Param1), params.Param2);
         break;
     case 3:
-        printf("case 3: %s\n", params.Param1);
         result = feat_conversation (userSock, atoi(params.Param1));
         break;
     case 13:
@@ -176,10 +172,10 @@ int feat_friend_list (const int clientSock){
             strcpy(username, g_clientNames[i]);
         }
     }
-    printf("get_friend_list username: %s\n", username);
+printf("username: %s\n", username);
     int res = s_rela_friend_list(username, friendList, &count);
-    printf("get_friend_list res: %d\n", res);
-    printf("get_friend_list count: %d\n", count);
+    printf("res: %d\n", res);
+    printf("count: %d\n", count);
     //response to client
     if (res == 201){
         for (int i=0; i< count; i++){
@@ -228,7 +224,6 @@ int feat_request_friend (int clientSock, const char * username, const char * des
         char buffer[BUFFER];
         Parameters p;
         strcpy(p.Param1, username);
-        strcpy(p.Param2, destination);
         int len = writeMessage (1, 2, p, buffer);
         sendMessage(destSock, buffer, len);
     }
@@ -293,12 +288,11 @@ int feat_room_list (const int clientSock, const char * username){
     Room rooms[MAX_CLIENTS];
     int count=0;
     int res = s_room_list (username, rooms, &count);
-    printf ("feat_room_list count: %d\n", count);
     if (res==202){
         //printf("res: %d\n", res);
         //printf("count: %d, 1st room: %s", count, rooms[0].roomName);
         for(int i=0; i<count; i++){
-            printf("feat_room_list room %d found: %s \n", rooms[i].roomId, rooms[i].roomName);
+            printf("room %d found: %s \n", rooms[i].roomId, rooms[i].roomName);
             //serialize message
             Parameters p;
             char buffer[BUFFER];
@@ -326,7 +320,7 @@ int feat_room_members (const int clientSock, const int roomId){
     if (res == 212){
         //serialize message
         for (int i=0; i<count; i++){
-            printf("feat_room_member people: %s at %d\n", peopleList[i], roomId);
+            printf("people: %s at %d\n", peopleList[i], roomId);
             Parameters p;
             char buffer[BUFFER];
             strcpy(p.Param1, peopleList[i]);
@@ -416,9 +410,8 @@ int feat_remove_member(const int clientSock, const int roomId, const char * user
 int feat_conversation (const int clientSock, const int roomId){
     int count;
     char conv[100][50];
-    printf("feat_conversation server roomId: %d\n", roomId);
     int res = s_conv_get_conversation(roomId, NULL, conv, &count);
-    printf("feat conv ser res: %d, count: %d\n", res, count);
+    printf("res: %d, count: %d\n", res, count);
     if (res==203){
         
         if (count == 0){

@@ -88,32 +88,22 @@ void *sendPingMessages(void *args) {
         gettimeofday(&endTime, NULL);
         g_rtd = (endTime.tv_sec - startTime.tv_sec) * 1000000L +
                                 (endTime.tv_usec - startTime.tv_usec);
-        printf("g_rtd sendPingMessages: %d\n", g_rtd);
     }
 
     pthread_exit(NULL);
 }
 
 void run_client(const char *address, const int port){
-    gc_socket = -1;
+    g_socket = -1;
     g_port = -1;
     g_rtd = 9999;
-    for (int i=0; i<MAX_CLIENTS; i++){
-        g_user[i][0] = '\0';
-        g_rtds[i] = 9999;
-        g_friend[i][0] = '\0';
-        g_rooms[i].roomId = -1;
-    }
     strcpy(g_address, address);
-    printf("g_address run client: %s\n", g_address);
     g_port = port;
-    printf("g_port run client: %d\n", g_port);
-    printf("g_rtd run client: %d\n", g_rtd);
-    gc_socket = initializeClient(g_address, g_port);
-    printf("run client sock: %d\n", gc_socket);
+    g_socket = initializeClient(g_address, g_port);
+    printf("run client sock: %d\n", g_socket);
     // Create thread arguments
     struct ThreadArgs *threadArgs = (struct ThreadArgs *)malloc(sizeof(struct ThreadArgs));
-    threadArgs->clientSocket = gc_socket;
+    threadArgs->clientSocket = g_socket;
 
     // Create threads for sending and receiving messages, and sending ping messages
     pthread_t sendThreadID, receiveThreadID, pingThreadID;
@@ -121,8 +111,8 @@ void run_client(const char *address, const int port){
         pthread_create(&receiveThreadID, NULL, receiveThread, (void *)threadArgs) != 0 ||
         pthread_create(&pingThreadID, NULL, sendPingMessages, (void *)threadArgs) != 0) {
         perror("Error creating threads");
-        printf("run close thread sock: %d\n", gc_socket);
-        close(gc_socket);
+        printf("run close thread sock: %d\n", g_socket);
+        close(g_socket);
         free(threadArgs);
         exit(EXIT_FAILURE);
     }
@@ -131,7 +121,7 @@ void run_client(const char *address, const int port){
     pthread_join(sendThreadID, NULL);
     pthread_join(receiveThreadID, NULL);
     pthread_join(pingThreadID, NULL);
-printf("run close sock: %d\n", gc_socket);
-    close(gc_socket);
+printf("run close sock: %d\n", g_socket);
+    close(g_socket);
     free(threadArgs);
 }

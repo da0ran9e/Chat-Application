@@ -146,7 +146,7 @@ int execute_get_room_list_query(PGconn *conn, const char *username, Room * rooml
 
     // Free the result
     PQclear(result);
-    printf("execute_get_room_list sql.queries row: %d\n", rows);
+
     return rows;
 }
 

@@ -6,7 +6,7 @@
 */
 int s_room_list (const char *username, Room * roomList, int *count){
     *count = dbc_get_roomlist(username, roomList);
-    printf("s_room_list cnt: %d\n", *count);
+    printf("cnt: %d\n", *count);
     if (count > 0) return 202;
     else return 102;
 }
