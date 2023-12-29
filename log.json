@@ -913,4 +913,12 @@
 	{"2023-12-29 11:11:00": "[CLIENT] LOGIN as user2 address: 127.0.0.1 port: 0"}
 	{"2023-12-29 11:15:56": "[EVENT] RESPONSE_REQUEST Port: 0"}
 	{"2023-12-29 11:17:21": "[CLIENT] LOGOUT as  address: 127.0.0.1 port: 0"}
+	{"2023-12-29 16:35:42": "[CONNECT] 55843 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-29 16:35:42": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 16:35:47": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 16:35:52": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 16:35:53": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-29 16:35:54": "[CLIENT] LOGIN as user1 address: 127.0.0.1 port: 0"}
+	{"2023-12-29 16:35:57": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 16:36:02": "[EVENT] PING             Port: 0"}
 }
