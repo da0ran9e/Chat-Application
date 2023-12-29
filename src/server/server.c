@@ -1,4 +1,17 @@
-#include "../../include/server.h"
+#include "../../include/shared/common.h"
+
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <pthread.h>
+
+#define MAX_CLIENTS 100
+
+// Structure to pass arguments to the thread
+struct ThreadArgs {
+    int clientSocket;
+};
 
 int readMessage(const char * binaryString, int size) {
     printf("Opcode: %d\n", getProtocolOpcode(binaryString));
@@ -7,13 +20,13 @@ int readMessage(const char * binaryString, int size) {
 
     getProtocolPayload(binaryString, payload, sizeof(payload));
     Parameters p;
-    p = getProtocolParameters(payload, &p);
+    getProtocolParameters(payload, &p);
     
-    printf("len1: %d\n", strlen(p.Param1));
+    printf("len1: %lu\n", strlen(p.Param1));
     printf("Param1: %s\n", p.Param1);
-    printf("len2: %d\n", strlen(p.Param2));
+    printf("len2: %lu\n", strlen(p.Param2));
     printf("Param2: %s\n", p.Param2);
-    printf("len3: %d\n", strlen(p.Param3));
+    printf("len3: %lu\n", strlen(p.Param3));
     printf("Param3: %s\n", p.Param3);
 
     
@@ -87,7 +100,6 @@ void initializeServer(int *serverSocket, int port) {
     }
 
     printf("Server is listening on port %d...\n", port);
-    serverLog(START, port);
 }
 
 // Function to handle I/O asynchronously in a thread
@@ -107,10 +119,26 @@ void *handleClient(void *args) {
         // Process the received message
         printf("Processing message from client %d: %s\n", clientSocket, buffer);
 
+        int op;
+        int func;
+        Parameters params;
+        char send_buffer[BUFFER];
         readMessage(buffer, sizeof(buffer));
+        printf("Type message send to client:\n");
+        printf("opcode: ");
+        scanf("%d", &op);
+        printf("func: ");
+        scanf("%d", &func);
+        printf("param1: ");
+        scanf("%s", params.Param1);
+        printf("param2: ");
+        scanf("%s", params.Param2);
+        printf("param3: ");
+        scanf("%s", params.Param3);
 
+        int len = generateMessage(op, func, params, send_buffer);
         // Echo the message back to the client
-        sendMessage(clientSocket, buffer, strlen(buffer));
+        sendMessage(clientSocket, send_buffer, len);
     }
 
     close(clientSocket);
@@ -145,7 +173,7 @@ void runServer(int serverSocket) {
         }
 
         printf("New connection from %s:%d\n", inet_ntoa(clientAddr.sin_addr), ntohs(clientAddr.sin_port));
-        connectionLog(CONNECT, ntohs(clientAddr.sin_port), inet_ntoa(clientAddr.sin_addr));
+    
         // Create thread arguments
         struct ThreadArgs *threadArgs = (struct ThreadArgs *)malloc(sizeof(struct ThreadArgs));
         threadArgs->clientSocket = clientSocket;
