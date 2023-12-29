@@ -7,6 +7,13 @@ uint32_t getProtocolOpcode (const char *message){
     return opCode;
 }
 
+void printCode(const char * binaryStr, size_t size){
+    printf("Binary String: ");
+    for (size_t i = 0; i < size; i++) {
+        printf("\\x%02X", (unsigned char)binaryStr[i]);
+    }
+}
+
 uint32_t getProtocolFunctionCode (const char *message){
     // Extract the integer from the next 4 bytes
     uint32_t func;
@@ -58,7 +65,8 @@ int generateMessage(uint32_t op, uint32_t func, Parameters parameters, char * bu
     memcpy(buffer+16+len1+len2, (uint32_t*)&len3, sizeof(uint32_t));
     memcpy(buffer+20+len1+len2, parameters.Param3, len3*sizeof(uint32_t));
     buffer[bufferSize] = '\0';
-
+    printf("buffer generate message: ");
+    printCode(buffer, bufferSize);
     return bufferSize;
 }
 
