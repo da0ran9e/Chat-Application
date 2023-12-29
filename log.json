@@ -139,4 +139,778 @@
 	{"2023-12-27 00:57:43": "[EVENT] LOGIN            Port: 0"}
 	{"2023-12-27 00:57:43": "[CLIENT] LOGIN as user1 address: 127.0.0.1 port: 0"}
 	{"2023-12-27 00:57:43": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:08:14": "[CONNECT] 51272 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 01:08:14": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:08:19": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:08:24": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:08:29": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:09:47": "[CONNECT] 51314 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 01:09:47": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:09:52": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:09:57": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:10:02": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:10:03": "[EVENT] REGISTER         Port: 0"}
+	{"2023-12-27 01:10:07": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:10:12": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:10:17": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:10:22": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:10:27": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:10:32": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:10:37": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:16:15": "[CONNECT] 53190 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 01:16:15": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:16:20": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:16:25": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:16:30": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:16:35": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:16:40": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:16:45": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:16:46": "[EVENT] CHANGE_PASS      Port: 0"}
+	{"2023-12-27 01:16:50": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:16:55": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:17:00": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:17:05": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:17:06": "[EVENT] CHANGE_PASS      Port: 0"}
+	{"2023-12-27 01:17:10": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:17:15": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:17:20": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:17:25": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:17:27": "[EVENT] CHANGE_PASS      Port: 0"}
+	{"2023-12-27 01:17:30": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:17:35": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:17:40": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:17:45": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:17:50": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:17:55": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:18:00": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:18:01": "[EVENT] REGISTER         Port: 0"}
+	{"2023-12-27 01:18:05": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:18:10": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:18:15": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:18:20": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:18:25": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:18:30": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:18:35": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:18:37": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-27 01:18:40": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:18:45": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:18:50": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-27 01:18:50": "[CLIENT] LOGIN as user1 address: 127.0.0.1 port: 0"}
+	{"2023-12-27 01:18:50": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:18:55": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:18:59": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-27 01:19:00": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:19:05": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:19:10": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:19:15": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:19:20": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:19:25": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-27 01:19:25": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:19:30": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:19:35": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:19:40": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:19:45": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:19:50": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:19:55": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:20:00": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 01:25:35": "[CONNECT] 53462 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 01:25:52": "[EVENT] FRIEND_REQUEST   Port: 0"}
+	{"2023-12-27 01:27:27": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-27 01:27:27": "[CLIENT] LOGIN as user1 address: 127.0.0.1 port: 0"}
+	{"2023-12-27 01:27:38": "[EVENT] FRIEND_REQUEST   Port: 0"}
+	{"2023-12-27 01:27:53": "[EVENT] CHANGE_PASS      Port: 0"}
+	{"2023-12-27 01:29:12": "[EVENT] ROOM_LIST        Port: 0"}
+	{"2023-12-27 01:31:11": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-27 01:31:41": "[EVENT] ROOM_MEMBER      Port: 0"}
+	{"2023-12-27 01:32:51": "[EVENT] CREATE_ROOM      Port: 0"}
+	{"2023-12-27 01:34:09": "[EVENT] CREATE_ROOM      Port: 0"}
+	{"2023-12-27 01:37:55": "[CONNECT] 54106 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 01:38:13": "[EVENT] CREATE_ROOM      Port: 0"}
+	{"2023-12-27 01:41:28": "[CONNECT] 54158 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 01:41:41": "[EVENT] CREATE_ROOM      Port: 0"}
+	{"2023-12-27 01:43:56": "[CONNECT] 54186 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 01:44:11": "[EVENT] CREATE_ROOM      Port: 0"}
+	{"2023-12-27 01:45:09": "[CONNECT] 54207 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 01:45:24": "[EVENT] CREATE_ROOM      Port: 0"}
+	{"2023-12-27 01:46:22": "[CONNECT] 54281 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 01:46:32": "[EVENT] CREATE_ROOM      Port: 0"}
+	{"2023-12-27 01:47:15": "[EVENT] ADD_MEMBER       Port: 0"}
+	{"2023-12-27 01:48:33": "[EVENT] CHANGE_PASS      Port: 0"}
+	{"2023-12-27 01:51:03": "[EVENT] CHANGE_PASS      Port: 0"}
+	{"2023-12-27 01:53:57": "[EVENT] ADD_MEMBER       Port: 0"}
+	{"2023-12-27 01:55:27": "[EVENT] REMOVE_MEMBER    Port: 0"}
+	{"2023-12-27 01:56:56": "[EVENT] REMOVE_MEMBER    Port: 0"}
+	{"2023-12-27 01:59:19": "[CONNECT] 58056 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 01:59:53": "[EVENT] ADD_MEMBER       Port: 0"}
+	{"2023-12-27 02:01:17": "[CONNECT] 58596 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 02:01:31": "[EVENT] ADD_MEMBER       Port: 0"}
+	{"2023-12-27 02:02:08": "[EVENT] REMOVE_MEMBER    Port: 0"}
+	{"2023-12-27 02:03:52": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-27 02:06:25": "[CONNECT] 58955 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 02:07:00": "[EVENT] MESSAGE          Port: 0"}
+	{"2023-12-27 02:08:28": "[EVENT] MESSAGE          Port: 0"}
+	{"2023-12-27 02:09:05": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 02:09:34": "[EVENT] MESSAGE          Port: 0"}
+	{"2023-12-27 02:09:34": "[EVENT] MESSAGE          Port: 0"}
+	{"2023-12-27 18:03:24": "[CONNECT] 50828 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 18:03:47": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-27 19:55:47": "[EVENT] ROOM_LIST        Port: 0"}
+	{"2023-12-27 19:56:21": "[EVENT] ROOM_LIST        Port: 0"}
+	{"2023-12-27 19:56:38": "[EVENT] ROOM_LIST        Port: 0"}
+	{"2023-12-27 19:57:12": "[CONNECT] 55363 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 19:57:20": "[EVENT] ROOM_LIST        Port: 0"}
+	{"2023-12-27 19:58:51": "[EVENT] CHANGE_PASS      Port: 0"}
+	{"2023-12-27 20:00:39": "[CONNECT] 56445 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 20:00:47": "[EVENT] ROOM_LIST        Port: 0"}
+	{"2023-12-27 20:03:24": "[CONNECT] 57281 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 20:03:29": "[EVENT] ROOM_LIST        Port: 0"}
+	{"2023-12-27 20:04:04": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-27 20:04:04": "[CLIENT] LOGIN as user1 address: 127.0.0.1 port: 0"}
+	{"2023-12-27 20:06:14": "[CLIENT] LOGOUT as  address: 127.0.0.1 port: 0"}
+	{"2023-12-27 20:06:35": "[CONNECT] 58150 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 20:06:35": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 20:06:40": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 20:06:40": "[EVENT] ROOM_LIST        Port: 0"}
+	{"2023-12-27 20:06:45": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 20:06:50": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 20:06:55": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 20:07:00": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 20:07:05": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 20:07:10": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 20:07:15": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 20:07:20": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 20:07:25": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-27 20:10:12": "[CONNECT] 59175 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 20:10:17": "[EVENT] ROOM_LIST        Port: 0"}
+	{"2023-12-27 20:10:56": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-27 20:16:08": "[CONNECT] 60788 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 20:16:12": "[EVENT] ROOM_LIST        Port: 0"}
+	{"2023-12-27 20:19:11": "[EVENT] ROOM_LIST        Port: 0"}
+	{"2023-12-27 20:20:42": "[EVENT] ROOM_LIST        Port: 0"}
+	{"2023-12-27 20:24:31": "[CONNECT] 63176 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 20:24:36": "[EVENT] ROOM_LIST        Port: 0"}
+	{"2023-12-27 20:25:58": "[CONNECT] 63605 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 20:26:03": "[EVENT] ROOM_LIST        Port: 0"}
+	{"2023-12-27 20:36:10": "[CONNECT] 50044 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 20:41:59": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-27 20:41:59": "[CLIENT] LOGIN as user1 address: 127.0.0.1 port: 0"}
+	{"2023-12-27 20:43:24": "[CLIENT] LOGOUT as  address: 127.0.0.1 port: 0"}
+	{"2023-12-27 20:43:44": "[CONNECT] 52117 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 20:44:02": "[EVENT] CREATE_ROOM      Port: 0"}
+	{"2023-12-27 20:47:23": "[CONNECT] 53407 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 20:47:48": "[EVENT] CREATE_ROOM      Port: 0"}
+	{"2023-12-27 20:49:32": "[CONNECT] 53992 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 20:49:54": "[EVENT] CREATE_ROOM      Port: 0"}
+	{"2023-12-27 20:51:06": "[CONNECT] 54454 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 20:51:20": "[EVENT] REGISTER         Port: 0"}
+	{"2023-12-27 20:51:44": "[EVENT] CHANGE_PASS      Port: 0"}
+	{"2023-12-27 20:52:06": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-27 20:52:20": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-27 20:52:20": "[CLIENT] LOGIN as user1 address: 127.0.0.1 port: 0"}
+	{"2023-12-27 20:52:27": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-27 20:53:34": "[CLIENT] LOGOUT as  address: 127.0.0.1 port: 0"}
+	{"2023-12-27 20:53:50": "[CONNECT] 55212 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 20:54:09": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-27 20:54:09": "[CLIENT] LOGIN as user1 address: 127.0.0.1 port: 0"}
+	{"2023-12-27 20:54:13": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-27 20:55:51": "[CLIENT] LOGOUT as  address: 127.0.0.1 port: 0"}
+	{"2023-12-27 20:56:15": "[CONNECT] 55950 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 20:56:22": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-27 20:56:22": "[CLIENT] LOGIN as user1 address: 127.0.0.1 port: 0"}
+	{"2023-12-27 20:56:30": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-27 20:57:14": "[CLIENT] LOGOUT as  address: 127.0.0.1 port: 0"}
+	{"2023-12-27 20:57:35": "[CONNECT] 56310 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 20:57:44": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-27 20:57:44": "[CLIENT] LOGIN as user1 address: 127.0.0.1 port: 0"}
+	{"2023-12-27 20:57:49": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-27 21:04:56": "[CONNECT] 58355 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 21:05:06": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-27 21:05:06": "[CLIENT] LOGIN as user1 address: 127.0.0.1 port: 0"}
+	{"2023-12-27 21:05:25": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-27 21:06:19": "[CONNECT] 58756 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 21:06:26": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-27 21:06:26": "[CLIENT] LOGIN as user1 address: 127.0.0.1 port: 0"}
+	{"2023-12-27 21:06:34": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-27 21:07:41": "[CONNECT] 59116 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 21:07:59": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-27 21:07:59": "[CLIENT] LOGIN as user2 address: 127.0.0.1 port: 0"}
+	{"2023-12-27 21:08:05": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-27 21:08:29": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-27 21:08:29": "[CLIENT] LOGIN as user1 address: 127.0.0.1 port: 0"}
+	{"2023-12-27 21:08:33": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-27 21:10:39": "[CONNECT] 59946 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 21:10:48": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-27 21:10:48": "[CLIENT] LOGIN as user1 address: 127.0.0.1 port: 0"}
+	{"2023-12-27 21:10:52": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-27 21:11:16": "[EVENT] PING             Port: 0"}
+	{"2023-12-27 21:11:40": "[CONNECT] 60218 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 21:12:00": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-27 21:12:00": "[CLIENT] LOGIN as user2 address: 127.0.0.1 port: 0"}
+	{"2023-12-27 21:12:06": "[EVENT] PING             Port: 0"}
+	{"2023-12-27 21:13:12": "[CONNECT] 60652 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 21:13:22": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-27 21:13:22": "[CLIENT] LOGIN as user2 address: 127.0.0.1 port: 0"}
+	{"2023-12-27 21:13:25": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-27 21:13:48": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-27 21:14:00": "[EVENT] PING             Port: 0"}
+	{"2023-12-27 21:14:11": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-27 21:14:52": "[CLIENT] LOGOUT as  address: 127.0.0.1 port: 0"}
+	{"2023-12-27 21:14:52": "[CLIENT] LOGOUT as  address: 127.0.0.1 port: 0"}
+	{"2023-12-27 21:14:52": "[CLIENT] LOGOUT as  address: 127.0.0.1 port: 0"}
+	{"2023-12-27 21:15:11": "[EVENT] FRIEND_REQUEST   Port: 0"}
+	{"2023-12-27 21:15:29": "[CONNECT] 61281 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 21:15:37": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-27 21:15:37": "[CLIENT] LOGIN as user9 address: 127.0.0.1 port: 0"}
+	{"2023-12-27 21:15:51": "[EVENT] FRIEND_REQUEST   Port: 0"}
+	{"2023-12-27 21:16:52": "[EVENT] RESPONSE_REQUEST Port: 0"}
+	{"2023-12-27 21:18:49": "[EVENT] RESPONSE_REQUEST Port: 0"}
+	{"2023-12-27 21:18:59": "[EVENT] PING             Port: 0"}
+	{"2023-12-27 21:19:20": "[EVENT] RESPONSE_REQUEST Port: 0"}
+	{"2023-12-27 21:20:16": "[EVENT] ROOM_LIST        Port: 0"}
+	{"2023-12-27 21:21:42": "[EVENT] ROOM_LIST        Port: 0"}
+	{"2023-12-27 21:23:37": "[CLIENT] LOGOUT as  address: 127.0.0.1 port: 0"}
+	{"2023-12-27 21:24:13": "[EVENT] ROOM_MEMBER      Port: 0"}
+	{"2023-12-27 21:24:57": "[EVENT] CREATE_ROOM      Port: 0"}
+	{"2023-12-27 21:26:08": "[CONNECT] 64497 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 21:26:24": "[EVENT] CREATE_ROOM      Port: 0"}
+	{"2023-12-27 21:27:11": "[EVENT] ADD_MEMBER       Port: 0"}
+	{"2023-12-27 21:27:41": "[EVENT] REMOVE_MEMBER    Port: 0"}
+	{"2023-12-27 21:28:41": "[EVENT] ADD_MEMBER       Port: 0"}
+	{"2023-12-27 21:29:03": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-27 21:30:39": "[CONNECT] 49463 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 21:30:45": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-27 21:30:46": "[CLIENT] LOGIN as user1 address: 127.0.0.1 port: 0"}
+	{"2023-12-27 21:30:59": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-27 21:36:44": "[CONNECT] 51467 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 21:36:54": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-27 21:46:43": "[CONNECT] 55457 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 21:46:49": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-27 21:50:04": "[CONNECT] 56781 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 21:50:07": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-27 21:55:03": "[CONNECT] 58789 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 21:55:05": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-27 22:03:23": "[CONNECT] 62115 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 22:03:27": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-27 22:05:17": "[CONNECT] 62891 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 22:05:20": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-27 22:06:35": "[CONNECT] 63403 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 22:06:40": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-27 22:15:15": "[CONNECT] 50444 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 22:15:18": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-27 22:39:22": "[CONNECT] 60058 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 22:39:28": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-27 22:41:13": "[CONNECT] 60789 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 22:41:16": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-27 22:42:40": "[CONNECT] 61369 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 22:43:00": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-27 22:54:24": "[CONNECT] 64734 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 22:54:51": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-27 22:56:59": "[CONNECT] 65438 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-27 22:57:03": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 07:30:08": "[CONNECT] 52852 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-28 07:30:12": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 07:55:25": "[CONNECT] 60592 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-28 07:55:53": "[EVENT] MESSAGE          Port: 0"}
+	{"2023-12-28 15:32:37": "[CONNECT] 56157 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-28 15:32:37": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 15:33:18": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-28 15:33:19": "[CLIENT] LOGIN as user1 address: 127.0.0.1 port: 0"}
+	{"2023-12-28 15:37:43": "[CLIENT] LOGOUT as  address: 127.0.0.1 port: 0"}
+	{"2023-12-28 16:10:46": "[CONNECT] 50508 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-28 16:10:46": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 16:11:10": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-28 16:11:10": "[CLIENT] LOGIN as user1 address: 127.0.0.1 port: 0"}
+	{"2023-12-28 16:11:10": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 16:11:10": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-28 16:12:11": "[EVENT] REGISTER         Port: 0"}
+	{"2023-12-28 16:13:00": "[EVENT] CHANGE_PASS      Port: 0"}
+	{"2023-12-28 16:13:23": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-28 16:13:23": "[CLIENT] LOGIN as user11 address: 127.0.0.1 port: 0"}
+	{"2023-12-28 16:13:23": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 16:13:23": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-28 16:13:52": "[EVENT] CHANGE_PASS      Port: 0"}
+	{"2023-12-28 16:16:16": "[EVENT] CHANGE_PASS      Port: 0"}
+	{"2023-12-28 16:16:34": "[EVENT] CHANGE_PASS      Port: 0"}
+	{"2023-12-28 16:16:49": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-28 16:17:59": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 16:19:06": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 16:19:14": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-28 16:19:14": "[CLIENT] LOGIN as user1 address: 127.0.0.1 port: 0"}
+	{"2023-12-28 16:19:14": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 16:19:14": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-28 16:19:48": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-28 16:20:49": "[CONNECT] 53575 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-28 16:20:49": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 16:21:27": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-28 16:21:27": "[CLIENT] LOGIN as user12 address: 127.0.0.1 port: 0"}
+	{"2023-12-28 16:21:27": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 16:22:19": "[EVENT] FRIEND_REQUEST   Port: 0"}
+	{"2023-12-28 16:22:37": "[EVENT] RESPONSE_REQUEST Port: 0"}
+	{"2023-12-28 16:22:37": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 16:22:37": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 16:22:37": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 16:22:37": "[EVENT] CONVERSATION     Port: 0"}	
+	{"2023-12-28 16:22:37": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 16:57:03": "[CONNECT] 63793 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-28 16:57:03": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 16:57:18": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-28 16:57:18": "[CLIENT] LOGIN as user1 address: 127.0.0.1 port: 0"}
+	{"2023-12-28 16:57:18": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 16:57:25": "[CONNECT] 63880 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-28 16:57:25": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 16:57:36": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-28 16:57:36": "[CLIENT] LOGIN as user12 address: 127.0.0.1 port: 0"}
+	{"2023-12-28 16:57:36": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 16:57:36": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-28 16:58:18": "[EVENT] FRIEND_REQUEST   Port: 0"}
+	{"2023-12-28 16:58:30": "[EVENT] RESPONSE_REQUEST Port: 0"}
+	{"2023-12-28 16:58:30": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 16:58:30": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 16:58:30": "[EVENT] CONVERSATION     Port: 0"}
+}	{"2023-12-28 16:58:30": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 16:58:30": "[EVENT] CONVERSATION     Port: 0"}
+}	{"2023-12-28 16:58:30": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 19:49:25": "[CONNECT] 60616 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-28 19:49:25": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 19:49:39": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-28 19:49:39": "[CLIENT] LOGIN as user1 address: 127.0.0.1 port: 0"}
+	{"2023-12-28 19:49:39": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 19:49:39": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-28 19:50:29": "[EVENT] ROOM_LIST        Port: 0"}
+	{"2023-12-28 19:50:29": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 19:50:29": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 19:50:29": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 19:50:29": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-28 19:50:29": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-28 19:50:29": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-28 19:53:19": "[CONNECT] 61770 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-28 19:53:19": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 19:53:32": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-28 19:53:32": "[CLIENT] LOGIN as user1 address: 127.0.0.1 port: 0"}
+	{"2023-12-28 19:53:32": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 19:53:32": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-28 19:54:13": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-28 19:54:29": "[EVENT] ROOM_LIST        Port: 0"}
+	{"2023-12-28 19:54:29": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 19:54:29": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 19:54:29": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 19:54:29": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-28 19:54:29": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-28 19:54:29": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-28 20:01:39": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 20:09:59": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 20:18:19": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 20:26:39": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 21:38:56": "[CONNECT] 58660 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-28 21:38:56": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 21:39:40": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-28 21:39:40": "[CLIENT] LOGIN as user1 address: 127.0.0.1 port: 0"}
+	{"2023-12-28 21:39:40": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 21:39:40": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-28 21:39:54": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-28 21:40:32": "[EVENT] REGISTER         Port: 0"}
+	{"2023-12-28 21:41:13": "[EVENT] REGISTER         Port: 0"}
+	{"2023-12-28 21:41:26": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 21:41:50": "[EVENT] CHANGE_PASS      Port: 0"}
+	{"2023-12-28 21:42:10": "[EVENT] CHANGE_PASS      Port: 0"}
+	{"2023-12-28 21:42:31": "[EVENT] CHANGE_PASS      Port: 0"}
+	{"2023-12-28 21:42:51": "[EVENT] CHANGE_PASS      Port: 0"}
+	{"2023-12-28 21:43:09": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 21:43:17": "[CONNECT] 60015 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-28 21:43:17": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 21:43:27": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-28 21:43:27": "[CLIENT] LOGIN as user13 address: 127.0.0.1 port: 0"}
+	{"2023-12-28 21:43:27": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 21:43:27": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-28 21:43:54": "[EVENT] FRIEND_REQUEST   Port: 0"}
+	{"2023-12-28 21:45:03": "[EVENT] RESPONSE_REQUEST Port: 0"}
+	{"2023-12-28 21:45:03": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 21:45:03": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 21:45:03": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 22:07:44": "[CONNECT] 50277 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-28 22:07:44": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 22:07:56": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-28 22:07:56": "[CLIENT] LOGIN as user2 address: 127.0.0.1 port: 0"}
+	{"2023-12-28 22:07:56": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 22:08:01": "[CONNECT] 50374 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-28 22:08:01": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 22:08:15": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-28 22:08:15": "[CLIENT] LOGIN as user13 address: 127.0.0.1 port: 0"}
+	{"2023-12-28 22:08:15": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 22:08:15": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-28 22:08:21": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 22:08:59": "[CONNECT] 50643 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-28 22:08:59": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 22:09:04": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 22:09:24": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-28 22:09:24": "[CLIENT] LOGIN as user1 address: 127.0.0.1 port: 0"}
+	{"2023-12-28 22:09:24": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 22:09:45": "[EVENT] FRIEND_REQUEST   Port: 0"}
+	{"2023-12-28 22:11:00": "[EVENT] RESPONSE_REQUEST Port: 0"}	{"2023-12-28 22:11:00": "[EVENT] CONVERSATION     Port: 0"}
+}	{"2023-12-28 22:11:00": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 22:11:00": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 22:11:00": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 22:11:00": "[EVENT] CONVERSATION     Port: 0"}
+}	{"2023-12-28 22:11:00": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 22:11:00": "[EVENT] UNKNOWN           Port: 0"}
+}	{"2023-12-28 22:11:00": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-28 22:15:19": "[EVENT] RESPONSE_REQUEST Port: 0"}	{"2023-12-28 22:15:19": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 22:15:19": "[EVENT] CONVERSATION     Port: 0"}
+}	{"2023-12-28 22:15:19": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 22:15:19": "[EVENT] CONVERSATION     Port: 0"}
+}	{"2023-12-28 22:15:19": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 22:15:19": "[EVENT] UNKNOWN           Port: 0"}
+}	{"2023-12-28 22:15:19": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-28 22:16:21": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 22:19:35": "[CONNECT] 54573 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-28 22:19:35": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 22:19:54": "[EVENT] REGISTER         Port: 0"}
+	{"2023-12-28 22:20:04": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-28 22:20:04": "[CLIENT] LOGIN as user1 address: 127.0.0.1 port: 0"}
+	{"2023-12-28 22:20:04": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 22:20:04": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-28 22:20:55": "[EVENT] REGISTER         Port: 0"}
+	{"2023-12-28 22:21:01": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 22:21:10": "[CONNECT] 55195 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-28 22:21:10": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 22:21:21": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-28 22:21:22": "[CLIENT] LOGIN as user14 address: 127.0.0.1 port: 0"}
+	{"2023-12-28 22:21:22": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 22:21:22": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-28 22:21:49": "[EVENT] FRIEND_REQUEST   Port: 0"}
+	{"2023-12-28 22:22:04": "[EVENT] RESPONSE_REQUEST Port: 0"}
+	{"2023-12-28 22:22:04": "[EVENT] CONVERSATION     Port: 0"}
+}	{"2023-12-28 22:22:04": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 22:22:04": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 22:22:04": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 22:22:04": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 22:22:04": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 22:26:48": "[CONNECT] 56836 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-28 22:26:48": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 22:27:06": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-28 22:27:06": "[CLIENT] LOGIN as user2 address: 127.0.0.1 port: 0"}
+	{"2023-12-28 22:27:06": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 22:27:06": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-28 22:27:30": "[EVENT] RESPONSE_REQUEST Port: 0"}
+	{"2023-12-28 22:27:44": "[CONNECT] 57072 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-28 22:27:44": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 22:27:52": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-28 22:27:52": "[CLIENT] LOGIN as user7 address: 127.0.0.1 port: 0"}
+	{"2023-12-28 22:27:52": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 22:27:52": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-28 22:28:07": "[EVENT] FRIEND_REQUEST   Port: 0"}
+	{"2023-12-28 22:28:24": "[EVENT] RESPONSE_REQUEST Port: 0"}
+	{"2023-12-28 22:28:24": "[EVENT] CONVERSATION     Port: 0"}
+}	{"2023-12-28 22:28:24": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 22:28:24": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 22:28:24": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 22:28:24": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 22:28:24": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 22:28:24": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-28 22:28:55": "[CONNECT] 57426 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-28 22:28:55": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 22:29:01": "[CONNECT] 57451 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-28 22:29:01": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 22:29:10": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-28 22:29:10": "[CLIENT] LOGIN as user2 address: 127.0.0.1 port: 0"}
+	{"2023-12-28 22:29:10": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 22:29:10": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-28 22:30:38": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-28 22:30:38": "[CLIENT] LOGIN as user8 address: 127.0.0.1 port: 0"}
+	{"2023-12-28 22:30:38": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 22:30:55": "[EVENT] FRIEND_REQUEST   Port: 0"}
+	{"2023-12-28 22:31:06": "[EVENT] RESPONSE_REQUEST Port: 0"}
+	{"2023-12-28 22:35:14": "[EVENT] ROOM_LIST        Port: 0"}
+	{"2023-12-28 22:35:14": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 22:35:14": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 22:35:14": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 22:35:14": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-28 22:35:14": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-28 22:35:14": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-28 22:37:15": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 22:37:21": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 22:38:26": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-28 22:41:09": "[CLIENT] LOGOUT as  address: 127.0.0.1 port: 0"}
+	{"2023-12-28 22:41:09": "[CLIENT] LOGOUT as  address: 127.0.0.1 port: 0"}
+	{"2023-12-28 22:41:21": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-28 22:41:41": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-28 22:41:48": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 22:42:38": "[CONNECT] 61342 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-28 22:42:38": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 22:42:46": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-28 22:42:46": "[CLIENT] LOGIN as user2 address: 127.0.0.1 port: 0"}
+	{"2023-12-28 22:42:46": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 22:42:46": "[EVENT] ROOM_LIST        Port: 0"}
+	{"2023-12-28 22:42:46": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 22:42:46": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 22:42:46": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 22:42:46": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-28 23:20:23": "[CONNECT] 55453 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-28 23:20:23": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 23:20:30": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-28 23:20:30": "[CLIENT] LOGIN as user2 address: 127.0.0.1 port: 0"}
+	{"2023-12-28 23:20:30": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 23:20:30": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-28 23:20:48": "[EVENT] ROOM_LIST        Port: 0"}
+	{"2023-12-28 23:20:48": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 23:20:48": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 23:20:48": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 23:20:48": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-28 23:20:48": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-28 23:20:48": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-28 23:28:43": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 23:38:40": "[CONNECT] 60597 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-28 23:38:40": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 23:39:23": "[CONNECT] 60809 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-28 23:39:23": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 23:39:37": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-28 23:39:37": "[CLIENT] LOGIN as user2 address: 127.0.0.1 port: 0"}
+	{"2023-12-28 23:39:37": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 23:39:37": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-28 23:39:58": "[EVENT] ROOM_LIST        Port: 0"}
+	{"2023-12-28 23:39:58": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 23:39:58": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 23:39:58": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 23:39:58": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-28 23:39:58": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-28 23:39:58": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-28 23:47:43": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 23:55:49": "[CONNECT] 50312 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-28 23:55:49": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 23:55:58": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-28 23:55:58": "[CLIENT] LOGIN as user2 address: 127.0.0.1 port: 0"}
+	{"2023-12-28 23:55:58": "[EVENT] PING             Port: 0"}
+	{"2023-12-28 23:55:58": "[EVENT] ROOM_LIST        Port: 0"}
+	{"2023-12-28 23:55:58": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 23:55:58": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 23:55:58": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-28 23:55:58": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-29 00:04:09": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 00:05:41": "[CONNECT] 54481 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-29 00:05:41": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 00:05:51": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-29 00:05:51": "[CLIENT] LOGIN as user2 address: 127.0.0.1 port: 0"}
+	{"2023-12-29 00:05:51": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 00:05:51": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-29 00:10:33": "[CONNECT] 56567 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-29 00:10:33": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 00:10:41": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-29 00:10:41": "[CLIENT] LOGIN as user2 address: 127.0.0.1 port: 0"}
+	{"2023-12-29 00:10:41": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 00:10:41": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-29 00:18:53": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 00:19:33": "[EVENT] ROOM_LIST        Port: 0"}
+	{"2023-12-29 00:19:33": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-29 00:19:33": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-29 00:19:33": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-29 00:19:33": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-29 00:19:33": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-29 00:19:33": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-29 00:27:13": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 00:33:46": "[CLIENT] LOGOUT as  address: 127.0.0.1 port: 0"}
+	{"2023-12-29 00:34:20": "[CONNECT] 50401 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-29 00:34:20": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 00:34:30": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-29 00:34:30": "[CLIENT] LOGIN as user2 address: 127.0.0.1 port: 0"}
+	{"2023-12-29 00:34:30": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 00:34:30": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-29 00:35:17": "[EVENT] ROOM_LIST        Port: 0"}
+	{"2023-12-29 00:35:17": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-29 00:35:17": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-29 00:35:17": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-29 00:35:17": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-29 00:37:57": "[CONNECT] 51946 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-29 00:37:57": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 00:38:05": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-29 00:38:05": "[CLIENT] LOGIN as user1 address: 127.0.0.1 port: 0"}
+	{"2023-12-29 00:38:05": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 00:38:05": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-29 00:38:40": "[EVENT] ROOM_LIST        Port: 0"}
+	{"2023-12-29 00:38:40": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-29 00:38:40": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-29 00:38:40": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-29 00:38:40": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-29 00:38:40": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-29 00:38:40": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-29 00:42:24": "[CONNECT] 53840 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-29 00:42:24": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 00:42:54": "[CONNECT] 54075 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-29 00:42:54": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 00:43:04": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-29 00:43:04": "[CLIENT] LOGIN as user2 address: 127.0.0.1 port: 0"}
+	{"2023-12-29 00:43:04": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 00:43:04": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-29 00:43:15": "[EVENT] ROOM_LIST        Port: 0"}
+	{"2023-12-29 00:43:15": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-29 00:43:15": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-29 00:43:15": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-29 00:43:15": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-29 00:43:15": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-29 00:43:15": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-29 00:46:20": "[CLIENT] LOGOUT as  address: 127.0.0.1 port: 0"}
+	{"2023-12-29 00:46:41": "[CONNECT] 55661 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-29 00:46:41": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 00:46:47": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-29 00:46:47": "[CLIENT] LOGIN as user2 address: 127.0.0.1 port: 0"}
+	{"2023-12-29 00:46:47": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 00:46:47": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-29 00:46:53": "[EVENT] ROOM_LIST        Port: 0"}
+	{"2023-12-29 00:46:53": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-29 00:46:53": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-29 00:46:53": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-29 00:46:53": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-29 01:10:51": "[CONNECT] 49627 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-29 01:10:51": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 01:10:58": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-29 01:10:59": "[CLIENT] LOGIN as user2 address: 127.0.0.1 port: 0"}
+	{"2023-12-29 01:10:59": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 01:10:59": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-29 01:11:50": "[EVENT] ROOM_LIST        Port: 0"}
+	{"2023-12-29 01:11:50": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-29 01:11:50": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-29 01:11:50": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-29 01:11:50": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-29 07:37:33": "[CONNECT] 54501 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-29 07:37:33": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 07:37:42": "[EVENT] ROOM_LIST        Port: 0"}
+	{"2023-12-29 07:37:42": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-29 07:37:42": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-29 07:37:42": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-29 07:45:25": "[CONNECT] 56679 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-29 07:45:25": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 07:45:31": "[EVENT] ROOM_LIST        Port: 0"}
+	{"2023-12-29 07:45:31": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-29 07:45:31": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-29 07:45:31": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-29 07:45:31": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-29 07:45:31": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-29 07:45:31": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-29 07:45:31": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-29 07:45:31": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-29 07:53:45": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 08:00:05": "[CLIENT] LOGOUT as  address: 127.0.0.1 port: 0"}
+	{"2023-12-29 08:03:04": "[CONNECT] 61439 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-29 08:03:04": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 08:03:09": "[EVENT] ROOM_LIST        Port: 0"}
+	{"2023-12-29 08:08:55": "[CLIENT] LOGOUT as  address: 127.0.0.1 port: 0"}
+	{"2023-12-29 08:09:17": "[CONNECT] 63125 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-29 08:09:17": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 08:09:25": "[CONNECT] 63162 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-29 08:09:25": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 08:09:30": "[EVENT] ROOM_LIST        Port: 0"}
+	{"2023-12-29 08:17:32": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-29 08:17:32": "[CLIENT] LOGIN as user1 address: 127.0.0.1 port: 0"}
+	{"2023-12-29 08:17:32": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 08:17:32": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-29 08:17:45": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 08:19:00": "[CLIENT] LOGOUT as  address: 127.0.0.1 port: 0"}
+	{"2023-12-29 08:19:00": "[CLIENT] LOGOUT as  address: 127.0.0.1 port: 0"}
+	{"2023-12-29 08:19:18": "[CONNECT] 49448 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-29 08:19:18": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 08:19:21": "[EVENT] ROOM_LIST        Port: 0"}
+	{"2023-12-29 08:27:38": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 08:35:57": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 08:44:17": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 08:52:37": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 09:00:57": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 09:15:25": "[CLIENT] LOGOUT as  address: 127.0.0.1 port: 0"}
+	{"2023-12-29 09:16:32": "[CONNECT] 63358 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-29 09:16:32": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 09:17:05": "[CONNECT] 63529 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-29 09:17:05": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 09:17:29": "[EVENT] ROOM_LIST        Port: 0"}
+	{"2023-12-29 09:25:25": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 09:26:08": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-29 09:26:08": "[CLIENT] LOGIN as user2 address: 127.0.0.1 port: 0"}
+	{"2023-12-29 09:26:08": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 09:26:08": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-29 09:26:21": "[CONNECT] 49600 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-29 09:26:21": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 09:26:30": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-29 09:26:30": "[CLIENT] LOGIN as user2 address: 127.0.0.1 port: 0"}
+	{"2023-12-29 09:26:30": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 09:26:30": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-29 09:34:41": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 09:38:29": "[CLIENT] LOGOUT as  address: 127.0.0.1 port: 0"}
+	{"2023-12-29 09:38:29": "[CLIENT] LOGOUT as  address: 127.0.0.1 port: 0"}
+	{"2023-12-29 09:38:46": "[CONNECT] 53741 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-29 09:38:46": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 09:39:03": "[CONNECT] 53810 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-29 09:39:03": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 09:39:11": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-29 09:39:11": "[CLIENT] LOGIN as user2 address: 127.0.0.1 port: 0"}
+	{"2023-12-29 09:39:11": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 09:39:11": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-29 09:47:23": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 09:49:25": "[CLIENT] LOGOUT as  address: 127.0.0.1 port: 0"}
+	{"2023-12-29 09:49:25": "[CLIENT] LOGOUT as  address: 127.0.0.1 port: 0"}
+	{"2023-12-29 09:49:49": "[CONNECT] 56710 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-29 09:49:49": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 09:49:57": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-29 09:49:57": "[CLIENT] LOGIN as user2 address: 127.0.0.1 port: 0"}
+	{"2023-12-29 09:49:57": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 09:57:32": "[CONNECT] 58772 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-29 09:57:32": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 09:57:40": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-29 09:57:40": "[CLIENT] LOGIN as user3 address: 127.0.0.1 port: 0"}
+	{"2023-12-29 09:57:40": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 09:57:40": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-29 09:59:59": "[CONNECT] 59411 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-29 09:59:59": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 10:00:17": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-29 10:00:17": "[CLIENT] LOGIN as user3 address: 127.0.0.1 port: 0"}
+	{"2023-12-29 10:00:17": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 10:08:19": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 10:21:14": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 10:24:30": "[CLIENT] LOGOUT as  address: 127.0.0.1 port: 0"}
+	{"2023-12-29 10:25:13": "[CONNECT] 65339 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-29 10:25:13": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 10:25:21": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-29 10:25:21": "[CLIENT] LOGIN as user2 address: 127.0.0.1 port: 0"}
+	{"2023-12-29 10:25:21": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 10:29:11": "[EVENT] ROOM_LIST        Port: 0"}
+	{"2023-12-29 10:29:11": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-29 10:29:11": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-29 10:29:11": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-29 10:29:11": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-29 10:29:11": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-29 10:29:11": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-29 10:33:03": "[CONNECT] 51153 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-29 10:33:03": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 10:33:13": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-29 10:33:13": "[CLIENT] LOGIN as user1 address: 127.0.0.1 port: 0"}
+	{"2023-12-29 10:33:13": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 10:33:13": "[EVENT] ROOM_LIST        Port: 0"}
+	{"2023-12-29 10:33:13": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-29 10:33:13": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-29 10:33:13": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-29 10:33:13": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-29 10:37:13": "[CONNECT] 52296 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-29 10:37:13": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 10:37:21": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-29 10:37:21": "[CLIENT] LOGIN as user2 address: 127.0.0.1 port: 0"}
+	{"2023-12-29 10:37:21": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 10:40:23": "[CONNECT] 53155 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-29 10:40:23": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 10:40:31": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-29 10:40:31": "[CLIENT] LOGIN as user2 address: 127.0.0.1 port: 0"}
+	{"2023-12-29 10:40:31": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 10:40:31": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-29 10:49:38": "[CONNECT] 55699 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-29 10:49:38": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 10:50:11": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-29 10:50:11": "[CLIENT] LOGIN as user1 address: 127.0.0.1 port: 0"}
+	{"2023-12-29 10:50:11": "[EVENT] PING             Port: 0"}
+	{"2023-12-29 10:50:11": "[EVENT] FRIEND_LIST      Port: 0"}
+	{"2023-12-29 10:50:50": "[EVENT] ROOM_LIST        Port: 0"}
+	{"2023-12-29 10:50:51": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-29 10:50:51": "[EVENT] CONVERSATION     Port: 0"}
+	{"2023-12-29 10:50:51": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-29 10:50:51": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-29 10:50:51": "[EVENT] UNKNOWN           Port: 0"}
+	{"2023-12-29 11:10:43": "[CONNECT] 61467 UNKNOWN ip: 127.0.0.1"}
+	{"2023-12-29 11:11:00": "[EVENT] LOGIN            Port: 0"}
+	{"2023-12-29 11:11:00": "[CLIENT] LOGIN as user2 address: 127.0.0.1 port: 0"}
+	{"2023-12-29 11:15:56": "[EVENT] RESPONSE_REQUEST Port: 0"}
+	{"2023-12-29 11:17:21": "[CLIENT] LOGOUT as  address: 127.0.0.1 port: 0"}
 }
