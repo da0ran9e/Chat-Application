@@ -35,10 +35,10 @@ typedef struct RoomMember{
     //memName[0] = '\0';
 } RoomMember;
 
-static int g_socket = -1;
-static char g_address[15];
-static int g_port = -1;
-static int g_rtd = 9999;
+int g_socket;
+char g_address[15];
+int g_port;
+int g_rtd;
 char g_user[MAX_CLIENTS][50];
 int g_rtds[MAX_CLIENTS];
 char g_friend[MAX_CLIENTS][50];
@@ -161,8 +161,9 @@ void *receiveThread(void *args) {
         }
 
         // Process the received message
-        printf("Received message from server: %s\n", buffer);
-        handle_receive_message(buffer);
+        printf("Received message from server: \n");
+        printCode(buffer, bytesReceived);
+        //handle_receive_message(buffer);
     }
 
     pthread_exit(NULL);
@@ -193,6 +194,15 @@ void *sendPingMessages(void *args) {
 }
 
 void run_client(const char *address, const int port){
+    g_socket = -1;
+    g_port = -1;
+    g_rtd = 9999;
+    for (int i=0; i<MAX_CLIENTS; i++){
+        g_user[i][0] = '\0';
+        g_rtds[i] = 9999;
+        g_friend[i][0] = '\0';
+        g_rooms[i].roomId = -1;
+    }
     strcpy(g_address, address);
     g_port = port;
     g_socket = initializeClient(g_address, g_port);
@@ -224,11 +234,12 @@ int handle_send_message(enum RequestEvent request, const Parameters params, char
     int op = request%10;
     int func = (request%100)/10;
     int len = generateMessage(op, func, params, message);
-
+    printf("handle_send_message: ");
+    printCode(message,len);
     send_message(g_socket, message, len);
     return len;
 }
-
+/*
 int handle_receive_message(const char * messsge){
     int op = getProtocolOpcode(messsge);
     int func = getProtocolFunctionCode(messsge);
@@ -353,7 +364,7 @@ int handle_receive_message(const char * messsge){
     }
     return status;
 }
-
+*/
 void in_online_list(const char * username, const int rtd){
     for(int i=0; i<MAX_CLIENTS; i++){
         if (g_user[i][0]!='\0') {
