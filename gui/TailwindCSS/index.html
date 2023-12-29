@@ -94,7 +94,7 @@
 
                 </div>
                 <div id="contact-list" class="contacts p-2 flex-1 overflow-y-scroll">
-                    <div class="flex justify-between items-center p-3 hover:bg-gray-800 rounded-lg relative">
+                    <!--<div class="flex justify-between items-center p-3 hover:bg-gray-800 rounded-lg relative">
                         <div class="w-16 h-16 relative flex flex-shrink-0">
                             <img class="shadow-md rounded-full w-full h-full object-cover"
                                 name="chat-room-name"
@@ -134,7 +134,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
             </section>
             <section class="flex flex-col flex-auto border-l border-gray-800">
                 <div class="chat-header px-6 py-4 flex flex-row flex-none justify-between items-center shadow">
@@ -160,7 +160,7 @@
                     </div>-->
                     <div class="relative inline-block text-left">
                         <div>
-                          <button type="button" class="inline-flex w-full justify-center gap-x-1.5 rounded-md px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" id="menu-button" aria-expanded="true" aria-haspopup="true">
+                          <button onclick=show_room_menu() type="button" class="inline-flex w-full justify-center gap-x-1.5 rounded-md px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" id="menu-button" aria-expanded="true" aria-haspopup="true">
                             <a href="#" class="block rounded-full hover:bg-gray-700 bg-gray-800 w-10 h-10 p-2 ml-4">
                                 <svg viewBox="0 0 20 20" class="w-full h-full fill-current text-blue-500">
                                     <path d="M2.92893219,17.0710678 C6.83417511,20.9763107 13.1658249,20.9763107 17.0710678,17.0710678 C20.9763107,13.1658249 20.9763107,6.83417511 17.0710678,2.92893219 C13.1658249,-0.976310729 6.83417511,-0.976310729 2.92893219,2.92893219 C-0.976310729,6.83417511 -0.976310729,13.1658249 2.92893219,17.0710678 Z M9,11 L9,10.5 L9,9 L11,9 L11,15 L9,15 L9,11 Z M9,5 L11,5 L11,7 L9,7 L9,5 Z"/>
@@ -179,10 +179,10 @@
                             From: "transform opacity-100 scale-100"
                             To: "transform opacity-0 scale-95"
                         -->
-                        <div class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-gray-700 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                        <div action="/tailwindlabs/tailwindcss/lists" id="chat_room_menu" class="hidden absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-gray-700 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                           <div class="py-1" role="none">
                             <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
-                            <a href="#" class="text-white block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0">See chat members</a>
+                            <a href="#" onclick=displayChatMember() class="text-white block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0">See chat members</a>
                             <a href="#" class=" text-white block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-1">Add member</a>
                             <a href="#" class=" text-white block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-2">Remove member</a>
                             <form method="POST" action="#" role="none">
@@ -190,6 +190,16 @@
                             </form>
                           </div>
                         </div>
+                        <script>
+                            function show_room_menu(){
+                                x = document.getElementById("chat_room_menu");
+                                if (x.style.display === 'none') {
+                                    x.style.display = 'block';
+                                  } else {
+                                    x.style.display = 'none';
+                                  }
+                            }
+                        </script>
                       </div>
                 </div>
                 <div id="chat-body" class="chat-body p-4 flex-1 overflow-y-scroll">
@@ -265,7 +275,7 @@
                     </a>-->
                     <div class="relative inline-block text-left">
                         <div>
-                          <button type="button" class="inline-flex w-full justify-center gap-x-1.5 rounded-md px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" id="menu-button" aria-expanded="true" aria-haspopup="true">
+                          <button onclick=user_menu() type="button" class="inline-flex w-full justify-center gap-x-1.5 rounded-md px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" id="menu-button" aria-expanded="true" aria-haspopup="true">
                             <a href="#" class="block rounded-full hover:bg-gray-700 bg-gray-800 w-10 h-10 p-2">
                                 <svg class="w-full h-full fill-current" viewBox="-2 -2 24 24">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M15.5 13C15.0478 13 14.4089 13.0625 13.7438 13.1536C13.4331 13.1962 13.1962 13.4331 13.1536 13.7438C13.0625 14.4089 13 15.0478 13 15.5C13 15.9522 13.0625 16.5911 13.1536 17.2562C13.1962 17.5669 13.4331 17.8038 13.7438 17.8464C14.4089 17.9375 15.0478 18 15.5 18C15.9522 18 16.5911 17.9375 17.2562 17.8464C17.5669 17.8038 17.8038 17.5669 17.8464 17.2562C17.9375 16.5911 18 15.9522 18 15.5C18 15.0478 17.9375 14.4089 17.8464 13.7438C17.8038 13.4331 17.5669 13.1962 17.2562 13.1536C16.5911 13.0625 15.9522 13 15.5 13ZM13.4724 11.1721C12.2725 11.3364 11.3364 12.2725 11.1721 13.4724C11.0778 14.1606 11 14.9082 11 15.5C11 16.0918 11.0778 16.8394 11.1721 17.5276C11.3364 18.7275 12.2725 19.6636 13.4724 19.8279C14.1606 19.9222 14.9082 20 15.5 20C16.0918 20 16.8394 19.9222 17.5276 19.8279C18.7275 19.6636 19.6636 18.7275 19.8279 17.5276C19.9222 16.8394 20 16.0918 20 15.5C20 14.9082 19.9222 14.1606 19.8279 13.4724C19.6636 12.2725 18.7275 11.3364 17.5276 11.1721C16.8394 11.0778 16.0918 11 15.5 11C14.9082 11 14.1606 11.0778 13.4724 11.1721Z" fill="#5F6388"/>
@@ -288,16 +298,26 @@
                             From: "transform opacity-100 scale-100"
                             To: "transform opacity-0 scale-95"
                         -->
-                        <div class="absolute right-0 z-10 mt-2 w-42 origin-top-right rounded-md bg-gray-700 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-                          <div class="py-1" role="none">
-                            <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
-                            <a href="#" class=" text-white block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-2">About</a>
-                            <form method="POST" action="#" role="none">
-                              <button type="submit" class=" text-red-500 block w-full px-4 py-2 text-left text-sm" role="menuitem" tabindex="-1" id="menu-item-3">Logout</button>
-                            </form>
-                          </div>
+                        <div id="user_menu" class="hidden absolute right-0 z-10 mt-2 w-42 origin-top-right rounded-md bg-gray-700 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                            <div class="py-1" role="none">
+                                <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
+                                <a href="#" class=" text-white block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-2">About</a>
+                                <form method="POST" action="#" role="none">
+                                <button type="submit" class=" text-red-500 block w-full px-4 py-2 text-left text-sm" role="menuitem" tabindex="-1" id="menu-item-1">Logout</button>
+                                </form>
+                            </div>
                         </div>
-                      </div>
+                        <script>
+                            function user_menu(){
+                                x = document.getElementById("user_menu");
+                                if (x.style.display === 'none') {
+                                    x.style.display = 'block';
+                                  } else {
+                                    x.style.display = 'none';
+                                  }
+                            }
+                        </script>
+                    </div>
                 </div>
         
                 <div id="active-list" class="contacts p-2 flex-1 overflow-y-scroll">
@@ -324,7 +344,7 @@
 </div>
 
 <!--popup -->
-<div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+<div id="notification" class="hidden relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
     <div class="fixed inset-0 bg-gray-500 bg-opacity-0 transition-opacity"></div>
   
     <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
@@ -347,16 +367,61 @@
                 </div>
             </div>
             <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                <button type="button" class="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:ml-3 sm:w-auto">Accept</button>
-                <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Deny</button>
+                <button onclick=request_accept() type="button" class="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:ml-3 sm:w-auto">Accept</button>
+                <button onclick=request_deny() type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Deny</button>
             </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function request_accept(){
+        alert("accepted");
+        document.getElementById("notification").style.display = "none";
+    }
+    function request_deny(){
+        alert("denied");
+        document.getElementById("notification").style.display = "none";
+    }
+
+</script>
+
+  <!--member list-->
+<div class="hidden relative z-10" id="login_body" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="fixed inset-0 bg-gray-900 bg-opacity-0 transition-opacity"></div>
+  
+    <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <div class="relative transform overflow-hidden rounded-lg bg-gray-800 text-left shadow-xl transition-all sm:my-8 sm:80 sm:max-w-lg">
+                <div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+                    
+                    <ul class="max-w-md divide-y divide-gray-200 dark:divide-gray-700">
+                        <li class="pb-3 sm:pb-4">
+                        <div class="flex items-center space-x-4 rtl:space-x-reverse">
+                            <div class="flex-shrink-0">
+                                <img class="w-8 h-8 rounded-full" src="img.png" alt="Neil image">
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-white truncate dark:text-white">
+                                    Member name
+                                </p>
+                                
+                            </div>
+                            <div class="inline-flex items-center text-base font-semibold text-gray-700 dark:text-white">
+                                member
+                            </div>
+                        </div>
+                        </li>
+                    </ul>
+ 
+                </div>
             </div>
         </div>
     </div>
 </div>
 
   <!--auth scr-->
-<div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+<div class="hidden relative z-10" id="login_body" aria-labelledby="modal-title" role="dialog" aria-modal="true">
     <div class="fixed inset-0 bg-gray-500 bg-opacity-100 transition-opacity"></div>
   
     <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
@@ -372,9 +437,9 @@
                     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                     <form class="space-y-6" action="#" method="POST">
                         <div>
-                        <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Username</label>
+                        <label for="username" class="block text-sm font-medium leading-6 text-gray-900">Username</label>
                         <div class="mt-2">
-                            <input id="email" name="email" type="email" autocomplete="email" required="" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            <input id="username" name="username" type="username" autocomplete="username" required="" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                         </div>
                         </div>
                 
@@ -382,7 +447,7 @@
                         <div class="flex items-center justify-between">
                             <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
                             <div class="text-sm">
-                            <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500">Change password?</a>
+                            <a href="#" onclick=show_change_pass() class="font-semibold text-indigo-600 hover:text-indigo-500">Change password?</a>
                             </div>
                         </div>
                         <div class="mt-2">
@@ -398,7 +463,7 @@
                     <p class="mt-10 text-center text-sm text-gray-500">
                         Not a member?
                         <!-- space -->
-                        <a href="#" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Create new user</a>
+                        <a href="#" onclick=show_register() class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Create new user</a>
                     </p>
                     </div>
                 </div>
@@ -406,8 +471,16 @@
         </div>
     </div>
 </div>
+<script>
+    function show_register(){
+        document.getElementById("register_body").className = "relative z-10";
+    }
+    function show_change_pass(){
+        document.getElementById("change_pass_body").className = "relative z-10";
+    }
+</script>
   <!--register-->
-<div class="hidden relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+<div id="register_body" class="hidden relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
     <div class="fixed inset-0 bg-gray-500 bg-opacity-100 transition-opacity"></div>
   
     <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
@@ -422,19 +495,19 @@
                     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                     <form class="space-y-6" action="#" method="POST">
                         <div>
-                        <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Username</label>
+                        <label for="register_username" class="block text-sm font-medium leading-6 text-gray-900">Username</label>
                         <div class="mt-2">
-                            <input id="email" name="email" type="email" autocomplete="email" required="" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            <input id="register_username" name="register_username" type="register_username" autocomplete="register_username" required="" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                         </div>
                         </div>
                 
                         <div>
                         <div class="flex items-center justify-between">
-                            <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
+                            <label for="register_password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
                             
                         </div>
                         <div class="mt-2">
-                            <input id="password" name="password" type="password" autocomplete="current-password" required="" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            <input id="register_password" name="register_password" type="password" autocomplete="current-password" required="" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                         </div>
                         </div>
                 
@@ -450,8 +523,70 @@
         </div>
     </div>
 </div>
-
+<!--change password-->
+<div id="change_pass_body" class="hidden relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-100 transition-opacity"></div>
+  
+    <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <div class="relative transform overflow-hidden rounded-lg bg-gray-500 text-left shadow-xl transition-all sm:my-8 sm:80 sm:max-w-lg">
+                <div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+                    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+                    <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Change password</h2>
+                    </div>
+                
+                    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+                    <form class="space-y-6" action="#" method="POST">
+                        <div>
+                        <label for="username_changepass" class="block text-sm font-medium leading-6 text-gray-900">Username</label>
+                        <div class="mt-2">
+                            <input id="username_changepass" name="username_changepass" type="email" autocomplete="email" required="" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                        </div>
+                        </div>
+                        <div>
+                            <div class="flex items-center justify-between">
+                                <label for="change_password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
+                                
+                            </div>
+                            <div class="mt-2">
+                                <input id="change_password" name="change_password" type="password" autocomplete="current-password" required="" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex items-center justify-between">
+                                <label for="new_password" class="block text-sm font-medium leading-6 text-gray-900">New password</label>
+                                
+                            </div>
+                            <div class="mt-2">
+                                <input id="new_password" name="new_password" type="password" autocomplete="current-password" required="" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex items-center justify-between">
+                                <label for="confirm_password" class="block text-sm font-medium leading-6 text-gray-900">Confirm password</label>
+                                
+                            </div>
+                            <div class="mt-2">
+                                <input id="confirm_password" name="confirm_password" type="password" autocomplete="current-password" required="" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            </div>
+                        </div>
+                
+                        <div>
+                        <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Confirm</button>
+                        </div>
+                    </form>
+                
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
+<script type="text/javascript" src="img1.js"></script>
+<script type="text/javascript" src="img2.js"></script>
+<script type="text/javascript" src="img3.js"></script>
 <script type="text/javascript" src="app.js"></script>
 
 </html>

@@ -1,7 +1,7 @@
+
 PORT = 0;
 rtd = 9999;
 username = "username";
-// char g_user[MAX_CLIENTS][50];
 onlineUsers = [
     {name: "user1", friend: true},
     {name: "user2", friend: false}
@@ -91,11 +91,7 @@ function displayChatRooms(){
         chatRoomBtn.className = "flex justify-between items-center p-3 hover:bg-gray-800 rounded-lg relative";
         chatRoomBtn.innerHTML = `
         <div class="w-16 h-16 relative flex flex-shrink-0">
-            <img class="shadow-md rounded-full w-full h-full object-cover"
-                name="chat-room-name"
-                src="img.png"
-                alt=""
-            />
+            ${img3}
         </div>
         <div class="flex-auto min-w-0 ml-4 mr-6 hidden md:block group-hover:block">
             <p name="chat-room-name">${room.name}</p>
@@ -123,10 +119,7 @@ function displayOnlineUsers(){
 
         onlineUserContainer.innerHTML = `
                         <div class="w-16 h-16 relative flex flex-shrink-0">
-                            <img class="shadow-md rounded-full w-full h-full object-cover"
-                                 src="img.png"
-                                 alt=""
-                            />
+                        ${img1}
                         </div>
                         <div name="online-name" class="flex-auto min-w-0 ml-4 mr-6 hidden md:block group-hover:block">
                             <p>${user.name}</p>
@@ -166,10 +159,7 @@ function displayFriends(){
         friendContainer.className="text-sm text-center mr-4";
         friendContainer.innerHTML = `
                     <div class="p-1 border-4 border-transparent rounded-full"><div class="w-16 h-16 relative flex flex-shrink-0">
-                        <img class="shadow-md rounded-full w-full h-full object-cover"
-                             src="img.png"
-                             alt=""
-                        />
+                        ${img2}
                         ${activeStatus}
                     </div></div><p>${friend.name}</p></div>
                     `
@@ -213,6 +203,54 @@ function displayMessages(chatRoom){
     });
 }
 
+function displayChatMember(room){
+    var memberListBody = document.createElement("div");
+    memberListBody.className = "relative z-10";
+    memberListBody.innerHTML = `<div class="fixed inset-0 bg-gray-900 bg-opacity-0 transition-opacity"></div>
+  
+    <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <div class="relative transform overflow-hidden rounded-lg bg-gray-800 text-left shadow-xl transition-all sm:my-8 sm:80 sm:max-w-lg">
+                <div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+                    
+                    <ul id="mem_list" class="max-w-md divide-y divide-gray-200 dark:divide-gray-700">
+                        <li class="pb-3 sm:pb-4">
+                            <div class="flex items-center space-x-4 rtl:space-x-reverse">
+                                <div class="flex-shrink-0">
+                                    <img class="w-8 h-8 rounded-full" src="img.png" alt="Neil image">
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-medium text-white truncate dark:text-white">
+                                        Member name
+                                    </p>
+                                    
+                                </div>
+                                <div class="inline-flex items-center text-base font-semibold text-gray-700 dark:text-white">
+                                    member
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                <button onclick=list_close() id="close_button" type="button" class="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-900 sm:ml-3 sm:w-auto">Close</button>
+            </div>
+                </div>
+            </div>
+        </div>
+    </div>`
+
+    document.body.appendChild(memberListBody);
+    var closeBtn = document.getElementById("close_button").addEventListener("click", ()=>{memberListBody.style.display = "hidden"});
+    var memberListTable = document.getElementById("memlist");
+    chatRooms.forEach(chatRoom=>{
+        if(chatRoom.name == room){
+            chatRoom.member.forEach(m=>{
+                
+            })
+        }
+    })
+}
+
 function changeChatRoom(chatRoom) {
     document.getElementById('chat-name').textContent = chatRoom.name;
     displayMessages(chatRoom);
@@ -224,26 +262,19 @@ document.getElementById("messageInput").addEventListener("keydown", function (ev
     }
 });
 
-// // Change the current chat room
-// function changeChatRoom(chatRoom) {
-//     document.getElementById('chatRoomName').textContent = chatRoom.name;
-//     displayMessages(chatRoom);
-// }
+function showNotification(friend){
+    document.getElementById("notification").innerHTML = friend;
+    document.getElementById("notification").style.display = "block";
+    alert("show")
+}
 
-// // Send a message to the current chat room
-// function sendMessage() {
-//     const messageInput = document.getElementById('messageInput');
-//     const messageText = messageInput.value.trim();
-//     if (messageText !== '') {
-//         const currentChatRoom = chatRooms.find(room => room.name === document.getElementById('chatRoomName').textContent);
-//         const newMessage = { sender: 'CurrentUser', text: messageText };
-//         currentChatRoom.messages.push(newMessage);
-//         displayMessages(currentChatRoom);
-//         messageInput.value = '';
-//     }
-// }
+function updateData(){
+
+}
 
 displayChatRooms();
 displayOnlineUsers();
 displayFriends();
+showNotification("Quinn");
 
+setInterval(displayChatRooms, 5000);
