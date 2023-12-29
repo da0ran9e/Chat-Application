@@ -97,6 +97,12 @@ void run_client(const char *address, const int port){
     g_socket = -1;
     g_port = -1;
     g_rtd = 9999;
+    for (int i=0; i<MAX_CLIENTS; i++){
+        g_user[i][0] = '\0';
+        g_rtds[i] = 9999;
+        g_friend[i][0] = '\0';
+        g_rooms[i].roomId = -1;
+    }
     strcpy(g_address, address);
     g_port = port;
     g_socket = initializeClient(g_address, g_port);

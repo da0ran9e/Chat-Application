@@ -94,7 +94,7 @@
 
                 </div>
                 <div id="contact-list" class="contacts p-2 flex-1 overflow-y-scroll">
-                    <div class="flex justify-between items-center p-3 hover:bg-gray-800 rounded-lg relative">
+                    <!--<div class="flex justify-between items-center p-3 hover:bg-gray-800 rounded-lg relative">
                         <div class="w-16 h-16 relative flex flex-shrink-0">
                             <img class="shadow-md rounded-full w-full h-full object-cover"
                                 name="chat-room-name"
@@ -134,7 +134,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
             </section>
             <section class="flex flex-col flex-auto border-l border-gray-800">
                 <div class="chat-header px-6 py-4 flex flex-row flex-none justify-between items-center shadow">
@@ -151,16 +151,59 @@
                         </div>
                     </div>
 
-                    <div class="flex">
+                    <!--<div class="flex">
                         <a href="#" class="block rounded-full hover:bg-gray-700 bg-gray-800 w-10 h-10 p-2 ml-4">
                             <svg viewBox="0 0 20 20" class="w-full h-full fill-current text-blue-500">
                                 <path d="M2.92893219,17.0710678 C6.83417511,20.9763107 13.1658249,20.9763107 17.0710678,17.0710678 C20.9763107,13.1658249 20.9763107,6.83417511 17.0710678,2.92893219 C13.1658249,-0.976310729 6.83417511,-0.976310729 2.92893219,2.92893219 C-0.976310729,6.83417511 -0.976310729,13.1658249 2.92893219,17.0710678 Z M9,11 L9,10.5 L9,9 L11,9 L11,15 L9,15 L9,11 Z M9,5 L11,5 L11,7 L9,7 L9,5 Z"/>
                             </svg>
-
                         </a>
-                    </div>
+                    </div>-->
+                    <div class="relative inline-block text-left">
+                        <div>
+                          <button onclick=show_room_menu() type="button" class="inline-flex w-full justify-center gap-x-1.5 rounded-md px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" id="menu-button" aria-expanded="true" aria-haspopup="true">
+                            <a href="#" class="block rounded-full hover:bg-gray-700 bg-gray-800 w-10 h-10 p-2 ml-4">
+                                <svg viewBox="0 0 20 20" class="w-full h-full fill-current text-blue-500">
+                                    <path d="M2.92893219,17.0710678 C6.83417511,20.9763107 13.1658249,20.9763107 17.0710678,17.0710678 C20.9763107,13.1658249 20.9763107,6.83417511 17.0710678,2.92893219 C13.1658249,-0.976310729 6.83417511,-0.976310729 2.92893219,2.92893219 C-0.976310729,6.83417511 -0.976310729,13.1658249 2.92893219,17.0710678 Z M9,11 L9,10.5 L9,9 L11,9 L11,15 L9,15 L9,11 Z M9,5 L11,5 L11,7 L9,7 L9,5 Z"/>
+                                </svg>
+                            </a>
+                          </button>
+                        </div>
+                      
+                        <!--
+                          Dropdown menu, show/hide based on menu state.
+                      
+                          Entering: "transition ease-out duration-100"
+                            From: "transform opacity-0 scale-95"
+                            To: "transform opacity-100 scale-100"
+                          Leaving: "transition ease-in duration-75"
+                            From: "transform opacity-100 scale-100"
+                            To: "transform opacity-0 scale-95"
+                        -->
+                        <div action="/tailwindlabs/tailwindcss/lists" id="chat_room_menu" class="hidden absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-gray-700 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                          <div class="py-1" role="none">
+                            <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
+                            <a href="#" onclick=displayChatMember() class="text-white block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0">See chat members</a>
+                            <a href="#" class=" text-white block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-1">Add member</a>
+                            <a href="#" class=" text-white block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-2">Remove member</a>
+                            <form method="POST" action="#" role="none">
+                              <button type="submit" class=" text-red-500 block w-full px-4 py-2 text-left text-sm" role="menuitem" tabindex="-1" id="menu-item-3">Leave chat</button>
+                            </form>
+                          </div>
+                        </div>
+                        <script>
+                            function show_room_menu(){
+                                x = document.getElementById("chat_room_menu");
+                                if (x.style.display === 'none') {
+                                    x.style.display = 'block';
+                                  } else {
+                                    x.style.display = 'none';
+                                  }
+                            }
+                        </script>
+                      </div>
                 </div>
                 <div id="chat-body" class="chat-body p-4 flex-1 overflow-y-scroll">
+                    
                     <div class="flex flex-row justify-start">
                         <div class="w-8 h-8 relative flex flex-shrink-0 mr-4">
                             <img class="shadow-md rounded-full w-full h-full object-cover" src="img.png" alt="">
@@ -221,7 +264,7 @@
                         <p name="username-label" class="text-md font-bold hidden md:block group-hover:block">Username</p>
                         <p name="username-ping">29ms</p>
                     </div>
-                    <a href="#" class="block rounded-full hover:bg-gray-700 bg-gray-800 w-10 h-10 p-2">
+                    <!--<a href="#" class="block rounded-full hover:bg-gray-700 bg-gray-800 w-10 h-10 p-2">
                         <svg class="w-full h-full fill-current" viewBox="-2 -2 24 24">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M15.5 13C15.0478 13 14.4089 13.0625 13.7438 13.1536C13.4331 13.1962 13.1962 13.4331 13.1536 13.7438C13.0625 14.4089 13 15.0478 13 15.5C13 15.9522 13.0625 16.5911 13.1536 17.2562C13.1962 17.5669 13.4331 17.8038 13.7438 17.8464C14.4089 17.9375 15.0478 18 15.5 18C15.9522 18 16.5911 17.9375 17.2562 17.8464C17.5669 17.8038 17.8038 17.5669 17.8464 17.2562C17.9375 16.5911 18 15.9522 18 15.5C18 15.0478 17.9375 14.4089 17.8464 13.7438C17.8038 13.4331 17.5669 13.1962 17.2562 13.1536C16.5911 13.0625 15.9522 13 15.5 13ZM13.4724 11.1721C12.2725 11.3364 11.3364 12.2725 11.1721 13.4724C11.0778 14.1606 11 14.9082 11 15.5C11 16.0918 11.0778 16.8394 11.1721 17.5276C11.3364 18.7275 12.2725 19.6636 13.4724 19.8279C14.1606 19.9222 14.9082 20 15.5 20C16.0918 20 16.8394 19.9222 17.5276 19.8279C18.7275 19.6636 19.6636 18.7275 19.8279 17.5276C19.9222 16.8394 20 16.0918 20 15.5C20 14.9082 19.9222 14.1606 19.8279 13.4724C19.6636 12.2725 18.7275 11.3364 17.5276 11.1721C16.8394 11.0778 16.0918 11 15.5 11C14.9082 11 14.1606 11.0778 13.4724 11.1721Z" fill="#5F6388"/>
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M4.5 13C4.04782 13 3.40893 13.0625 2.74381 13.1536C2.43308 13.1962 2.19615 13.4331 2.15359 13.7438C2.0625 14.4089 2 15.0478 2 15.5C2 15.9522 2.0625 16.5911 2.15359 17.2562C2.19615 17.5669 2.43308 17.8038 2.74381 17.8464C3.40893 17.9375 4.04782 18 4.5 18C4.95218 18 5.59107 17.9375 6.25619 17.8464C6.56692 17.8038 6.80385 17.5669 6.84641 17.2562C6.9375 16.5911 7 15.9522 7 15.5C7 15.0478 6.9375 14.4089 6.84641 13.7438C6.80385 13.4331 6.56692 13.1962 6.25619 13.1536C5.59107 13.0625 4.95218 13 4.5 13ZM2.47244 11.1721C1.27253 11.3364 0.336423 12.2725 0.172092 13.4724C0.0778385 14.1606 0 14.9082 0 15.5C0 16.0918 0.0778385 16.8394 0.172092 17.5276C0.336423 18.7275 1.27253 19.6636 2.47244 19.8279C3.16065 19.9222 3.90816 20 4.5 20C5.09184 20 5.83935 19.9222 6.52756 19.8279C7.72747 19.6636 8.66358 18.7275 8.82791 17.5276C8.92216 16.8394 9 16.0918 9 15.5C9 14.9082 8.92216 14.1606 8.82791 13.4724C8.66358 12.2725 7.72747 11.3364 6.52756 11.1721C5.83935 11.0778 5.09184 11 4.5 11C3.90816 11 3.16065 11.0778 2.47244 11.1721Z" fill="#5F6388"/>
@@ -229,7 +272,52 @@
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M4.5 2C4.04782 2 3.40893 2.0625 2.74381 2.15359C2.43308 2.19615 2.19615 2.43308 2.15359 2.74381C2.0625 3.40893 2 4.04782 2 4.5C2 4.95218 2.0625 5.59107 2.15359 6.25619C2.19615 6.56692 2.43308 6.80385 2.74381 6.84641C3.40893 6.9375 4.04782 7 4.5 7C4.95218 7 5.59107 6.9375 6.25619 6.84641C6.56692 6.80385 6.80385 6.56692 6.84641 6.25619C6.9375 5.59107 7 4.95218 7 4.5C7 4.04782 6.9375 3.40893 6.84641 2.74381C6.80385 2.43308 6.56692 2.19615 6.25619 2.15359C5.59107 2.0625 4.95218 2 4.5 2ZM2.47244 0.172092C1.27253 0.336423 0.336423 1.27253 0.172092 2.47244C0.0778385 3.16065 0 3.90816 0 4.5C0 5.09184 0.0778385 5.83935 0.172092 6.52756C0.336423 7.72747 1.27253 8.66358 2.47244 8.82791C3.16065 8.92216 3.90816 9 4.5 9C5.09184 9 5.83935 8.92216 6.52756 8.82791C7.72747 8.66358 8.66358 7.72747 8.82791 6.52756C8.92216 5.83935 9 5.09184 9 4.5C9 3.90816 8.92216 3.16065 8.82791 2.47244C8.66358 1.27253 7.72747 0.336423 6.52756 0.172092C5.83935 0.0778385 5.09184 0 4.5 0C3.90816 0 3.16065 0.0778385 2.47244 0.172092Z" fill="#5F6388"/>
                         </svg>
                         
-                    </a>
+                    </a>-->
+                    <div class="relative inline-block text-left">
+                        <div>
+                          <button onclick=user_menu() type="button" class="inline-flex w-full justify-center gap-x-1.5 rounded-md px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" id="menu-button" aria-expanded="true" aria-haspopup="true">
+                            <a href="#" class="block rounded-full hover:bg-gray-700 bg-gray-800 w-10 h-10 p-2">
+                                <svg class="w-full h-full fill-current" viewBox="-2 -2 24 24">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M15.5 13C15.0478 13 14.4089 13.0625 13.7438 13.1536C13.4331 13.1962 13.1962 13.4331 13.1536 13.7438C13.0625 14.4089 13 15.0478 13 15.5C13 15.9522 13.0625 16.5911 13.1536 17.2562C13.1962 17.5669 13.4331 17.8038 13.7438 17.8464C14.4089 17.9375 15.0478 18 15.5 18C15.9522 18 16.5911 17.9375 17.2562 17.8464C17.5669 17.8038 17.8038 17.5669 17.8464 17.2562C17.9375 16.5911 18 15.9522 18 15.5C18 15.0478 17.9375 14.4089 17.8464 13.7438C17.8038 13.4331 17.5669 13.1962 17.2562 13.1536C16.5911 13.0625 15.9522 13 15.5 13ZM13.4724 11.1721C12.2725 11.3364 11.3364 12.2725 11.1721 13.4724C11.0778 14.1606 11 14.9082 11 15.5C11 16.0918 11.0778 16.8394 11.1721 17.5276C11.3364 18.7275 12.2725 19.6636 13.4724 19.8279C14.1606 19.9222 14.9082 20 15.5 20C16.0918 20 16.8394 19.9222 17.5276 19.8279C18.7275 19.6636 19.6636 18.7275 19.8279 17.5276C19.9222 16.8394 20 16.0918 20 15.5C20 14.9082 19.9222 14.1606 19.8279 13.4724C19.6636 12.2725 18.7275 11.3364 17.5276 11.1721C16.8394 11.0778 16.0918 11 15.5 11C14.9082 11 14.1606 11.0778 13.4724 11.1721Z" fill="#5F6388"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M4.5 13C4.04782 13 3.40893 13.0625 2.74381 13.1536C2.43308 13.1962 2.19615 13.4331 2.15359 13.7438C2.0625 14.4089 2 15.0478 2 15.5C2 15.9522 2.0625 16.5911 2.15359 17.2562C2.19615 17.5669 2.43308 17.8038 2.74381 17.8464C3.40893 17.9375 4.04782 18 4.5 18C4.95218 18 5.59107 17.9375 6.25619 17.8464C6.56692 17.8038 6.80385 17.5669 6.84641 17.2562C6.9375 16.5911 7 15.9522 7 15.5C7 15.0478 6.9375 14.4089 6.84641 13.7438C6.80385 13.4331 6.56692 13.1962 6.25619 13.1536C5.59107 13.0625 4.95218 13 4.5 13ZM2.47244 11.1721C1.27253 11.3364 0.336423 12.2725 0.172092 13.4724C0.0778385 14.1606 0 14.9082 0 15.5C0 16.0918 0.0778385 16.8394 0.172092 17.5276C0.336423 18.7275 1.27253 19.6636 2.47244 19.8279C3.16065 19.9222 3.90816 20 4.5 20C5.09184 20 5.83935 19.9222 6.52756 19.8279C7.72747 19.6636 8.66358 18.7275 8.82791 17.5276C8.92216 16.8394 9 16.0918 9 15.5C9 14.9082 8.92216 14.1606 8.82791 13.4724C8.66358 12.2725 7.72747 11.3364 6.52756 11.1721C5.83935 11.0778 5.09184 11 4.5 11C3.90816 11 3.16065 11.0778 2.47244 11.1721Z" fill="#5F6388"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M15.5 2C15.0478 2 14.4089 2.0625 13.7438 2.15359C13.4331 2.19615 13.1962 2.43308 13.1536 2.74381C13.0625 3.40893 13 4.04782 13 4.5C13 4.95218 13.0625 5.59107 13.1536 6.25619C13.1962 6.56692 13.4331 6.80385 13.7438 6.84641C14.4089 6.9375 15.0478 7 15.5 7C15.9522 7 16.5911 6.9375 17.2562 6.84641C17.5669 6.80385 17.8038 6.56692 17.8464 6.25619C17.9375 5.59107 18 4.95218 18 4.5C18 4.04782 17.9375 3.40893 17.8464 2.74381C17.8038 2.43308 17.5669 2.19615 17.2562 2.15359C16.5911 2.0625 15.9522 2 15.5 2ZM13.4724 0.172092C12.2725 0.336423 11.3364 1.27253 11.1721 2.47244C11.0778 3.16065 11 3.90816 11 4.5C11 5.09184 11.0778 5.83935 11.1721 6.52756C11.3364 7.72747 12.2725 8.66358 13.4724 8.82791C14.1606 8.92216 14.9082 9 15.5 9C16.0918 9 16.8394 8.92216 17.5276 8.82791C18.7275 8.66358 19.6636 7.72747 19.8279 6.52756C19.9222 5.83935 20 5.09184 20 4.5C20 3.90816 19.9222 3.16065 19.8279 2.47244C19.6636 1.27253 18.7275 0.336423 17.5276 0.172092C16.8394 0.0778385 16.0918 0 15.5 0C14.9082 0 14.1606 0.0778385 13.4724 0.172092Z" fill="#5F6388"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M4.5 2C4.04782 2 3.40893 2.0625 2.74381 2.15359C2.43308 2.19615 2.19615 2.43308 2.15359 2.74381C2.0625 3.40893 2 4.04782 2 4.5C2 4.95218 2.0625 5.59107 2.15359 6.25619C2.19615 6.56692 2.43308 6.80385 2.74381 6.84641C3.40893 6.9375 4.04782 7 4.5 7C4.95218 7 5.59107 6.9375 6.25619 6.84641C6.56692 6.80385 6.80385 6.56692 6.84641 6.25619C6.9375 5.59107 7 4.95218 7 4.5C7 4.04782 6.9375 3.40893 6.84641 2.74381C6.80385 2.43308 6.56692 2.19615 6.25619 2.15359C5.59107 2.0625 4.95218 2 4.5 2ZM2.47244 0.172092C1.27253 0.336423 0.336423 1.27253 0.172092 2.47244C0.0778385 3.16065 0 3.90816 0 4.5C0 5.09184 0.0778385 5.83935 0.172092 6.52756C0.336423 7.72747 1.27253 8.66358 2.47244 8.82791C3.16065 8.92216 3.90816 9 4.5 9C5.09184 9 5.83935 8.92216 6.52756 8.82791C7.72747 8.66358 8.66358 7.72747 8.82791 6.52756C8.92216 5.83935 9 5.09184 9 4.5C9 3.90816 8.92216 3.16065 8.82791 2.47244C8.66358 1.27253 7.72747 0.336423 6.52756 0.172092C5.83935 0.0778385 5.09184 0 4.5 0C3.90816 0 3.16065 0.0778385 2.47244 0.172092Z" fill="#5F6388"/>
+                                </svg>
+                                
+                            </a>
+                          </button>
+                        </div>
+                      
+                        <!--
+                          Dropdown menu, show/hide based on menu state.
+                      
+                          Entering: "transition ease-out duration-100"
+                            From: "transform opacity-0 scale-95"
+                            To: "transform opacity-100 scale-100"
+                          Leaving: "transition ease-in duration-75"
+                            From: "transform opacity-100 scale-100"
+                            To: "transform opacity-0 scale-95"
+                        -->
+                        <div id="user_menu" class="hidden absolute right-0 z-10 mt-2 w-42 origin-top-right rounded-md bg-gray-700 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                            <div class="py-1" role="none">
+                                <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
+                                <a href="#" class=" text-white block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-2">About</a>
+                                <form method="POST" action="#" role="none">
+                                <button type="submit" class=" text-red-500 block w-full px-4 py-2 text-left text-sm" role="menuitem" tabindex="-1" id="menu-item-1">Logout</button>
+                                </form>
+                            </div>
+                        </div>
+                        <script>
+                            function user_menu(){
+                                x = document.getElementById("user_menu");
+                                if (x.style.display === 'none') {
+                                    x.style.display = 'block';
+                                  } else {
+                                    x.style.display = 'none';
+                                  }
+                            }
+                        </script>
+                    </div>
                 </div>
         
                 <div id="active-list" class="contacts p-2 flex-1 overflow-y-scroll">
@@ -255,7 +343,250 @@
     </div>
 </div>
 
+<!--popup -->
+<div id="notification" class="hidden relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-0 transition-opacity"></div>
+  
+    <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <div class="relative transform overflow-hidden rounded-lg bg-gray-500 text-left shadow-xl transition-all sm:my-8 sm:80 sm:max-w-lg">
+            <div class="bg-gery-500 px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                <div class="sm:flex sm:items-start">
+                <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                    <img class="shadow-md rounded-full w-full h-full object-cover"
+                                    src="img.png"
+                                    alt=""
+                                />
+                </div>
+                <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                    <h3 class="text-base font-semibold leading-6 text-white" id="modal-title">Somebody</h3>
+                    <div class="mt-2">
+                    <p class="text-sm text-white">Sent you a friend request!</p>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                <button onclick=request_accept() type="button" class="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:ml-3 sm:w-auto">Accept</button>
+                <button onclick=request_deny() type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Deny</button>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function request_accept(){
+        alert("accepted");
+        document.getElementById("notification").style.display = "none";
+    }
+    function request_deny(){
+        alert("denied");
+        document.getElementById("notification").style.display = "none";
+    }
+
+</script>
+
+  <!--member list-->
+<div class="hidden relative z-10" id="login_body" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="fixed inset-0 bg-gray-900 bg-opacity-0 transition-opacity"></div>
+  
+    <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <div class="relative transform overflow-hidden rounded-lg bg-gray-800 text-left shadow-xl transition-all sm:my-8 sm:80 sm:max-w-lg">
+                <div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+                    
+                    <ul class="max-w-md divide-y divide-gray-200 dark:divide-gray-700">
+                        <li class="pb-3 sm:pb-4">
+                        <div class="flex items-center space-x-4 rtl:space-x-reverse">
+                            <div class="flex-shrink-0">
+                                <img class="w-8 h-8 rounded-full" src="img.png" alt="Neil image">
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-white truncate dark:text-white">
+                                    Member name
+                                </p>
+                                
+                            </div>
+                            <div class="inline-flex items-center text-base font-semibold text-gray-700 dark:text-white">
+                                member
+                            </div>
+                        </div>
+                        </li>
+                    </ul>
+ 
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+  <!--auth scr-->
+<div class="hidden relative z-10" id="login_body" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-100 transition-opacity"></div>
+  
+    <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <div class="relative transform overflow-hidden rounded-lg bg-gray-500 text-left shadow-xl transition-all sm:my-8 sm:80 sm:max-w-lg">
+                <div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+                    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+                    <img class="mx-auto h-20 w-auto shadow-md rounded-full object-cover" src="img.png" alt="Your App">
+                    <h1 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">ChatPal</h1>
+                    <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign in</h2>
+                    </div>
+                
+                    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+                    <form class="space-y-6" action="#" method="POST">
+                        <div>
+                        <label for="username" class="block text-sm font-medium leading-6 text-gray-900">Username</label>
+                        <div class="mt-2">
+                            <input id="username" name="username" type="username" autocomplete="username" required="" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                        </div>
+                        </div>
+                
+                        <div>
+                        <div class="flex items-center justify-between">
+                            <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
+                            <div class="text-sm">
+                            <a href="#" onclick=show_change_pass() class="font-semibold text-indigo-600 hover:text-indigo-500">Change password?</a>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <input id="password" name="password" type="password" autocomplete="current-password" required="" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                        </div>
+                        </div>
+                
+                        <div>
+                        <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
+                        </div>
+                    </form>
+                
+                    <p class="mt-10 text-center text-sm text-gray-500">
+                        Not a member?
+                        <!-- space -->
+                        <a href="#" onclick=show_register() class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Create new user</a>
+                    </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function show_register(){
+        document.getElementById("register_body").className = "relative z-10";
+    }
+    function show_change_pass(){
+        document.getElementById("change_pass_body").className = "relative z-10";
+    }
+</script>
+  <!--register-->
+<div id="register_body" class="hidden relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-100 transition-opacity"></div>
+  
+    <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <div class="relative transform overflow-hidden rounded-lg bg-gray-500 text-left shadow-xl transition-all sm:my-8 sm:80 sm:max-w-lg">
+                <div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+                    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+                    <h1 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">ChatPal</h1>
+                    <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign up</h2>
+                    </div>
+                
+                    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+                    <form class="space-y-6" action="#" method="POST">
+                        <div>
+                        <label for="register_username" class="block text-sm font-medium leading-6 text-gray-900">Username</label>
+                        <div class="mt-2">
+                            <input id="register_username" name="register_username" type="register_username" autocomplete="register_username" required="" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                        </div>
+                        </div>
+                
+                        <div>
+                        <div class="flex items-center justify-between">
+                            <label for="register_password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
+                            
+                        </div>
+                        <div class="mt-2">
+                            <input id="register_password" name="register_password" type="password" autocomplete="current-password" required="" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                        </div>
+                        </div>
+                
+                        <div>
+                        <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Register</button>
+                        </div>
+                    </form>
+                
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--change password-->
+<div id="change_pass_body" class="hidden relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-100 transition-opacity"></div>
+  
+    <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <div class="relative transform overflow-hidden rounded-lg bg-gray-500 text-left shadow-xl transition-all sm:my-8 sm:80 sm:max-w-lg">
+                <div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+                    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+                    <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Change password</h2>
+                    </div>
+                
+                    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+                    <form class="space-y-6" action="#" method="POST">
+                        <div>
+                        <label for="username_changepass" class="block text-sm font-medium leading-6 text-gray-900">Username</label>
+                        <div class="mt-2">
+                            <input id="username_changepass" name="username_changepass" type="email" autocomplete="email" required="" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                        </div>
+                        </div>
+                        <div>
+                            <div class="flex items-center justify-between">
+                                <label for="change_password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
+                                
+                            </div>
+                            <div class="mt-2">
+                                <input id="change_password" name="change_password" type="password" autocomplete="current-password" required="" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex items-center justify-between">
+                                <label for="new_password" class="block text-sm font-medium leading-6 text-gray-900">New password</label>
+                                
+                            </div>
+                            <div class="mt-2">
+                                <input id="new_password" name="new_password" type="password" autocomplete="current-password" required="" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex items-center justify-between">
+                                <label for="confirm_password" class="block text-sm font-medium leading-6 text-gray-900">Confirm password</label>
+                                
+                            </div>
+                            <div class="mt-2">
+                                <input id="confirm_password" name="confirm_password" type="password" autocomplete="current-password" required="" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            </div>
+                        </div>
+                
+                        <div>
+                        <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Confirm</button>
+                        </div>
+                    </form>
+                
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
+<script type="text/javascript" src="img1.js"></script>
+<script type="text/javascript" src="img2.js"></script>
+<script type="text/javascript" src="img3.js"></script>
 <script type="text/javascript" src="app.js"></script>
 
 </html>

@@ -14,26 +14,26 @@ struct ThreadArgs {
 };
 
 int readMessage(const char * binaryString, int size) {
-    printf("Opcode: %d\n", getProtocolOpcode(binaryString));
-    printf("Func: %d\n", getProtocolFunctionCode(binaryString));
-    char payload[size];
+    // printf("Opcode: %d\n", getProtocolOpcode(binaryString));
+    // printf("Func: %d\n", getProtocolFunctionCode(binaryString));
+    // char payload[size];
 
-    getProtocolPayload(binaryString, payload, sizeof(payload));
-    Parameters p;
-    getProtocolParameters(payload, &p);
+    // getProtocolPayload(binaryString, payload, sizeof(payload));
+    // Parameters p;
+    // getProtocolParameters(payload, &p);
     
-    printf("len1: %lu\n", strlen(p.Param1));
-    printf("Param1: %s\n", p.Param1);
-    printf("len2: %lu\n", strlen(p.Param2));
-    printf("Param2: %s\n", p.Param2);
-    printf("len3: %lu\n", strlen(p.Param3));
-    printf("Param3: %s\n", p.Param3);
+    // printf("len1: %lu\n", strlen(p.Param1));
+    // printf("Param1: %s\n", p.Param1);
+    // printf("len2: %lu\n", strlen(p.Param2));
+    // printf("Param2: %s\n", p.Param2);
+    // printf("len3: %lu\n", strlen(p.Param3));
+    // printf("Param3: %s\n", p.Param3);
 
     
 
-    // Print the binary string
+    // // Print the binary string
 
-    printf("Binary String : \n");
+    printf("Binary String Read: \n");
     for (size_t i = 0; i < size; i++) {
         printf("\\x%02X", (unsigned char)binaryString[i]);
     }
@@ -118,12 +118,13 @@ void *handleClient(void *args) {
 
         // Process the received message
         printf("Processing message from client %d: %s\n", clientSocket, buffer);
+        readMessage(buffer, sizeof(buffer));
 
         int op;
         int func;
         Parameters params;
         char send_buffer[BUFFER];
-        readMessage(buffer, sizeof(buffer));
+        
         printf("Type message send to client:\n");
         printf("opcode: ");
         scanf("%d", &op);
@@ -138,7 +139,13 @@ void *handleClient(void *args) {
 
         int len = generateMessage(op, func, params, send_buffer);
         // Echo the message back to the client
-        sendMessage(clientSocket, send_buffer, len);
+        int sent = sendMessage(clientSocket, send_buffer, len);
+
+        printf("Binary String Sent: \n");
+        for (size_t i = 0; i < sent; i++) {
+            printf("\\x%02X", (unsigned char)buffer[i]);
+        }
+        printf("\n");
     }
 
     close(clientSocket);

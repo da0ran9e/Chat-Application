@@ -1,14 +1,10 @@
-#include "webview.h"
+#include "../../include/webview/webview.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#ifdef _WIN32
-#include <windows.h>
-#else
 #include <pthread.h>
 #include <unistd.h>
-#endif
 
 // Only used to suppress warnings caused by unused parameters.
 #define UNUSED(x) (void)x
@@ -16,32 +12,19 @@
 // Creates a thread with the given start routine and argument passed to
 // the start routine. Returns 0 on success and -1 on failure.
 int thread_create(void *(*start_routine)(void *), void *arg) {
-#ifdef _WIN32
-  HANDLE thread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)start_routine,
-                               arg, 0, NULL);
-  if (thread) {
-    CloseHandle(thread);
-    return 0;
-  }
-  return -1;
-#else
-  pthread_t thread;
-  int error = pthread_create(&thread, NULL, start_routine, arg);
-  if (error == 0) {
-    pthread_detach(thread);
-    return 0;
-  }
-  return -1;
-#endif
+    pthread_t thread;
+    int error = pthread_create(&thread, NULL, start_routine, arg);
+    if (error == 0) {
+        pthread_detach(thread);
+        return 0;
+    }
+    return -1;
+
 }
 
 // Make the current thread sleep for the given number of seconds.
 void thread_sleep(int seconds) {
-#ifdef _WIN32
-  Sleep(seconds * 1000);
-#else
   sleep(seconds);
-#endif
 }
 
 typedef struct {
