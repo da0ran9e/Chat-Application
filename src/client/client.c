@@ -44,9 +44,10 @@ int g_rtds[MAX_CLIENTS];
 char g_friend[MAX_CLIENTS][50];
 Room g_rooms[MAX_CLIENTS];
 Message g_message[BUFFER];
-RoomMember g_room_member[10000];
+RoomMember g_room_member[MAX_CLIENTS*MAX_CLIENTS];
 
 #define BUFFER_SIZE 1024
+#define PING_INTERVAL 5 // Interval in seconds for sending ping messages
 
 int initializeClient(const char *address, int port) {
     int clientSocket;
@@ -99,7 +100,6 @@ ssize_t receive_message(int clientSocket, char *buffer) {
 }
 
 
-#define PING_INTERVAL 5 // Interval in seconds for sending ping messages
 
 // Structure to pass arguments to the thread
 struct ThreadArgs {

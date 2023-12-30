@@ -1,11 +1,21 @@
-#include "../../include/client/feature.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <pthread.h>
+#include <sys/time.h>
 
-#define PING_INTERVAL 500 // Interval in seconds for sending ping messages
+#define BUFFER 1024
+
+#define PING_INTERVAL 5 // Interval in seconds for sending ping messages
 
 // Structure to pass arguments to the thread
 struct ThreadArgs {
     int clientSocket;
-    pthread_mutex_t sendMutex; // Mutex for synchronizing access to send method
 };
 
 // Function to send messages to the server
@@ -15,26 +25,10 @@ void *sendThread(void *args) {
     char buffer[BUFFER];
 
     while (1) {
-        int op;
-        int func;
-        Parameters params;
-        
-        printf("Enter Opcode: \n");
-        scanf("%d",&op);
-        printf("Enter Func: \n");
-        scanf("%d",&func);
-        printf("Enter param 1: \n");
-        scanf("%s", params.Param1);
-        printf("Enter param 2: \n");
-        scanf("%s", params.Param2);
-        printf("Enter param 3: \n");
-        scanf("%s", params.Param3);
 
-        int len = generateMessage(op, func, params, buffer);
-
-        // // Get user input and send to the server
-        // printf("Enter message to send to the server: ");
-        // fgets(buffer, BUFFER, stdin);
+        // Get user input and send to the server
+        printf("Enter message to send to the server: ");
+        fgets(buffer, BUFFER, stdin);
 
 
 
@@ -64,7 +58,6 @@ void *receiveThread(void *args) {
 
         // Process the received message
         printf("Received message from server: %s\n", buffer);
-        handle_receive_message(buffer);
     }
 
     pthread_exit(NULL);
@@ -78,40 +71,58 @@ void *sendPingMessages(void *args) {
 
     while (1) {
         gettimeofday(&startTime, NULL);
-        // Send a ping message to the server
-        char pingMessage[BUFFER];
-        Parameters p;
-        int len = generateMessage(0, 0, p, pingMessage);
 
-        send(clientSocket, pingMessage, len, 0);
+        // Send a ping message to the server
+        const char *pingMessage = "PING";
+        send(clientSocket, pingMessage, strlen(pingMessage), 0);
 
         sleep(PING_INTERVAL);
+
+        // Calculate and print round-trip delay time
         gettimeofday(&endTime, NULL);
-        g_rtd = (endTime.tv_sec - startTime.tv_sec) * 1000000L +
+        long int roundTripTime = (endTime.tv_sec - startTime.tv_sec) * 1000000L +
                                 (endTime.tv_usec - startTime.tv_usec);
+        printf("Round-trip delay time: %ld microseconds\n", roundTripTime);
     }
 
     pthread_exit(NULL);
 }
 
-void run_client(const char *address, const int port){
-    g_socket = -1;
-    g_port = -1;
-    g_rtd = 9999;
-    for (int i=0; i<MAX_CLIENTS; i++){
-        g_user[i][0] = '\0';
-        g_rtds[i] = 9999;
-        g_friend[i][0] = '\0';
-        g_rooms[i].roomId = -1;
+int main(int argc, char *argv[]) {
+    if (argc != 3) {
+        printf("Usage: %s ServerIPAddress PortNumber\n", argv[0]);
+        exit(1);
     }
-    strcpy(g_address, address);
-    g_port = port;
-    g_socket = initializeClient(g_address, g_port);
-    printf("run client sock: %d\n", g_socket);
+
+    int clientSocket;
+    struct sockaddr_in serverAddr;
+
+    // Create a socket
+    if ((clientSocket = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
+        perror("Error creating client socket");
+        exit(EXIT_FAILURE);
+    }
+
+    // Configure server address
+    memset(&serverAddr, 0, sizeof(serverAddr));
+    serverAddr.sin_family = AF_INET;
+    serverAddr.sin_port = htons(atoi(argv[2]));
+    if (inet_pton(AF_INET, argv[1], &serverAddr.sin_addr) <= 0) {
+        perror("Invalid server address");
+        close(clientSocket);
+        exit(EXIT_FAILURE);
+    }
+
+    // Connect to the server
+    if (connect(clientSocket, (struct sockaddr *)&serverAddr, sizeof(serverAddr)) == -1) {
+        perror("Error connecting to the server");
+        close(clientSocket);
+        exit(EXIT_FAILURE);
+    }
+
     // Create thread arguments
     struct ThreadArgs *threadArgs = (struct ThreadArgs *)malloc(sizeof(struct ThreadArgs));
     threadArgs->clientSocket = clientSocket;
-    pthread_mutex_init(&threadArgs->sendMutex, NULL);
 
     // Create threads for sending and receiving messages, and sending ping messages
     pthread_t sendThreadID, receiveThreadID, pingThreadID;
@@ -119,8 +130,7 @@ void run_client(const char *address, const int port){
         pthread_create(&receiveThreadID, NULL, receiveThread, (void *)threadArgs) != 0 ||
         pthread_create(&pingThreadID, NULL, sendPingMessages, (void *)threadArgs) != 0) {
         perror("Error creating threads");
-        printf("run close thread sock: %d\n", g_socket);
-        close(g_socket);
+        close(clientSocket);
         free(threadArgs);
         exit(EXIT_FAILURE);
     }
@@ -129,9 +139,9 @@ void run_client(const char *address, const int port){
     pthread_join(sendThreadID, NULL);
     pthread_join(receiveThreadID, NULL);
     pthread_join(pingThreadID, NULL);
-    // Clean up and destroy the mutex
-    pthread_mutex_destroy(&threadArgs->sendMutex);
-printf("run close sock: %d\n", g_socket);
-    close(g_socket);
+
+    close(clientSocket);
     free(threadArgs);
+
+    return 0;
 }
