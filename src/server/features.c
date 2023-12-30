@@ -582,14 +582,14 @@ void *handleClient(void *args) {
         int op = getProtocolOpcode(buffer);
         int func = getProtocolFunctionCode(buffer);
         Parameters params;
-        int plSize = sizeof(buffer);
+        int plSize = bytesReceived;
         char payload[plSize];
         getProtocolPayload(buffer, payload, plSize);
         getProtocolParameters(payload, &params);
         //readMessage(buffer, sizeof(buffer), p);
         handle_features(clientSocket, op, func, params);
 
-        sendMessage(clientSocket, buffer, strlen(buffer));        // Echo the message back to the client
+        sendMessage(clientSocket, buffer, bytesReceived);        // Echo the message back to the client
     }
     for (int i=0; i<MAX_CLIENTS; i++){
         if (g_rtds[i] < 9999){
