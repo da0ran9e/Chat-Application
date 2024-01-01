@@ -5,12 +5,6 @@
 #include "connection.h"
 #include "log.h"
 
-int g_port;
-int g_clientSockets[MAX_CLIENTS];
-char g_clientNames[MAX_CLIENTS][50];
-char g_ipAddr[MAX_CLIENTS][15];
-int g_rtds[MAX_CLIENTS]; //  round-trip delay (time) or RTT
-
 int handle_features(const int user, int op, int func, const Parameters params);
 int feat_online_list (const int clientSock, const int rtd);
 int feat_login (const int clientSock, const char * username, const char * password);
