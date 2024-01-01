@@ -272,11 +272,11 @@ int feat_response_request (int clientSock, const char * username, const char * d
         Parameters p2;
         strcpy(p2.Param1, util_int_to_str(room));
         strcpy(p2.Param2, destination);
-        int len = writeMessage (2, 2, p1, buffer);
+        int len = writeMessage (2, 2, p2, buffer);
         sendMessage(clientSock, buffer, len);//send to friend
 
         strcpy(p2.Param2, username);
-        len = writeMessage (2, 2, p1, buffer);
+        len = writeMessage (2, 2, p2, buffer);
         sendMessage(destSock, buffer, len); //send to client
     }
     else{
@@ -661,7 +661,7 @@ void runServer(int serverSocket) {
 }
 
 // initial function 
-void _init (int port){
+void _s_init (int port){
     //initialize client list
     for (int i=0; i<MAX_CLIENTS; i++){
         g_clientSockets[i] = -1;

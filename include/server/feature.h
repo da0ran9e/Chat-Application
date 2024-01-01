@@ -26,7 +26,7 @@ int writeMessage(const int op, const int func, const Parameters params, char * b
 int readMessage(const char * buffer, const int size, Parameters params);
 void *handleClient(void *args);
 void runServer(int serverSocket);
-void _init (int port);
+void _s_init (int port);
 
 int s_auth_handle_login (const char * username, const char * password);
 int s_auth_handle_register (const char * username, const char * password);
