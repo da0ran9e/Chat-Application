@@ -10,7 +10,7 @@
 #include <sys/time.h>
 
 #define BUFFER 1024
-#define PING_INTERVAL 5// Interval in seconds for sending ping messages
+#define PING_INTERVAL 350// Interval in seconds for sending ping messages
 
 #define MAX_CLIENTS 100
 
@@ -52,7 +52,8 @@ typedef struct Message{
 int g_socket;
 char g_address[15];
 int g_port;
-int g_rtd=9999;
+int g_rtd;
+char g_username[50];
 char g_user[MAX_CLIENTS][50];
 int g_rtds[MAX_CLIENTS];
 char g_friend[MAX_CLIENTS][50];
@@ -206,7 +207,7 @@ int generateMessage(uint32_t op, uint32_t func, Parameters parameters, char * bu
 // Structure to pass arguments to the thread
 struct ThreadArgs {
     int clientSocket;
-    pthread_mutex_t sendMutex;
+    pthread_mutex_t threadMutex;
 };
 
 void sendMessage(void *args, const char * buffer, int size){
@@ -214,11 +215,11 @@ void sendMessage(void *args, const char * buffer, int size){
     int clientSocket = threadArgs->clientSocket;
 
     // Acquire the mutex lock before calling send method
-    pthread_mutex_lock(&threadArgs->sendMutex);
+    pthread_mutex_lock(&threadArgs->threadMutex);
     send(clientSocket, buffer, size, 0);
     // Release the mutex lock after calling send method
-    pthread_mutex_unlock(&threadArgs->sendMutex);
-    usleep(PING_INTERVAL*1000);
+    pthread_mutex_unlock(&threadArgs->threadMutex);
+    usleep(PING_INTERVAL*3000);
 }
 
 // Function to send messages to the server
@@ -244,8 +245,8 @@ void *sendThread(void *args) {
         strcpy(params.Param3, "test param 3");
 
         int len = generateMessage(op, func, params, buffer);
-        printf ("Sent: \n");
-        printCode(buffer, len);
+        // printf ("Sent: \n");
+        // printCode(buffer, len);
 
         sendMessage(g_args, buffer, len);
     }
@@ -262,8 +263,8 @@ void *receiveThread(void *args) {
     while (1) {
         // Receive messages from the server
         memset(buffer, 0, sizeof(buffer));
-        ssize_t bytesReceived = recv(clientSocket, buffer, BUFFER - 1, 0);
 
+        ssize_t bytesReceived = recv(clientSocket, buffer, BUFFER - 1, 0);
         if (bytesReceived <= 0) {
             // Connection closed or error, handle disconnect event
             printf("Server disconnected.\n");
@@ -285,6 +286,7 @@ void *sendPingMessages(void *args) {
     struct timeval startTime, endTime;
 
     while (1) {
+        sleep(30);
         gettimeofday(&startTime, NULL);
 
         // Send a ping message to the server
@@ -297,7 +299,7 @@ void *sendPingMessages(void *args) {
         gettimeofday(&endTime, NULL);
         long int roundTripTime = (endTime.tv_sec - startTime.tv_sec) * 1000000L +
                                 (endTime.tv_usec - startTime.tv_usec);
-        printf("%ld microseconds\n", roundTripTime);
+        //printf("%ld microseconds\n", roundTripTime);
     }
 
     pthread_exit(NULL);
@@ -336,10 +338,22 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
 
+    g_socket = -1;
+    g_port = -1;
+    g_rtd = 9999;
+    for (int i=0; i<MAX_CLIENTS; i++){
+        g_user[i][0] = '\0';
+        g_rtds[i] = 9999;
+        g_friend[i][0] = '\0';
+        g_rooms[i].roomId = -1;
+    }
+    strcpy(g_address, argv[1]);
+    g_port = atoi(argv[2]);
+
     // Create thread arguments
     struct ThreadArgs *threadArgs = (struct ThreadArgs *)malloc(sizeof(struct ThreadArgs));
     threadArgs->clientSocket = clientSocket;
-    pthread_mutex_init(&threadArgs->sendMutex, NULL); // Initialize the mutex
+    pthread_mutex_init(&threadArgs->threadMutex, NULL); // Initialize the mutex
 
     // Create threads for sending and receiving messages, and sending ping messages
     pthread_t sendThreadID, receiveThreadID, pingThreadID;
@@ -358,7 +372,7 @@ int main(int argc, char *argv[]) {
     pthread_join(pingThreadID, NULL);
 
     // Clean up and destroy the mutex
-    pthread_mutex_destroy(&threadArgs->sendMutex);
+    pthread_mutex_destroy(&threadArgs->threadMutex);
     close(clientSocket);
     free(threadArgs);
 
@@ -382,12 +396,13 @@ int handle_receive_message(const char * message, int len){
     getProtocolPayload(message, payload, plSize);
     getProtocolParameters(payload, &params);
 
-    printf("code: %d\n", code);
+    //printf("code: %d\n", code);
     //handle
     switch (code)
     {
     case 00:
         in_online_list(params.Param1, atoi(params.Param2));
+        out_get_friend_list();
         status = 200;
         break;
     case 10:
@@ -418,6 +433,7 @@ int handle_receive_message(const char * message, int len){
         }else{
             status = 201;
             in_friend_list(params.Param1);
+            out_get_room_list(g_username);
         }
         break;
     case 11:
@@ -443,6 +459,7 @@ int handle_receive_message(const char * message, int len){
         }else{
             status = 202;
             in_room_list(atoi(params.Param1), params.Param2);
+            out_get_room_members(atoi(params.Param1));
         }
         break;
     case 12:
@@ -450,7 +467,8 @@ int handle_receive_message(const char * message, int len){
             status = 312;
         }else{
             status = 212;
-            in_friend_list(params.Param1);
+            in_member_list(params.Param1, atoi(params.Param2));
+            out_get_conversation(atoi(params.Param2));
         }
         break;
     case 22:
@@ -481,6 +499,7 @@ int handle_receive_message(const char * message, int len){
         }else{
             status = 203;
             in_conversation(atoi(params.Param1), params.Param2, params.Param3);
+
         }
         break;
     case 13:
@@ -498,6 +517,7 @@ int handle_receive_message(const char * message, int len){
 }
 
 void in_online_list(const char * username, const int rtd){
+    printf("//////////////////////////////////////in online\n");
     for(int i=0; i<MAX_CLIENTS; i++){
         if (g_user[i][0]!='\0') {
             strcpy(g_user[i], username);
@@ -507,6 +527,7 @@ void in_online_list(const char * username, const int rtd){
 }
 
 void in_friend_list(const char * username){
+    printf("//////////////////////////////////////in friends\n");
     for(int i=0; i<MAX_CLIENTS; i++){
         if (g_friend[i][0]!='\0') {
             strcpy(g_friend[i], username);
@@ -515,22 +536,25 @@ void in_friend_list(const char * username){
 }
 
 void in_room_list(const int roomId, const char * roomName){
+    printf("////////////////////////////////////// in rooms\n");
     for (int i=0; i<MAX_CLIENTS; i++){
-        if (g_rooms[i].roomId == -1 || g_rooms[i].roomName[0] == '\0'){
+        if (g_rooms[i].roomId != -1){
             g_rooms[i].roomId = roomId;
             strcpy(g_rooms[i].roomName, roomName);
 
-            Parameters params;
-            char buffer[BUFFER];
-            // online 
-            strcpy(params.Param1, util_int_to_str(roomId)); 
-            int len = generateMessage(3, 0, params, buffer);
-            sendMessage(g_args, buffer, len);
+            // Parameters params;
+            // char buffer[BUFFER];
+            // // online 
+            // strcpy(params.Param1, util_int_to_str(roomId)); 
+            // int len = generateMessage(3, 0, params, buffer);
+            // sendMessage(g_args, buffer, len);
+            // printf("//////////////////////////////////////sent conv\n");
         }
     }
 }
 
 void in_member_list(const char * member, const int roomId){
+    printf("//////////////////////////////////////in mem\n");
     for (int i=0; i<10000; i++){
         if (g_room_member[i].memName[0] != '\0'){
             g_room_member[i].roomId = roomId;
@@ -540,6 +564,7 @@ void in_member_list(const char * member, const int roomId){
 }
 
 void in_conversation(const int roomId, const char * timestamp, const char * username){
+    printf("//////////////////////////////////////in conv\n");
     for (int i=0; i<1024; i++){
         if (g_message[i].timestamp[0] == '\0'){
             g_message[i].roomId = roomId;
@@ -550,6 +575,7 @@ void in_conversation(const int roomId, const char * timestamp, const char * user
 }
 
 void in_message(const int roomId, const char * timestamp, const char * message){
+    printf("//////////////////////////////////////in message\n");
     for (int i=0; i<1024; i++){
         if (!strcmp(g_message[i].timestamp, timestamp) && roomId == g_message[i].roomId){
             strcpy(g_message[i].content, message);
@@ -558,7 +584,9 @@ void in_message(const int roomId, const char * timestamp, const char * message){
 }
 
 void in_login_done(const char * username){
+    printf("//////////////////////////////////////in_login\n");
     // request initial data for running
+    strcpy(g_username, username);
     Parameters params;
     char buffer[BUFFER];
     // online 
@@ -567,20 +595,24 @@ void in_login_done(const char * username){
     strcpy(params.Param3, "\0");
     int len = generateMessage(0, 0, params, buffer);
     sendMessage(g_args, buffer, len);
+    printf("//////////////////////////////////////sent ping\n");
     usleep(5000);
-    // friend 
-    params.Param1[0]='\0';
-    len = generateMessage(1, 0, params, buffer);
-    sendMessage(g_args, buffer, len);
-    usleep(5000);
-    //room
-    strcpy(params.Param1, username);    
-    len = generateMessage(2, 0, params, buffer);
-    sendMessage(g_args, buffer, len);
+    // // friend 
+    // params.Param1[0]='\0';
+    // len = generateMessage(1, 0, params, buffer);
+    // sendMessage(g_args, buffer, len);
+    // printf("//////////////////////////////////////sent friends\n");
+    // usleep(5000);
+    // //room
+    // strcpy(params.Param1, username);    
+    // len = generateMessage(2, 0, params, buffer);
+    // printf("//////////////////////////////////////sent room\n");
+    // sendMessage(g_args, buffer, len);
 
 }
 
 void out_login(const char * username, const char * password){
+    printf("//////////////////////////////////////out_login\n");
     Parameters params;
     char buffer[BUFFER]; 
     strcpy(params.Param1, username); 
@@ -590,6 +622,7 @@ void out_login(const char * username, const char * password){
 }
 
 void out_register(const char * username, const char * password){
+    printf("//////////////////////////////////////out_register\n");
     Parameters params;
     char buffer[BUFFER]; 
     strcpy(params.Param1, username); 
@@ -599,6 +632,7 @@ void out_register(const char * username, const char * password){
 }
 
 void out_change_password(const char * username, const char * oldpass, const char * newpass){
+    printf("//////////////////////////////////////out_pass\n");
     Parameters params;
     char buffer[BUFFER]; 
     strcpy(params.Param1, username); 
@@ -609,6 +643,7 @@ void out_change_password(const char * username, const char * oldpass, const char
 }
 
 void out_get_friend_list(){
+    printf("//////////////////////////////////////out_friend\n");
     Parameters params;
     char buffer[BUFFER]; 
     strcpy(params.Param1, "\0"); 
@@ -619,6 +654,7 @@ void out_get_friend_list(){
 }
 
 void out_sent_friend_request(const char * username, const char * friendname){
+    printf("//////////////////////////////////////out_request\n");
     Parameters params;
     char buffer[BUFFER]; 
     strcpy(params.Param1, username); 
@@ -629,6 +665,7 @@ void out_sent_friend_request(const char * username, const char * friendname){
 }
 
 void out_sent_friend_response(const char * username, const char * friendname){
+    printf("//////////////////////////////////////out_response\n");
     Parameters params;
     char buffer[BUFFER]; 
     strcpy(params.Param1, username); 
@@ -639,6 +676,7 @@ void out_sent_friend_response(const char * username, const char * friendname){
 }
 
 void out_get_room_list(const char * username){
+    printf("//////////////////////////////////////out_room\n");
     Parameters params;
     char buffer[BUFFER]; 
     strcpy(params.Param1, username); 
@@ -649,6 +687,7 @@ void out_get_room_list(const char * username){
 }
 
 void out_get_room_members(const int roomId){
+    printf("//////////////////////////////////////out_member\n");
     Parameters params;
     char buffer[BUFFER]; 
     strcpy(params.Param1, util_int_to_str(roomId)); 
@@ -659,6 +698,7 @@ void out_get_room_members(const int roomId){
 }
 
 void out_create_room(const char * roomName, const char * username){
+    printf("//////////////////////////////////////out_create\n");
     Parameters params;
     char buffer[BUFFER]; 
     strcpy(params.Param1, roomName); 
@@ -669,6 +709,7 @@ void out_create_room(const char * roomName, const char * username){
 }
 
 void out_add_member(const int roomId, const char * username){
+    printf("//////////////////////////////////////out_add_member\n");
     Parameters params;
     char buffer[BUFFER]; 
     strcpy(params.Param1, util_int_to_str(roomId)); 
@@ -679,6 +720,7 @@ void out_add_member(const int roomId, const char * username){
 }
 
 void out_remove_member(const int roomId, const char * username){
+    printf("//////////////////////////////////////out_remove_member\n");
     Parameters params;
     char buffer[BUFFER]; 
     strcpy(params.Param1, util_int_to_str(roomId)); 
@@ -689,6 +731,7 @@ void out_remove_member(const int roomId, const char * username){
 }
 
 void out_get_conversation(const int roomId){
+    printf("//////////////////////////////////////out_conv\n");
     Parameters params;
     char buffer[BUFFER]; 
     strcpy(params.Param1, util_int_to_str(roomId)); 
@@ -699,6 +742,7 @@ void out_get_conversation(const int roomId){
 }
 
 void out_get_prev_conversation(const int roomId, const char * timestamp){
+    printf("//////////////////////////////////////out_prev_conv\n");
     Parameters params;
     char buffer[BUFFER]; 
     strcpy(params.Param1, util_int_to_str(roomId)); 
@@ -708,6 +752,16 @@ void out_get_prev_conversation(const int roomId, const char * timestamp){
     sendMessage(g_args, buffer, len);
 }
 
+void out_get_conversation(const int roomId){
+    printf("//////////////////////////////////////out_mess\n");
+    Parameters params;
+    char buffer[BUFFER]; 
+    strcpy(params.Param1, util_int_to_str(roomId)); 
+    strcpy(params.Param2, "\0");
+    strcpy(params.Param3, "\0"); 
+    int len = generateMessage(3, 0, params, buffer);
+    sendMessage(g_args, buffer, len);
+}
 
 // int main(int argc, char *argv[]){
 //     if (argc != 3) {
