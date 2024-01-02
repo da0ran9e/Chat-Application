@@ -563,8 +563,8 @@ void showFeatures(){
         sendMessage(g_args, buffer, len);
 
         int res = recvAndProcess(g_args);
-        if(res == 203) printf("Get conversation successfully!\n");
-        else if (res == 303) printf("Room not found!\n");
+        if(res == 213) printf("Sent!\n");
+        else if (res == 313) printf("Room not found!\n");
         else {
             printf("Connection lost!\n");
         }
@@ -1013,11 +1013,14 @@ void in_member_list(const char * member, const int roomId){
     }
 }
 
-void in_conversation(const int roomId, const char * timestamp, const char * username){
+void in_conversation(const int roomId, const char * username, const char * messageStr){
     printf("//////////////////////////////////////in conv\n");
+
     for (int i=0; i<1024; i++){
         if (g_message[i].timestamp[0] == '\0'){
             g_message[i].roomId = roomId;
+            char message[500];
+            util_get_substring(messageStr, message, 50, strlen(messageStr)-50);
             strcpy(g_message[i].timestamp, timestamp);
             strcpy(g_message[i].userId, username);
         }
