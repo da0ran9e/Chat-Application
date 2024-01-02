@@ -1080,7 +1080,16 @@ void in_conversation(const int roomId, const char *username, const char *message
             strcpy(g_message[i].timestamp, messageStr);
             strcpy(g_message[i].userId, username);
             strcpy(g_message[i].content, cont);
+            break;
         }
+
+        char buffer[BUFFER];
+        Parameters params;
+        strcpy(params.Param1, "\0");
+        strcpy(params.Param2, "\0");
+        strcpy(params.Param3, "\0");
+        int len = generateMessage(3, 0, params, buffer);
+        sendMessage(g_args, buffer, len);
     }
 }
 
