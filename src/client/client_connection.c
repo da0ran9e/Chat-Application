@@ -414,9 +414,9 @@ void c_change_pass()
 
     printf("Enter username: ");
     scanf("%s", params.Param1);
-        printf("Enter password: ");
+    printf("Enter password: ");
     scanf("%s", params.Param2);
-        printf("New password for %s: ", params.Param1);
+    printf("New password for %s: ", params.Param1);
     scanf("%s", params.Param3);
     printf("Confirm new password: ");
     scanf("%s", temp);
