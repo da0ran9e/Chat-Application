@@ -1076,10 +1076,11 @@ void in_conversation(const int roomId, const char *username, const char *message
         if (g_message[i].timestamp[0] == '\0')
         {
             g_message[i].roomId = roomId;
-            char message[500];
-            util_get_substring(messageStr, message, 50, strlen(messageStr) - 50);
-            strcpy(g_message[i].timestamp, timestamp);
+            char cont[500];
+            util_get_substring(messageStr, cont, 50, strlen(messageStr) - 50);
+            strcpy(g_message[i].timestamp, messageStr);
             strcpy(g_message[i].userId, username);
+            strcpy(g_message[i].content, cont);
         }
     }
 }
