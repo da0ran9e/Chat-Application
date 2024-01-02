@@ -222,6 +222,22 @@ void sendMessage(void *args, const char * buffer, int size){
     usleep(PING_INTERVAL*3000);
 }
 
+int recvAndProcess(void *args){
+    struct ThreadArgs *threadArgs = (struct ThreadArgs *)args;
+    int clientSocket = threadArgs->clientSocket;
+    char buffer[BUFFER];
+
+    memset(buffer, 0, sizeof(buffer));
+
+    ssize_t bytesReceived = recv(clientSocket, buffer, BUFFER - 1, 0);
+    if (bytesReceived <= 0) {
+        printf("Server disconnected.\n");
+        break;
+    }
+
+    return handle_receive_message(buffer, bytesReceived);
+}
+
 // Function to send messages to the server
 void *sendThread(void *args) {
     g_args = args;
@@ -229,7 +245,7 @@ void *sendThread(void *args) {
 
     while (1) {
 
-        int testCode;
+        /*int testCode;
         Parameters params;
         int op;
         int func;
@@ -248,10 +264,444 @@ void *sendThread(void *args) {
         // printf ("Sent: \n");
         // printCode(buffer, len);
 
-        sendMessage(g_args, buffer, len);
+        sendMessage(g_args, buffer, len);*/
+        showFeatures();
     }
 
     pthread_exit(NULL);
+}
+
+void showFeatures(){
+    printf("---------------Start---------------\n");
+    printf("1. Login\n");
+    printf("2. Register\n");
+    printf("3. Change password\n");
+    printf("4. Friend list\n");
+    printf("5. Send friend request\n");
+    printf("6. Response friend request\n");
+    printf("7. Room list\n");
+    printf("8. See members of room\n");
+    printf("9. Create room\n");
+    printf("10. Add user to room\n");
+    printf("11. Remove a member\n");
+    printf("12. Conversation\n");
+    printf("13. Send message\n");
+
+    int choose;
+    scanf("%d", &choose);
+    switch (choose)
+    {
+    case 1:
+        printf("\t---------------Login---------------\n");
+        char buffer[BUFFER];
+        Parameters params;
+
+        printf("Enter username: ");
+        scanf("%s", params.Param1);
+        printf("Password for %s:", params.Param1);
+        scanf("%s", params.Param2);
+
+        int len = generateMessage(0, 1, params, buffer);
+        sendMessage(g_args, buffer, len);
+
+        int res = recvAndProcess(g_args);
+        if(res == 210) printf("Login approved!\n");
+        else if (res == 310) printf("Incorrect user information!\n");
+        else {
+            printf("Authentication failed! Please login again!\n");
+        }
+        break;
+    case 2:
+        printf("\t---------------Register---------------\n");
+        char buffer[BUFFER];
+        Parameters params;
+
+        printf("Enter username: ");
+        scanf("%s", params.Param1);
+        printf("Password for %s:", params.Param1);
+        scanf("%s", params.Param2);
+
+        int len = generateMessage(0, 2, params, buffer);
+        sendMessage(g_args, buffer, len);
+        
+        int res = recvAndProcess(g_args);
+        if(res == 220) printf("Create new account done!\n");
+        else if (res == 320) printf("Username: %s already taken!\n", params.Param1);
+        else {
+            printf("Connection lost!\n");
+        }
+        break;
+    case 3:
+        printf("\t---------------Change password---------------\n");
+        char buffer[BUFFER];
+        Parameters params;
+        char temp[50];
+
+        printf("Enter username: ");
+        scanf("%s", params.Param1)
+        printf("Enter password: ");
+        scanf("%s", params.Param2)
+        printf("New password for %s: ", params.Param1);
+        scanf("%s", params.Param3);
+        printf("Confirm new password: ");
+        scanf("%s", temp);
+        if (strcmp(params.Param3, temp)) {
+            printf("Confirm password does not match!\n");
+            break;
+        } else {
+            int len = generateMessage(0, 3, params, buffer);
+            sendMessage(g_args, buffer, len);
+
+            int res = recvAndProcess(g_args);
+            if(res == 230) printf("Change done!\n");
+            else if (res == 330) printf("Cannot change password!\n");
+            else {
+                printf("Connection lost!\n");
+            }
+        }
+        break;
+    case 4:
+        printf("\t---------------Friends---------------\n");
+        Parameters params;
+        char buffer[BUFFER];
+
+        strcpy(params.Param1, "\0");
+        strcpy(params.Param2, "\0");
+        strcpy(params.Param3, "\0");
+
+        int len = generateMessage(1, 0, params, buffer);
+        sendMessage(g_args, buffer, len);
+
+        int res = recvAndProcess(g_args);
+            if(res == 201) printf("Get friend list successfully!\n");
+            else if (res == 301) printf("Please login first!\n");
+            else {
+                printf("Connection lost!\n");
+            }
+        break;
+    case 5:
+        printf("\t---------------Send Addfriend request---------------\n");
+        Parameters params;
+        char buffer[BUFFER];
+
+        if(strlen(g_username) <= 0) printf("Please login first!\n");
+        strcpy(params.Param1, g_username);
+        printf("Send addfriend request to: ");
+        scanf("%s", params.Param2);
+        strcpy(params.Param3, "300");
+
+        int len = generateMessage(1, 1, params, buffer);
+        sendMessage(g_args, buffer, len);
+
+        int res = recvAndProcess(g_args);
+        if(res == 211) printf("Request sent!\n");
+        else if (res == 311) printf("User: %s is not online!\n", params.Param2);
+        else {
+            printf("Connection lost!\n");
+        }
+
+        break;
+    case 6:
+        printf("\t---------------Response Addfriend---------------\n");
+        Parameters params;
+        char buffer[BUFFER];
+
+        printf("Response request from: ");
+        scanf("%s", params.Param1);
+        strcpy(params.Param2, g_username);
+        printf("Response (accept/deny): ");
+        scanf("%s", params.Param3);
+
+        int len = generateMessage(1, 2, params, buffer);
+        sendMessage(g_args, buffer, len);
+
+        int res = recvAndProcess(g_args);
+        if(res == 221) printf("Request sent!\n");
+        else if (res == 321) printf("User: %s is not online!\n", params.Param2);
+        else {
+            printf("Connection lost!\n");
+        }
+        break;
+    case 7:
+        printf("\t---------------Room list---------------\n");
+        Parameters params;
+        char buffer[BUFFER];
+
+        strcpy(params.Param1, g_username);
+        strcpy(params.Param2, "\0");
+        strcpy(params.Param3, "\0");
+
+
+        int len = generateMessage(2, 0, params, buffer);
+        sendMessage(g_args, buffer, len);
+
+        int res = recvAndProcess(g_args);
+        if(res == 202) printf("Get rooms successfully!\n");
+        else if (res == 302) printf("Please login first!\n");
+        else {
+            printf("Connection lost!\n");
+        }
+        break;
+    case 8:
+        printf("\t---------------Member list---------------\n");
+        Parameters params;
+        char buffer[BUFFER];
+
+        printf("Room id:");
+        scanf("%s", params.Param1);
+        strcpy(params.Param2, "\0");
+        strcpy(params.Param3, "\0");
+
+
+        int len = generateMessage(2, 1, params, buffer);
+        sendMessage(g_args, buffer, len);
+
+        int res = recvAndProcess(g_args);
+        if(res == 212) printf("Get member list successfully!\n");
+        else if (res == 312) printf("Please login first!\n");
+        else {
+            printf("Connection lost!\n");
+        }
+        break;
+    case 9:
+        printf("\t---------------Create room---------------\n");
+        Parameters params;
+        char buffer[BUFFER];
+
+        printf("Room name:");
+        scanf("%s", params.Param1);
+        strcpy(params.Param2, g_username);
+        strcpy(params.Param3, "\0");
+
+
+        int len = generateMessage(2, 2, params, buffer);
+        sendMessage(g_args, buffer, len);
+
+        int res = recvAndProcess(g_args);
+        if(res == 222) printf("Create room successfully!\n");
+        else if (res == 322) printf("Please login first!\n");
+        else {
+            printf("Connection lost!\n");
+        }
+        break;
+    case 10:
+        printf("\t---------------Add member---------------\n");
+        Parameters params;
+        char buffer[BUFFER];
+
+        printf("Room id:");
+        scanf("%s", params.Param1);
+        printf("Member name:");
+        scanf("%s", params.Param2);
+        strcpy(params.Param3, "\0");
+
+
+        int len = generateMessage(2, 3, params, buffer);
+        sendMessage(g_args, buffer, len);
+
+        int res = recvAndProcess(g_args);
+        if(res == 232) printf("Member removed!\n");
+        else if (res == 332) printf("Member not here!\n");
+        else {
+            printf("Connection lost!\n");
+        }
+        break;
+    case 11:
+        printf("\t---------------Remove member---------------\n");
+        Parameters params;
+        char buffer[BUFFER];
+
+        printf("Room id:");
+        scanf("%s", params.Param1);
+        printf("Member name:");
+        scanf("%s", params.Param2);
+        strcpy(params.Param3, "\0");
+
+
+        int len = generateMessage(2, 4, params, buffer);
+        sendMessage(g_args, buffer, len);
+
+        int res = recvAndProcess(g_args);
+        if(res == 242) printf("Added!\n");
+        else if (res == 342) printf("User not found!\n");
+        else {
+            printf("Connection lost!\n");
+        }
+        break;
+    case 12:
+        printf("\t---------------Conversation---------------\n");
+        Parameters params;
+        char buffer[BUFFER];
+
+        printf("Room id:");
+        scanf("%s", params.Param1);
+        strcpy(params.Param2, "\0");
+        strcpy(params.Param3, "\0");
+
+        int len = generateMessage(3, 0, params, buffer);
+        sendMessage(g_args, buffer, len);
+
+        int res = recvAndProcess(g_args);
+        if(res == 203) printf("Get conversation successfully!\n");
+        else if (res == 303) printf("Room not found!\n");
+        else {
+            printf("Connection lost!\n");
+        }
+        break;
+    case 13:
+        printf("\t---------------Send message---------------\n");
+        Parameters params;
+        char buffer[BUFFER];
+
+        strcpy(params.Param1, g_username);
+        printf("Room id:");
+        scanf("%s", params.Param2);
+        printf("Message:\n");
+        fgets(params.Param3, 500, stdin);
+
+        int len = generateMessage(3, 0, params, buffer);
+        sendMessage(g_args, buffer, len);
+
+        int res = recvAndProcess(g_args);
+        if(res == 203) printf("Get conversation successfully!\n");
+        else if (res == 303) printf("Room not found!\n");
+        else {
+            printf("Connection lost!\n");
+        }
+        break;
+    default:
+        break;
+    }
+}
+
+void showMenu(){
+    printf("---------------Start---------------\n 1. Login\n2. Register\n3. Change password\n");
+    int choose;
+    scanf("%d", &choose);
+    switch (choose)
+    {
+    case 1:
+        c_login();
+        break;
+    case 2:
+        c_register();
+        break;
+    case 3:
+        c_change_pass();
+        break;
+    default:
+        break;
+    }
+}
+
+void c_login(){
+    char username[50];
+    char password[50]; 
+
+    printf("---------------Login---------------\nUsername: ");
+    scanf("%s", username);
+    printf("Password: ");
+    scanf("%s", password);
+
+    out_login(username, password);
+
+    int res = recvAndProcess(g_args);
+    if(res == 210) c_main();
+    else {
+        printf("Authentication failed! Please login again!");
+        c_login();
+    }
+}
+
+void c_register(){
+    char username[50];
+    char password[50]; 
+
+    printf("---------------Register---------------\nUsername: ");
+    scanf("%s", username);
+    printf("Password: ");
+    scanf("%s", password);
+
+    out_register(username, password);
+    int res = recvAndProcess(g_args);
+    if(res == 220) showMenu();
+    else {
+        printf("Invalid username or password for registration!");
+        c_register();
+    }
+}
+
+void c_change_pass(){
+    char username[50];
+    char password[50]; 
+    char newPassword[50];
+
+    printf("---------------Change password---------------\nUsername: ");
+    scanf("%s", username);
+    printf("Password: ");
+    scanf("%s", password);
+    printf("New password: ");
+    scanf("%s", newPassword);
+
+    out_change_password(username, password, newPassword);
+    int res = recvAndProcess(g_args);
+    if(res == 230) showMenu();
+    else {
+        printf("Invalid username or password for registration!");
+        c_change_pass();
+    }
+
+}
+
+void c_main(){
+    int choose;
+    printf("---------------%s---------------\n", g_username);
+    printf("\t\tFriends\t\t|\t\tOnline\t\t | \t\tRooms\n");
+    for (int i=0; i<MAX_CLIENTS; i++){
+        if(g_friend[i][0]!='\0' || g_user[i][0]!='\0' || g_rooms[i].roomId!=-1) {
+            printf("%s\t\t\t|%s\t\t\t|%s\n", g_friend[i], g_user[i], g_rooms[i].roomName);
+        }
+    }
+    printf("1. Enter room\n2. Add friend\n3. Create room\n4. Log out\n");
+    scanf("%d", &choose);
+    switch (choose)
+    {
+    case 1:
+        c_chat();
+        break;
+    case 2:
+        c_addfriend();
+        break;
+    case 3:
+        c_create();
+        break;
+    case 4:
+        showMenu();
+        break;
+    default:
+        break;
+    }
+
+}
+
+void c_chat(){
+    int choose;
+    printf("---------------Chat---------------\nChoose room to start: \n");
+    for (int i=0; i<MAX_CLIENTS; i++){
+        if(g_rooms[i].roomId != -1){
+            printf("%d. %s\n", i+1, g_rooms[i]);
+        }
+    }
+    scanf("%d", &choose);
+    
+}
+
+void c_addfriend(){
+
+}
+
+void c_create{
+
 }
 
 // Function to receive messages from the server
