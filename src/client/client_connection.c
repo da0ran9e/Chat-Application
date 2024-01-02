@@ -413,9 +413,9 @@ void c_change_pass()
     char temp[50];
 
     printf("Enter username: ");
-    scanf("%s", params.Param1)
+    scanf("%s", params.Param1);
         printf("Enter password: ");
-    scanf("%s", params.Param2)
+    scanf("%s", params.Param2);
         printf("New password for %s: ", params.Param1);
     scanf("%s", params.Param3);
     printf("Confirm new password: ");
@@ -423,7 +423,6 @@ void c_change_pass()
     if (strcmp(params.Param3, temp))
     {
         printf("Confirm password does not match!\n");
-        break;
     }
     else
     {
@@ -568,7 +567,7 @@ void c_members()
     }
 }
 
-void c_create
+void c_create()
 {
     printf("\t---------------Create room---------------\n");
     Parameters params;
@@ -1274,18 +1273,6 @@ void out_get_prev_conversation(const int roomId, const char *timestamp)
     char buffer[BUFFER];
     strcpy(params.Param1, util_int_to_str(roomId));
     strcpy(params.Param2, timestamp);
-    strcpy(params.Param3, "\0");
-    int len = generateMessage(3, 0, params, buffer);
-    sendMessage(g_args, buffer, len);
-}
-
-void out_get_conversation(const int roomId)
-{
-    printf("//////////////////////////////////////out_mess\n");
-    Parameters params;
-    char buffer[BUFFER];
-    strcpy(params.Param1, util_int_to_str(roomId));
-    strcpy(params.Param2, "\0");
     strcpy(params.Param3, "\0");
     int len = generateMessage(3, 0, params, buffer);
     sendMessage(g_args, buffer, len);
