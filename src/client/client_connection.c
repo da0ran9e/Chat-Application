@@ -218,6 +218,7 @@ int generateMessage(uint32_t op, uint32_t func, Parameters parameters, char *buf
 }
 ///////////////////////////////////////////////////////////////////////////////////
 void showFeatures();
+void c_online();
 void c_login();
 void c_register();
 void c_change_pass();
@@ -303,6 +304,8 @@ void showFeatures()
     scanf("%d", &choose);
     switch (choose)
     {
+        case 0:
+        c_online();
     case 1:
         c_login();
         break;
@@ -344,6 +347,29 @@ void showFeatures()
         break;
     default:
         break;
+    }
+}
+
+void c_online(){
+    printf("\t---------------Online---------------\n");
+    char buffer[BUFFER];
+    Parameters params;
+
+    strcpy(params.Param1, "\0");
+    strcpy(params.Param2, "\0");
+    strcpy(params.Param3, "\0");
+
+    int len = generateMessage(0, 0, params, buffer);
+    sendMessage(g_args, buffer, len);
+
+    int res = recvAndProcess(g_args);
+    if (res == 200)
+        printf("Get online list!\n");
+    else if (res == 300)
+        printf("Incorrect user information!\n");
+    else
+    {
+        printf("connection lost\n");
     }
 }
 
@@ -975,7 +1001,6 @@ int handle_receive_message(const char *message, int len)
         else
         {
             status = 213;
-            in_message(atoi(params.Param1), params.Param2, params.Param3);
         }
         break;
     default:
@@ -995,6 +1020,14 @@ void in_online_list(const char *username, const int rtd)
             g_rtds[i] = rtd;
         }
     }
+    printf("//////////////////////////////////////continue online\n");
+    char buffer[BUFFER];
+        Parameters params;
+        strcpy(params.Param1, util_int_to_str(g_rtd));
+        strcpy(params.Param2, "\0");
+        strcpy(params.Param3, "\0");
+        int len = generateMessage(0, 0, params, buffer);
+        sendMessage(g_args, buffer, len);
 }
 
 void in_friend_list(const char *username)
@@ -1007,6 +1040,14 @@ void in_friend_list(const char *username)
             strcpy(g_friend[i], username);
         }
     }
+    printf("//////////////////////////////////////continue friend\n");
+    char buffer[BUFFER];
+        Parameters params;
+        strcpy(params.Param1, "\0");
+        strcpy(params.Param2, "\0");
+        strcpy(params.Param3, "\0");
+        int len = generateMessage(1, 0, params, buffer);
+        sendMessage(g_args, buffer, len);
 }
 
 void in_room_list(const int roomId, const char *roomName)
@@ -1028,6 +1069,14 @@ void in_room_list(const int roomId, const char *roomName)
             // printf("//////////////////////////////////////sent conv\n");
         }
     }
+    printf("//////////////////////////////////////continue room\n");
+    char buffer[BUFFER];
+        Parameters params;
+        strcpy(params.Param1, "\0");
+        strcpy(params.Param2, "\0");
+        strcpy(params.Param3, "\0");
+        int len = generateMessage(2, 0, params, buffer);
+        sendMessage(g_args, buffer, len);
 }
 
 void in_member_list(const char *member, const int roomId)
@@ -1041,6 +1090,14 @@ void in_member_list(const char *member, const int roomId)
             strcpy(g_room_member[i].memName, member);
         }
     }
+printf("//////////////////////////////////////continue mem\n");        
+        char buffer[BUFFER];
+        Parameters params;
+        strcpy(params.Param1, "\0");
+        strcpy(params.Param2, "\0");
+        strcpy(params.Param3, "\0");
+        int len = generateMessage(2, 1, params, buffer);
+        sendMessage(g_args, buffer, len);
 }
 
 void in_conversation(const int roomId, const char *username, const char *messageStr)
@@ -1059,7 +1116,8 @@ void in_conversation(const int roomId, const char *username, const char *message
             strcpy(g_message[i].content, cont);
             break;
         }
-
+    }
+    printf("//////////////////////////////////////continue conv\n");
         char buffer[BUFFER];
         Parameters params;
         strcpy(params.Param1, "\0");
@@ -1067,19 +1125,6 @@ void in_conversation(const int roomId, const char *username, const char *message
         strcpy(params.Param3, "\0");
         int len = generateMessage(3, 0, params, buffer);
         sendMessage(g_args, buffer, len);
-    }
-}
-
-void in_message(const int roomId, const char *timestamp, const char *message)
-{
-    printf("//////////////////////////////////////in message\n");
-    for (int i = 0; i < 1024; i++)
-    {
-        if (!strcmp(g_message[i].timestamp, timestamp) && roomId == g_message[i].roomId)
-        {
-            strcpy(g_message[i].content, message);
-        }
-    }
 }
 
 void in_login_done(const char *username)
@@ -1090,13 +1135,13 @@ void in_login_done(const char *username)
     Parameters params;
     char buffer[BUFFER];
     // online
-    strcpy(params.Param1, util_int_to_str(g_rtd));
-    strcpy(params.Param2, "\0");
-    strcpy(params.Param3, "\0");
-    int len = generateMessage(0, 0, params, buffer);
-    sendMessage(g_args, buffer, len);
-    printf("//////////////////////////////////////sent ping\n");
-    recvAndProcess(g_args);
+    // strcpy(params.Param1, util_int_to_str(g_rtd));
+    // strcpy(params.Param2, "\0");
+    // strcpy(params.Param3, "\0");
+    // int len = generateMessage(0, 0, params, buffer);
+    // sendMessage(g_args, buffer, len);
+    // printf("//////////////////////////////////////sent ping\n");
+    // recvAndProcess(g_args);
     usleep(5000);
     // // friend
     // params.Param1[0]='\0';
