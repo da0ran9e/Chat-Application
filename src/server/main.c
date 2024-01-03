@@ -9,7 +9,7 @@ int main(int argc, char const *argv[]) {
 
     int port = atoi(argv[1]);
 
-    _init(port);
+    _s_init(port);
     // if (argc != 2) {
     //     printf("Usage: %s PortNumber\n", argv[0]);
     //     exit(1);

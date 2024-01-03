@@ -5,7 +5,7 @@
 // Structure to pass arguments to the thread
 struct ThreadArgs {
     int clientSocket;
-    pthread_mutex_t sendMutex; // Mutex for synchronizing access to send method
+    pthread_mutex_t threadMutex; // Mutex for synchronizing access to send method
 };
 
 // Function to send messages to the server
@@ -111,7 +111,7 @@ void run_client(const char *address, const int port){
     // Create thread arguments
     struct ThreadArgs *threadArgs = (struct ThreadArgs *)malloc(sizeof(struct ThreadArgs));
     threadArgs->clientSocket = clientSocket;
-    pthread_mutex_init(&threadArgs->sendMutex, NULL);
+    pthread_mutex_init(&threadArgs->threadMutex, NULL);
 
     // Create threads for sending and receiving messages, and sending ping messages
     pthread_t sendThreadID, receiveThreadID, pingThreadID;
@@ -130,7 +130,7 @@ void run_client(const char *address, const int port){
     pthread_join(receiveThreadID, NULL);
     pthread_join(pingThreadID, NULL);
     // Clean up and destroy the mutex
-    pthread_mutex_destroy(&threadArgs->sendMutex);
+    pthread_mutex_destroy(&threadArgs->threadMutex);
 printf("run close sock: %d\n", g_socket);
     close(g_socket);
     free(threadArgs);

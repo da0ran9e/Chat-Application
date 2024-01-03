@@ -1,5 +1,11 @@
 #include "../../include/server/feature.h"
 
+int g_port;
+int g_clientSockets[MAX_CLIENTS];
+char g_clientNames[MAX_CLIENTS][50];
+char g_ipAddr[MAX_CLIENTS][15];
+int g_rtds[MAX_CLIENTS]; //  round-trip delay (time) or RTT
+
 int handle_features(const int userSock, int op, int func, const Parameters params){
     int result = 0;
     int code = 10*func + op;
@@ -254,23 +260,24 @@ int feat_response_request (int clientSock, const char * username, const char * d
             s_rela_addfriendship(username, destination, &room);
         }
         //send response
-        char buffer1[BUFFER];
-        Parameters p1;
-        strcpy(p1.Param1, username);
-        strcpy(p1.Param2, destination);
-        strcpy(p1.Param3, response);
-        int len1 = writeMessage (1, 1, p1, buffer1);
-        sendMessage(destSock, buffer1, len1);
+            // char buffer1[BUFFER];
+            // Parameters p1;
+            // strcpy(p1.Param1, username);
+            // strcpy(p1.Param2, destination);
+            // strcpy(p1.Param3, response);
+            // int len1 = writeMessage (1, 1, p1, buffer1);
+            // sendMessage(destSock, buffer1, len1);
         // adding new room
-        char buffer2[BUFFER];
+        char buffer[BUFFER];
         Parameters p2;
         strcpy(p2.Param1, util_int_to_str(room));
         strcpy(p2.Param2, destination);
-        int len2 = writeMessage (2, 2, p1, buffer2);
-        sendMessage(clientSock, buffer2, len2);//send to friend
+        int len = writeMessage (2, 2, p2, buffer);
+        sendMessage(clientSock, buffer, len);//send to friend
+
         strcpy(p2.Param2, username);
-        len2 = writeMessage (2, 2, p1, buffer2);
-        sendMessage(destSock, buffer2, len2); //send to client
+        len = writeMessage (2, 2, p2, buffer);
+        sendMessage(destSock, buffer, len); //send to client
     }
     else{
         printf("user not online!\n");
@@ -424,29 +431,40 @@ int feat_conversation (const int clientSock, const int roomId){
         else{
             for (int i=0; i<count; i++){
                 Parameters p;
-                char buffer[BUFFER];
-                Parameters p1;
-                char buffer2[BUFFER];
+                char buffer1[50]; // store time stamp as the header of message part
+                char buffer[BUFFER]; 
                 Message m;
+                char readBuffer[BUFFER];
+
+                strcpy(buffer1, conv[i]);
+                for (int j=strlen(conv[i])-1; j<50; j++){
+                    buffer1[j] = '0'; //fill the rest of the header with 0
+                } 
+                res = s_conv_get_message(roomId, conv[i], &m);
+
+                strcat(buffer, buffer1);
+                strcat(buffer, m.content);
+
                 //printf("util int to str: %s\n",util_int_to_str(roomId));
                 strcpy(p.Param1, util_int_to_str(roomId));
-                //printf("conv[i]: %s\n",conv[i]);
-                strcpy(p.Param2, conv[i]);
-                res = s_conv_get_message(roomId, conv[i], &m);
-                strcpy(p.Param3, m.userId);
-                printf("m user: %s\n", m.userId);
-                printf("m time: %s\n", m.timestamp);
-                printf("m content: %s\n",m.content);  
+                strcpy(p.Param2, m.userId);
+                strcpy(p.Param3, buffer);
+
+                printf("p user: %s\n", m.userId);
+                printf("p content: %s\n",m.content);  
+
                 int len = writeMessage(3, 0, p, buffer);
                 sendMessage(clientSock, buffer, len);
 
-                strcpy(p1.Param1, util_int_to_str(roomId));
-                strcpy(p1.Param2, m.timestamp);
-                strcpy(p1.Param3, m.content);
-
-                int len2 = writeMessage(3, 1, p1, buffer2);
-                sendMessage(clientSock, buffer2, len2);
-            }     
+                if(receiveMessage(clientSock, readBuffer)<=0 ) break;
+            }    
+            Parameters p;
+            p.Param1[0] = '\0';
+            p.Param2[0] = '\0';
+            p.Param3[0] = '\0';
+            char buffer[BUFFER];
+            int len = generateMessage(3, 0, p, buffer);
+            sendMessage(clientSock, buffer, len);
         }
     }else{
         Parameters p;
@@ -643,7 +661,7 @@ void runServer(int serverSocket) {
 }
 
 // initial function 
-void _init (int port){
+void _s_init (int port){
     //initialize client list
     for (int i=0; i<MAX_CLIENTS; i++){
         g_clientSockets[i] = -1;

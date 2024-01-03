@@ -91,7 +91,10 @@ function displayChatRooms(){
         chatRoomBtn.className = "flex justify-between items-center p-3 hover:bg-gray-800 rounded-lg relative";
         chatRoomBtn.innerHTML = `
         <div class="w-16 h-16 relative flex flex-shrink-0">
-            ${img3}
+        <img class="shadow-md rounded-full w-full h-full object-cover"
+        src="img3.png"
+        alt=""
+   />
         </div>
         <div class="flex-auto min-w-0 ml-4 mr-6 hidden md:block group-hover:block">
             <p name="chat-room-name">${room.name}</p>
@@ -119,7 +122,10 @@ function displayOnlineUsers(){
 
         onlineUserContainer.innerHTML = `
                         <div class="w-16 h-16 relative flex flex-shrink-0">
-                        ${img1}
+                        <img class="shadow-md rounded-full w-full h-full object-cover"
+                             src="img2.png"
+                             alt=""
+                        />
                         </div>
                         <div name="online-name" class="flex-auto min-w-0 ml-4 mr-6 hidden md:block group-hover:block">
                             <p>${user.name}</p>
@@ -159,7 +165,10 @@ function displayFriends(){
         friendContainer.className="text-sm text-center mr-4";
         friendContainer.innerHTML = `
                     <div class="p-1 border-4 border-transparent rounded-full"><div class="w-16 h-16 relative flex flex-shrink-0">
-                        ${img2}
+                    <img class="shadow-md rounded-full w-full h-full object-cover"
+                    src="img1.png"
+                    alt=""
+               />
                         ${activeStatus}
                     </div></div><p>${friend.name}</p></div>
                     `

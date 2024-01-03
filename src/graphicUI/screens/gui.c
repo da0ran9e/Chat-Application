@@ -122,7 +122,17 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmdLine,
 #else
 int main() {
 #endif
-  const char* html = readFromFile("html.cui");
+  const char* main = readFromFile("main.cui");
+  const char* tailwind = readFromFile("tailwind.cui");
+  const char* style = readFromFile("style.cui");
+  const char* core = readFromFile("core.cui");
+
+  char *wind;
+  strcat(wind, main);
+  strcat(wind, tailwind);
+  strcat(wind, style);
+  strcat(wind, core);
+
   webview_t w = webview_create(0, NULL);
   context_t context = {.w = w, .count = 0};
   webview_set_title(w, "Bind Example");
@@ -134,7 +144,7 @@ int main() {
   // An binding that creates a new thread and returns the result at a later time.
   webview_bind(w, "compute", compute, &context);
 
-  webview_set_html(w, html);
+  webview_set_html(w, wind);
   webview_run(w);
   webview_destroy(w);
   return 0;
