@@ -217,7 +217,20 @@ int generateMessage(uint32_t op, uint32_t func, Parameters parameters, char *buf
     return bufferSize;
 }
 ///////////////////////////////////////////////////////////////////////////////////
-
+void showFeatures();
+void c_login();
+void c_register();
+void c_change_pass();
+void c_friend_list();
+void c_send_friend_request();
+void c_response_friend_request();
+void c_rooms();
+void c_members();
+void c_create();
+void c_add_member();
+void c_remove_member();
+void c_conversation();
+void c_chat();
 // Structure to pass arguments to the thread
 struct ThreadArgs
 {
@@ -263,27 +276,6 @@ void *sendThread(void *args)
 
     while (1)
     {
-
-        /*int testCode;
-        Parameters params;
-        int op;
-        int func;
-
-        // Get user input and send to the server
-        printf("Enter message to send to the server: ");
-        // fgets(buffer, BUFFER, stdin);
-        scanf("%d", &testCode);
-        op = testCode%10;
-        func = testCode%100/10;
-        strcpy(params.Param1, "test param 1");
-        strcpy(params.Param2, "test param 2");
-        strcpy(params.Param3, "test param 3");
-
-        int len = generateMessage(op, func, params, buffer);
-        // printf ("Sent: \n");
-        // printCode(buffer, len);
-
-        sendMessage(g_args, buffer, len);*/
         showFeatures();
     }
 
@@ -704,22 +696,7 @@ void *receiveThread(void *args)
 
     while (1)
     {
-        // Receive messages from the server
-        memset(buffer, 0, sizeof(buffer));
 
-        ssize_t bytesReceived = recv(clientSocket, buffer, BUFFER - 1, 0);
-        if (bytesReceived <= 0)
-        {
-            // Connection closed or error, handle disconnect event
-            printf("Server disconnected.\n");
-            break;
-        }
-
-        // Process the received message
-        // printf("Received message from server: %s\n", buffer);
-        // printf ("Received: \n");
-        // printCode(buffer, bytesReceived);
-        handle_receive_message(buffer, bytesReceived);
     }
 
     pthread_exit(NULL);
@@ -732,18 +709,18 @@ void *sendPingMessages(void *args)
 
     while (1)
     {
-        sleep(30);
-        gettimeofday(&startTime, NULL);
+        // sleep(30);
+        // gettimeofday(&startTime, NULL);
 
-        // Send a ping message to the server
-        const char *pingMessage = "PING";
-        sendMessage(g_args, pingMessage, 4);
-        // send(clientSocket, pingMessage, strlen(pingMessage), 0);
+        // // Send a ping message to the server
+        // const char *pingMessage = "PING";
+        // sendMessage(g_args, pingMessage, 4);
+        // // send(clientSocket, pingMessage, strlen(pingMessage), 0);
 
-        // Calculate and print round-trip delay time
-        gettimeofday(&endTime, NULL);
-        long int roundTripTime = (endTime.tv_sec - startTime.tv_sec) * 1000000L +
-                                 (endTime.tv_usec - startTime.tv_usec);
+        // // Calculate and print round-trip delay time
+        // gettimeofday(&endTime, NULL);
+        // long int roundTripTime = (endTime.tv_sec - startTime.tv_sec) * 1000000L +
+        //                          (endTime.tv_usec - startTime.tv_usec);
         // printf("%ld microseconds\n", roundTripTime);
     }
 
@@ -854,7 +831,7 @@ int handle_receive_message(const char *message, int len)
     {
     case 00:
         in_online_list(params.Param1, atoi(params.Param2));
-        out_get_friend_list();
+        //out_get_friend_list();
         status = 200;
         break;
     case 10:
@@ -897,7 +874,7 @@ int handle_receive_message(const char *message, int len)
         {
             status = 201;
             in_friend_list(params.Param1);
-            out_get_room_list(g_username);
+            //out_get_room_list(g_username);
         }
         break;
     case 11:
@@ -933,7 +910,7 @@ int handle_receive_message(const char *message, int len)
         {
             status = 202;
             in_room_list(atoi(params.Param1), params.Param2);
-            out_get_room_members(atoi(params.Param1));
+            //out_get_room_members(atoi(params.Param1));
         }
         break;
     case 12:
@@ -945,7 +922,7 @@ int handle_receive_message(const char *message, int len)
         {
             status = 212;
             in_member_list(params.Param1, atoi(params.Param2));
-            out_get_conversation(atoi(params.Param2));
+            //out_get_conversation(atoi(params.Param2));
         }
         break;
     case 22:
@@ -1119,6 +1096,7 @@ void in_login_done(const char *username)
     int len = generateMessage(0, 0, params, buffer);
     sendMessage(g_args, buffer, len);
     printf("//////////////////////////////////////sent ping\n");
+    recvAndProcess(g_args);
     usleep(5000);
     // // friend
     // params.Param1[0]='\0';
