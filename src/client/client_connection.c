@@ -1001,7 +1001,6 @@ int handle_receive_message(const char *message, int len)
         else
         {
             status = 213;
-            in_message(atoi(params.Param1), params.Param2, params.Param3);
         }
         break;
     default:
