@@ -259,9 +259,8 @@ int recvAndProcess(void *args)
 
     memset(buffer, 0, sizeof(buffer));
 
-    pthread_mutex_lock(&threadArgs->threadMutex);
     ssize_t bytesReceived = recv(clientSocket, buffer, BUFFER - 1, 0);
-    pthread_mutex_unlock(&threadArgs->threadMutex);
+
     if (bytesReceived <= 0)
     {
         printf("Server disconnected.\n");
