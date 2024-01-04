@@ -645,7 +645,7 @@ int feat_new_message(const int clientSock, const char *username, const int roomI
         Parameters p;
         char message[BUFFER];
         strcpy(p.Param1, "success");
-        int len = writeMessage(0, 3, p, message);
+        int len = writeMessage(3, 1, p, message);
         sendMessage(clientSock, message, len);
     }
     else
@@ -654,7 +654,7 @@ int feat_new_message(const int clientSock, const char *username, const int roomI
         Parameters p;
         char message[BUFFER];
         strcpy(p.Param1, "error");
-        int len = writeMessage(0, 3, p, message);
+        int len = writeMessage(3, 1, p, message);
         sendMessage(clientSock, message, len);
     }
     return res;
