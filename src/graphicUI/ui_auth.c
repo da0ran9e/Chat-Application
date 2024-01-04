@@ -141,6 +141,53 @@ void compute(const char *seq, const char *req, void *arg) {
   }
 }
 
+typedef struct {
+  webview_t w;
+  char *seq;
+  char *req;
+} login_thread_params_t;
+
+login_thread_params_t *
+login_thread_params_create(webview_t w, const char *seq, const char *req) {
+  login_thread_params_t *params = (login_thread_params_t *)malloc(sizeof(login_thread_params_t));
+  params->w = w;
+  params->seq = (char *)malloc(strlen(seq) + 1);
+  params->req = (char *)malloc(strlen(req) + 1);
+  strcpy(params->seq, seq);
+  strcpy(params->req, req);
+  return params;
+}
+
+void login_thread_params_free(login_thread_params_t *p) {
+  free(p->req);
+  free(p->seq);
+  free(p);
+}
+
+void *login_thread_proc(void *arg) {
+  login_thread_params_t *params = (login_thread_params_t *)arg;
+
+  auto username = webview::detail::json_parse(params->req, "", 0);
+	auto password = webview::detail::json_parse(params->req, "", 1);
+  thread_sleep(1);
+  if(atoi(username[0])==atoi(password[0])){
+    webview_return(params->w, params->seq, 0, "1");
+  }
+  webview_return(params->w, params->seq, 0, "0");
+  
+  login_thread_params_free(params);
+  return NULL;
+}
+
+void u_login(const char *seq, const char *req, void *arg) {
+  context_t *context = (context_t *)arg;
+  login_thread_params_t *params = login_thread_params_create(context->w, seq, req);
+  // Create a thread and forget about it for the sake of simplicity.
+  if (thread_create(login_thread_proc, params) != 0) {
+    login_thread_params_free(params);
+  }
+}
+
 #ifdef _WIN32
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmdLine,
                    int nCmdShow) {
