@@ -134,9 +134,24 @@ int generateMessage(uint32_t op, uint32_t func, Parameters parameters, char * bu
 ///////////////////////////////////////////////////////////////////////////////////
 
 
+// // Structure to pass arguments to the thread
+// struct ThreadArgs {
+//     int clientSocket;
+// };
+
+// Structure to represent a message
+struct Message {
+    char buffer[BUFFER];
+    int clientSocket;
+    struct Message* next;
+};
+
 // Structure to pass arguments to the thread
 struct ThreadArgs {
     int clientSocket;
+    pthread_cond_t* condVar;
+    pthread_mutex_t* mutex;
+    struct Message* messageQueue;
 };
 
 int readMessage(const char * binaryString, int size) {
@@ -219,10 +234,21 @@ void *handleClient(void *args) {
     char buffer[BUFFER];
 
     while (1) {
+        // Dequeue a message
+        pthread_mutex_lock(threadArgs->mutex);
+        while (threadArgs->messageQueue == NULL) {
+            pthread_cond_wait(threadArgs->condVar, threadArgs->mutex);
+        }
+
+        struct Message* currentMessage = threadArgs->messageQueue;
+        threadArgs->messageQueue = currentMessage->next;
+        pthread_mutex_unlock(threadArgs->mutex);
+
         memset(buffer, 0, sizeof(buffer));
         ssize_t bytesReceived = receiveMessage(clientSocket, buffer);
 
         if (bytesReceived <= 0) {
+            free(currentMessage);
             break; // Connection closed or error
         }
 
@@ -231,46 +257,40 @@ void *handleClient(void *args) {
             printf("Processing message from client %d: %s\n", clientSocket, buffer);
             printCode(buffer, bytesReceived);
         }
-        
-        //readMessage(buffer, sizeof(buffer));
 
-        usleep(5000);
+        usleep(3000);
         
         // Echo the message back to the client
         int sent = sendMessage(clientSocket, buffer, bytesReceived);
         printf("sent: ");
         printCode(buffer, sent);
-        // int op;
-        // int func;
-        // Parameters params;
-        // char send_buffer[BUFFER];
-        
-        // printf("Type message send to client:\n");
-        // printf("opcode: ");
-        // scanf("%d", &op);
-        // printf("func: ");
-        // scanf("%d", &func);
-        // printf("param1: ");
-        // scanf("%s", params.Param1);
-        // printf("param2: ");
-        // scanf("%s", params.Param2);
-        // printf("param3: ");
-        // scanf("%s", params.Param3);
-
-        // int len = generateMessage(op, func, params, send_buffer);
-        // // Echo the message back to the client
-        // int sent = sendMessage(clientSocket, send_buffer, len);
-
-        // printf("Binary String Sent: \n");
-        // for (size_t i = 0; i < sent; i++) {
-        //     printf("\\x%02X", (unsigned char)buffer[i]);
-        // }
-        // printf("\n");
+        free(currentMessage);
     }
 
     close(clientSocket);
     free(threadArgs); // Free the memory allocated for thread arguments
     pthread_exit(NULL);
+}
+
+void enqueueMessage(struct Message** queue, const char* buffer, int clientSocket) {
+    struct Message* newMessage = (struct Message*)malloc(sizeof(struct Message));
+    if (newMessage == NULL) {
+        perror("Memory allocation failed");
+        exit(EXIT_FAILURE);
+    }
+    strncpy(newMessage->buffer, buffer, BUFFER);
+    newMessage->clientSocket = clientSocket;
+    newMessage->next = NULL;
+
+    if (*queue == NULL) {
+        *queue = newMessage;
+    } else {
+        struct Message* current = *queue;
+        while (current->next != NULL) {
+            current = current->next;
+        }
+        current->next = newMessage;
+    }
 }
 
 void runServer(int serverSocket) {
@@ -282,6 +302,12 @@ void runServer(int serverSocket) {
     for (int i = 0; i < MAX_CLIENTS; i++) {
         clientSockets[i] = -1;
     }
+
+    // Initialize synchronization objects
+    pthread_cond_t condVar = PTHREAD_COND_INITIALIZER;
+    pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+    // Initialize message queue
+    struct Message* messageQueue = NULL;
 
     while (1) {
         // Accept the connection
@@ -304,6 +330,9 @@ void runServer(int serverSocket) {
         // Create thread arguments
         struct ThreadArgs *threadArgs = (struct ThreadArgs *)malloc(sizeof(struct ThreadArgs));
         threadArgs->clientSocket = clientSocket;
+        threadArgs->condVar = &condVar;
+        threadArgs->mutex = &mutex;
+        threadArgs->messageQueue = &messageQueue;
 
         // Create a new thread to handle the client
         pthread_t thread;
