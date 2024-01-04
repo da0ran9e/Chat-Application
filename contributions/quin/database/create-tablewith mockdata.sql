@@ -49,7 +49,12 @@ CREATE TABLE message
 INSERT INTO account (username, password) VALUES
   ('user1', 'password1'),
   ('user2', 'password2'),
-  ('user3', 'password3');
+  ('user3', 'password3'),
+  ('user4', 'password4'),
+  ('user5', 'password5'),
+  ('user6', 'password6'),
+  ('user7', 'password7'),
+  ('user8', 'password8');
 
 -- Insert mock data into the room table
 INSERT INTO room (room_name, admin_id) VALUES
@@ -59,6 +64,8 @@ INSERT INTO room (room_name, admin_id) VALUES
 -- Insert mock data into the friendship table
 INSERT INTO friendship (user1, user2) VALUES
   (1, 2),
+  (4, 5),
+  (7, 1),
   (2, 3);
 
 -- Insert mock data into the member_in_room table
