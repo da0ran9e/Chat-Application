@@ -237,12 +237,12 @@ void *handleClient(void *args) {
     while (1) {
         // Dequeue a message
         pthread_mutex_lock(threadArgs->mutex);
-        while (threadArgs->messageQueue == NULL) {
+        while (*threadArgs->messageQueue == NULL) {
             pthread_cond_wait(threadArgs->condVar, threadArgs->mutex);
         }
 
-        struct Message* currentMessage = threadArgs->messageQueue;
-        threadArgs->messageQueue = currentMessage->next;
+        struct Message* currentMessage = *threadArgs->messageQueue;
+        *threadArgs->messageQueue = currentMessage->next;
         pthread_mutex_unlock(threadArgs->mutex);
 
         memset(buffer, 0, sizeof(buffer));
