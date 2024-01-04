@@ -151,8 +151,9 @@ struct ThreadArgs {
     int clientSocket;
     pthread_cond_t* condVar;
     pthread_mutex_t* mutex;
-    struct Message* messageQueue;
+    struct Message** messageQueue;  // Change the type to struct Message**
 };
+
 
 int readMessage(const char * binaryString, int size) {
 
