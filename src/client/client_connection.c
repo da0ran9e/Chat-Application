@@ -699,7 +699,7 @@ void c_chat()
 
     strcpy(params.Param1, g_username);
     printf("Room id:");
-    scanf("%s", params.Param2);
+    scanf("%s", params.Param2);getchar(); //read the newline 
     printf("Message:\n");
     fgets(params.Param3, 500, stdin);
 
@@ -863,7 +863,9 @@ int handle_receive_message(const char *message, int len)
         if(params.Param1[0] == '\0'){ printf("Get online list done\n");break;}
         else{
             in_online_list(params.Param1, atoi(params.Param2));
+            printf("received, continue: ");
             int res = recvAndProcess(g_args);
+            printf("get next\n");
         }
         status = 200;
         break;
@@ -909,7 +911,9 @@ int handle_receive_message(const char *message, int len)
             if(params.Param1[0] == '\0') {printf("Get room list done\n");break;}
             status = 201;
             in_friend_list(params.Param1);
-            //out_get_room_list(g_username);
+            printf("received, continue: ");
+            int res = recvAndProcess(g_args);
+            printf("get next\n");
         }
         break;
     case 11:
@@ -948,7 +952,9 @@ int handle_receive_message(const char *message, int len)
                 break;}
             status = 202;
             in_room_list(atoi(params.Param1), params.Param2);
-            //out_get_room_members(atoi(params.Param1));
+            printf("received, continue: ");
+            int res = recvAndProcess(g_args);
+            printf("get next\n");
         }
         break;
     case 12:
@@ -961,7 +967,9 @@ int handle_receive_message(const char *message, int len)
             if(params.Param1[0] == '\0'){ printf("Get member list done\n");break;}
             status = 212;
             in_member_list(params.Param1, atoi(params.Param2));
-            //out_get_conversation(atoi(params.Param2));
+            printf("received, continue: ");
+            int res = recvAndProcess(g_args);
+            printf("get next\n");
         }
         break;
     case 22:
@@ -1002,8 +1010,12 @@ int handle_receive_message(const char *message, int len)
         }
         else
         {
+            if(params.Param1[0] == '\0'){ printf("Get conv list done\n");break;}
             status = 203;
             in_conversation(atoi(params.Param1), params.Param2, params.Param3);
+            printf("received, continue: ");
+            int res = recvAndProcess(g_args);
+            printf("get next\n");
         }
         break;
     case 13:
