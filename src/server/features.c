@@ -6,9 +6,10 @@ char g_clientNames[MAX_CLIENTS][50];
 char g_ipAddr[MAX_CLIENTS][15];
 int g_rtds[MAX_CLIENTS]; //  round-trip delay (time) or RTT
 
-int handle_features(const int userSock, int op, int func, const Parameters params){
+int handle_features(const int userSock, int op, int func, const Parameters params)
+{
     int result = 0;
-    int code = 10*func + op;
+    int code = 10 * func + op;
     eventLog(code, g_port);
     switch (code)
     {
@@ -46,13 +47,13 @@ int handle_features(const int userSock, int op, int func, const Parameters param
         result = feat_add_member(userSock, atoi(params.Param1), params.Param2);
         break;
     case 42:
-        result = feat_remove_member (userSock, atoi(params.Param1), params.Param2);
+        result = feat_remove_member(userSock, atoi(params.Param1), params.Param2);
         break;
     case 3:
-        result = feat_conversation (userSock, atoi(params.Param1));
+        result = feat_conversation(userSock, atoi(params.Param1));
         break;
     case 13:
-        result = feat_new_message (userSock, params.Param1, atoi(params.Param2), params.Param3);
+        result = feat_new_message(userSock, params.Param1, atoi(params.Param2), params.Param3);
         break;
     default:
         return -1;
@@ -61,18 +62,22 @@ int handle_features(const int userSock, int op, int func, const Parameters param
     return result;
 }
 /************************************************
-*           server-side feature 
-*************************************************/
-// send user online list 
-int feat_online_list (const int clientSock, const int rtd){
-    int count=-1;
-    for (int i=0; i<MAX_CLIENTS; i++){
-        if (g_clientSockets[i] == clientSock) {
+ *           server-side feature
+ *************************************************/
+// send user online list
+int feat_online_list(const int clientSock, const int rtd)
+{
+    int count = -1;
+    for (int i = 0; i < MAX_CLIENTS; i++)
+    {
+        if (g_clientSockets[i] == clientSock)
+        {
             g_rtds[i] = rtd;
             count++;
         }
-        if (g_clientNames[i][0] != '\0'){
-            //serialize message
+        if (g_clientNames[i][0] != '\0')
+        {
+            // serialize message
             char buffer[BUFFER];
             Parameters p;
             strcpy(p.Param1, g_clientNames[i]);
@@ -80,37 +85,45 @@ int feat_online_list (const int clientSock, const int rtd){
             p.Param3[0] = '\0';
             int len = writeMessage(0, 0, p, buffer);
 
-            //send message
+            // send message
             int sent = sendMessage(clientSock, buffer, len);
             count++;
-        if(receiveMessage(clientSock, readBuffer)<=0 ) break;
-            }    
-            Parameters p;
-            p.Param1[0] = '\0';
-            p.Param2[0] = '\0';
-            p.Param3[0] = '\0';
-            char buffer[BUFFER];
-            int len = generateMessage(0, 0, p, buffer);
-            sendMessage(clientSock, buffer, len);
+            if (receiveMessage(clientSock, readBuffer) <= 0)
+                break;
+        }
+        Parameters p;
+        p.Param1[0] = '\0';
+        p.Param2[0] = '\0';
+        p.Param3[0] = '\0';
+        char buffer[BUFFER];
+        int len = generateMessage(0, 0, p, buffer);
+        sendMessage(clientSock, buffer, len);
     }
-    if (count>0) return 200;
-    else if(count==0) return 300;
-    else return 400;
+    if (count > 0)
+        return 200;
+    else if (count == 0)
+        return 300;
+    else
+        return 400;
 }
 
-//login
-int feat_login (const int clientSock, const char * username, const char * password){
+// login
+int feat_login(const int clientSock, const char *username, const char *password)
+{
     int res = s_auth_handle_login(username, password);
-    if (res == 210){
-        //update user list
-        for (int i=0; i<MAX_CLIENTS; i++){
-            if(g_clientSockets[i] == clientSock){
+    if (res == 210)
+    {
+        // update user list
+        for (int i = 0; i < MAX_CLIENTS; i++)
+        {
+            if (g_clientSockets[i] == clientSock)
+            {
                 strcpy(g_clientNames[i], username);
                 g_rtds[i] = 99;
                 clientLog(LOGIN, username, g_ipAddr[i], g_port);
             }
         }
-        //sent response
+        // sent response
         Parameters p;
         char time[20];
         char message[BUFFER];
@@ -120,8 +133,9 @@ int feat_login (const int clientSock, const char * username, const char * passwo
         int len = writeMessage(0, 1, p, message);
         sendMessage(clientSock, message, len);
     }
-    else{
-        //sent response
+    else
+    {
+        // sent response
         Parameters p;
         char message[BUFFER];
         strcpy(p.Param1, "error");
@@ -131,19 +145,22 @@ int feat_login (const int clientSock, const char * username, const char * passwo
     return res;
 }
 
-//register
-int feat_register (const int clientSock, const char * username, const char * password){
+// register
+int feat_register(const int clientSock, const char *username, const char *password)
+{
     int res = s_auth_handle_register(username, password);
-    if (res == 220){
-        //sent response
+    if (res == 220)
+    {
+        // sent response
         Parameters p;
         char message[BUFFER];
         strcpy(p.Param1, "success");
         int len = writeMessage(0, 2, p, message);
         sendMessage(clientSock, message, len);
     }
-    else{
-        //sent response
+    else
+    {
+        // sent response
         Parameters p;
         char message[BUFFER];
         strcpy(p.Param1, "error");
@@ -153,19 +170,22 @@ int feat_register (const int clientSock, const char * username, const char * pas
     return res;
 }
 
-//change password
-int feat_change_password (const int clientSock, const char *username, const char * oldpass, const char * newpass){
+// change password
+int feat_change_password(const int clientSock, const char *username, const char *oldpass, const char *newpass)
+{
     int res = s_auth_change_password(username, oldpass, newpass);
-    if (res == 230){
-        //sent response
+    if (res == 230)
+    {
+        // sent response
         Parameters p;
         char message[BUFFER];
         strcpy(p.Param1, "success");
         int len = writeMessage(0, 3, p, message);
         sendMessage(clientSock, message, len);
     }
-    else{
-        //sent response
+    else
+    {
+        // sent response
         Parameters p;
         char message[BUFFER];
         strcpy(p.Param1, "error");
@@ -175,53 +195,60 @@ int feat_change_password (const int clientSock, const char *username, const char
     return res;
 }
 
-//get friend list
-int feat_friend_list (const int clientSock){
+// get friend list
+int feat_friend_list(const int clientSock)
+{
     char username[50];
     char friendList[MAX_CLIENTS][50];
     int count;
-    //get username
-    for (int i=0; i<MAX_CLIENTS; i++){
-        if (g_clientSockets[i] == clientSock) {
+    // get username
+    for (int i = 0; i < MAX_CLIENTS; i++)
+    {
+        if (g_clientSockets[i] == clientSock)
+        {
             strcpy(username, g_clientNames[i]);
         }
     }
-printf("username: %s\n", username);
+    printf("username: %s\n", username);
     int res = s_rela_friend_list(username, friendList, &count);
     printf("res: %d\n", res);
     printf("count: %d\n", count);
-    //response to client
-    if (res == 201){
-        for (int i=0; i< count; i++){
+    // response to client
+    if (res == 201)
+    {
+        for (int i = 0; i < count; i++)
+        {
 
-
-                printf("%s\n", friendList[i]);
-                //serialize message
-                Parameters p;
-                strcpy(p.Param1, friendList[i]);
-                strcpy(p.Param2, "9999");
-                if (!strcmp(friendList[i],g_clientNames[i])){
-                    strcpy(p.Param2, util_int_to_str(g_rtds[i]));
-                }
-                char buffer[BUFFER];
-                int len = writeMessage(1, 0, p, buffer);
-
-                //send 
-                int sent = sendMessage(clientSock, buffer, len);
-            
-        if(receiveMessage(clientSock, readBuffer)<=0 ) break;
-            }    
+            printf("%s\n", friendList[i]);
+            // serialize message
             Parameters p;
-            p.Param1[0] = '\0';
-            p.Param2[0] = '\0';
-            p.Param3[0] = '\0';
+            strcpy(p.Param1, friendList[i]);
+            strcpy(p.Param2, "9999");
+            if (!strcmp(friendList[i], g_clientNames[i]))
+            {
+                strcpy(p.Param2, util_int_to_str(g_rtds[i]));
+            }
             char buffer[BUFFER];
-            int len = generateMessage(1, 0, p, buffer);
-            sendMessage(clientSock, buffer, len);
+            int len = writeMessage(1, 0, p, buffer);
+
+            // send
+            int sent = sendMessage(clientSock, buffer, len);
+
+            if (receiveMessage(clientSock, readBuffer) <= 0)
+                break;
+        }
+        Parameters p;
+        p.Param1[0] = '\0';
+        p.Param2[0] = '\0';
+        p.Param3[0] = '\0';
+        char buffer[BUFFER];
+        int len = generateMessage(1, 0, p, buffer);
+        sendMessage(clientSock, buffer, len);
     }
-    else{
+    else
+    {
         printf("people not found!\n");
-        //sent response
+        // sent response
         Parameters p;
         char message[BUFFER];
         strcpy(p.Param1, "error");
@@ -231,25 +258,30 @@ printf("username: %s\n", username);
     return res;
 }
 
-//request 
-int feat_request_friend (int clientSock, const char * username, const char * destination){
-    //get destination socket 
+// request
+int feat_request_friend(int clientSock, const char *username, const char *destination)
+{
+    // get destination socket
     int destSock = -1;
-    for (int i=0; i<MAX_CLIENTS; i++){
-        if (!strcmp(g_clientNames[i], destination)){
+    for (int i = 0; i < MAX_CLIENTS; i++)
+    {
+        if (!strcmp(g_clientNames[i], destination))
+        {
             destSock = g_clientSockets[i];
         }
     }
-    if (destSock != -1){
+    if (destSock != -1)
+    {
         printf("found destination user at socket %d\n", destSock);
-        //send invitation
+        // send invitation
         char buffer[BUFFER];
         Parameters p;
         strcpy(p.Param1, username);
-        int len = writeMessage (1, 2, p, buffer);
+        int len = writeMessage(1, 2, p, buffer);
         sendMessage(destSock, buffer, len);
     }
-    else{
+    else
+    {
         printf("user not online!\n");
         Parameters p;
         char message[BUFFER];
@@ -260,42 +292,48 @@ int feat_request_friend (int clientSock, const char * username, const char * des
     return destSock;
 }
 
-//response friend request
-int feat_response_request (int clientSock, const char * username, const char * destination, const char * response){
-    //get destination socket 
+// response friend request
+int feat_response_request(int clientSock, const char *username, const char *destination, const char *response)
+{
+    // get destination socket
     int destSock = -1;
-    for (int i=0; i<MAX_CLIENTS; i++){
-        if (!strcmp(g_clientNames[i], destination)){
+    for (int i = 0; i < MAX_CLIENTS; i++)
+    {
+        if (!strcmp(g_clientNames[i], destination))
+        {
             destSock = g_clientSockets[i];
         }
     }
-    if (destSock != -1){
+    if (destSock != -1)
+    {
         printf("accept request!\n");
         int room = -1;
-        if(!strcmp(response, "accept")){
+        if (!strcmp(response, "accept"))
+        {
             s_rela_addfriendship(username, destination, &room);
         }
-        //send response
-            // char buffer1[BUFFER];
-            // Parameters p1;
-            // strcpy(p1.Param1, username);
-            // strcpy(p1.Param2, destination);
-            // strcpy(p1.Param3, response);
-            // int len1 = writeMessage (1, 1, p1, buffer1);
-            // sendMessage(destSock, buffer1, len1);
+        // send response
+        //  char buffer1[BUFFER];
+        //  Parameters p1;
+        //  strcpy(p1.Param1, username);
+        //  strcpy(p1.Param2, destination);
+        //  strcpy(p1.Param3, response);
+        //  int len1 = writeMessage (1, 1, p1, buffer1);
+        //  sendMessage(destSock, buffer1, len1);
         // adding new room
         char buffer[BUFFER];
         Parameters p2;
         strcpy(p2.Param1, util_int_to_str(room));
         strcpy(p2.Param2, destination);
-        int len = writeMessage (2, 2, p2, buffer);
-        sendMessage(clientSock, buffer, len);//send to friend
+        int len = writeMessage(2, 2, p2, buffer);
+        sendMessage(clientSock, buffer, len); // send to friend
 
         strcpy(p2.Param2, username);
-        len = writeMessage (2, 2, p2, buffer);
-        sendMessage(destSock, buffer, len); //send to client
+        len = writeMessage(2, 2, p2, buffer);
+        sendMessage(destSock, buffer, len); // send to client
     }
-    else{
+    else
+    {
         printf("user not online!\n");
         Parameters p;
         char message[BUFFER];
@@ -307,32 +345,38 @@ int feat_response_request (int clientSock, const char * username, const char * d
 }
 
 // get room list
-int feat_room_list (const int clientSock, const char * username){
+int feat_room_list(const int clientSock, const char *username)
+{
     Room rooms[MAX_CLIENTS];
-    int count=0;
-    int res = s_room_list (username, rooms, &count);
-    if (res==202){
-        //printf("res: %d\n", res);
-        //printf("count: %d, 1st room: %s", count, rooms[0].roomName);
-        for(int i=0; i<count; i++){
+    int count = 0;
+    int res = s_room_list(username, rooms, &count);
+    if (res == 202)
+    {
+        // printf("res: %d\n", res);
+        // printf("count: %d, 1st room: %s", count, rooms[0].roomName);
+        for (int i = 0; i < count; i++)
+        {
             printf("room %d found: %s \n", rooms[i].roomId, rooms[i].roomName);
-            //serialize message
+            // serialize message
             Parameters p;
             char buffer[BUFFER];
             strcpy(p.Param1, util_int_to_str(rooms[i].roomId));
             strcpy(p.Param2, rooms[i].roomName);
             int len = writeMessage(2, 0, p, buffer);
             sendMessage(clientSock, buffer, len);
-        if(receiveMessage(clientSock, readBuffer)<=0 ) break;
-            }    
-            Parameters p;
-            p.Param1[0] = '\0';
-            p.Param2[0] = '\0';
-            p.Param3[0] = '\0';
-            char buffer[BUFFER];
-            int len = generateMessage(2, 0, p, buffer);
-            sendMessage(clientSock, buffer, len);
-    }else{
+            if (receiveMessage(clientSock, readBuffer) <= 0)
+                break;
+        }
+        Parameters p;
+        p.Param1[0] = '\0';
+        p.Param2[0] = '\0';
+        p.Param3[0] = '\0';
+        char buffer[BUFFER];
+        int len = generateMessage(2, 0, p, buffer);
+        sendMessage(clientSock, buffer, len);
+    }
+    else
+    {
         printf("no room found!\n");
         Parameters p;
         char message[BUFFER];
@@ -344,13 +388,16 @@ int feat_room_list (const int clientSock, const char * username){
 }
 
 // get memberlist
-int feat_room_members (const int clientSock, const int roomId){
+int feat_room_members(const int clientSock, const int roomId)
+{
     char peopleList[MAX_CLIENTS][50];
-    int count=0;
+    int count = 0;
     int res = s_room_members(roomId, peopleList, &count);
-    if (res == 212){
-        //serialize message
-        for (int i=0; i<count; i++){
+    if (res == 212)
+    {
+        // serialize message
+        for (int i = 0; i < count; i++)
+        {
             printf("people: %s at %d\n", peopleList[i], roomId);
             Parameters p;
             char buffer[BUFFER];
@@ -358,16 +405,19 @@ int feat_room_members (const int clientSock, const int roomId){
             strcpy(p.Param2, util_int_to_str(roomId));
             int len = writeMessage(2, 1, p, buffer);
             sendMessage(clientSock, buffer, len);
-        if(receiveMessage(clientSock, readBuffer)<=0 ) break;
-            }    
-            Parameters p;
-            p.Param1[0] = '\0';
-            p.Param2[0] = '\0';
-            p.Param3[0] = '\0';
-            char buffer[BUFFER];
-            int len = generateMessage(2, 1, p, buffer);
-            sendMessage(clientSock, buffer, len);
-    }else{
+            if (receiveMessage(clientSock, readBuffer) <= 0)
+                break;
+        }
+        Parameters p;
+        p.Param1[0] = '\0';
+        p.Param2[0] = '\0';
+        p.Param3[0] = '\0';
+        char buffer[BUFFER];
+        int len = generateMessage(2, 1, p, buffer);
+        sendMessage(clientSock, buffer, len);
+    }
+    else
+    {
         printf("people not found!\n");
         Parameters p;
         char message[BUFFER];
@@ -378,18 +428,22 @@ int feat_room_members (const int clientSock, const int roomId){
     return res;
 }
 
-//create room
-int feat_room_create(const int clientSock, const char * roomName, const char * username){
+// create room
+int feat_room_create(const int clientSock, const char *roomName, const char *username)
+{
     int roomId;
     int res = s_room_create(roomName, username, &roomId);
-    if (res==222){
+    if (res == 222)
+    {
         Parameters p;
         char buffer[BUFFER];
         strcpy(p.Param1, util_int_to_str(roomId));
         strcpy(p.Param2, roomName);
         int len = writeMessage(2, 2, p, buffer);
         sendMessage(clientSock, buffer, len);
-    }else{
+    }
+    else
+    {
         Parameters p;
         char message[BUFFER];
         strcpy(p.Param1, "error");
@@ -399,11 +453,13 @@ int feat_room_create(const int clientSock, const char * roomName, const char * u
     return res;
 }
 
-//add members
-int feat_add_member(const int clientSock, const int roomId, const char * username) {
+// add members
+int feat_add_member(const int clientSock, const int roomId, const char *username)
+{
     int res = s_room_add_member(roomId, username);
-    if (res == 232){
-        //sent response
+    if (res == 232)
+    {
+        // sent response
         Parameters p;
         char message[BUFFER];
         strcpy(p.Param1, util_int_to_str(roomId));
@@ -411,8 +467,9 @@ int feat_add_member(const int clientSock, const int roomId, const char * usernam
         int len = writeMessage(2, 3, p, message);
         sendMessage(clientSock, message, len);
     }
-    else{
-        //sent response
+    else
+    {
+        // sent response
         Parameters p;
         char message[BUFFER];
         strcpy(p.Param1, "error");
@@ -422,11 +479,13 @@ int feat_add_member(const int clientSock, const int roomId, const char * usernam
     return res;
 }
 
-//remove
-int feat_remove_member(const int clientSock, const int roomId, const char * username){
+// remove
+int feat_remove_member(const int clientSock, const int roomId, const char *username)
+{
     int res = s_room_remove_member(roomId, username);
-    if (res == 242){
-        //sent response
+    if (res == 242)
+    {
+        // sent response
         Parameters p;
         char message[BUFFER];
         strcpy(p.Param1, util_int_to_str(roomId));
@@ -434,8 +493,9 @@ int feat_remove_member(const int clientSock, const int roomId, const char * user
         int len = writeMessage(2, 4, p, message);
         sendMessage(clientSock, message, len);
     }
-    else{
-        //sent response
+    else
+    {
+        // sent response
         Parameters p;
         char message[BUFFER];
         strcpy(p.Param1, "error");
@@ -443,53 +503,60 @@ int feat_remove_member(const int clientSock, const int roomId, const char * user
         sendMessage(clientSock, message, len);
     }
     return res;
-}   
+}
 
-//get conversation
-int feat_conversation (const int clientSock, const int roomId){
+// get conversation
+int feat_conversation(const int clientSock, const int roomId)
+{
     int count;
     char conv[100][50];
     int res = s_conv_get_conversation(roomId, NULL, conv, &count);
     printf("res: %d, count: %d\n", res, count);
-    if (res==203){
-        
-        if (count == 0){
+    if (res == 203)
+    {
+
+        if (count == 0)
+        {
             Parameters p;
             char buffer[BUFFER];
             strcpy(p.Param1, "success");
             int len = writeMessage(3, 0, p, buffer);
             sendMessage(clientSock, buffer, len);
         }
-        else{
-            for (int i=0; i<count; i++){
+        else
+        {
+            for (int i = 0; i < count; i++)
+            {
                 Parameters p;
                 char buffer1[50]; // store time stamp as the header of message part
-                char buffer[BUFFER]; 
+                char buffer[BUFFER];
                 Message m;
                 char readBuffer[BUFFER];
 
                 strcpy(buffer1, conv[i]);
-                for (int j=strlen(conv[i])-1; j<50; j++){
-                    buffer1[j] = '0'; //fill the rest of the header with 0
-                } 
+                for (int j = strlen(conv[i]) - 1; j < 50; j++)
+                {
+                    buffer1[j] = '0'; // fill the rest of the header with 0
+                }
                 res = s_conv_get_message(roomId, conv[i], &m);
 
                 strcat(buffer, buffer1);
                 strcat(buffer, m.content);
 
-                //printf("util int to str: %s\n",util_int_to_str(roomId));
+                // printf("util int to str: %s\n",util_int_to_str(roomId));
                 strcpy(p.Param1, util_int_to_str(roomId));
                 strcpy(p.Param2, m.userId);
                 strcpy(p.Param3, buffer);
 
                 printf("p user: %s\n", m.userId);
-                printf("p content: %s\n",m.content);  
+                printf("p content: %s\n", m.content);
 
                 int len = writeMessage(3, 0, p, buffer);
                 sendMessage(clientSock, buffer, len);
 
-                if(receiveMessage(clientSock, readBuffer)<=0 ) break;
-            }    
+                if (receiveMessage(clientSock, readBuffer) <= 0)
+                    break;
+            }
             Parameters p;
             p.Param1[0] = '\0';
             p.Param2[0] = '\0';
@@ -498,31 +565,38 @@ int feat_conversation (const int clientSock, const int roomId){
             int len = generateMessage(3, 0, p, buffer);
             sendMessage(clientSock, buffer, len);
         }
-    }else{
+    }
+    else
+    {
         Parameters p;
         char message[BUFFER];
         strcpy(p.Param1, "error");
         int len = writeMessage(3, 0, p, message);
-        sendMessage(clientSock, message, len);  
+        sendMessage(clientSock, message, len);
     }
     return res;
 }
 
-int feat_load_more(const int clientSock, const int roomId, const char * timestamp){
+int feat_load_more(const int clientSock, const int roomId, const char *timestamp)
+{
     int count;
     char conv[100][50];
     int res = s_conv_get_conversation(roomId, timestamp, conv, &count);
-    if (res==203){
-        
-        if (count == 0){
+    if (res == 203)
+    {
+
+        if (count == 0)
+        {
             Parameters p;
             char buffer[BUFFER];
             strcpy(p.Param1, "success");
             int len = writeMessage(3, 0, p, buffer);
             sendMessage(clientSock, buffer, len);
         }
-        else{
-            for (int i=0; i<count; i++){
+        else
+        {
+            for (int i = 0; i < count; i++)
+            {
                 Parameters p1;
                 char buffer1[BUFFER];
                 Parameters p2;
@@ -542,31 +616,36 @@ int feat_load_more(const int clientSock, const int roomId, const char * timestam
                 strcpy(p2.Param3, m->content);
                 int len2 = writeMessage(3, 1, p2, buffer2);
                 sendMessage(clientSock, buffer2, len2);
-            }     
+            }
         }
-    }else{
+    }
+    else
+    {
         Parameters p;
         char message[BUFFER];
         strcpy(p.Param1, "error");
         int len = writeMessage(3, 0, p, message);
-        sendMessage(clientSock, message, len);  
+        sendMessage(clientSock, message, len);
     }
     return res;
 }
 
 // send message
-int feat_new_message(const int clientSock, const char * username, const int roomId, const char * message){
+int feat_new_message(const int clientSock, const char *username, const int roomId, const char *message)
+{
     int res = s_conv_new_message(username, roomId, message);
-    if (res == 213){
-        //sent response
+    if (res == 213)
+    {
+        // sent response
         Parameters p;
         char message[BUFFER];
         strcpy(p.Param1, "success");
         int len = writeMessage(0, 3, p, message);
         sendMessage(clientSock, message, len);
     }
-    else{
-        //sent response
+    else
+    {
+        // sent response
         Parameters p;
         char message[BUFFER];
         strcpy(p.Param1, "error");
@@ -576,54 +655,29 @@ int feat_new_message(const int clientSock, const char * username, const int room
     return res;
 }
 /************************************************
-*           server-side handler
-*************************************************/
+ *           server-side handler
+ *************************************************/
 
 // process message before send to client
-int writeMessage(const int op, const int func, const Parameters params, char * buffer){
+int writeMessage(const int op, const int func, const Parameters params, char *buffer)
+{
     return generateMessage(op, func, params, buffer);
 }
 
-// // process message from client
-// int readMessage(const char * buffer, const int size, Parameters params) {
-//     int op = getProtocolOpcode(buffer);
-//     int func = getProtocolFunctionCode(buffer);
-//     char payload[size];
-
-//     getProtocolPayload(buffer, payload, sizeof(payload));
-
-//     getProtocolParameters(payload, params);
-
-//     // printf("Opcode: %d\n", op);
-//     // printf("Func: %d\n", func);
-//     // printf("len1: %d\n", strlen(params.Param1));
-//     // printf("Param1: %s\n", params.Param1);
-//     // printf("len2: %d\n", strlen(params.Param2));
-//     // printf("Param2: %s\n", params.Param2);
-//     // printf("len3: %d\n", strlen(params.Param3));
-//     // printf("Param3: %s\n", params.Param3);
-//     // // Print the binary string
-
-//     // printf("Binary String : \n");
-//     // for (size_t i = 0; i < size; i++) {
-//     //     printf("\\x%02X", (unsigned char)buffer[i]);
-//     // }
-//     // printf("\n");
-
-//     return 10*func+op;
-// }
-
 // Function to handle I/O asynchronously in a thread
-void *handleClient(void *args) {
+void *handleClient(void *args)
+{
     struct ThreadArgs *threadArgs = (struct ThreadArgs *)args;
     int clientSocket = threadArgs->clientSocket;
     char buffer[BUFFER];
 
-    while (1) {
+    while (1)
+    {
         memset(buffer, 0, sizeof(buffer));
         ssize_t bytesReceived = receiveMessage(clientSocket, buffer);
 
-        if (bytesReceived <= 0) {
+        if (bytesReceived <= 0)
+        {
             break; // Connection closed or error
         }
 
@@ -636,13 +690,15 @@ void *handleClient(void *args) {
         char payload[plSize];
         getProtocolPayload(buffer, payload, plSize);
         getProtocolParameters(payload, &params);
-        //readMessage(buffer, sizeof(buffer), p);
+        // readMessage(buffer, sizeof(buffer), p);
         handle_features(clientSocket, op, func, params);
 
-        sendMessage(clientSocket, buffer, bytesReceived);        // Echo the message back to the client
+        sendMessage(clientSocket, buffer, bytesReceived); // Echo the message back to the client
     }
-    for (int i=0; i<MAX_CLIENTS; i++){
-        if (g_rtds[i] < 9999){
+    for (int i = 0; i < MAX_CLIENTS; i++)
+    {
+        if (g_rtds[i] < 9999)
+        {
             g_rtds[i] = 9999;
             g_clientNames[i][0] = '\0';
             g_clientSockets[i] = -1;
@@ -655,47 +711,55 @@ void *handleClient(void *args) {
 }
 
 // start server
-void runServer(int serverSocket) {
+void runServer(int serverSocket)
+{
 
     struct sockaddr_in clientAddr;
     socklen_t addrLen = sizeof(clientAddr);
 
-    while (1) {
+    while (1)
+    {
         // Accept the connection
         int clientSocket = accept(serverSocket, (struct sockaddr *)&clientAddr, &addrLen);
-        if (clientSocket == -1) {
+        if (clientSocket == -1)
+        {
             perror("Accept failed");
             exit(EXIT_FAILURE);
         }
         // Add the new client socket to the array
-        for (int i = 0; i < MAX_CLIENTS; i++) {
-            if (g_clientSockets[i] == -1) {
+        for (int i = 0; i < MAX_CLIENTS; i++)
+        {
+            if (g_clientSockets[i] == -1)
+            {
                 g_clientSockets[i] = clientSocket;
                 strcpy(g_ipAddr[i], inet_ntoa(clientAddr.sin_addr));
                 break;
             }
         }
         printf("New connection from %s:%d\n", inet_ntoa(clientAddr.sin_addr), ntohs(clientAddr.sin_port));
-       
+
         connectionLog(CONNECT, ntohs(clientAddr.sin_port), inet_ntoa(clientAddr.sin_addr));
-        //thread arguments
+        // thread arguments
         struct ThreadArgs *threadArgs = (struct ThreadArgs *)malloc(sizeof(struct ThreadArgs));
         threadArgs->clientSocket = clientSocket;
 
-        pthread_t thread;// Create a new thread to handle the client
-        if (pthread_create(&thread, NULL, handleClient, (void *)threadArgs) != 0) {
+        pthread_t thread; // Create a new thread to handle the client
+        if (pthread_create(&thread, NULL, handleClient, (void *)threadArgs) != 0)
+        {
             perror("Error creating thread");
             exit(EXIT_FAILURE);
         }
-        pthread_detach(thread);// clean up resources
+        pthread_detach(thread); // clean up resources
     }
     close(serverSocket);
 }
 
-// initial function 
-void _s_init (int port){
-    //initialize client list
-    for (int i=0; i<MAX_CLIENTS; i++){
+// initial function
+void _s_init(int port)
+{
+    // initialize client list
+    for (int i = 0; i < MAX_CLIENTS; i++)
+    {
         g_clientSockets[i] = -1;
         g_clientNames[i][0] = '\0';
         g_rtds[i] = 9999;
