@@ -83,7 +83,15 @@ int feat_online_list (const int clientSock, const int rtd){
             //send message
             int sent = sendMessage(clientSock, buffer, len);
             count++;
-        }
+        if(receiveMessage(clientSock, readBuffer)<=0 ) break;
+            }    
+            Parameters p;
+            p.Param1[0] = '\0';
+            p.Param2[0] = '\0';
+            p.Param3[0] = '\0';
+            char buffer[BUFFER];
+            int len = generateMessage(0, 0, p, buffer);
+            sendMessage(clientSock, buffer, len);
     }
     if (count>0) return 200;
     else if(count==0) return 300;
@@ -201,7 +209,15 @@ printf("username: %s\n", username);
                 //send 
                 int sent = sendMessage(clientSock, buffer, len);
             
-        }
+        if(receiveMessage(clientSock, readBuffer)<=0 ) break;
+            }    
+            Parameters p;
+            p.Param1[0] = '\0';
+            p.Param2[0] = '\0';
+            p.Param3[0] = '\0';
+            char buffer[BUFFER];
+            int len = generateMessage(1, 0, p, buffer);
+            sendMessage(clientSock, buffer, len);
     }
     else{
         printf("people not found!\n");
@@ -307,7 +323,15 @@ int feat_room_list (const int clientSock, const char * username){
             strcpy(p.Param2, rooms[i].roomName);
             int len = writeMessage(2, 0, p, buffer);
             sendMessage(clientSock, buffer, len);
-        }
+        if(receiveMessage(clientSock, readBuffer)<=0 ) break;
+            }    
+            Parameters p;
+            p.Param1[0] = '\0';
+            p.Param2[0] = '\0';
+            p.Param3[0] = '\0';
+            char buffer[BUFFER];
+            int len = generateMessage(2, 0, p, buffer);
+            sendMessage(clientSock, buffer, len);
     }else{
         printf("no room found!\n");
         Parameters p;
@@ -334,7 +358,15 @@ int feat_room_members (const int clientSock, const int roomId){
             strcpy(p.Param2, util_int_to_str(roomId));
             int len = writeMessage(2, 1, p, buffer);
             sendMessage(clientSock, buffer, len);
-        }
+        if(receiveMessage(clientSock, readBuffer)<=0 ) break;
+            }    
+            Parameters p;
+            p.Param1[0] = '\0';
+            p.Param2[0] = '\0';
+            p.Param3[0] = '\0';
+            char buffer[BUFFER];
+            int len = generateMessage(2, 1, p, buffer);
+            sendMessage(clientSock, buffer, len);
     }else{
         printf("people not found!\n");
         Parameters p;

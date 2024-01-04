@@ -244,10 +244,9 @@ void sendMessage(void *args, const char *buffer, int size)
     struct ThreadArgs *threadArgs = (struct ThreadArgs *)args;
     int clientSocket = threadArgs->clientSocket;
 
-    // Acquire the mutex lock before calling send method
     pthread_mutex_lock(&threadArgs->threadMutex);
     send(clientSocket, buffer, size, 0);
-    // Release the mutex lock after calling send method
+
     pthread_mutex_unlock(&threadArgs->threadMutex);
     usleep(PING_INTERVAL * 3000);
 }
@@ -261,6 +260,7 @@ int recvAndProcess(void *args)
     memset(buffer, 0, sizeof(buffer));
 
     ssize_t bytesReceived = recv(clientSocket, buffer, BUFFER - 1, 0);
+
     if (bytesReceived <= 0)
     {
         printf("Server disconnected.\n");
@@ -286,6 +286,7 @@ void *sendThread(void *args)
 void showFeatures()
 {
     printf("---------------Start---------------\n");
+    printf("0. Get online users\n");
     printf("1. Login\n");
     printf("2. Register\n");
     printf("3. Change password\n");
@@ -857,7 +858,6 @@ int handle_receive_message(const char *message, int len)
     {
     case 00:
         in_online_list(params.Param1, atoi(params.Param2));
-        //out_get_friend_list();
         status = 200;
         break;
     case 10:
