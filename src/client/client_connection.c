@@ -728,7 +728,8 @@ void *receiveThread(void *args)
 
     while (1)
     {
-
+        ssize_t bytesReceived = recv(clientSocket, buffer, BUFFER - 1, 0);
+        printCode(buffer, bytesReceived);
     }
 
     pthread_exit(NULL);
