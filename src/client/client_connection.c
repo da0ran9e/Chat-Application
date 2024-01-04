@@ -390,7 +390,10 @@ void c_login()
 
     int res = recvAndProcess(g_args);
     if (res == 210)
-        printf("Login approved!\n");
+        {
+            printf("Login approved!\n");
+            strcpy(g_username, params.Param1);
+        }
     else if (res == 310)
         printf("Incorrect user information!\n");
     else
@@ -700,7 +703,7 @@ void c_chat()
     printf("Message:\n");
     fgets(params.Param3, 500, stdin);
 
-    int len = generateMessage(3, 0, params, buffer);
+    int len = generateMessage(3, 1, params, buffer);
     sendMessage(g_args, buffer, len);
 
     int res = recvAndProcess(g_args);
@@ -847,7 +850,7 @@ int handle_receive_message(const char *message, int len)
     int code = 10 * func + op;
     Parameters params;
     char payload[BUFFER - 8];
-    int plSize = 0;
+    int plSize = len-8;
 
     getProtocolPayload(message, payload, plSize);
     getProtocolParameters(payload, &params);
@@ -857,10 +860,15 @@ int handle_receive_message(const char *message, int len)
     switch (code)
     {
     case 00:
-        in_online_list(params.Param1, atoi(params.Param2));
+        if(params.Param1[0] == '\0'){ printf("Get online list done\n");break;}
+        else{
+            in_online_list(params.Param1, atoi(params.Param2));
+            int res = recvAndProcess(g_args);
+        }
         status = 200;
         break;
     case 10:
+        printf("%s\n", params.Param1)
         if (!strcmp(params.Param1, "error"))
         {
             status = 310;
@@ -898,6 +906,7 @@ int handle_receive_message(const char *message, int len)
         }
         else
         {
+            if(params.Param1[0] == '\0') {printf("Get room list done\n");break;}
             status = 201;
             in_friend_list(params.Param1);
             //out_get_room_list(g_username);
@@ -934,6 +943,9 @@ int handle_receive_message(const char *message, int len)
         }
         else
         {
+            if(params.Param1[0] == '\0') {
+                printf("Get friend list done\n");
+                break;}
             status = 202;
             in_room_list(atoi(params.Param1), params.Param2);
             //out_get_room_members(atoi(params.Param1));
@@ -946,6 +958,7 @@ int handle_receive_message(const char *message, int len)
         }
         else
         {
+            if(params.Param1[0] == '\0'){ printf("Get member list done\n");break;}
             status = 212;
             in_member_list(params.Param1, atoi(params.Param2));
             //out_get_conversation(atoi(params.Param2));
@@ -1059,14 +1072,6 @@ void in_room_list(const int roomId, const char *roomName)
         {
             g_rooms[i].roomId = roomId;
             strcpy(g_rooms[i].roomName, roomName);
-
-            // Parameters params;
-            // char buffer[BUFFER];
-            // // online
-            // strcpy(params.Param1, util_int_to_str(roomId));
-            // int len = generateMessage(3, 0, params, buffer);
-            // sendMessage(g_args, buffer, len);
-            // printf("//////////////////////////////////////sent conv\n");
         }
     }
     printf("//////////////////////////////////////continue room\n");
@@ -1131,29 +1136,9 @@ void in_login_done(const char *username)
 {
     printf("//////////////////////////////////////in_login\n");
     // request initial data for running
-    strcpy(g_username, username);
     Parameters params;
     char buffer[BUFFER];
-    // online
-    // strcpy(params.Param1, util_int_to_str(g_rtd));
-    // strcpy(params.Param2, "\0");
-    // strcpy(params.Param3, "\0");
-    // int len = generateMessage(0, 0, params, buffer);
-    // sendMessage(g_args, buffer, len);
-    // printf("//////////////////////////////////////sent ping\n");
-    // recvAndProcess(g_args);
     usleep(5000);
-    // // friend
-    // params.Param1[0]='\0';
-    // len = generateMessage(1, 0, params, buffer);
-    // sendMessage(g_args, buffer, len);
-    // printf("//////////////////////////////////////sent friends\n");
-    // usleep(5000);
-    // //room
-    // strcpy(params.Param1, username);
-    // len = generateMessage(2, 0, params, buffer);
-    // printf("//////////////////////////////////////sent room\n");
-    // sendMessage(g_args, buffer, len);
 }
 
 void out_login(const char *username, const char *password)
