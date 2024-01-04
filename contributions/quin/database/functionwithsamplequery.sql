@@ -14,8 +14,8 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- query for login
-SELECT login_user('user1', 'password1') AS is_authorized;
-SELECT login_user('user3', 'password1') AS is_authorized;
+--SELECT login_user('user1', 'password1') AS is_authorized;
+--SELECT login_user('user3', 'password1') AS is_authorized;
 
 
 
@@ -57,8 +57,8 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- query for register
-SELECT register_user('user4', 'password4') AS registration_status;
-SELECT register_user('user5', 'password5') AS registration_status;
+--SELECT register_user('user4', 'password4') AS registration_status;
+--SELECT register_user('user5', 'password5') AS registration_status;
 
 -- function to delete a user
 -- CREATE OR REPLACE FUNCTION delete_user(in_username VARCHAR(50))
@@ -206,7 +206,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 -- query to delete a friend
-SELECT delete_friend('user1', 'user5') AS delete_friend_status;
+--SELECT delete_friend('user1', 'user5') AS delete_friend_status;
 
 
 -- -- Function to get the room list (get a list of rooms a user belongs to)
