@@ -278,7 +278,6 @@ document.getElementById("messageInput").addEventListener("keydown", function (ev
 function showNotification(friend){
     document.getElementById("notification").innerHTML = friend;
     document.getElementById("notification").style.display = "block";
-    alert("show")
 }
 
 function updateData(){
