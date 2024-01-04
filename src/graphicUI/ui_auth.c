@@ -33,24 +33,53 @@ typedef struct {
 } context_t;
 
 // Function to read the content of a file and return it as a string
-const char* readFromFile(const char* filename) {
-    FILE* file = fopen(filename, "r");
-    if (file == NULL) {
-        perror("Error opening file");
+// Function to concatenate content from multiple files into a single string
+const char* concatenateFiles(const char* filenames[], int numFiles) {
+    // Calculate the total size needed for the concatenated content
+    long totalSize = 1; // Start with 1 for the null terminator
+    for (int i = 0; i < numFiles; ++i) {
+        FILE* file = fopen(filenames[i], "r");
+        if (file == NULL) {
+            perror("Error opening file");
+            return NULL;
+        }
+
+        fseek(file, 0, SEEK_END);
+        totalSize += ftell(file);
+        fclose(file);
+    }
+
+    // Allocate memory for the concatenated content
+    char* concatenatedContent = (char*)malloc(totalSize);
+    if (concatenatedContent == NULL) {
+        perror("Memory allocation error");
         return NULL;
     }
 
-    fseek(file, 0, SEEK_END);
-    long size = ftell(file);
-    fseek(file, 0, SEEK_SET);
+    // Concatenate content from each file
+    long offset = 0;
+    for (int i = 0; i < numFiles; ++i) {
+        FILE* file = fopen(filenames[i], "r");
+        if (file == NULL) {
+            perror("Error opening file");
+            free(concatenatedContent);
+            return NULL;
+        }
 
-    char* content = (char*)malloc(size + 1);
-    fread(content, 1, size, file);
-    content[size] = '\0';
+        fseek(file, 0, SEEK_END);
+        long size = ftell(file);
+        fseek(file, 0, SEEK_SET);
 
-    fclose(file);
+        fread(concatenatedContent + offset, 1, size, file);
+        offset += size;
 
-    return content;
+        fclose(file);
+    }
+
+    // Add null terminator at the end
+    concatenatedContent[offset] = '\0';
+
+    return concatenatedContent;
 }
 
 void increment(const char *seq, const char *req, void *arg) {
@@ -122,13 +151,14 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmdLine,
 #else
 int main() {
 #endif
-  char* main = readFromFile("auth.cui");
-  char* tailwind = readFromFile("tailwind.cui");
-  strcat(main, tailwind);
+  const char* filenames[] = {"auth.cui", "tailwind.cui"}; // Replace with your file names
+  int numFiles = sizeof(filenames) / sizeof(filenames[0]);
+
+  const char* concatenatedContent = concatenateFiles(filenames, numFiles);
 
   webview_t w = webview_create(0, NULL);
   context_t context = {.w = w, .count = 0};
-  webview_set_title(w, "Bind Example");
+  webview_set_title(w, "Authentication");
   webview_set_size(w, 700, 500, WEBVIEW_HINT_NONE);
 
   // A binding that increments a value and immediately returns the new value.
@@ -137,7 +167,7 @@ int main() {
   // An binding that creates a new thread and returns the result at a later time.
   webview_bind(w, "compute", compute, &context);
 
-  webview_set_html(w, main);
+  webview_set_html(w, concatenatedContent);
   webview_run(w);
   webview_destroy(w);
   return 0;
