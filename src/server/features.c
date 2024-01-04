@@ -68,6 +68,7 @@ int handle_features(const int userSock, int op, int func, const Parameters param
 int feat_online_list(const int clientSock, const int rtd)
 {
     int count = -1;
+    
     for (int i = 0; i < MAX_CLIENTS; i++)
     {
         if (g_clientSockets[i] == clientSock)
@@ -80,6 +81,7 @@ int feat_online_list(const int clientSock, const int rtd)
             // serialize message
             char buffer[BUFFER];
             Parameters p;
+            char readBuffer[BUFFER];
             strcpy(p.Param1, g_clientNames[i]);
             strcpy(p.Param2, util_int_to_str(g_rtds[i]));
             p.Param3[0] = '\0';
@@ -222,6 +224,7 @@ int feat_friend_list(const int clientSock)
             printf("%s\n", friendList[i]);
             // serialize message
             Parameters p;
+            char readBuffer[BUFFER];
             strcpy(p.Param1, friendList[i]);
             strcpy(p.Param2, "9999");
             if (!strcmp(friendList[i], g_clientNames[i]))
@@ -359,6 +362,7 @@ int feat_room_list(const int clientSock, const char *username)
             printf("room %d found: %s \n", rooms[i].roomId, rooms[i].roomName);
             // serialize message
             Parameters p;
+            char readBuffer[BUFFER];
             char buffer[BUFFER];
             strcpy(p.Param1, util_int_to_str(rooms[i].roomId));
             strcpy(p.Param2, rooms[i].roomName);
@@ -400,6 +404,7 @@ int feat_room_members(const int clientSock, const int roomId)
         {
             printf("people: %s at %d\n", peopleList[i], roomId);
             Parameters p;
+            char readBuffer[BUFFER];
             char buffer[BUFFER];
             strcpy(p.Param1, peopleList[i]);
             strcpy(p.Param2, util_int_to_str(roomId));
