@@ -382,7 +382,7 @@ void c_login()
 
     printf("Enter username: ");
     scanf("%s", params.Param1);
-    printf("Password for %s:", params.Param1);
+    printf("Password for %s: ", params.Param1);
     scanf("%s", params.Param2);
 
     int len = generateMessage(0, 1, params, buffer);
@@ -410,7 +410,7 @@ void c_register()
 
     printf("Enter username: ");
     scanf("%s", params.Param1);
-    printf("Password for %s:", params.Param1);
+    printf("Password for %s: ", params.Param1);
     scanf("%s", params.Param2);
 
     int len = generateMessage(0, 2, params, buffer);
@@ -594,9 +594,10 @@ void c_create()
     printf("\t---------------Create room---------------\n");
     Parameters params;
     char buffer[BUFFER];
-
-    printf("Room name:");
-    scanf("%s", params.Param1);
+    getchar();
+    printf("Room name: ");
+    fgets(params.Param1, 50, stdin);
+    params.Param1[strlen(params.Param1)-1] = '\0';
     strcpy(params.Param2, g_username);
     strcpy(params.Param3, "\0");
 
@@ -620,9 +621,9 @@ void c_add_member()
     Parameters params;
     char buffer[BUFFER];
 
-    printf("Room id:");
+    printf("Room id: ");
     scanf("%s", params.Param1);
-    printf("Member name:");
+    printf("Member name: ");
     scanf("%s", params.Param2);
     strcpy(params.Param3, "\0");
 
@@ -631,7 +632,7 @@ void c_add_member()
 
     int res = recvAndProcess(g_args);
     if (res == 232)
-        printf("Member removed!\n");
+        printf("Member added!\n");
     else if (res == 332)
         printf("Member not here!\n");
     else
@@ -646,9 +647,9 @@ void c_remove_member()
     Parameters params;
     char buffer[BUFFER];
 
-    printf("Room id:");
+    printf("Room id: ");
     scanf("%s", params.Param1);
-    printf("Member name:");
+    printf("Member name: ");
     scanf("%s", params.Param2);
     strcpy(params.Param3, "\0");
 
@@ -672,7 +673,7 @@ void c_conversation()
     Parameters params;
     char buffer[BUFFER];
 
-    printf("Room id:");
+    printf("Room id: ");
     scanf("%s", params.Param1);
     strcpy(params.Param2, "\0");
     strcpy(params.Param3, "\0");
@@ -698,10 +699,11 @@ void c_chat()
     char buffer[BUFFER];
 
     strcpy(params.Param1, g_username);
-    printf("Room id:");
+    printf("Room id: ");
     scanf("%s", params.Param2);getchar(); //read the newline 
     printf("Message:\n");
     fgets(params.Param3, 500, stdin);
+    params.Param3[strlen(params.Param3)-1] = '\0';
 
     int len = generateMessage(3, 1, params, buffer);
     sendMessage(g_args, buffer, len);
@@ -870,7 +872,7 @@ int handle_receive_message(const char *message, int len)
         status = 200;
         break;
     case 10:
-        printf("%s\n", params.Param1)
+
         if (!strcmp(params.Param1, "error"))
         {
             status = 310;
@@ -980,7 +982,7 @@ int handle_receive_message(const char *message, int len)
         else
         {
             status = 222;
-            in_room_list(atoi(params.Param1), "\0");
+            //in_room_list(atoi(params.Param1), "\0");
         }
         break;
     case 32:
