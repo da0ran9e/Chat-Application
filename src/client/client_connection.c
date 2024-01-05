@@ -999,8 +999,8 @@ int handle_receive_message(const char *message, int len)
             int res = recvAndProcess(g_args);
             char temp[20];
             strcpy(temp, params.Param3);
-            printf("\t%s\t", temp);
-            printf("%s: %s\n", params.Param2, params.Param3+50);
+            printf("\t%.*s\t",20, temp);
+            printf("%s: %s\n", params.Param2, params.Param3+51);
         }
         break;
     case 13:
