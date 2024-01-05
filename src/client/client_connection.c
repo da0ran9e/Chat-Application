@@ -195,13 +195,6 @@ int generateMessage(uint32_t op, uint32_t func, Parameters parameters, char *buf
     int len1 = strlen(parameters.Param1);
     int len2 = strlen(parameters.Param2);
     int len3 = strlen(parameters.Param3);
-    printf("len1: %d\n", len1);
-    printf("len2: %d\n", len2);
-    printf("len3: %d\n", len3);
-
-    printf("Param1: %s\n", parameters.Param1);
-    printf("Param2: %s\n", parameters.Param2);
-    printf("Param3: %s\n", parameters.Param3);
 
     int bufferSize = 20 + len1 + len2 + len3;
 
@@ -1007,8 +1000,7 @@ int handle_receive_message(const char *message, int len)
             char temp[20];
             strcpy(temp, params.Param3);
             printf("\t%s\t", temp);
-            util_get_substring(params.Param3, temp, 50, strlen(params.Param3) - 50);
-            printf("%s: %s\n", params.Param2, temp);
+            printf("%s: %s\n", params.Param2, params.Param3+50);
         }
         break;
     case 13:
@@ -1114,7 +1106,8 @@ void in_conversation(const int roomId, const char *username, const char *message
         {
             g_message[i].roomId = roomId;
             char cont[500];
-            util_get_substring(messageStr, cont, 50, strlen(messageStr) - 50);
+            strcpy(cont, messageStr+50);
+            //util_get_substring(messageStr, cont, 50, strlen(messageStr) - 50);
             strcpy(g_message[i].timestamp, messageStr);
             strcpy(g_message[i].userId, username);
             strcpy(g_message[i].content, cont);
