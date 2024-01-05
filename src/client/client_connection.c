@@ -658,7 +658,7 @@ void c_remove_member()
 
     int res = recvAndProcess(g_args);
     if (res == 242)
-        printf("Added!\n");
+        printf("Member removed!\n");
     else if (res == 342)
         printf("User not found!\n");
     else
