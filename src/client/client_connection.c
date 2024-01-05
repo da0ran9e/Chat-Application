@@ -832,16 +832,15 @@ int handle_receive_message(const char *message, int len)
     case 00:
         if (params.Param1[0] == '\0')
         {
-            printf("Get online list done\n");
+            printf("-------------Online list-------------\nRTTs\tUsername\n");
             status = 200;
             break;
         }
         else
         {
             in_online_list(params.Param1, atoi(params.Param2));
-            printf("received, continue: ");
             int res = recvAndProcess(g_args);
-            printf("get next\n");
+            printf("%s\t%s\n",params.Param1,params.Param2);
         }
         status = 200;
         break;
@@ -887,14 +886,13 @@ int handle_receive_message(const char *message, int len)
             status = 201;
             if (params.Param1[0] == '\0')
             {
-                printf("Get friend list done\n");
+                printf("\t-------------Online list-------------\n\tFriendname:\n");
                 break;
             }
 
             in_friend_list(params.Param1);
-            printf("received, continue: ");
             int res = recvAndProcess(g_args);
-            printf("get next\n");
+            printf("\t\t%s\n", params.Param1);
         }
         break;
     case 11:
@@ -931,14 +929,13 @@ int handle_receive_message(const char *message, int len)
             status = 202;
             if (params.Param1[0] == '\0')
             {
-                printf("Get room list done\n");
+                printf("\t-------------Room list-------------\n\tRoom ID\tRoom name\n");
                 break;
             }
 
             in_room_list(atoi(params.Param1), params.Param2);
-            printf("received, continue: ");
             int res = recvAndProcess(g_args);
-            printf("get next\n");
+            printf("\t%s\t\t%s\n", params.Param1, params.Param2);
         }
         break;
     case 12:
@@ -951,14 +948,13 @@ int handle_receive_message(const char *message, int len)
             status = 212;
             if (params.Param1[0] == '\0')
             {
-                printf("Get member list done\n");
+                printf("\t-------------Member list of %s-------------\n\tMember name\n", params.Param2);
                 break;
             }
 
             in_member_list(params.Param1, atoi(params.Param2));
-            printf("received, continue: ");
             int res = recvAndProcess(g_args);
-            printf("get next\n");
+            printf("\t%s\n", params.Param1);
         }
         break;
     case 22:
@@ -1002,14 +998,17 @@ int handle_receive_message(const char *message, int len)
             status = 203;
             if (params.Param1[0] == '\0')
             {
-                printf("Get conv list done\n");
+                printf("\t-------------Room: %s-------------\n", params.Param1);
                 break;
             }
             status = 203;
             in_conversation(atoi(params.Param1), params.Param2, params.Param3);
-            printf("received, continue: ");
             int res = recvAndProcess(g_args);
-            printf("get next\n");
+            char temp[20];
+            strcpy(temp, params.Param3);
+            printf("\t%s\t", temp);
+            util_get_substring(params.Param3, temp, 50, strlen(params.Param3) - 50);
+            printf("%s: %s\n", params.Param2, temp);
         }
         break;
     case 13:
