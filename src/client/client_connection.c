@@ -1106,14 +1106,13 @@ void in_conversation(const int roomId, const char *username, const char *message
         {
             g_message[i].roomId = roomId;
             char cont[500];
-            strcpy(cont, messageStr+50);
+            //strcpy(cont, messageStr+50);
             //util_get_substring(messageStr, cont, 50, strlen(messageStr) - 50);
             strcpy(g_message[i].timestamp, messageStr);
             strcpy(g_message[i].userId, username);
-            strcpy(g_message[i].content, cont);
+            strcpy(g_message[i].content, messageStr+50);
             char timeStm[20];
             strcpy(timeStm, messageStr);
-            printf("Room: %d\tTimestamp%s\tUser:%s\tMessage%s\n", roomId, timeStm, username, cont);
             break;
         }
     }
