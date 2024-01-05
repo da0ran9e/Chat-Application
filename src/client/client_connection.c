@@ -998,7 +998,7 @@ int handle_receive_message(const char *message, int len)
             in_conversation(atoi(params.Param1), params.Param2, params.Param3);
             int res = recvAndProcess(g_args);
             printf("\t%.*s\t",20, params.Param3);
-            printf("%s: %s\n", params.Param2, params.Param3+51);
+            //printf("%s: %s\n", params.Param2, params.Param3+51);
         }
         break;
     case 13:
@@ -1110,7 +1110,7 @@ void in_conversation(const int roomId, const char *username, const char *message
             //util_get_substring(messageStr, cont, 50, strlen(messageStr) - 50);
             strcpy(g_message[i].timestamp, timeStm);
             strcpy(g_message[i].userId, username);
-            strcpy(g_message[i].content, messageStr+50);
+            //strcpy(g_message[i].content, messageStr+50);
             
             break;
         }
