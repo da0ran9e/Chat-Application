@@ -958,7 +958,6 @@ int handle_receive_message(const char *message, int len)
         else
         {
             status = 222;
-            // in_room_list(atoi(params.Param1), "\0");
         }
         break;
     case 32:
@@ -998,7 +997,10 @@ int handle_receive_message(const char *message, int len)
             in_conversation(atoi(params.Param1), params.Param2, params.Param3);
             int res = recvAndProcess(g_args);
             printf("\t%.*s\t",20, params.Param3);
+            printCode(params.Param3, strlen(params.Param3));
             printf("%s: %s\n", params.Param2, params.Param3+51);
+            printCode(params.Param3+51, strlen(params.Param3)-51);
+            
         }
         break;
     case 13:
@@ -1098,23 +1100,23 @@ void in_member_list(const char *member, const int roomId)
 
 void in_conversation(const int roomId, const char *username, const char *messageStr)
 {
-    // for (int i = 0; i < 1024; i++)
-    // {
-    //     if (g_message[i].timestamp[0] == '\0')
-    //     {
-    //         // g_message[i].roomId = roomId;
-    //         // char cont[500];
-    //         // char timeStm[20];
-    //         // sprintf(timeStm, "%.*s", 20, messageStr);
-    //         //strcpy(cont, messageStr+50);
-    //         //util_get_substring(messageStr, cont, 50, strlen(messageStr) - 50);
-    //         // strcpy(g_message[i].timestamp, timeStm);
-    //         // strcpy(g_message[i].userId, username);
-    //         //strcpy(g_message[i].content, messageStr+50);
+    for (int i = 0; i < 1024; i++)
+    {
+        if (g_message[i].timestamp[0] == '\0')
+        {
+            g_message[i].roomId = roomId;
+            char cont[500];
+            char timeStm[20];
+            sprintf(timeStm, "%.*s", 20, messageStr);
+            //strcpy(cont, messageStr+50);
+            //util_get_substring(messageStr, cont, 50, strlen(messageStr) - 50);
+            strcpy(g_message[i].timestamp, timeStm);
+            strcpy(g_message[i].userId, username);
+            strcpy(g_message[i].content, messageStr+50);
             
-    //         break;
-    //     }
-    // }
+            break;
+        }
+    }
     char buffer[BUFFER];
     Parameters params;
     strcpy(params.Param1, "\0");
