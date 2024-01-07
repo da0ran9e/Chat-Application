@@ -35,7 +35,6 @@ int recvAndProcess(void *args)
     memset(buffer, 0, sizeof(buffer));
 
     ssize_t bytesReceived = recv(clientSocket, buffer, BUFFER - 1, 0);
-    buffer[bytesReceived] = '\0';
 
     if (bytesReceived <= 0)
     {
@@ -808,36 +807,6 @@ void in_login_done(const char *username)
     Parameters params;
     char buffer[BUFFER];
     usleep(5000);
-}
-
-void sendMessage(void *args, const char *buffer, int size)
-{
-    struct ThreadArgs *threadArgs = (struct ThreadArgs *)args;
-    int clientSocket = threadArgs->clientSocket;
-
-    pthread_mutex_lock(&threadArgs->threadMutex);
-    send(clientSocket, buffer, size, 0);
-
-    pthread_mutex_unlock(&threadArgs->threadMutex);
-    usleep(PING_INTERVAL * 3000);
-}
-
-int recvAndProcess(void *args)
-{
-    struct ThreadArgs *threadArgs = (struct ThreadArgs *)args;
-    int clientSocket = threadArgs->clientSocket;
-    char buffer[BUFFER];
-
-    memset(buffer, 0, sizeof(buffer));
-
-    ssize_t bytesReceived = recv(clientSocket, buffer, BUFFER - 1, 0);
-
-    if (bytesReceived <= 0)
-    {
-        printf("Server disconnected.\n");
-    }
-
-    return handle_receive_message(buffer, bytesReceived);
 }
 
 // Function to send messages to the server
