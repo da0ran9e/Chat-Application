@@ -1,5 +1,19 @@
 #include "../../include/client/feature.h"
 
+// Global variables are declared here to avoid multidefinition at `/usr/bin/ld`
+int g_socket;
+char g_address[15];
+int g_port;
+int g_rtd;
+char g_username[50];
+char g_user[MAX_CLIENTS][50];
+int g_rtds[MAX_CLIENTS];
+char g_friend[MAX_CLIENTS][50];
+Room g_rooms[MAX_CLIENTS];
+Message g_message[BUFFER];
+RoomMember g_room_member[MAX_CLIENTS * MAX_CLIENTS];
+void *g_args; // forbidden declaration =))
+
 void sendMessage(void *args, const char *buffer, int size)
 {
     struct ThreadArgs *threadArgs = (struct ThreadArgs *)args;

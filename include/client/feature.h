@@ -19,19 +19,6 @@ typedef struct RoomMember{
     //memName[0] = '\0';
 } RoomMember;
 
-int g_socket;
-char g_address[15];
-int g_port;
-int g_rtd;
-char g_username[50];
-char g_user[MAX_CLIENTS][50];
-int g_rtds[MAX_CLIENTS];
-char g_friend[MAX_CLIENTS][50];
-Room g_rooms[MAX_CLIENTS];
-Message g_message[BUFFER];
-RoomMember g_room_member[MAX_CLIENTS * MAX_CLIENTS];
-void *g_args; // forbidden declaration =))
-
 enum RequestEvent {
     REQ_PING            = 00,
     REQ_LOGIN           = 10,
