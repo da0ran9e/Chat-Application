@@ -23,24 +23,7 @@ enum RequestEvent {
     REQ_MESSAGE         = 13,
 };
 
-typedef struct RoomMember{
-    int roomId;
-    char memName[50];
-    //memName[0] = '\0';
-} RoomMember;
-
-int g_socket;
-char g_address[15];
-int g_port;
-int g_rtd;
-char g_user[MAX_CLIENTS][50];
-int g_rtds[MAX_CLIENTS];
-char g_friend[MAX_CLIENTS][50];
-Room g_rooms[MAX_CLIENTS];
-Message g_message[BUFFER];
-RoomMember g_room_member[10000];
-
-int handle_receive_message(const char * messsge);
+int handle_receive_message(const char *message, int len);
 void in_online_list(const char * username, const int rtd);
 void in_friend_list(const char * username);
 void in_room_list(const int roomId, const char * roomName);
@@ -64,6 +47,10 @@ void c_remove_member();
 void c_conversation();
 void c_chat();
 
+void sendMessage(void *args, const char *buffer, int size);
+int recvAndProcess(void *args);
+void *sendThread(void *args);
+void *sendPingMessages(void *args);
 void run_client(const char *clientIP, const int clientPort);
 
 #endif
