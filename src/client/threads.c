@@ -74,7 +74,7 @@ void run_client(const char *address, const int port){
 
     // Create thread arguments
     struct ThreadArgs *threadArgs = (struct ThreadArgs *)malloc(sizeof(struct ThreadArgs));
-    threadArgs->clientSocket = clientSocket;
+    threadArgs->clientSocket = g_socket;
     pthread_mutex_init(&threadArgs->threadMutex, NULL); // Initialize the mutex
 
     // Create threads for sending and receiving messages, and sending ping messages
@@ -83,7 +83,7 @@ void run_client(const char *address, const int port){
         pthread_create(&pingThreadID, NULL, sendPingMessages, (void *)threadArgs) != 0)
     {
         perror("Error creating threads");
-        close(clientSocket);
+        close(g_socket);
         free(threadArgs);
         exit(EXIT_FAILURE);
     }
