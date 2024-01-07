@@ -94,7 +94,7 @@ void run_client(const char *address, const int port){
 
     // Clean up and destroy the mutex
     pthread_mutex_destroy(&threadArgs->threadMutex);
-    close(clientSocket);
+    close(g_socket);
     free(threadArgs);
 
 }
