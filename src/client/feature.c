@@ -23,7 +23,7 @@ void sendMessage(void *args, const char *buffer, int size)
     send(clientSocket, buffer, size, 0);
 
     pthread_mutex_unlock(&threadArgs->threadMutex);
-    usleep(PING_INTERVAL * 3000);
+    //usleep(PING_INTERVAL * 3000);
 }
 
 int recvAndProcess(void *args)
@@ -806,7 +806,7 @@ void in_login_done(const char *username)
     // request initial data for running
     Parameters params;
     char buffer[BUFFER];
-    usleep(5000);
+    //usleep(5000);
 }
 
 // Function to send messages to the server
