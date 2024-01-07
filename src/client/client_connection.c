@@ -958,7 +958,6 @@ int handle_receive_message(const char *message, int len)
         else
         {
             status = 222;
-            // in_room_list(atoi(params.Param1), "\0");
         }
         break;
     case 32:
@@ -997,10 +996,11 @@ int handle_receive_message(const char *message, int len)
             status = 203;
             in_conversation(atoi(params.Param1), params.Param2, params.Param3);
             int res = recvAndProcess(g_args);
-            char temp[20];
-            strcpy(temp, params.Param3);
-            printf("\t%.*s\t",20, temp);
+            printf("\t%.*s\t",20, params.Param3);
+            printCode(params.Param3, strlen(params.Param3));
             printf("%s: %s\n", params.Param2, params.Param3+51);
+            printCode(params.Param3+51, strlen(params.Param3)-51);
+            
         }
         break;
     case 13:
@@ -1106,13 +1106,14 @@ void in_conversation(const int roomId, const char *username, const char *message
         {
             g_message[i].roomId = roomId;
             char cont[500];
+            char timeStm[20];
+            sprintf(timeStm, "%.*s", 20, messageStr);
             //strcpy(cont, messageStr+50);
             //util_get_substring(messageStr, cont, 50, strlen(messageStr) - 50);
-            strcpy(g_message[i].timestamp, messageStr);
+            strcpy(g_message[i].timestamp, timeStm);
             strcpy(g_message[i].userId, username);
             strcpy(g_message[i].content, messageStr+50);
-            char timeStm[20];
-            strcpy(timeStm, messageStr);
+            
             break;
         }
     }
