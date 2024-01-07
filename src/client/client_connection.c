@@ -804,7 +804,6 @@ int main(int argc, char *argv[])
 }
 
 // features/////////////////////////////////////////////////////////////////////////////
-
 int handle_receive_message(const char *message, int len)
 {
     int status;
@@ -1134,6 +1133,7 @@ void in_login_done(const char *username)
     usleep(5000);
 }
 
+// redundant output features
 void out_login(const char *username, const char *password)
 {
     Parameters params;

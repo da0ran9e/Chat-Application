@@ -1,104 +1,76 @@
 #include "../../include/client/feature.h"
 
 #define PING_INTERVAL 500 // Interval in seconds for sending ping messages
-
 // Structure to pass arguments to the thread
-struct ThreadArgs {
+struct ThreadArgs
+{
     int clientSocket;
-    pthread_mutex_t threadMutex; // Mutex for synchronizing access to send method
+    pthread_mutex_t threadMutex;
 };
 
-// Function to send messages to the server
-void *sendThread(void *args) {
+void sendMessage(void *args, const char *buffer, int size)
+{
     struct ThreadArgs *threadArgs = (struct ThreadArgs *)args;
     int clientSocket = threadArgs->clientSocket;
-    char buffer[BUFFER];
 
-    while (1) {
-        int op;
-        int func;
-        Parameters params;
-        
-        printf("Enter Opcode: \n");
-        scanf("%d",&op);
-        printf("Enter Func: \n");
-        scanf("%d",&func);
-        printf("Enter param 1: \n");
-        scanf("%s", params.Param1);
-        printf("Enter param 2: \n");
-        scanf("%s", params.Param2);
-        printf("Enter param 3: \n");
-        scanf("%s", params.Param3);
+    pthread_mutex_lock(&threadArgs->threadMutex);
+    send(clientSocket, buffer, size, 0);
 
-        int len = generateMessage(op, func, params, buffer);
-
-        // // Get user input and send to the server
-        // printf("Enter message to send to the server: ");
-        // fgets(buffer, BUFFER, stdin);
-
-
-
-        // Send the message to the server
-        send(clientSocket, buffer, len, 0);
-    }
-
-    pthread_exit(NULL);
+    pthread_mutex_unlock(&threadArgs->threadMutex);
+    usleep(PING_INTERVAL * 3000);
 }
 
-// Function to receive messages from the server
-void *receiveThread(void *args) {
+int recvAndProcess(void *args)
+{
     struct ThreadArgs *threadArgs = (struct ThreadArgs *)args;
     int clientSocket = threadArgs->clientSocket;
     char buffer[BUFFER];
 
-    while (1) {
-        // Receive messages from the server
-        memset(buffer, 0, sizeof(buffer));
-        ssize_t bytesReceived = recv(clientSocket, buffer, BUFFER - 1, 0);
+    memset(buffer, 0, sizeof(buffer));
 
-        if (bytesReceived <= 0) {
-            // Connection closed or error, handle disconnect event
-            printf("Server disconnected.\n");
-            break;
-        }
+    ssize_t bytesReceived = recv(clientSocket, buffer, BUFFER - 1, 0);
 
-        // Process the received message
-        printf("Received message from server: %s\n", buffer);
-        handle_receive_message(buffer);
+    if (bytesReceived <= 0)
+    {
+        printf("Server disconnected.\n");
+    }
+
+    return handle_receive_message(buffer, bytesReceived);
+}
+
+// Function to send messages to the server
+void *sendThread(void *args)
+{
+    g_args = args;
+    char buffer[BUFFER];
+
+    while (1)
+    {
+        showFeatures();
     }
 
     pthread_exit(NULL);
 }
 
 // Function to send ping messages to the server
-void *sendPingMessages(void *args) {
-    struct ThreadArgs *threadArgs = (struct ThreadArgs *)args;
-    int clientSocket = threadArgs->clientSocket;
+void *sendPingMessages(void *args)
+{
     struct timeval startTime, endTime;
 
-    while (1) {
-        gettimeofday(&startTime, NULL);
-        // Send a ping message to the server
-        char pingMessage[BUFFER];
-        Parameters p;
-        int len = generateMessage(0, 0, p, pingMessage);
-
-        send(clientSocket, pingMessage, len, 0);
-
-        sleep(PING_INTERVAL);
-        gettimeofday(&endTime, NULL);
-        g_rtd = (endTime.tv_sec - startTime.tv_sec) * 1000000L +
-                                (endTime.tv_usec - startTime.tv_usec);
+    while (1)
+    {
     }
 
     pthread_exit(NULL);
 }
 
 void run_client(const char *address, const int port){
+    
     g_socket = -1;
     g_port = -1;
     g_rtd = 9999;
-    for (int i=0; i<MAX_CLIENTS; i++){
+    for (int i = 0; i < MAX_CLIENTS; i++)
+    {
         g_user[i][0] = '\0';
         g_rtds[i] = 9999;
         g_friend[i][0] = '\0';
@@ -107,31 +79,30 @@ void run_client(const char *address, const int port){
     strcpy(g_address, address);
     g_port = port;
     g_socket = initializeClient(g_address, g_port);
-    printf("run client sock: %d\n", g_socket);
+
     // Create thread arguments
     struct ThreadArgs *threadArgs = (struct ThreadArgs *)malloc(sizeof(struct ThreadArgs));
     threadArgs->clientSocket = clientSocket;
-    pthread_mutex_init(&threadArgs->threadMutex, NULL);
+    pthread_mutex_init(&threadArgs->threadMutex, NULL); // Initialize the mutex
 
     // Create threads for sending and receiving messages, and sending ping messages
-    pthread_t sendThreadID, receiveThreadID, pingThreadID;
+    pthread_t sendThreadID, pingThreadID;
     if (pthread_create(&sendThreadID, NULL, sendThread, (void *)threadArgs) != 0 ||
-        pthread_create(&receiveThreadID, NULL, receiveThread, (void *)threadArgs) != 0 ||
-        pthread_create(&pingThreadID, NULL, sendPingMessages, (void *)threadArgs) != 0) {
+        pthread_create(&pingThreadID, NULL, sendPingMessages, (void *)threadArgs) != 0)
+    {
         perror("Error creating threads");
-        printf("run close thread sock: %d\n", g_socket);
-        close(g_socket);
+        close(clientSocket);
         free(threadArgs);
         exit(EXIT_FAILURE);
     }
 
     // Wait for threads to finish
     pthread_join(sendThreadID, NULL);
-    pthread_join(receiveThreadID, NULL);
     pthread_join(pingThreadID, NULL);
+
     // Clean up and destroy the mutex
     pthread_mutex_destroy(&threadArgs->threadMutex);
-printf("run close sock: %d\n", g_socket);
-    close(g_socket);
+    close(clientSocket);
     free(threadArgs);
+
 }
