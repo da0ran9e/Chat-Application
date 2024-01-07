@@ -1,13 +1,5 @@
 #include "../../include/client/feature.h"
 
-#define PING_INTERVAL 500 // Interval in seconds for sending ping messages
-// Structure to pass arguments to the thread
-struct ThreadArgs
-{
-    int clientSocket;
-    pthread_mutex_t threadMutex;
-};
-
 void sendMessage(void *args, const char *buffer, int size)
 {
     struct ThreadArgs *threadArgs = (struct ThreadArgs *)args;

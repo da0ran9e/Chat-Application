@@ -1,7 +1,6 @@
 #ifndef FEATURE_H
 #define FEATURE_H
 
-#include "../shared/common.h"
 #include "../client/connection.h"
 
 #define MAX_CLIENTS 100

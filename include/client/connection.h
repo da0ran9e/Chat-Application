@@ -12,6 +12,8 @@
 #include <pthread.h>
 #include <sys/time.h>
 
+#include "../shared/common.h"
+
 #define BUFFER_SIZE 1024
 #define PING_INTERVAL 500 // Interval in seconds for sending ping messages
 
