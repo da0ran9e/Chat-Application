@@ -38,11 +38,14 @@ void getProtocolParameters(const char *payload, Parameters *parameters) {
     // printf("paramlen2: %d\n", paramLen2);
     // printf("paramlen3: %d\n", paramLen3);
     printf("Does it\n");
-    util_get_substring(payload, parameters->Param1, 4, paramLen1);
+    util_get_substring(payload, parameters->Param1, 4, paramLen1+1);
+    parameters->Param1[paramLen1] = '\0';
     printf("fuck up\n");
-    util_get_substring(payload, parameters->Param2, 8 + paramLen1, paramLen2);
+    util_get_substring(payload, parameters->Param2, 8 + paramLen1, paramLen2+1);
+    parameters->Param1[paramLen1] = '\0';
     printf("here\n");
-    util_get_substring(payload, parameters->Param3, 12 + paramLen1 + paramLen2, paramLen3);
+    util_get_substring(payload, parameters->Param3, 12 + paramLen1 + paramLen2, paramLen3+1);
+    parameters->Param1[paramLen1] = '\0';
     printf("or not?\n");
     }
 
