@@ -136,6 +136,28 @@ $$ LANGUAGE plpgsql;
 -- query to get friend list
 --SELECT * FROM get_friend_list('user1');
 
+-- Function to get the friend request list of a user
+CREATE OR REPLACE FUNCTION get_request_list(in_username VARCHAR(50))
+RETURNS SETOF VARCHAR(50) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT username
+    FROM account
+    WHERE user_id IN (
+        SELECT user2
+        FROM request
+        WHERE user1 = (SELECT user_id FROM account WHERE username = in_username)
+    )
+    OR user_id IN (
+        SELECT user1
+        FROM request
+        WHERE user2 = (SELECT user_id FROM account WHERE username = in_username)
+    );
+END;
+$$ LANGUAGE plpgsql;
+-- query to get friend request list
+--SELECT * FROM get_request_list('user5');
+
 -- Function to save friend request
 CREATE OR REPLACE FUNCTION friend_request(in_username1 VARCHAR(50), in_username2 VARCHAR(50))
 RETURNS INTEGER AS $$

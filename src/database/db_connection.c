@@ -74,6 +74,32 @@ int dbc_get_friendlist (const char * username, char (* friendList)[50]){
     database_exit(conn);
     return result;
 }
+int dbc_get_requestlist (const char * username, char (* requestList)[50]){
+    PGconn * conn = database_start ();
+    
+    int result = execute_get_request_list_query(conn, username, requestList);
+
+    database_exit(conn);
+    return result;
+}
+/*
+* dbc_add_friend
+*
+* [IN] param1: username[]
+* [IN] param2: friendname[]
+*
+* [OUT]: enum {DENY/ACCEPT}
+*/
+enum DBStatus dbc_request_friend (const char * username, const char * friendname){
+    PGconn * conn = database_start ();
+    
+    int result = execute_send_friend_query(conn, username, friendname);
+
+    database_exit(conn);
+
+    if(result == 0) return DENY;
+    else return ACCEPT;
+}
 
 /*
 * dbc_add_friend
