@@ -38,9 +38,9 @@ void getProtocolParameters(const char *payload, Parameters *parameters) {
     // printf("paramlen2: %d\n", paramLen2);
     // printf("paramlen3: %d\n", paramLen3);
 
-    sprintf(parameters->Param1, "%.*s\0", paramLen1, payload + 4);
-    sprintf(parameters->Param2, "%.*s\0", paramLen2, payload + (8 + paramLen1));
-    sprintf(parameters->Param3, "%.*s\0", paramLen3, payload + (12 + paramLen1 + paramLen2));
+    sprintf(parameters->Param1, "%.*s", paramLen1, payload + 4);
+    sprintf(parameters->Param2, "%.*s", paramLen2, payload + (8 + paramLen1));
+    sprintf(parameters->Param3, "%.*s", paramLen3, payload + (12 + paramLen1 + paramLen2));
     }
 
 int generateMessage(uint32_t op, uint32_t func, Parameters parameters, char * buffer){
