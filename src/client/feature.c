@@ -794,7 +794,7 @@ void in_conversation(const int roomId, const char *username, const char *message
             //util_get_substring(messageStr, cont, 50, strlen(messageStr) - 50);
             strcpy(g_message[i].timestamp, timeStm);
             strcpy(g_message[i].userId, username);
-            strcpy(g_message[i].content, messageStr+50);
+            strcpy(g_message[i].content, messageStr+51);
             
             break;
         }
