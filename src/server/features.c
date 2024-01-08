@@ -531,13 +531,13 @@ int feat_conversation(const int clientSock, const int roomId)
             for (int i = 0; i < count; i++)
             {
                 Parameters p;
-                char buffer1[51]; // store time stamp as the header of message part
+                char buffer1[50]; // store time stamp as the header of message part
                 char buffer[BUFFER];
                 Message m;
                 char readBuffer[BUFFER];
 
                 strcpy(buffer1, conv[i]);
-                for (int j = strlen(conv[i]) - 2; j < 51; j++)
+                for (int j = strlen(conv[i]); j < 51; j++)
                 {
                     buffer1[j] = '0'; // fill the rest of the header with 0
                 }
@@ -553,7 +553,7 @@ int feat_conversation(const int clientSock, const int roomId)
 
                 // printf("p user: %s\n", m.userId);
                 // printf("p content: %s\n", m.content);
-                sprintf(p.Param3, "%.*s%s", 50, buffer1, m.content);
+                sprintf(p.Param3, "%.*s%s", 51, buffer1, m.content);
 
                 int len = writeMessage(3, 0, p, buffer);
                 sendMessage(clientSock, buffer, len);
