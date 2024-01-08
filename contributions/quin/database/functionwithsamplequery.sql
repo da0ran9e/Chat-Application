@@ -136,6 +136,70 @@ $$ LANGUAGE plpgsql;
 -- query to get friend list
 --SELECT * FROM get_friend_list('user1');
 
+-- Function to get the friend request list of a user
+CREATE OR REPLACE FUNCTION get_request_list(in_username VARCHAR(50))
+RETURNS SETOF VARCHAR(50) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT username
+    FROM account
+    WHERE user_id IN (
+        SELECT user2
+        FROM request
+        WHERE user1 = (SELECT user_id FROM account WHERE username = in_username)
+    )
+    OR user_id IN (
+        SELECT user1
+        FROM request
+        WHERE user2 = (SELECT user_id FROM account WHERE username = in_username)
+    );
+END;
+$$ LANGUAGE plpgsql;
+-- query to get friend request list
+--SELECT * FROM get_request_list('user5');
+
+-- Function to save friend request
+CREATE OR REPLACE FUNCTION friend_request(in_username1 VARCHAR(50), in_username2 VARCHAR(50))
+RETURNS INTEGER AS $$
+DECLARE
+    user1_id INTEGER;
+    user2_id INTEGER;
+    request_exists BOOLEAN;
+    success INTEGER;
+BEGIN
+    -- Get user IDs
+    SELECT user_id INTO user1_id FROM account WHERE username = in_username1;
+    SELECT user_id INTO user2_id FROM account WHERE username = in_username2;
+
+    -- Check if both users exist
+    IF user1_id IS NOT NULL AND user2_id IS NOT NULL THEN
+        -- Check if the request already exists
+        SELECT EXISTS (
+            SELECT 1
+            FROM request
+            WHERE (user1 = user1_id AND user2 = user2_id) OR (user1 = user2_id AND user2 = user1_id)
+        ) INTO request_exists;
+
+        -- If the request doesn't exist, insert it
+        IF NOT request_exists THEN
+            INSERT INTO request (user1, user2)
+            VALUES (user1_id, user2_id);
+
+            GET DIAGNOSTICS success = ROW_COUNT;
+        ELSE
+            -- request already exists
+            success := 0;
+        END IF;
+    ELSE
+        -- Return 0 if either user doesn't exist
+        success := 0;
+    END IF;
+
+    RETURN success;
+END;
+$$ LANGUAGE plpgsql;
+-- SELECT friend_request('user14', 'user5') AS friend_request_status;
+
 
 -- Drop the old add_friend function
 DROP FUNCTION IF EXISTS add_friend(VARCHAR(50), VARCHAR(50));
@@ -146,6 +210,7 @@ DECLARE
     user1_id INTEGER;
     user2_id INTEGER;
     friendship_exists BOOLEAN;
+	request_exists BOOLEAN;
     success INTEGER;
 BEGIN
     -- Get user IDs
@@ -160,15 +225,26 @@ BEGIN
             FROM friendship
             WHERE (user1 = user1_id AND user2 = user2_id) OR (user1 = user2_id AND user2 = user1_id)
         ) INTO friendship_exists;
+		
+		SELECT EXISTS (
+            SELECT 1
+            FROM request
+            WHERE (user1 = user1_id AND user2 = user2_id) OR (user1 = user2_id AND user2 = user1_id)
+        ) INTO request_exists;
+		
+		IF request_exists THEN
+			DELETE FROM request
+			 WHERE (user1 = user1_id AND user2 = user2_id) OR (user1 = user2_id AND user2 = user1_id);
+		END IF;
 
-        -- If the friendship doesn't exist, insert it
-        IF NOT friendship_exists THEN
+        -- If there's a request and the friendship doesn't exist, insert it
+        IF request_exists AND NOT friendship_exists THEN
             INSERT INTO friendship (user1, user2)
             VALUES (user1_id, user2_id);
 
             GET DIAGNOSTICS success = ROW_COUNT;
         ELSE
-            -- Friendship already exists
+            -- Friendship already exists or no request
             success := 0;
         END IF;
     ELSE
@@ -182,7 +258,7 @@ $$ LANGUAGE plpgsql;
 -- query to add a friend
 --SELECT add_friend('user3', 'user4') AS add_friend_status;
 --SELECT add_friend('user4', 'user3') AS add_friend_status;
---SELECT add_friend('user5', 'user21') AS add_friend_status;
+--SELECT add_friend('user5', 'user14') AS add_friend_status;
 
 -- Function to delete a friend (remove a relationship)
 CREATE OR REPLACE FUNCTION delete_friend(in_username1 VARCHAR(50), in_username2 VARCHAR(50))

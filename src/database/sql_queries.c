@@ -88,6 +88,48 @@ int execute_get_friend_list_query(PGconn *conn, const char *username, char (*fri
     return rows;
 }
 
+int execute_get_request_list_query(PGconn *conn, const char *username, char (*requestlist)[50]) {
+    const char *query = "SELECT * FROM get_request_list($1)";
+    const char *paramValues[1] = {username};
+
+    // Execute the query
+    PGresult *result = PQexecParams(conn, query, 1, NULL, paramValues, NULL, NULL, 0);
+
+    // Check the result
+    check_result(result, conn);
+
+    // Process the result
+    int rows = PQntuples(result);
+    for (int i = 0; i < rows; ++i) {
+        strcpy(requestlist[i], PQgetvalue(result, i, 0));
+    }
+
+    // Free the result
+    PQclear(result);
+
+    return rows;
+}
+
+int execute_send_friend_query(PGconn *conn, const char *username1, const char *username2) {
+    const char *query = "SELECT friend_request($1, $2) AS friend_request_status";
+    const char *paramValues[2] = {username1, username2};
+
+    // Execute the query
+    PGresult *result = PQexecParams(conn, query, 2, NULL, paramValues, NULL, NULL, 0);
+
+    // Check the result
+    check_result(result, conn);
+
+    // Process the result
+    int sendFriendStatus = atoi(PQgetvalue(result, 0, 0));
+
+    // Free the result
+    PQclear(result);
+
+    return sendFriendStatus;
+}
+
+
 int execute_add_friend_query(PGconn *conn, const char *username1, const char *username2) {
     const char *query = "SELECT add_friend($1, $2) AS add_friend_status";
     const char *paramValues[2] = {username1, username2};

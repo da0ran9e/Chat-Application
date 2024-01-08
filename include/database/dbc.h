@@ -7,6 +7,8 @@ enum DBStatus   dbc_client_login        (const char * username, const char * pas
 enum DBStatus   dbc_client_register     (const char * username, const char * password);
 enum DBStatus   dbc_change_password     (const char * username, const char * oldpass, const char * newpass);
 int             dbc_get_friendlist      (const char * username, char (* friendList)[50]);
+int             dbc_get_requestlist     (const char * username, char (* requestList)[50]);
+enum DBStatus   dbc_request_friend      (const char * username, const char * friendname);
 enum DBStatus   dbc_add_friend          (const char * username, const char * friendname);
 enum DBStatus   dbc_delete_friend       (const char * username1, const char * username2);
 int             dbc_get_roomlist        (const char * username, Room * roomList);
