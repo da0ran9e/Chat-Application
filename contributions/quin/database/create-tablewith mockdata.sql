@@ -45,6 +45,15 @@ CREATE TABLE message
   FOREIGN KEY (user_id, room_id) REFERENCES member_in_room(user_id, room_id) 
 );
 
+CREATE TABLE request
+(
+  user1 INT NOT NULL,
+  user2 INT NOT NULL,
+  PRIMARY KEY (user1, user2),
+  FOREIGN KEY (user1) REFERENCES account(user_id) ON DELETE CASCADE,
+  FOREIGN KEY (user2) REFERENCES account(user_id) ON DELETE CASCADE
+);
+
 -- Insert mock data into the account table
 INSERT INTO account (username, password) VALUES
   ('user1', 'password1'),
