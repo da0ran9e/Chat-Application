@@ -537,7 +537,7 @@ int feat_conversation(const int clientSock, const int roomId)
                 char readBuffer[BUFFER];
 
                 strcpy(buffer1, conv[i]);
-                for (int j = strlen(conv[i]) - 1; j < 50; j++)
+                for (int j = strlen(conv[i]) - 2; j < 50; j++)
                 {
                     buffer1[j] = '0'; // fill the rest of the header with 0
                 }
@@ -553,7 +553,7 @@ int feat_conversation(const int clientSock, const int roomId)
 
                 // printf("p user: %s\n", m.userId);
                 // printf("p content: %s\n", m.content);
-                sprintf(p.Param3, "%s%s", buffer1, m.content);
+                sprintf(p.Param3, "%.*s%s", 50, buffer1, m.content);
 
                 int len = writeMessage(3, 0, p, buffer);
                 sendMessage(clientSock, buffer, len);
