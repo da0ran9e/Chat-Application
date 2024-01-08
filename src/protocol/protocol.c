@@ -37,11 +37,14 @@ void getProtocolParameters(const char *payload, Parameters *parameters) {
     // printf("paramlen1: %d\n", paramLen1);
     // printf("paramlen2: %d\n", paramLen2);
     // printf("paramlen3: %d\n", paramLen3);
-
+    printf("Does it\n");
     util_get_substring(payload, parameters->Param1, 4, paramLen1);
+    printf("fuck up\n");
     util_get_substring(payload, parameters->Param2, 8 + paramLen1, paramLen2);
+    printf("here\n");
     util_get_substring(payload, parameters->Param3, 12 + paramLen1 + paramLen2, paramLen3);
-}
+    printf("or not?\n");
+    }
 
 int generateMessage(uint32_t op, uint32_t func, Parameters parameters, char * buffer){
     int len1 = strlen(parameters.Param1);
