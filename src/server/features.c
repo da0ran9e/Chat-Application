@@ -543,16 +543,17 @@ int feat_conversation(const int clientSock, const int roomId)
                 }
                 res = s_conv_get_message(roomId, conv[i], &m);
 
-                strcat(buffer, buffer1);
-                strcat(buffer, m.content);
+                // strcat(buffer, buffer1);
+                // strcat(buffer, m.content);
 
                 // printf("util int to str: %s\n",util_int_to_str(roomId));
                 strcpy(p.Param1, util_int_to_str(roomId));
                 strcpy(p.Param2, m.userId);
-                strcpy(p.Param3, buffer);
+                // strcpy(p.Param3, buffer);
 
-                printf("p user: %s\n", m.userId);
-                printf("p content: %s\n", m.content);
+                // printf("p user: %s\n", m.userId);
+                // printf("p content: %s\n", m.content);
+                sprintf(p.Param3, "%s%s", buffer1, m.content);
 
                 int len = writeMessage(3, 0, p, buffer);
                 sendMessage(clientSock, buffer, len);
