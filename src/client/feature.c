@@ -16,6 +16,9 @@ void *g_args;
 
 void sendMessage(void *args, const char *buffer, int size)
 {
+    printf("Send: ");
+    printCode(buffer, size);
+
     struct ThreadArgs *threadArgs = (struct ThreadArgs *)args;
     int clientSocket = threadArgs->clientSocket;
 
@@ -35,6 +38,10 @@ int recvAndProcess(void *args)
     memset(buffer, 0, sizeof(buffer));
 
     ssize_t bytesReceived = recv(clientSocket, buffer, BUFFER - 1, 0);
+    buffer[bytesReceived] = '\0';
+
+    printf("Received: ");
+    printCode(buffer, bytesReceived+1);
 
     if (bytesReceived <= 0)
     {
