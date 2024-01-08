@@ -402,7 +402,6 @@ int feat_room_members(const int clientSock, const int roomId)
         // serialize message
         for (int i = 0; i < count; i++)
         {
-            printf("people: %s at %d\n", peopleList[i], roomId);
             Parameters p;
             char readBuffer[BUFFER];
             char buffer[BUFFER];
@@ -516,7 +515,6 @@ int feat_conversation(const int clientSock, const int roomId)
     int count;
     char conv[100][50];
     int res = s_conv_get_conversation(roomId, NULL, conv, &count);
-    printf("res: %d, count: %d\n", res, count);
     if (res == 203)
     {
 
@@ -698,7 +696,7 @@ void *handleClient(void *args)
         // readMessage(buffer, sizeof(buffer), p);
         handle_features(clientSocket, op, func, params);
 
-        sendMessage(clientSocket, buffer, bytesReceived); // Echo the message back to the client
+        //sendMessage(clientSocket, buffer, bytesReceived); // Echo the message back to the client
     }
     for (int i = 0; i < MAX_CLIENTS; i++)
     {

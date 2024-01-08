@@ -4,7 +4,20 @@
 #include "../shared/common.h"
 #include "../client/connection.h"
 
-#define MAX_CLIENTS 100
+#define PING_INTERVAL 500 // Interval in seconds for sending ping messages
+
+// Structure to pass arguments to the thread
+struct ThreadArgs
+{
+    int clientSocket;
+    pthread_mutex_t threadMutex;
+};
+
+typedef struct RoomMember{
+    int roomId;
+    char memName[50];
+    //memName[0] = '\0';
+} RoomMember;
 
 enum RequestEvent {
     REQ_PING            = 00,
@@ -23,25 +36,7 @@ enum RequestEvent {
     REQ_MESSAGE         = 13,
 };
 
-typedef struct RoomMember{
-    int roomId;
-    char memName[50];
-    //memName[0] = '\0';
-} RoomMember;
-
-int g_socket;
-char g_address[15];
-int g_port;
-int g_rtd;
-char g_user[MAX_CLIENTS][50];
-int g_rtds[MAX_CLIENTS];
-char g_friend[MAX_CLIENTS][50];
-Room g_rooms[MAX_CLIENTS];
-Message g_message[BUFFER];
-RoomMember g_room_member[10000];
-
-int handle_send_message(enum RequestEvent request, const Parameters params, char * message);
-int handle_receive_message(const char * messsge);
+int handle_receive_message(const char *message, int len);
 void in_online_list(const char * username, const int rtd);
 void in_friend_list(const char * username);
 void in_room_list(const int roomId, const char * roomName);
@@ -49,20 +44,25 @@ void in_member_list(const char * member, const int roomId);
 void in_conversation(const int roomId, const char * timestamp, const char * username);
 void in_message(const int roomId, const char * timestamp, const char * message);
 void in_login_done(const char * username);
-void out_login(const char * username, const char * password);
-void out_register(const char * username, const char * password);
-void out_change_password(const char * username, const char * oldpass, const char * newpass);
-void out_get_friend_list();
-void out_sent_friend_request(const char * username, const char * friendname);
-void out_sent_friend_response(const char * username, const char * friendname);
-void out_get_room_list(const char * username);
-void out_get_room_members(const int roomId);
-void out_create_room(const char * roomName, const char * username);
-void out_add_member(const int roomId, const char * username);
-void out_remove_member(const int roomId, const char * username);
-void out_get_conversation(const int roomId);
+void showFeatures();
+void c_online();
+void c_login();
+void c_register();
+void c_change_pass();
+void c_friend_list();
+void c_send_friend_request();
+void c_response_friend_request();
+void c_rooms();
+void c_members();
+void c_create();
+void c_add_member();
+void c_remove_member();
+void c_conversation();
+void c_chat();
+
+void sendMessage(void *args, const char *buffer, int size);
+int recvAndProcess(void *args);
 void *sendThread(void *args);
-void *receiveThread(void *args);
 void *sendPingMessages(void *args);
 void run_client(const char *clientIP, const int clientPort);
 

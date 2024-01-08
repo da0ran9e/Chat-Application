@@ -1,5 +1,12 @@
 #include "../../include/server/connection.h"
 
+void printCodes(const char * binaryStr, size_t size){
+    for (size_t i = 0; i < size; i++) {
+        printf("\\x%02X", (unsigned char)binaryStr[i]);
+    }
+    printf("\n");
+}
+
 ssize_t receiveMessage(int clientSocket, char *buffer) {
     ssize_t bytesRead = recv(clientSocket, buffer, BUFFER - 1, 0);
     if (bytesRead <= 0) {
@@ -7,12 +14,15 @@ ssize_t receiveMessage(int clientSocket, char *buffer) {
         return -1;
     }
     buffer[bytesRead] = '\0'; // end message
-    printf("Received message from client %d: %s\n", clientSocket, buffer);
+    printf("Received: ");
+    printCodes(buffer, bytesRead);
 
     return bytesRead;
 }
 
 ssize_t sendMessage(int clientSocket, const void *message, size_t len) {
+    printf("Send: ");
+    printCodes(message, len);
     size_t totalSent = 0;
     while (totalSent < len) {
         ssize_t sent = send(clientSocket, message + totalSent, len - totalSent, 0);

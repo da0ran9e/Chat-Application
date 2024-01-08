@@ -10,5 +10,5 @@ int main(int argc, char *argv[]){
 
     run_client(clientIP,clientPort);
 
-    //out_login("username", "password");
+    void showFeatures();
 }

@@ -13,6 +13,7 @@
 #include <sys/time.h>
 
 #define BUFFER_SIZE 1024
+#define MAX_CLIENTS 100
 
 int initializeClient(const char *address, int port);
 ssize_t send_message(int clientSocket, char *message, int len);

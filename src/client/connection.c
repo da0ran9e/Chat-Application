@@ -1,7 +1,7 @@
 #include "../../include/client/connection.h"
 
 
-int initializeClient(const char *address, int port) {
+int initializeClient(const char *address, const int port) {
     int clientSocket;
     struct sockaddr_in serverAddr;
 

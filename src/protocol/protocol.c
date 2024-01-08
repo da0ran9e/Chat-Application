@@ -12,6 +12,7 @@ void printCode(const char * binaryStr, size_t size){
     for (size_t i = 0; i < size; i++) {
         printf("\\x%02X", (unsigned char)binaryStr[i]);
     }
+    printf("\n");
 }
 
 uint32_t getProtocolFunctionCode (const char *message){
@@ -37,18 +38,18 @@ void getProtocolParameters(const char *payload, Parameters *parameters) {
     // printf("paramlen2: %d\n", paramLen2);
     // printf("paramlen3: %d\n", paramLen3);
 
-    util_get_substring(payload, parameters->Param1, 4, paramLen1);
-    util_get_substring(payload, parameters->Param2, 8 + paramLen1, paramLen2);
-    util_get_substring(payload, parameters->Param3, 12 + paramLen1 + paramLen2, paramLen3);
-}
+    sprintf(parameters->Param1, "%.*s\0", paramLen1, payload + 4);
+    sprintf(parameters->Param2, "%.*s\0", paramLen2, payload + (8 + paramLen1));
+    sprintf(parameters->Param3, "%.*s\0", paramLen3, payload + (12 + paramLen1 + paramLen2));
+    }
 
 int generateMessage(uint32_t op, uint32_t func, Parameters parameters, char * buffer){
     int len1 = strlen(parameters.Param1);
     int len2 = strlen(parameters.Param2);
     int len3 = strlen(parameters.Param3);
-    printf("len1: %d\n", len1);
-    printf("len2: %d\n", len2);
-    printf("len3: %d\n", len3);
+    // printf("len1: %d\n", len1);
+    // printf("len2: %d\n", len2);
+    // printf("len3: %d\n", len3);
 
     printf("Param1: %s\n", parameters.Param1);
     printf("Param2: %s\n", parameters.Param2);
@@ -65,8 +66,8 @@ int generateMessage(uint32_t op, uint32_t func, Parameters parameters, char * bu
     memcpy(buffer+16+len1+len2, (uint32_t*)&len3, sizeof(uint32_t));
     memcpy(buffer+20+len1+len2, parameters.Param3, len3*sizeof(uint32_t));
     buffer[bufferSize] = '\0';
-    printf("buffer generate message: ");
-    printCode(buffer, bufferSize);
+    // printf("buffer generate message: ");
+    // printCode(buffer, bufferSize);
     return bufferSize;
 }
 
