@@ -1,5 +1,13 @@
 #include "../../include/server/connection.h"
 
+void printCode(const char * binaryStr, size_t size){
+    printf("Binary String: ");
+    for (size_t i = 0; i < size; i++) {
+        printf("\\x%02X", (unsigned char)binaryStr[i]);
+    }
+    printf("\n");
+}
+
 ssize_t receiveMessage(int clientSocket, char *buffer) {
     ssize_t bytesRead = recv(clientSocket, buffer, BUFFER - 1, 0);
     if (bytesRead <= 0) {
