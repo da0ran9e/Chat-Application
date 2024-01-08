@@ -1,7 +1,6 @@
 #include "../../include/server/connection.h"
 
-void printCode(const char * binaryStr, size_t size){
-    printf("Binary String: ");
+void printCodes(const char * binaryStr, size_t size){
     for (size_t i = 0; i < size; i++) {
         printf("\\x%02X", (unsigned char)binaryStr[i]);
     }
@@ -16,14 +15,14 @@ ssize_t receiveMessage(int clientSocket, char *buffer) {
     }
     buffer[bytesRead] = '\0'; // end message
     printf("Received: ");
-    printCode(buffer, bytesRead);
+    printCodes(buffer, bytesRead);
 
     return bytesRead;
 }
 
 ssize_t sendMessage(int clientSocket, const void *message, size_t len) {
     printf("Send: ");
-    printCode(message, len);
+    printCodes(message, len);
     size_t totalSent = 0;
     while (totalSent < len) {
         ssize_t sent = send(clientSocket, message + totalSent, len - totalSent, 0);
