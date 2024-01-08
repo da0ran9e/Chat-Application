@@ -7,12 +7,15 @@ ssize_t receiveMessage(int clientSocket, char *buffer) {
         return -1;
     }
     buffer[bytesRead] = '\0'; // end message
-    printf("Received message from client %d: %s\n", clientSocket, buffer);
+    printf("Received: ");
+    printCode(buffer, bytesRead);
 
     return bytesRead;
 }
 
 ssize_t sendMessage(int clientSocket, const void *message, size_t len) {
+    printf("Send: ");
+    printCode(message, len);
     size_t totalSent = 0;
     while (totalSent < len) {
         ssize_t sent = send(clientSocket, message + totalSent, len - totalSent, 0);
