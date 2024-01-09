@@ -133,7 +133,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmdLine,
 #else
 int main() {
 #endif
-  const char* filenames[] = {"auth.cui", "tailwind.cui"}; // Replace with your file names
+  const char* filenames[] = {"src/auth.cui", "src/tailwind.cui"}; // Replace with your file names
   int numFiles = sizeof(filenames) / sizeof(filenames[0]);
 
   const char* concatenatedContent = concatenateFiles(filenames, numFiles);
