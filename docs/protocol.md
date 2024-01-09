@@ -14,6 +14,7 @@
 | 1 | 0 | None | Get Friend List |
 | 1 | 1 | ["username", "destination", "timeout"] | Send Friend Request |
 | 1 | 2 | ["destination", "username", "response"] | Response to Request |
+| 1 | 3 | None | Get Request List |
 | 2 | 0 | ["username"] | Get Room List |
 | 2 | 1 | ["room_id"] | Get member list |
 | 2 | 2 | ["room_name, "admin username"] | Create Room |

@@ -59,15 +59,16 @@ void showFeatures()
     printf("\t2. Register\n");
     printf("\t3. Change password\n");
     printf("\t4. Friend list\n");
-    printf("\t5. Send friend request\n");
-    printf("\t6. Response friend request\n");
-    printf("\t7. Room list\n");
-    printf("\t8. See members of room\n");
-    printf("\t9. Create room\n");
-    printf("\t10. Add user to room\n");
-    printf("\t11. Remove a member\n");
-    printf("\t12. Conversation\n");
-    printf("\t13. Send message\n");
+    printf("\t5. Request list\n");
+    printf("\t6. Send friend request\n");
+    printf("\t7. Response friend request\n");
+    printf("\t8. Room list\n");
+    printf("\t9. See members of room\n");
+    printf("\t10. Create room\n");
+    printf("\t11. Add user to room\n");
+    printf("\t12. Remove a member\n");
+    printf("\t13. Conversation\n");
+    printf("\t14. Send message\n");
 
     int choose;
     scanf("%d", &choose);
@@ -88,30 +89,33 @@ void showFeatures()
         c_friend_list();
         break;
     case 5:
+        c_request_list();
+        break; 
+    case 6:
         c_send_friend_request();
         break;
-    case 6:
+    case 7:
         c_response_friend_request();
         break;
-    case 7:
+    case 8:
         c_rooms();
         break;
-    case 8:
+    case 9:
         c_members();
         break;
-    case 9:
+    case 10:
         c_create();
         break;
-    case 10:
+    case 11:
         c_add_member();
         break;
-    case 11:
+    case 12:
         c_remove_member();
         break;
-    case 12:
+    case 13:
         c_conversation();
         break;
-    case 13:
+    case 14:
         c_chat();
         break;
     default:
@@ -256,6 +260,30 @@ void c_friend_list()
     }
 }
 
+void c_request_list()
+{
+    printf("\t---------------Requests---------------\n");
+    Parameters params;
+    char buffer[BUFFER];
+
+    strcpy(params.Param1, "\0");
+    strcpy(params.Param2, "\0");
+    strcpy(params.Param3, "\0");
+
+    int len = generateMessage(1, 3, params, buffer);
+    sendMessage(g_args, buffer, len);
+
+    int res = recvAndProcess(g_args);
+    if (res == 201)
+        printf("Get friend successfully!\n");
+    else if (res == 301)
+        printf("Please login first!\n");
+    else
+    {
+        printf("Connection lost!\n");
+    }
+}
+
 void c_send_friend_request()
 {
     printf("\t---------------Send Addfriend request---------------\n");
@@ -275,8 +303,8 @@ void c_send_friend_request()
     int res = recvAndProcess(g_args);
     if (res == 211)
         printf("Request sent!\n");
-    else if (res == 311)
-        printf("User: %s is not online!\n", params.Param2);
+    //else if (res == 311)
+    //    printf("User: %s is not online!\n", params.Param2);
     else
     {
         printf("Connection lost!\n");
@@ -578,6 +606,7 @@ int handle_receive_message(const char *message, int len)
         else
         {
             status = 211;
+            printf("Request sent!");
         }
         break;
     case 21:
@@ -592,6 +621,25 @@ int handle_receive_message(const char *message, int len)
         else
         {
             status = 121;
+        }
+        break;
+    case 31:
+        if (!strcmp(params.Param1, "error"))
+        {
+            status = 301;
+        }
+        else
+        {
+            status = 201;
+            if (params.Param1[0] == '\0')
+            {
+                printf("\t-------------Friend Request list-------------\n\tUsername:\n");
+                break;
+            }
+
+            in_request_list(params.Param1);
+            int res = recvAndProcess(g_args);
+            printf("\t\t%s\n", params.Param1);
         }
         break;
     case 02:
@@ -737,6 +785,25 @@ void in_friend_list(const char *username)
     strcpy(params.Param2, "\0");
     strcpy(params.Param3, "\0");
     int len = generateMessage(1, 0, params, buffer);
+    sendMessage(g_args, buffer, len);
+}
+
+void in_request_list(const char *username)
+{
+    for (int i = 0; i < MAX_CLIENTS; i++)
+    {
+        if (g_friend[i][0] != '\0')
+        {
+            strcpy(g_friend[i], username);
+            printf("Request: %s\n", username);
+        }
+    }
+    char buffer[BUFFER];
+    Parameters params;
+    strcpy(params.Param1, "\0");
+    strcpy(params.Param2, "\0");
+    strcpy(params.Param3, "\0");
+    int len = generateMessage(1, 3, params, buffer);
     sendMessage(g_args, buffer, len);
 }
 

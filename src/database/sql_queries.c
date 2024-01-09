@@ -102,6 +102,7 @@ int execute_get_request_list_query(PGconn *conn, const char *username, char (*re
     int rows = PQntuples(result);
     for (int i = 0; i < rows; ++i) {
         strcpy(requestlist[i], PQgetvalue(result, i, 0));
+        printf("request: %s\n", requestlist[i]);
     }
 
     // Free the result

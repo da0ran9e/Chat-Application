@@ -11,6 +11,7 @@ int feat_login (const int clientSock, const char * username, const char * passwo
 int feat_register (const int clientSock, const char * username, const char * password);
 int feat_change_password (const int clientSock, const char *username, const char * oldpass, const char * newpass);
 int feat_friend_list (const int clientSock);
+int feat_request_list (const int clientSock);
 int feat_request_friend (int clientSock, const char * username, const char * destination);
 int feat_response_request (int clientSock, const char * username, const char * destination, const char * response);
 int feat_room_list (const int clientSock, const char * username);
@@ -35,6 +36,8 @@ int s_conv_get_conversation (const int roomId, const char *timestamp, char (* me
 int s_conv_get_message(const int roomId, const char * timestamp, Message *message);
 int s_conv_new_message (const char *username, const int roomId, const char *message);
 int s_rela_friend_list (const char * username, char (* friendlist)[50], int *count);
+int s_rela_request_list (const char * username, char (* requestlist)[50], int *count);
+int s_rela_sendrequest(const char * username, const char * destination);
 int s_rela_addfriendship(const char * username, const char * destination, int *room);
 int s_room_list (const char *username, Room * roomList, int *count);
 int s_room_members (const int roomId, char (* peopleList)[50], int *count);
