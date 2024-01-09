@@ -144,11 +144,6 @@ BEGIN
     SELECT username
     FROM account
     WHERE user_id IN (
-        SELECT user2
-        FROM request
-        WHERE user1 = (SELECT user_id FROM account WHERE username = in_username)
-    )
-    OR user_id IN (
         SELECT user1
         FROM request
         WHERE user2 = (SELECT user_id FROM account WHERE username = in_username)
@@ -156,7 +151,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 -- query to get friend request list
---SELECT * FROM get_request_list('user5');
+--SELECT * FROM get_request_list('user20');
 
 -- Function to save friend request
 CREATE OR REPLACE FUNCTION friend_request(in_username1 VARCHAR(50), in_username2 VARCHAR(50))

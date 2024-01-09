@@ -10,6 +10,12 @@ int s_rela_friend_list (const char * username, char( * friendlist)[50], int *cou
     else return 101;
 }
 
+int s_rela_request_list (const char * username, char( * requestlist)[50], int *count){
+    *count = dbc_get_requestlist(username, requestlist);
+    if (count > 0) return 201;
+    else return 101;
+}
+
 /*
 * 211: success
 * 111: fail
@@ -20,6 +26,22 @@ int s_rela_addfriendship(const char * username, const char * destination, int *r
     {
     case ACCEPT:
         *room = dbc_create_private_room(username, destination);
+        return 211;
+        break;
+    case DENY:
+        return 111;
+        break;
+    default:
+        return 411;
+        break;
+    }
+}
+
+
+int s_rela_sendrequest(const char * username, const char * destination){
+    switch (dbc_request_friend(username, destination))
+    {
+    case ACCEPT:
         return 211;
         break;
     case DENY:
