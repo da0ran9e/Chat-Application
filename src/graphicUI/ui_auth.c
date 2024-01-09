@@ -123,16 +123,7 @@ void u_login(const char *seq, const char *req, void *arg) {
   }
 }
 
-#ifdef _WIN32
-int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmdLine,
-                   int nCmdShow) {
-  (void)hInst;
-  (void)hPrevInst;
-  (void)lpCmdLine;
-  (void)nCmdShow;
-#else
 int main() {
-#endif
   const char* filenames[] = {"src/auth.cui", "src/tailwind.cui"}; // Replace with your file names
   int numFiles = sizeof(filenames) / sizeof(filenames[0]);
 
@@ -143,11 +134,7 @@ int main() {
   webview_set_title(w, "Authentication");
   webview_set_size(w, 700, 500, WEBVIEW_HINT_NONE);
 
-  // A binding that increments a value and immediately returns the new value.
-  webview_bind(w, "increment", increment, &context);
-
-  // An binding that creates a new thread and returns the result at a later time.
-  webview_bind(w, "compute", compute, &context);
+  webview_bind(w, "u_login", login, &context);
 
   webview_set_html(w, concatenatedContent);
   webview_run(w);
