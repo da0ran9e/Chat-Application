@@ -34,6 +34,8 @@ int handle_features(const int userSock, int op, int func, const Parameters param
     case 21:
         result = feat_response_request(userSock, params.Param1, params.Param2, params.Param3);
         break;
+    case 31:
+        result = feat_request_list(userSock);
     case 2:
         result = feat_room_list(userSock, params.Param1);
         break;
@@ -261,10 +263,76 @@ int feat_friend_list(const int clientSock)
     return res;
 }
 
+
+// get request list
+int feat_request_list(const int clientSock)
+{
+    char username[50];
+    char requestList[MAX_CLIENTS][50];
+    int count;
+    // get username
+    for (int i = 0; i < MAX_CLIENTS; i++)
+    {
+        if (g_clientSockets[i] == clientSock)
+        {
+            strcpy(username, g_clientNames[i]);
+        }
+    }
+    printf("username: %s\n", username);
+    int res = s_rela_request_list(username, requestList, &count);
+    printf("request res: %d\n", res);
+    printf("request count: %d\n", count);
+    // response to client
+    if (res == 201)
+    {
+        for (int i = 0; i < count; i++)
+        {
+
+            printf("%s\n", requestList[i]);
+            // serialize message
+            Parameters p;
+            char readBuffer[BUFFER];
+            strcpy(p.Param1, requestList[i]);
+            strcpy(p.Param2, "9999");
+            if (!strcmp(requestList[i], g_clientNames[i]))
+            {
+                strcpy(p.Param2, util_int_to_str(g_rtds[i]));
+            }
+            char buffer[BUFFER];
+            int len = writeMessage(1, 3, p, buffer);
+
+            // send
+            int sent = sendMessage(clientSock, buffer, len);
+
+            if (receiveMessage(clientSock, readBuffer) <= 0)
+                break;
+        }
+        Parameters p;
+        p.Param1[0] = '\0';
+        p.Param2[0] = '\0';
+        p.Param3[0] = '\0';
+        char buffer[BUFFER];
+        int len = generateMessage(1, 3, p, buffer);
+        sendMessage(clientSock, buffer, len);
+    }
+    else
+    {
+        printf("people not found!\n");
+        // sent response
+        Parameters p;
+        char message[BUFFER];
+        strcpy(p.Param1, "error");
+        int len = writeMessage(1, 3, p, message);
+        sendMessage(clientSock, message, len);
+    }
+    return res;
+}
+
+
 // request
 int feat_request_friend(int clientSock, const char *username, const char *destination)
 {
-    // get destination socket
+    /*// get destination socket
     int destSock = -1;
     for (int i = 0; i < MAX_CLIENTS; i++)
     {
@@ -273,6 +341,7 @@ int feat_request_friend(int clientSock, const char *username, const char *destin
             destSock = g_clientSockets[i];
         }
     }
+    
     if (destSock != -1)
     {
         printf("found destination user at socket %d\n", destSock);
@@ -292,7 +361,28 @@ int feat_request_friend(int clientSock, const char *username, const char *destin
         int len = writeMessage(1, 1, p, message);
         sendMessage(clientSock, message, len);
     }
-    return destSock;
+    */
+
+        int res = s_rela_sendrequest(username, destination);
+        if (res == 211)
+    {
+        // sent response
+        Parameters p;
+        char message[BUFFER];
+        strcpy(p.Param1, "success");
+        int len = writeMessage(1, 1, p, message);
+        sendMessage(clientSock, message, len);
+    }
+    else
+    {
+        // sent response
+        Parameters p;
+        char message[BUFFER];
+        strcpy(p.Param1, "error");
+        int len = writeMessage(1, 1, p, message);
+        sendMessage(clientSock, message, len);
+    }
+    return res;
 }
 
 // response friend request

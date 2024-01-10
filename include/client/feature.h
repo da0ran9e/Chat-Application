@@ -39,6 +39,7 @@ enum RequestEvent {
 int handle_receive_message(const char *message, int len);
 void in_online_list(const char * username, const int rtd);
 void in_friend_list(const char * username);
+void in_request_list(const char * username);
 void in_room_list(const int roomId, const char * roomName);
 void in_member_list(const char * member, const int roomId);
 void in_conversation(const int roomId, const char * timestamp, const char * username);
@@ -50,6 +51,7 @@ void c_login();
 void c_register();
 void c_change_pass();
 void c_friend_list();
+void c_request_list();
 void c_send_friend_request();
 void c_response_friend_request();
 void c_rooms();
