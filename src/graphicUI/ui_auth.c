@@ -138,6 +138,7 @@ void *login_thread_proc(void *arg) {
   parseReq(params->req, params);
   int count = parseReq(req, params);
 
+    printf("Input: %s", params->req)
     printf("Number of parameters: %d\n", count);
     for (int i = 0; i < count; i++) {
         printf("Parameter %d: %s\n", i + 1, params[i]);
