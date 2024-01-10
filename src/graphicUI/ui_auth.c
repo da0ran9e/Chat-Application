@@ -131,7 +131,7 @@ int main() {
   webview_set_title(w, "Authentication");
   webview_set_size(w, 700, 500, WEBVIEW_HINT_NONE);
 
-  webview_bind(w, "u_login", login, &context);
+  webview_bind(w, "login", u_login, &context);
 
   webview_set_html(w, concatenatedContent);
   webview_run(w);
