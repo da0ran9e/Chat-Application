@@ -212,17 +212,17 @@
         username = document.getElementById("username").value;
         password = document.getElementById("password").value;
         window.u_login(username, password).then(result => {
-            document.getElementById("tester").innerHTML = result.count;
+            document.getElementById("tester").innerHTML = result;
         });
 
-        // window.u_login(username, password).then(result =>{
-        //     if(result == "1") {
-        //         document.getElementById("loginbtn").innerHTML = "login done"
-        //     }
-        //     else{
-        //         document.getElementById("loginbtn").innerHTML = "login false"
-        //     }
-        // })
+        window.u_login(username, password).then(result =>{
+            if(result == "1") {
+                document.getElementById("loginbtn").innerHTML = "login done"
+            }
+            else{
+                document.getElementById("loginbtn").innerHTML = "login false"
+            }
+        })
     }
 
     function register(){

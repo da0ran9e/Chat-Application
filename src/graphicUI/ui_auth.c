@@ -99,7 +99,7 @@ void u_login(const char *seq, const char *req, void *arg) {
         printf("Parameter %d: %s\n", i + 1, p[i]);
     }
 
-  webview_return(context->w, seq, 0, "0");
+  webview_return(context->w, seq, 0, "OK");
 }
 
 int main() {
