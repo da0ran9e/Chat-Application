@@ -77,64 +77,54 @@ const char* concatenateFiles(const char* filenames[], int numFiles) {
     return concatenatedContent;
 }
 
+typedef struct {
+    char *username;
+    char *password;
+} UserInfo;
+
 // Function to parse username and password from the given format
-char** parseCredentials(const char* input) {
-    // Check for null input
-    if (input == NULL) {
-        fprintf(stderr, "Error: Null input\n");
-        return NULL;
+UserInfo parseUserInfo(const char *input) {
+    UserInfo userInfo = {NULL, NULL};
+
+    // Find the first occurrence of double quotes
+    const char *firstQuote = strchr(input, '"');
+    if (firstQuote == NULL) {
+        fprintf(stderr, "Invalid input format\n");
+        return userInfo;
     }
 
-    // Check for the correct format
-    if (input[0] != '[' || input[strlen(input) - 1] != ']') {
-        fprintf(stderr, "Error: Invalid format\n");
-        return NULL;
+    // Find the second occurrence of double quotes
+    const char *secondQuote = strchr(firstQuote + 1, '"');
+    if (secondQuote == NULL) {
+        fprintf(stderr, "Invalid input format\n");
+        return userInfo;
     }
 
-    // Count the number of pairs
-    int numPairs = 1;
-    for (int i = 0; input[i] != '\0'; ++i) {
-        if (input[i] == ',' && input[i + 1] == '"') {
-            numPairs++;
-        }
+    // Calculate the length of the username
+    size_t usernameLength = secondQuote - firstQuote - 1;
+
+    // Allocate memory for the username and copy the content
+    userInfo.username = (char *)malloc(usernameLength + 1);
+    strncpy(userInfo.username, firstQuote + 1, usernameLength);
+    userInfo.username[usernameLength] = '\0';
+
+    // Find the third occurrence of double quotes
+    const char *thirdQuote = strchr(secondQuote + 1, '"');
+    if (thirdQuote == NULL) {
+        fprintf(stderr, "Invalid input format\n");
+        free(userInfo.username);
+        return userInfo;
     }
 
-    // Allocate memory for the 2D array
-    char** credentials = (char**)malloc(numPairs * sizeof(char*));
-    if (credentials == NULL) {
-        perror("Memory allocation error");
-        return NULL;
-    }
+    // Calculate the length of the password
+    size_t passwordLength = thirdQuote - secondQuote - 1;
 
-    // Initialize each element to NULL
-    for (int i = 0; i < numPairs; ++i) {
-        credentials[i] = NULL;
-    }
+    // Allocate memory for the password and copy the content
+    userInfo.password = (char *)malloc(passwordLength + 1);
+    strncpy(userInfo.password, secondQuote + 1, passwordLength);
+    userInfo.password[passwordLength] = '\0';
 
-    // Parse the input and fill the 2D array
-    int pairIndex = 0;
-    for (int i = 1; input[i] != '\0' && input[i] != ']'; ++i) {
-        if (input[i] == '"' && input[i + 1] == '"') {
-            // Skip double quotes
-            i++;
-        } else if (input[i] == '"' && input[i - 1] == ',') {
-            // Start of a pair, find the end of the username
-            int start = i + 1;
-            while (input[i + 1] != '"' && input[i + 1] != '\0') {
-                i++;
-            }
-            int end = i;
-            
-            // Allocate memory for the username and copy it
-            int usernameLength = end - start + 1;
-            credentials[pairIndex] = (char*)malloc(usernameLength + 1);
-            strncpy(credentials[pairIndex], input + start, usernameLength);
-            credentials[pairIndex][usernameLength] = '\0';
-            pairIndex++;
-        }
-    }
-
-    return credentials;
+    return userInfo;
 }
 
 typedef struct {
@@ -163,9 +153,9 @@ void login_thread_params_free(login_thread_params_t *p) {
 void *login_thread_proc(void *arg) {
   login_thread_params_t *params = (login_thread_params_t *)arg;
 
-  char userInfor = parseCredentials(params->req)
+  UserInfo us = parseUserInfo(params->req);
   //sscanf(params->req,"[\"%s\",\"%s\"]", username, password);
-  printf("Login for %s by %s\n", userInfor[0], userInfor[1]);
+  printf("Login for %s by %s\n", us.username, us.password);
   //["username","password"]
   // auto username = webview::detail::json_parse(params->req, "", 0);
 	// auto password = webview::detail::json_parse(params->req, "", 1);
