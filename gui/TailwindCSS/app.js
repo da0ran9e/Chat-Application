@@ -15,6 +15,7 @@ friends = [
 
 chatRooms = [
     {
+        id: 0,
         name: "Room1",
         member: [
             {memberName: "member1"},
@@ -35,6 +36,7 @@ chatRooms = [
         ]
     },
     {
+        id: 2,
         name: "Room2",
         member: [
             {memberName: "member1"},
@@ -86,6 +88,7 @@ function sendMessage() {
 }
 function displayChatRooms(){
     const chatRoomList = document.getElementById('contact-list');
+    chatRoomList.innerHTML = "";
     chatRooms.forEach(room => {
         var chatRoomBtn = document.createElement("div");
         chatRoomBtn.className = "flex justify-between items-center p-3 hover:bg-gray-800 rounded-lg relative";
@@ -212,7 +215,7 @@ function displayMessages(chatRoom){
     });
 }
 
-function displayChatMember(room){
+function displayChatMemberx(room){
     var memberListBody = document.createElement("div");
     memberListBody.className = "relative z-10";
     memberListBody.innerHTML = `<div class="fixed inset-0 bg-gray-900 bg-opacity-0 transition-opacity"></div>
@@ -266,6 +269,7 @@ function list_close(){
 
 function changeChatRoom(chatRoom) {
     document.getElementById('chat-name').textContent = chatRoom.name;
+    document.getElementById('chat-status').textContent = chatRoom.id;
     displayMessages(chatRoom);
 }
 
@@ -276,17 +280,69 @@ document.getElementById("messageInput").addEventListener("keydown", function (ev
 });
 
 function showNotification(friend){
-    document.getElementById("notification").innerHTML = friend;
-    document.getElementById("notification").style.display = "block";
+    document.getElementById("friend-request-name").innerHTML = friend;
+    document.getElementById("friend-notification").style.display = "block";
 }
 
 function updateData(){
 
 }
 
+function displayChatMember(){
+    document.getElementById("member-list-window").style.display = "block"
+
+}
+
+function addMemberDisplay(){
+
+}
+
+function removeMemberDisplay(){
+
+}
+
+function exitChat(){
+
+}
+
+function addMember(member, room){
+
+}
+
+function removeMember(member, room){
+
+}
+
+function accept_friend(name){
+
+}
+
+function deny_friend(name){
+
+}
+
+function createRoom(name){
+
+}
+
 displayChatRooms();
 displayOnlineUsers();
 displayFriends();
-showNotification("Quinn");
+//showNotification("quinn");
+setInterval(displayOnlineUsers, 1000);
+setInterval(displayFriends, 1000);
+setInterval(testList, 2000);
 
-setInterval(displayChatRooms, 5000);
+function testList(){   
+    const data = '{ "friend": ['+
+        '{"name": "friend1"},'+
+        '{"name": "friend2"},'+
+        '{"name": "friend3"} ]}';
+    const obj = JSON.parse(data);
+    friends = obj.friend;
+    onlineUsers = [
+        {name: "friend3", friend: true},
+        {name: "user2", friend: false},
+        {name: "user4", friend: false}
+    ];
+}
