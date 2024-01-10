@@ -6,11 +6,8 @@
 #include <pthread.h>
 #include <unistd.h>
 
-// Only used to suppress warnings caused by unused parameters.
 #define UNUSED(x) (void)x
 
-// Creates a thread with the given start routine and argument passed to
-// the start routine. Returns 0 on success and -1 on failure.
 int thread_create(void *(*start_routine)(void *), void *arg) {
     pthread_t thread;
     int error = pthread_create(&thread, NULL, start_routine, arg);
@@ -22,7 +19,6 @@ int thread_create(void *(*start_routine)(void *), void *arg) {
 
 }
 
-// Make the current thread sleep for the given number of seconds.
 void thread_sleep(int seconds) {
   sleep(seconds);
 }
@@ -102,12 +98,13 @@ void login_thread_params_free(login_thread_params_t *p) {
 void *login_thread_proc(void *arg) {
   login_thread_params_t *params = (login_thread_params_t *)arg;
 
-  auto username = webview::detail::json_parse(params->req, "", 0);
-	auto password = webview::detail::json_parse(params->req, "", 1);
-  thread_sleep(1);
-  if(atoi(username[0])==atoi(password[0])){
-    webview_return(params->w, params->seq, 0, "1");
-  }
+  printf("%s\n", params->req);
+  // auto username = webview::detail::json_parse(params->req, "", 0);
+	// auto password = webview::detail::json_parse(params->req, "", 1);
+  // thread_sleep(1);
+  // if(atoi(username[0])==atoi(password[0])){
+  //   webview_return(params->w, params->seq, 0, "1");
+  // }
   webview_return(params->w, params->seq, 0, "0");
   
   login_thread_params_free(params);

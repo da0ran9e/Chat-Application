@@ -81,7 +81,7 @@ int main() {
   webview_t w = webview_create(0, NULL);
   context_t context = {.w = w, .count = 0};
   webview_set_title(w, "App");
-  webview_set_size(w, 700, 500, WEBVIEW_HINT_NONE);
+  webview_set_size(w, 1300, 700, WEBVIEW_HINT_NONE);
 
   webview_set_html(w, application);
   webview_run(w);
