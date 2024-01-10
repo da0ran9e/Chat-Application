@@ -1,399 +1,400 @@
+<script>
+    var PORT;
+    var rtd;
+    var username;
+    var onlineUsers = [];
+    var friends = [];
+    var requests = [];
+    var chatRooms = [];
+    var requestQueue = [];
 
-var PORT;
-var rtd;
-var username;
-var onlineUsers = [];
-var friends = [];
-var requests = [];
-var chatRooms = [];
-var requestQueue = [];
+    const sampleData = `{
+        "PORT": 8080,
+        "rtd": 12345,
+        "username": "new_user",
+        "onlineUsers": [
+            {"name": "user3", "friend": false},
+            {"name": "user4", "friend": true}
+        ],
+        "friends": [
+            {"name": "friend3"},
+            {"name": "friend4"},
+            {"name": "user3"}
+        ],
+        "requests": [
+            {"name": "new_request1"},
+            {"name": "new_request2"}
+        ],
+        "chatRooms": [
+            {
+                "id": 1,
+                "name": "New_Room1",
+                "members": [
+                    {"memberName": "new_member1"},
+                    {"memberName": "new_member2"},
+                    {"memberName": "new_user"}
+                ],
+                "messages": [
+                    {
+                        "user": "new_member1",
+                        "timestamp": "01-09-2024 10:15:30",
+                        "content": "Hello! How are you?"
+                    },
+                    {
+                        "user": "new_user",
+                        "timestamp": "01-09-2024 10:20:45",
+                        "content": "Hi there!"
+                    }
+                ]
+            },
+            {
+                "id": 3,
+                "name": "New_Room2",
+                "members": [
+                    {"memberName": "new_member1"},
+                    {"memberName": "new_member2"},
+                    {"memberName": "new_user"}
+                ],
+                "messages": [
+                    {
+                        "user": "new_member2",
+                        "timestamp": "01-09-2024 10:30:00",
+                        "content": "Hey! What's up?"
+                    },
+                    {
+                        "user": "new_user",
+                        "timestamp": "01-09-2024 10:35:20",
+                        "content": "Not much, just chilling."
+                    },
+                    {
+                        "user": "new_member1",
+                        "timestamp": "01-09-2024 10:40:10",
+                        "content": "Cool! Let's chat."
+                    }
+                ]
+            }
+        ]
+    }`;
 
-const sampleData = `{
-    "PORT": 8080,
-    "rtd": 12345,
-    "username": "new_user",
-    "onlineUsers": [
-        {"name": "user3", "friend": false},
-        {"name": "user4", "friend": true}
-    ],
-    "friends": [
-        {"name": "friend3"},
-        {"name": "friend4"},
-        {"name": "user3"}
-    ],
-    "requests": [
-        {"name": "new_request1"},
-        {"name": "new_request2"}
-    ],
-    "chatRooms": [
-        {
-            "id": 1,
-            "name": "New_Room1",
-            "members": [
-                {"memberName": "new_member1"},
-                {"memberName": "new_member2"},
-                {"memberName": "new_user"}
-            ],
-            "messages": [
-                {
-                    "user": "new_member1",
-                    "timestamp": "01-09-2024 10:15:30",
-                    "content": "Hello! How are you?"
-                },
-                {
-                    "user": "new_user",
-                    "timestamp": "01-09-2024 10:20:45",
-                    "content": "Hi there!"
-                }
-            ]
-        },
-        {
-            "id": 3,
-            "name": "New_Room2",
-            "members": [
-                {"memberName": "new_member1"},
-                {"memberName": "new_member2"},
-                {"memberName": "new_user"}
-            ],
-            "messages": [
-                {
-                    "user": "new_member2",
-                    "timestamp": "01-09-2024 10:30:00",
-                    "content": "Hey! What's up?"
-                },
-                {
-                    "user": "new_user",
-                    "timestamp": "01-09-2024 10:35:20",
-                    "content": "Not much, just chilling."
-                },
-                {
-                    "user": "new_member1",
-                    "timestamp": "01-09-2024 10:40:10",
-                    "content": "Cool! Let's chat."
-                }
-            ]
+
+    function parseData(data){
+        try {
+            const object = JSON.parse(data);
+            if (object.rtd !== undefined) {
+                rtd = object.rtd;
+                document.getElementById("rtd").innerHTML = object.rtd + "ms";
+            }
+
+            if (object.username !== undefined) {
+                username = object.username;
+                document.getElementById("username").innerHTML = object.username;
+            }
+
+            if (object.onlineUsers !== undefined) {
+                onlineUsers = object.onlineUsers;
+                updateOnlines();
+            }
+
+            if (object.friends !== undefined) {
+                friends = object.friends;
+                updateFriends();
+            }
+
+            if (object.requests !== undefined) {
+                object.requests.forEach(request => {
+                    requestQueue.push(request);
+                });
+            }
+
+            if (object.chatRooms !== undefined) {
+                chatRooms = object.chatRooms;
+                updateChatRooms();
+            }
+        } catch (error) {
+            console.error('Error parsing JSON:', error.message);
         }
-    ]
-}`;
-
-
-function parseData(data){
-    try {
-        const object = JSON.parse(data);
-        if (object.rtd !== undefined) {
-            rtd = object.rtd;
-            document.getElementById("rtd").innerHTML = object.rtd + "ms";
-        }
-
-        if (object.username !== undefined) {
-            username = object.username;
-            document.getElementById("username").innerHTML = object.username;
-        }
-
-        if (object.onlineUsers !== undefined) {
-            onlineUsers = object.onlineUsers;
-            updateOnlines();
-        }
-
-        if (object.friends !== undefined) {
-            friends = object.friends;
-            updateFriends();
-        }
-
-        if (object.requests !== undefined) {
-            object.requests.forEach(request => {
-                requestQueue.push(request);
-            });
-        }
-
-        if (object.chatRooms !== undefined) {
-            chatRooms = object.chatRooms;
-            updateChatRooms();
-        }
-    } catch (error) {
-        console.error('Error parsing JSON:', error.message);
     }
-}
 
-function updateFriends(){
-    const onlineFriendList = document.getElementById('friend-list');
-    onlineFriendList.innerHTML = '';
-    
-    friends.forEach(friend => {
-        activeStatus = ""
-        onlineUsers.forEach(onlineStatus =>{
-            if (onlineStatus.name == friend.name) {
-                activeStatus = `
-        <div class="absolute bg-gray-900 p-1 rounded-full bottom-0 right-0">
-            <div class="bg-green-500 rounded-full w-3 h-3"></div>
-        </div>`
+    function updateFriends(){
+        const onlineFriendList = document.getElementById('friend-list');
+        onlineFriendList.innerHTML = '';
+        
+        friends.forEach(friend => {
+            activeStatus = ""
+            onlineUsers.forEach(onlineStatus =>{
+                if (onlineStatus.name == friend.name) {
+                    activeStatus = `
+            <div class="absolute bg-gray-900 p-1 rounded-full bottom-0 right-0">
+                <div class="bg-green-500 rounded-full w-3 h-3"></div>
+            </div>`
 
-            }
-        })
-        friendContainer = document.createElement("div")
-        friendContainer.className="text-sm text-center mr-4";
-        friendContainer.innerHTML = `
-                    <div class="p-1 border-4 border-transparent rounded-full"><div class="w-16 h-16 relative flex flex-shrink-0">
-                    <img class="shadow-md rounded-full w-full h-full object-cover"
-                    src="img1.png"
-                    alt=""
-               />
-                        ${activeStatus}
-                    </div></div><p>${friend.name}</p></div>
-                    `
-        onlineFriendList.appendChild(friendContainer);
-    })
-}
-
-function updateOnlines(){
-    const onlineUserList = document.getElementById('active-list');
-    onlineUserList.innerHTML = '';
-
-    onlineUsers.forEach(user => {
-        btnDisplay = "block";
-        if(user.friend == true){
-            btnDisplay = "hidden";
-            }
-        const onlineUserContainer = document.createElement('div');
-        onlineUserContainer.className = "flex justify-between items-center p-3 hover:bg-gray-800 rounded-lg relative";
-
-        onlineUserContainer.innerHTML = `
-                        <div class="w-16 h-16 relative flex flex-shrink-0">
+                }
+            })
+            friendContainer = document.createElement("div")
+            friendContainer.className="text-sm text-center mr-4";
+            friendContainer.innerHTML = `
+                        <div class="p-1 border-4 border-transparent rounded-full"><div class="w-16 h-16 relative flex flex-shrink-0">
                         <img class="shadow-md rounded-full w-full h-full object-cover"
-                             src="img2.png"
-                             alt=""
-                        />
-                        </div>
-                        <div name="online-name" class="flex-auto min-w-0 ml-4 mr-6 hidden md:block group-hover:block">
-                            <p>${user.name}</p>
-                        </div>
-                        <a onclick=addFriend("${user.name}") href="#" name="online-add-friend-bnt" class="${btnDisplay} rounded-full hover:bg-gray-700 bg-gray-800 w-10 h-10 p-2">
-                            <svg class="w-full h-full fill-current" viewBox="0 0 24 24">
-                                <path d="M17 11a1 1 0 0 1 0 2h-4v4a1 1 0 0 1-2 0v-4H7a1 1 0 0 1 0-2h4V7a1 1 0 0 1 2 0v4h4z"></path>
-                            </svg>
-                        </a>
-        `
-                        
-        onlineUserList.appendChild(onlineUserContainer);
-    });
-}
+                        src="img1.png"
+                        alt=""
+                />
+                            ${activeStatus}
+                        </div></div><p>${friend.name}</p></div>
+                        `
+            onlineFriendList.appendChild(friendContainer);
+        })
+    }
 
-function updateChatRooms(){
-    const chatRoomList = document.getElementById('contact-list');
-    chatRoomList.innerHTML = "";
-    
-    chatRooms.forEach(room => {
-        var chatRoomBtn = document.createElement("div");
-        chatRoomBtn.className = "flex justify-between items-center p-3 hover:bg-gray-800 rounded-lg relative";
-        const lastMessage = room.messages[room.messages.length - 1];
-        chatRoomBtn.innerHTML = `
-        <div class="w-16 h-16 relative flex flex-shrink-0">
-        <img class="shadow-md rounded-full w-full h-full object-cover"
-        src="img3.png"
-        alt=""
-   />
-        </div>
-        <div class="flex-auto min-w-0 ml-4 mr-6 hidden md:block group-hover:block">
-            <p name="chat-room-name">${room.name}</p>
-            <div class="flex items-center text-sm text-gray-600">
-                <div class="min-w-0">
-                    <p name="chat-room-recent" class="truncate">${lastMessage.content}</p>
+    function updateOnlines(){
+        const onlineUserList = document.getElementById('active-list');
+        onlineUserList.innerHTML = '';
+
+        onlineUsers.forEach(user => {
+            btnDisplay = "block";
+            if(user.friend == true){
+                btnDisplay = "hidden";
+                }
+            const onlineUserContainer = document.createElement('div');
+            onlineUserContainer.className = "flex justify-between items-center p-3 hover:bg-gray-800 rounded-lg relative";
+
+            onlineUserContainer.innerHTML = `
+                            <div class="w-16 h-16 relative flex flex-shrink-0">
+                            <img class="shadow-md rounded-full w-full h-full object-cover"
+                                src="img2.png"
+                                alt=""
+                            />
+                            </div>
+                            <div name="online-name" class="flex-auto min-w-0 ml-4 mr-6 hidden md:block group-hover:block">
+                                <p>${user.name}</p>
+                            </div>
+                            <a onclick=addFriend("${user.name}") href="#" name="online-add-friend-bnt" class="${btnDisplay} rounded-full hover:bg-gray-700 bg-gray-800 w-10 h-10 p-2">
+                                <svg class="w-full h-full fill-current" viewBox="0 0 24 24">
+                                    <path d="M17 11a1 1 0 0 1 0 2h-4v4a1 1 0 0 1-2 0v-4H7a1 1 0 0 1 0-2h4V7a1 1 0 0 1 2 0v4h4z"></path>
+                                </svg>
+                            </a>
+            `
+                            
+            onlineUserList.appendChild(onlineUserContainer);
+        });
+    }
+
+    function updateChatRooms(){
+        const chatRoomList = document.getElementById('contact-list');
+        chatRoomList.innerHTML = "";
+        
+        chatRooms.forEach(room => {
+            var chatRoomBtn = document.createElement("div");
+            chatRoomBtn.className = "flex justify-between items-center p-3 hover:bg-gray-800 rounded-lg relative";
+            const lastMessage = room.messages[room.messages.length - 1];
+            chatRoomBtn.innerHTML = `
+            <div class="w-16 h-16 relative flex flex-shrink-0">
+            <img class="shadow-md rounded-full w-full h-full object-cover"
+            src="img3.png"
+            alt=""
+    />
+            </div>
+            <div class="flex-auto min-w-0 ml-4 mr-6 hidden md:block group-hover:block">
+                <p name="chat-room-name">${room.name}</p>
+                <div class="flex items-center text-sm text-gray-600">
+                    <div class="min-w-0">
+                        <p name="chat-room-recent" class="truncate">${lastMessage.content}</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        `;
-        chatRoomBtn.onclick = () => changeChatRoom(room);
-        chatRoomList.appendChild(chatRoomBtn);
-    });
-}
+            `;
+            chatRoomBtn.onclick = () => changeChatRoom(room);
+            chatRoomList.appendChild(chatRoomBtn);
+        });
+    }
 
-function displayMessages(chatRoom){
-    const messageContainer = document.getElementById('chat-body');
-    messageContainer.innerHTML = '';
-    chatRoom.messages.forEach(message => {
-        if (message.user == username){
+    function displayMessages(chatRoom){
+        const messageContainer = document.getElementById('chat-body');
+        messageContainer.innerHTML = '';
+        chatRoom.messages.forEach(message => {
+            if (message.user == username){
+                var sentMessageContainer = document.createElement("div");
+                sentMessageContainer.className = "flex flex-row justify-end mb-4";
+                sentMessageContainer.innerHTML = `
+                <div class="messages text-sm text-white grid grid-flow-row gap-2">
+                    <div class="flex items-center flex-row-reverse group">
+                        <p class="px-6 py-3 rounded-t-full rounded-l-full bg-blue-700 max-w-xs lg:max-w-md">${message.content}</p>
+                        <button type="button" class="hidden group-hover:block">
+                            <p class="p-4 text-center text-sm text-gray-500">${message.timestamp}</p>
+                        </button>
+                    </div> 
+                </div>
+            `;
+            messageContainer.appendChild(sentMessageContainer);
+            } else {
+                const receivedMessageContainer = document.createElement("div");
+                receivedMessageContainer.className ="messages text-sm text-gray-700 grid grid-flow-row gap-2";
+                receivedMessageContainer.innerHTML = `
+                                <p class="p-0 text-left text-sm text-gray-50">${message.user}</p>
+                                <div class="flex items-center group">
+                                    <p class="px-6 py-3 rounded-b-full rounded-r-full bg-gray-800 max-w-xs lg:max-w-md text-gray-200">${message.content}</p>
+                                    
+                                    <button type="button" class="hidden group-hover:block">
+                                        <p class="p-4 text-center text-sm text-gray-500">${message.timestamp}</p>
+                                    </button>
+                                </div>
+                `;              
+                messageContainer.appendChild(receivedMessageContainer);
+            }
+        });
+    }
+
+    function updateMemberList(chatRoom){
+        const membersContainer = document.getElementById('list-window');
+        membersContainer.innerHTML = '';
+        chatRoom.members.forEach(member => {
+                var memberContainer = document.createElement("ul");
+                memberContainer.className = "max-w-md divide-y divide-gray-100 dark:divide-gray-500";
+                memberContainer.innerHTML = `
+                    <li class="pb-3 sm:pb-4">
+                    <div class="flex items-center space-x-4 rtl:space-x-reverse">
+                        <div class="flex-shrink-0">
+                            <img class="w-8 h-8 rounded-full" src="img.png" alt="Neil image">
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm font-medium text-white truncate dark:text-white">
+                                ${member.memberName}
+                            </p>
+                            
+                        </div>
+                        <div class="inline-flex items-center text-base font-semibold text-gray-700 dark:text-white">
+                            member
+                        </div>
+                    </div>
+                    </li>
+                `;
+                membersContainer.appendChild(memberContainer);
+        });
+    }
+
+    function changeChatRoom(chatRoom) {
+        document.getElementById('chat-name').textContent = chatRoom.name;
+        document.getElementById('chat-status').textContent = chatRoom.id;
+        displayMessages(chatRoom);
+        updateMemberList(chatRoom);
+    }
+
+    function sendMessage() {
+        var messageText = document.getElementById("messageInput").value;
+        const roomId = document.getElementById("chat-status").innerHTML;
+        if (messageText.trim() !== "") {
+            var timestamp = new Date().toLocaleString();
+    
             var sentMessageContainer = document.createElement("div");
             sentMessageContainer.className = "flex flex-row justify-end mb-4";
             sentMessageContainer.innerHTML = `
-            <div class="messages text-sm text-white grid grid-flow-row gap-2">
-                <div class="flex items-center flex-row-reverse group">
-                    <p class="px-6 py-3 rounded-t-full rounded-l-full bg-blue-700 max-w-xs lg:max-w-md">${message.content}</p>
-                    <button type="button" class="hidden group-hover:block">
-                        <p class="p-4 text-center text-sm text-gray-500">${message.timestamp}</p>
-                    </button>
-                </div> 
-            </div>
-        `;
-        messageContainer.appendChild(sentMessageContainer);
-        } else {
-            const receivedMessageContainer = document.createElement("div");
-            receivedMessageContainer.className ="messages text-sm text-gray-700 grid grid-flow-row gap-2";
-            receivedMessageContainer.innerHTML = `
-                            <p class="p-0 text-left text-sm text-gray-50">${message.user}</p>
-                            <div class="flex items-center group">
-                                <p class="px-6 py-3 rounded-b-full rounded-r-full bg-gray-800 max-w-xs lg:max-w-md text-gray-200">${message.content}</p>
-                                
-                                <button type="button" class="hidden group-hover:block">
-                                    <p class="p-4 text-center text-sm text-gray-500">${message.timestamp}</p>
-                                </button>
-                            </div>
-            `;              
-            messageContainer.appendChild(receivedMessageContainer);
+                <div class="messages text-sm text-white grid grid-flow-row gap-2">
+                    <div class="flex items-center flex-row-reverse group">
+                        <p class="px-6 py-3 rounded-t-full rounded-l-full bg-blue-700 max-w-xs lg:max-w-md">${messageText}</p>
+                        <button type="button" class="hidden group-hover:block">
+                            <p class="p-4 text-center text-sm text-gray-500">${timestamp}</p>
+                        </button>
+                    </div> 
+                </div>
+            `;
+            
+            windowSendMessage(roomId, messageText);
+            document.getElementById("chat-body").appendChild(sentMessageContainer);
+            document.getElementById("messageInput").value = "";
+        }
+    }
+
+    document.getElementById("messageInput").addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            sendMessage();
         }
     });
-}
 
-function updateMemberList(chatRoom){
-    const membersContainer = document.getElementById('list-window');
-    membersContainer.innerHTML = '';
-    chatRoom.members.forEach(member => {
-            var memberContainer = document.createElement("ul");
-            memberContainer.className = "max-w-md divide-y divide-gray-100 dark:divide-gray-500";
-            memberContainer.innerHTML = `
-                <li class="pb-3 sm:pb-4">
-                <div class="flex items-center space-x-4 rtl:space-x-reverse">
-                    <div class="flex-shrink-0">
-                        <img class="w-8 h-8 rounded-full" src="img.png" alt="Neil image">
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <p class="text-sm font-medium text-white truncate dark:text-white">
-                            ${member.memberName}
-                        </p>
-                        
-                    </div>
-                    <div class="inline-flex items-center text-base font-semibold text-gray-700 dark:text-white">
-                        member
-                    </div>
-                </div>
-                </li>
-            `;
-            membersContainer.appendChild(memberContainer);
-    });
-}
+    function displayChatMember(){  
+        document.getElementById("remove_button").style.display = "none";
+        document.getElementById("username-input").style.display = "none";
+        document.getElementById("add_button").style.display = "none";
+        document.getElementById("list-status").style.display = "none";
+        document.getElementById("member-list-window").style.display = "block";
+    }
 
-function changeChatRoom(chatRoom) {
-    document.getElementById('chat-name').textContent = chatRoom.name;
-    document.getElementById('chat-status').textContent = chatRoom.id;
-    displayMessages(chatRoom);
-    updateMemberList(chatRoom);
-}
+    function displayAddMember(){
+        document.getElementById("remove_button").style.display = "none";
+        document.getElementById("username-input").style.display = "block";
+        document.getElementById("add_button").style.display = "block";
+        document.getElementById("list-status").style.display = "none";
+        document.getElementById("member-list-window").style.display = "block";
+    }
 
-function sendMessage() {
-    var messageText = document.getElementById("messageInput").value;
-    const roomId = document.getElementById("chat-status").innerHTML;
-    if (messageText.trim() !== "") {
-        var timestamp = new Date().toLocaleString();
- 
-        var sentMessageContainer = document.createElement("div");
-        sentMessageContainer.className = "flex flex-row justify-end mb-4";
-        sentMessageContainer.innerHTML = `
-            <div class="messages text-sm text-white grid grid-flow-row gap-2">
-                <div class="flex items-center flex-row-reverse group">
-                    <p class="px-6 py-3 rounded-t-full rounded-l-full bg-blue-700 max-w-xs lg:max-w-md">${messageText}</p>
-                    <button type="button" class="hidden group-hover:block">
-                        <p class="p-4 text-center text-sm text-gray-500">${timestamp}</p>
-                    </button>
-                </div> 
-            </div>
-        `;
+    function displayRemoveMember(){
+        document.getElementById("remove_button").style.display = "block";
+        document.getElementById("username-input").style.display = "block";
+        document.getElementById("add_button").style.display = "none";
+        document.getElementById("list-status").style.display = "none";
+        document.getElementById("member-list-window").style.display = "block";
+    }
+
+    function listAdd(){
+        let user = document.getElementById("username-input").value;
+        let roomId = document.getElementById("chat-status").innerHTML;
         
-        windowSendMessage(roomId, messageText);
-        document.getElementById("chat-body").appendChild(sentMessageContainer);
-        document.getElementById("messageInput").value = "";
+        document.getElementById("list-status").innerHTML = windowAddMember(user, roomId);
+        document.getElementById("list-status").style.display = "block";
     }
-}
 
-document.getElementById("messageInput").addEventListener("keydown", function (event) {
-    if (event.key === "Enter") {
-        sendMessage();
+    function listRemove(){
+        let user = document.getElementById("username-input").value;
+        let roomId = document.getElementById("chat-status").innerHTML;
+        
+        document.getElementById("list-status").innerHTML = windowRemoveMember(user, roomId);
+        document.getElementById("list-status").style.display = "block";
     }
-});
 
-function displayChatMember(){  
-    document.getElementById("remove_button").style.display = "none";
-    document.getElementById("username-input").style.display = "none";
-    document.getElementById("add_button").style.display = "none";
-    document.getElementById("list-status").style.display = "none";
-    document.getElementById("member-list-window").style.display = "block";
-}
-
-function displayAddMember(){
-    document.getElementById("remove_button").style.display = "none";
-    document.getElementById("username-input").style.display = "block";
-    document.getElementById("add_button").style.display = "block";
-    document.getElementById("list-status").style.display = "none";
-    document.getElementById("member-list-window").style.display = "block";
-}
-
-function displayRemoveMember(){
-    document.getElementById("remove_button").style.display = "block";
-    document.getElementById("username-input").style.display = "block";
-    document.getElementById("add_button").style.display = "none";
-    document.getElementById("list-status").style.display = "none";
-    document.getElementById("member-list-window").style.display = "block";
-}
-
-function listAdd(){
-    let user = document.getElementById("username-input").value;
-    let roomId = document.getElementById("chat-status").innerHTML;
-    
-    document.getElementById("list-status").innerHTML = windowAddMember(user, roomId);
-    document.getElementById("list-status").style.display = "block";
-}
-
-function listRemove(){
-    let user = document.getElementById("username-input").value;
-    let roomId = document.getElementById("chat-status").innerHTML;
-    
-    document.getElementById("list-status").innerHTML = windowRemoveMember(user, roomId);
-    document.getElementById("list-status").style.display = "block";
-}
-
-function exitChat(){
-    let roomId = document.getElementById("chat-status").innerHTML;
-    for (let i = 0; i < chatRooms.length; i++) { 
-        if (chatRooms[i].id == roomId) { 
-            changeChatRoom(chatRooms[0]);
-            let spliced = chatRooms.splice(i, 1); 
-        } 
+    function exitChat(){
+        let roomId = document.getElementById("chat-status").innerHTML;
+        for (let i = 0; i < chatRooms.length; i++) { 
+            if (chatRooms[i].id == roomId) { 
+                changeChatRoom(chatRooms[0]);
+                let spliced = chatRooms.splice(i, 1); 
+            } 
+        }
+        document.getElementById('chat-body').innerHTML = '';
+        updateChatRooms();
+        console.log(windowRemoveMember(username, roomId));
     }
-    document.getElementById('chat-body').innerHTML = '';
-    updateChatRooms();
-    console.log(windowRemoveMember(username, roomId));
-}
 
-function createNew(){
-    let roomName = document.getElementById("room-name-input").value;
-    if (roomName.trim() !== "") {
-        windowCreateRoom(roomName);
-        document.getElementById("create_room-window").style.display = "none";
+    function createNew(){
+        let roomName = document.getElementById("room-name-input").value;
+        if (roomName.trim() !== "") {
+            windowCreateRoom(roomName);
+            document.getElementById("create_room-window").style.display = "none";
+        }
     }
-}
 
-function checkRequestQueue(){
-    if(requestQueue.length>0){
-        showNotification(requestQueue[0].name);
+    function checkRequestQueue(){
+        if(requestQueue.length>0){
+            showNotification(requestQueue[0].name);
+        }
     }
-}
 
-function addFriend(friendname){
-    windowSendFriendRequest(friendname);
-}
+    function addFriend(friendname){
+        windowSendFriendRequest(friendname);
+    }
 
-function showNotification(friend){
-    document.getElementById("friend-request-name").innerHTML = friend;
-    document.getElementById("friend-notification").style.display = "block";
-}
+    function showNotification(friend){
+        document.getElementById("friend-request-name").innerHTML = friend;
+        document.getElementById("friend-notification").style.display = "block";
+    }
 
-function acceptFriend(name){
-    windowResponseRequest(name, "accept");
-    requestQueue.shift();
-}
+    function acceptFriend(name){
+        windowResponseRequest(name, "accept");
+        requestQueue.shift();
+    }
 
-function denyFriend(name){
-    windowResponseRequest(name, "deny");
-    requestQueue.shift();
-}
+    function denyFriend(name){
+        windowResponseRequest(name, "deny");
+        requestQueue.shift();
+    }
 
-setInterval(checkRequestQueue, 2000);
-parseData(sampleData);
+    setInterval(checkRequestQueue, 2000);
+    parseData(sampleData);
+</script>
