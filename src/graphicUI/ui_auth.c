@@ -8,21 +8,6 @@
 
 #define UNUSED(x) (void)x
 
-int thread_create(void *(*start_routine)(void *), void *arg) {
-    pthread_t thread;
-    int error = pthread_create(&thread, NULL, start_routine, arg);
-    if (error == 0) {
-        pthread_detach(thread);
-        return 0;
-    }
-    return -1;
-
-}
-
-void thread_sleep(int seconds) {
-  sleep(seconds);
-}
-
 typedef struct {
   webview_t w;
   unsigned int count;
@@ -77,11 +62,6 @@ const char* concatenateFiles(const char* filenames[], int numFiles) {
     return concatenatedContent;
 }
 
-typedef struct {
-    char *username;
-    char *password;
-} UserInfo;
-
 // Function to parse parameters from the given format
 int parseReq(const char* req, char(*params)[50]) {
     int count = 0;
@@ -108,54 +88,18 @@ int parseReq(const char* req, char(*params)[50]) {
     return count;
 }
 
-typedef struct {
-  webview_t w;
-  char *seq;
-  char *req;
-} login_thread_params_t;
-
-login_thread_params_t *
-login_thread_params_create(webview_t w, const char *seq, const char *req) {
-  login_thread_params_t *params = (login_thread_params_t *)malloc(sizeof(login_thread_params_t));
-  params->w = w;
-  params->seq = (char *)malloc(strlen(seq) + 1);
-  params->req = (char *)malloc(strlen(req) + 1);
-  strcpy(params->seq, seq);
-  strcpy(params->req, req);
-  return params;
-}
-
-void login_thread_params_free(login_thread_params_t *p) {
-  free(p->req);
-  free(p->seq);
-  free(p);
-}
-
-void *login_thread_proc(void *arg) {
-  login_thread_params_t *params = (login_thread_params_t *)arg;
-
+void u_login(const char *seq, const char *req, void *arg) {
+  context_t *context = (context_t *)arg;
   char p[2][50];
-  int count = parseReq(req, p);
+  int count = parseReq(params->req, p);
 
-    printf("Input: %s", params->req)
+    printf("Input: %s", params->req);
     printf("Number of parameters: %d\n", count);
     for (int i = 0; i < count; i++) {
         printf("Parameter %d: %s\n", i + 1, p[i]);
     }
 
   webview_return(params->w, params->seq, 0, "0");
-  
-  login_thread_params_free(params);
-  return NULL;
-}
-
-void u_login(const char *seq, const char *req, void *arg) {
-  context_t *context = (context_t *)arg;
-  login_thread_params_t *params = login_thread_params_create(context->w, seq, req);
-  // Create a thread and forget about it for the sake of simplicity.
-  if (thread_create(login_thread_proc, params) != 0) {
-    login_thread_params_free(params);
-  }
 }
 
 int main() {
