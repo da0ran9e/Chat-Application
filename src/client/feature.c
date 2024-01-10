@@ -606,7 +606,7 @@ int handle_receive_message(const char *message, int len)
         else
         {
             status = 211;
-            printf("Request sent!");
+            //printf("Request sent!");
         }
         break;
     case 21:
