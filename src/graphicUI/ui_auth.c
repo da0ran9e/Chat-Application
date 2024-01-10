@@ -77,6 +77,66 @@ const char* concatenateFiles(const char* filenames[], int numFiles) {
     return concatenatedContent;
 }
 
+// Function to parse username and password from the given format
+char** parseCredentials(const char* input) {
+    // Check for null input
+    if (input == NULL) {
+        fprintf(stderr, "Error: Null input\n");
+        return NULL;
+    }
+
+    // Check for the correct format
+    if (input[0] != '[' || input[strlen(input) - 1] != ']') {
+        fprintf(stderr, "Error: Invalid format\n");
+        return NULL;
+    }
+
+    // Count the number of pairs
+    int numPairs = 1;
+    for (int i = 0; input[i] != '\0'; ++i) {
+        if (input[i] == ',' && input[i + 1] == '"') {
+            numPairs++;
+        }
+    }
+
+    // Allocate memory for the 2D array
+    char** credentials = (char**)malloc(numPairs * sizeof(char*));
+    if (credentials == NULL) {
+        perror("Memory allocation error");
+        return NULL;
+    }
+
+    // Initialize each element to NULL
+    for (int i = 0; i < numPairs; ++i) {
+        credentials[i] = NULL;
+    }
+
+    // Parse the input and fill the 2D array
+    int pairIndex = 0;
+    for (int i = 1; input[i] != '\0' && input[i] != ']'; ++i) {
+        if (input[i] == '"' && input[i + 1] == '"') {
+            // Skip double quotes
+            i++;
+        } else if (input[i] == '"' && input[i - 1] == ',') {
+            // Start of a pair, find the end of the username
+            int start = i + 1;
+            while (input[i + 1] != '"' && input[i + 1] != '\0') {
+                i++;
+            }
+            int end = i;
+            
+            // Allocate memory for the username and copy it
+            int usernameLength = end - start + 1;
+            credentials[pairIndex] = (char*)malloc(usernameLength + 1);
+            strncpy(credentials[pairIndex], input + start, usernameLength);
+            credentials[pairIndex][usernameLength] = '\0';
+            pairIndex++;
+        }
+    }
+
+    return credentials;
+}
+
 typedef struct {
   webview_t w;
   char *seq;
@@ -103,10 +163,10 @@ void login_thread_params_free(login_thread_params_t *p) {
 void *login_thread_proc(void *arg) {
   login_thread_params_t *params = (login_thread_params_t *)arg;
 
-  char username[50];
-  char password[50];
-  sscanf(params->req,"[\"%s\",\"%s\"]", username, password);
-  printf("Login for %s by %s\n", username, password);
+  char userInfor = parseCredentials(params->req)
+  //sscanf(params->req,"[\"%s\",\"%s\"]", username, password);
+  printf("Login for %s by %s\n", userInfor[0], userInfor[1]);
+  //["username","password"]
   // auto username = webview::detail::json_parse(params->req, "", 0);
 	// auto password = webview::detail::json_parse(params->req, "", 1);
   // thread_sleep(1);
