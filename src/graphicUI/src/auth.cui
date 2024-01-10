@@ -68,7 +68,7 @@
                         <div class="flex items-center justify-between">
                             <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
                             <div class="text-sm">
-                            <a href="#" onclick=show_change_pass() class="font-semibold text-indigo-600 hover:text-indigo-500">Change password?</a>
+                            <a onclick=show_change_pass() class="font-semibold text-indigo-600 hover:text-indigo-500">Change password?</a>
                             </div>
                         </div>
                         <div class="mt-2">
@@ -86,7 +86,7 @@
                     <p class="mt-10 text-center text-sm text-gray-500">
                         Not a member?
                         <!-- space -->
-                        <a href="#" onclick=show_register() class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Create new user</a>
+                        <a onclick=show_register() class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Create new user</a>
                     </p>
                     </div>
                 </div>
@@ -116,7 +116,7 @@
                     </div>
                 
                     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form class="space-y-6" action="#" method="POST">
+                    <form class="space-y-6">
                         <div>
                         <label for="register_username" class="block text-sm font-medium leading-6 text-gray-900">Username</label>
                         <div class="mt-2">
@@ -159,7 +159,7 @@
                     </div>
                 
                     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form class="space-y-6" action="#" method="POST">
+                    <form class="space-y-6">
                         <div>
                         <label for="username_changepass" class="block text-sm font-medium leading-6 text-gray-900">Username</label>
                         <div class="mt-2">
