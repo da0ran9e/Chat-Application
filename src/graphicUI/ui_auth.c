@@ -134,14 +134,13 @@ void login_thread_params_free(login_thread_params_t *p) {
 void *login_thread_proc(void *arg) {
   login_thread_params_t *params = (login_thread_params_t *)arg;
 
-  char params[2][50];
-  parseReq(params->req, params);
-  int count = parseReq(req, params);
+  char p[2][50];
+  int count = parseReq(req, p);
 
     printf("Input: %s", params->req)
     printf("Number of parameters: %d\n", count);
     for (int i = 0; i < count; i++) {
-        printf("Parameter %d: %s\n", i + 1, params[i]);
+        printf("Parameter %d: %s\n", i + 1, p[i]);
     }
 
   webview_return(params->w, params->seq, 0, "0");
