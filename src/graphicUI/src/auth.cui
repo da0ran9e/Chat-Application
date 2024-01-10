@@ -80,7 +80,7 @@
                         <button onclick=login() id="loginbtn" type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
                         </div>
 
-                        <div id="tester">Test</div>
+                        <div id="tester">hold</div>
                     </div>
                 
                     <p class="mt-10 text-center text-sm text-gray-500">
@@ -212,7 +212,7 @@
         username = document.getElementById("username").value;
         password = document.getElementById("password").value;
         window.u_login(username, password).then(result => {
-            alert(result);
+            document.getElementById("tester").innerHTML = result;
         });
 
         window.u_login(username, password).then(result =>{
