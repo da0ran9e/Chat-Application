@@ -136,7 +136,12 @@ void *login_thread_proc(void *arg) {
 
   char params[2][50];
   parseReq(params->req, params);
-  printf("Login for %s by %s\n", params[0], params[1]);
+  int count = parseReq(req, params);
+
+    printf("Number of parameters: %d\n", count);
+    for (int i = 0; i < count; i++) {
+        printf("Parameter %d: %s\n", i + 1, params[i]);
+    }
 
   webview_return(params->w, params->seq, 0, "0");
   
@@ -162,7 +167,7 @@ int main() {
   webview_t w = webview_create(0, NULL);
   context_t context = {.w = w, .count = 0};
   webview_set_title(w, "Authentication");
-  webview_set_size(w, 380, 800, WEBVIEW_HINT_NONE);
+  webview_set_size(w, 350, 700, WEBVIEW_HINT_NONE);
 
   webview_bind(w, "u_login", u_login, &context);
 
