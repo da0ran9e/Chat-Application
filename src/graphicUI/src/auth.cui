@@ -212,7 +212,7 @@
         username = document.getElementById("username").value;
         password = document.getElementById("password").value;
         window.u_login(username, password).then(result => {
-            document.getElementById("tester").innerHTML = result;
+            alert(result);
         });
 
         window.u_login(username, password).then(result =>{
