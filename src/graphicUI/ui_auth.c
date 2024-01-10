@@ -91,15 +91,15 @@ int parseReq(const char* req, char(*params)[50]) {
 void u_login(const char *seq, const char *req, void *arg) {
   context_t *context = (context_t *)arg;
   char p[2][50];
-  int count = parseReq(params->req, p);
+  int count = parseReq(req, p);
 
-    printf("Input: %s", params->req);
+    printf("Input: %s", req);
     printf("Number of parameters: %d\n", count);
     for (int i = 0; i < count; i++) {
         printf("Parameter %d: %s\n", i + 1, p[i]);
     }
 
-  webview_return(params->w, params->seq, 0, "0");
+  webview_return(w, seq, 0, "0");
 }
 
 int main() {
