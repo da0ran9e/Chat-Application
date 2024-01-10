@@ -23,6 +23,11 @@ void thread_sleep(int seconds) {
   sleep(seconds);
 }
 
+typedef struct {
+  webview_t w;
+  unsigned int count;
+} context_t;
+
 // Function to concatenate content from multiple files into a single string
 const char* concatenateFiles(const char* filenames[], int numFiles) {
     // Calculate the total size needed for the concatenated content
@@ -119,11 +124,6 @@ void u_login(const char *seq, const char *req, void *arg) {
     login_thread_params_free(params);
   }
 }
-
-typedef struct {
-  webview_t w;
-  unsigned int count;
-} context_t;
 
 int main() {
   const char* filenames[] = {"src/auth.cui", "src/tailwind.cui"}; // Replace with your file names
