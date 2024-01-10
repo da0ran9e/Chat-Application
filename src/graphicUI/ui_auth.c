@@ -103,7 +103,10 @@ void login_thread_params_free(login_thread_params_t *p) {
 void *login_thread_proc(void *arg) {
   login_thread_params_t *params = (login_thread_params_t *)arg;
 
-  printf("%s\n", params->req);
+  char username[50];
+  char password[50];
+  sscanf("[\"%s\",\"%s\"]", username, password);
+  printf("Login for %s by %s\n", username, password);
   // auto username = webview::detail::json_parse(params->req, "", 0);
 	// auto password = webview::detail::json_parse(params->req, "", 1);
   // thread_sleep(1);
@@ -134,7 +137,7 @@ int main() {
   webview_t w = webview_create(0, NULL);
   context_t context = {.w = w, .count = 0};
   webview_set_title(w, "Authentication");
-  webview_set_size(w, 300, 500, WEBVIEW_HINT_NONE);
+  webview_set_size(w, 450, 800, WEBVIEW_HINT_NONE);
 
   webview_bind(w, "u_login", u_login, &context);
 
