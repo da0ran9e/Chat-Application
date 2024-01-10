@@ -105,7 +105,7 @@ void *login_thread_proc(void *arg) {
 
   char username[50];
   char password[50];
-  sscanf("[\"%s\",\"%s\"]", username, password);
+  sscanf(params->req,"[\"%s\",\"%s\"]", username, password);
   printf("Login for %s by %s\n", username, password);
   // auto username = webview::detail::json_parse(params->req, "", 0);
 	// auto password = webview::detail::json_parse(params->req, "", 1);
