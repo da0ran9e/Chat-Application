@@ -184,8 +184,8 @@
                     </div>
                     
                     <div class="text-sm">
-                        <p name="username-label" class="text-md font-bold hidden md:block group-hover:block">Username</p>
-                        <p name="username-ping" id="port">29ms</p>
+                        <p name="username-label" id="username" class="text-md font-bold hidden md:block group-hover:block">Username</p>
+                        <p name="username-ping" id="rtd">29ms</p>
                     </div>
                     <div class="relative inline-block text-left">
                         <div>
@@ -228,7 +228,7 @@
     </div>
 </div>
 
-<!--popup -->
+<!--popup create room-->
 <div class="hidden relative z-10" id="create_room-window" aria-labelledby="modal-title" role="dialog" aria-modal="true">
     <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
         <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
@@ -237,7 +237,7 @@
                 
                 <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                     <button onclick=createClose() id="close_button" type="button" class="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-900 sm:ml-3 sm:w-auto">Close</button>
-                    <button onclick=createNew() id="add_button" type="button" class="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-900 sm:ml-3 sm:w-auto">Create</button>
+                    <button onclick=createNew() id="add_room_button" type="button" class="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-900 sm:ml-3 sm:w-auto">Create</button>
                     <input class="rounded-lg pl-3 pr-10 border border-gray-800 focus:border-gray-700 bg-gray-800 focus:bg-gray-900 focus:outline-none text-gray-200 focus:shadow-md transition duration-300 ease-in" type="text" id="room-name-input" value="" placeholder="Room name">
                 </div>
     
@@ -270,8 +270,8 @@
                 </div>
             </div>
             <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                <button onclick=request_accept() type="button" class="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:ml-3 sm:w-auto">Accept</button>
-                <button onclick=request_deny() type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Deny</button>
+                <button onclick=requestAccept() type="button" class="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:ml-3 sm:w-auto">Accept</button>
+                <button onclick=requestDeny() type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Deny</button>
             </div>
             </div>
         </div>
@@ -284,36 +284,14 @@
         <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
             <div class="relative transform overflow-hidden rounded-lg bg-gray-600 text-left shadow-xl transition-all sm:my-8 sm:80 sm:max-w-lg">
                 <a class=" text-white block px-4 py-2 text-sm">Member List</a>
-                <div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-                    
-                    <ul class="max-w-md divide-y divide-gray-100 dark:divide-gray-500">
-                        <li class="pb-3 sm:pb-4">
-                        <div class="flex items-center space-x-4 rtl:space-x-reverse">
-                            <div class="flex-shrink-0">
-                                <img class="w-8 h-8 rounded-full" src="img.png" alt="Neil image">
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <p class="text-sm font-medium text-white truncate dark:text-white">
-                                    Member name
-                                </p>
-                                
-                            </div>
-                            <div class="inline-flex items-center text-base font-semibold text-gray-700 dark:text-white">
-                                member
-                            </div>
-                        </div>
-                        </li>
-                    </ul>
-
-
-                    
- 
+                <div id="list-window" class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
                 </div>
+                <p id="list-status" class="text-white block px-4 py-2 text-sm">status</p>
                 <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                     <button onclick=listClose() id="close_button" type="button" class="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-900 sm:ml-3 sm:w-auto">Close</button>
                     <button onclick=listAdd() id="add_button" type="button" class="hidden inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-900 sm:ml-3 sm:w-auto">Add</button>
                     <button onclick=listRemove() id="remove_button" type="button" class="hidden inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-900 sm:ml-3 sm:w-auto">Remove</button>
-                    <input class="hidden rounded-lg pl-3 pr-10 border border-gray-800 focus:border-gray-700 bg-gray-800 focus:bg-gray-900 focus:outline-none text-gray-200 focus:shadow-md transition duration-300 ease-in" type="text" id="usernameInput" value="" placeholder="Input username">
+                    <input class="hidden rounded-lg pl-3 pr-10 border border-gray-800 focus:border-gray-700 bg-gray-800 focus:bg-gray-900 focus:outline-none text-gray-200 focus:shadow-md transition duration-300 ease-in" type="text" id="username-input" value="" placeholder="Input username">
                 </div>
     
             </div>
@@ -334,14 +312,14 @@
         document.getElementById("create_room-window").style.display = "none";
     }
 
-    function request_accept(){
-        var friendName = document.getElementById("friend-request-name");
-        accept_friend(friendName);
+    function requestAccept(){
+        var friendName = document.getElementById("friend-request-name").innerHTML;
+        acceptFriend(friendName);
         document.getElementById("friend-notification").style.display = "none";
     }
-    function request_deny(){
-        var friendName = document.getElementById("friend-request-name");
-        deny_friend(friendName);
+    function requestDeny(){
+        var friendName = document.getElementById("friend-request-name").innerHTML;
+        denyFriend(friendName);
         document.getElementById("friend-notification").style.display = "none";
     }
 
@@ -366,4 +344,5 @@
 </body>
 
 <script type="text/javascript" src="app.js"></script>
+<script type="text/javascript" src="window.js"></script>
 </html>

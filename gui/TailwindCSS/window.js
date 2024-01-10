@@ -1,56 +1,26 @@
-function login(usn, psw){
-    window.login(usn, psw).then(result => {
-        if (result == 201){
-            username = getElementById("username").value
-            updateData();
-            showMainBody();
-        } else {
-            document.getElementById("username").value = "";
-            document.getElementById("password").value = "";
-        }
-    })
+function windowCreateRoom(roomName){
+    console.log("Created room: "+roomName);
 }
 
-function register(usn, psw){
-    window.register(usn, psw).then(result => {
-        if (result == 211){
-            username = getElementById("username").value
-            updateData();
-            showMainBody();
-        } else {
-            document.getElementById("username").value = "";
-            document.getElementById("password").value = "";
-        }
-    })
+function windowSendMessage(roomId, message){
+    console.log("Sent: "+message+" to "+roomId);
 }
 
-function updateData(){
-    window.updateData().then(result => {
-        PORT = result.port;
-        rtd = result.rtd;
-        onlineUsers = result.onlineUsers;
-        friends = result.friends;
-        chatRooms = result.chatRooms;
-    });
+function windowAddMember(user, roomId){
+    console.log("add done");
 }
 
-function addMember(member, room){
-    window.addMember(member, room).then(result=>{});
+function windowRemoveMember(user, roomId){
+    console.log("remove done");
 }
 
-function removeMember(member, room){
-    window.removeMember(member, room).then(result=>{});
+function windowSendFriendRequest(friend){
+    console.log("Sent request to: "+friend);
 }
 
-function leaveChat(){
-    removeMember(username, room);
+function windowResponseRequest(friend, response){
+    console.log("Just "+ response+" the request from "+ friend);
 }
 
-function logout(){
-    window.logout();
-}
-
-function sendMessage(message, room){
-    window.sendMessage(message, room).then(result=>{});
-}
+/////////////////////////////////////////////////////////////////
 

@@ -1,155 +1,121 @@
 
-PORT = 0;
-rtd = 9999;
-username = "username";
-onlineUsers = [
-    {name: "user1", friend: true},
-    {name: "user2", friend: false}
-];
+var PORT;
+var rtd;
+var username;
+var onlineUsers = [];
+var friends = [];
+var requests = [];
+var chatRooms = [];
+var requestQueue = [];
 
-friends = [
-    {name: "friend1"},
-    {name: "friend2"},
-    {name: "user1"}
-];
+const sampleData = `{
+    "PORT": 8080,
+    "rtd": 12345,
+    "username": "new_user",
+    "onlineUsers": [
+        {"name": "user3", "friend": false},
+        {"name": "user4", "friend": true}
+    ],
+    "friends": [
+        {"name": "friend3"},
+        {"name": "friend4"},
+        {"name": "user3"}
+    ],
+    "requests": [
+        {"name": "new_request1"},
+        {"name": "new_request2"}
+    ],
+    "chatRooms": [
+        {
+            "id": 1,
+            "name": "New_Room1",
+            "members": [
+                {"memberName": "new_member1"},
+                {"memberName": "new_member2"},
+                {"memberName": "new_user"}
+            ],
+            "messages": [
+                {
+                    "user": "new_member1",
+                    "timestamp": "01-09-2024 10:15:30",
+                    "content": "Hello! How are you?"
+                },
+                {
+                    "user": "new_user",
+                    "timestamp": "01-09-2024 10:20:45",
+                    "content": "Hi there!"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "name": "New_Room2",
+            "members": [
+                {"memberName": "new_member1"},
+                {"memberName": "new_member2"},
+                {"memberName": "new_user"}
+            ],
+            "messages": [
+                {
+                    "user": "new_member2",
+                    "timestamp": "01-09-2024 10:30:00",
+                    "content": "Hey! What's up?"
+                },
+                {
+                    "user": "new_user",
+                    "timestamp": "01-09-2024 10:35:20",
+                    "content": "Not much, just chilling."
+                },
+                {
+                    "user": "new_member1",
+                    "timestamp": "01-09-2024 10:40:10",
+                    "content": "Cool! Let's chat."
+                }
+            ]
+        }
+    ]
+}`;
 
-chatRooms = [
-    {
-        id: 0,
-        name: "Room1",
-        member: [
-            {memberName: "member1"},
-            {membername: "member2"},
-            {memberName: "username"}
-        ],
-        messages: [
-            {
-                user: "member1",
-                timestamp: "12-26-2023 16:02:44",
-                content: "Hey! How are you!"
-            },
-            {
-                user: "username",
-                timestamp: "12-26-2023 16:04:30",
-                content: "Hi!"
-            }
-        ]
-    },
-    {
-        id: 2,
-        name: "Room2",
-        member: [
-            {memberName: "member1"},
-            {membername: "member2"},
-            {memberName: "username"}
-        ],
-        messages: [
-            {
-                user: "member1",
-                timestamp: "12-26-2023 16:02:44",
-                content: "Hey! How are you!"
-            },
-            {
-                user: "username",
-                timestamp: "12-26-2023 16:04:30",
-                content: "Hi!"
-            },
-            {
-                user: "member1",
-                timestamp: "12-26-2023 16:02:44",
-                content: "Hey! How are you!"
-            }
-        ]
+
+function parseData(data){
+    try {
+        const object = JSON.parse(data);
+        if (object.rtd !== undefined) {
+            rtd = object.rtd;
+            document.getElementById("rtd").innerHTML = object.rtd + "ms";
+        }
+
+        if (object.username !== undefined) {
+            username = object.username;
+            document.getElementById("username").innerHTML = object.username;
+        }
+
+        if (object.onlineUsers !== undefined) {
+            onlineUsers = object.onlineUsers;
+            updateOnlines();
+        }
+
+        if (object.friends !== undefined) {
+            friends = object.friends;
+            updateFriends();
+        }
+
+        if (object.requests !== undefined) {
+            object.requests.forEach(request => {
+                requestQueue.push(request);
+            });
+        }
+
+        if (object.chatRooms !== undefined) {
+            chatRooms = object.chatRooms;
+            updateChatRooms();
+        }
+    } catch (error) {
+        console.error('Error parsing JSON:', error.message);
     }
-]
-
-function sendMessage() {
-    var messageText = document.getElementById("messageInput").value;
-    if (messageText.trim() !== "") {
-        var timestamp = new Date().toLocaleString();
- 
-        var sentMessageContainer = document.createElement("div");
-        sentMessageContainer.className = "flex flex-row justify-end mb-4";
-        sentMessageContainer.innerHTML = `
-            <div class="messages text-sm text-white grid grid-flow-row gap-2">
-                <div class="flex items-center flex-row-reverse group">
-                    <p class="px-6 py-3 rounded-t-full rounded-l-full bg-blue-700 max-w-xs lg:max-w-md">${messageText}</p>
-                    <button type="button" class="hidden group-hover:block">
-                        <p class="p-4 text-center text-sm text-gray-500">${timestamp}</p>
-                    </button>
-                </div> 
-            </div>
-        `;
-
-
-        document.getElementById("chat-body").appendChild(sentMessageContainer);
-        document.getElementById("messageInput").value = "";
-    }
-}
-function displayChatRooms(){
-    const chatRoomList = document.getElementById('contact-list');
-    chatRoomList.innerHTML = "";
-    chatRooms.forEach(room => {
-        var chatRoomBtn = document.createElement("div");
-        chatRoomBtn.className = "flex justify-between items-center p-3 hover:bg-gray-800 rounded-lg relative";
-        chatRoomBtn.innerHTML = `
-        <div class="w-16 h-16 relative flex flex-shrink-0">
-        <img class="shadow-md rounded-full w-full h-full object-cover"
-        src="img3.png"
-        alt=""
-   />
-        </div>
-        <div class="flex-auto min-w-0 ml-4 mr-6 hidden md:block group-hover:block">
-            <p name="chat-room-name">${room.name}</p>
-            <div class="flex items-center text-sm text-gray-600">
-                <div class="min-w-0">
-                    <p name="chat-room-recent" class="truncate">${room.messages.pop().content}</p>
-                </div>
-            </div>
-        </div>
-        `;
-        chatRoomBtn.onclick = () => changeChatRoom(room);
-        chatRoomList.appendChild(chatRoomBtn);
-    });
 }
 
-function displayOnlineUsers(){
-    const onlineUserList = document.getElementById('active-list');
-    onlineUserList.innerHTML = '';
-
-    onlineUsers.forEach(user => {
-        btnDisplay = "block";
-        if(user.friend == true) btnDisplay = "hidden"
-        const onlineUserContainer = document.createElement('div');
-        onlineUserContainer.className = "flex justify-between items-center p-3 hover:bg-gray-800 rounded-lg relative";
-
-        onlineUserContainer.innerHTML = `
-                        <div class="w-16 h-16 relative flex flex-shrink-0">
-                        <img class="shadow-md rounded-full w-full h-full object-cover"
-                             src="img2.png"
-                             alt=""
-                        />
-                        </div>
-                        <div name="online-name" class="flex-auto min-w-0 ml-4 mr-6 hidden md:block group-hover:block">
-                            <p>${user.name}</p>
-                        </div>
-                        <a onclick=addFriend("${user.name}") href="#" name="online-add-friend-bnt" class="${btnDisplay} rounded-full hover:bg-gray-700 bg-gray-800 w-10 h-10 p-2">
-                            <svg class="w-full h-full fill-current" viewBox="0 0 24 24">
-                                <path d="M17 11a1 1 0 0 1 0 2h-4v4a1 1 0 0 1-2 0v-4H7a1 1 0 0 1 0-2h4V7a1 1 0 0 1 2 0v4h4z"></path>
-                            </svg>
-                        </a>
-        `
-                        
-        onlineUserList.appendChild(onlineUserContainer);
-    });
-}
-
-function addFriend(friendname){
-    console.log("add friend" + friendname)
-    alert("add friend "+ friendname)
-}
-
-function displayFriends(){
+function updateFriends(){
     const onlineFriendList = document.getElementById('friend-list');
     onlineFriendList.innerHTML = '';
     
@@ -179,14 +145,76 @@ function displayFriends(){
     })
 }
 
+function updateOnlines(){
+    const onlineUserList = document.getElementById('active-list');
+    onlineUserList.innerHTML = '';
+
+    onlineUsers.forEach(user => {
+        btnDisplay = "block";
+        if(user.friend == true){
+            btnDisplay = "hidden";
+            }
+        const onlineUserContainer = document.createElement('div');
+        onlineUserContainer.className = "flex justify-between items-center p-3 hover:bg-gray-800 rounded-lg relative";
+
+        onlineUserContainer.innerHTML = `
+                        <div class="w-16 h-16 relative flex flex-shrink-0">
+                        <img class="shadow-md rounded-full w-full h-full object-cover"
+                             src="img2.png"
+                             alt=""
+                        />
+                        </div>
+                        <div name="online-name" class="flex-auto min-w-0 ml-4 mr-6 hidden md:block group-hover:block">
+                            <p>${user.name}</p>
+                        </div>
+                        <a onclick=addFriend("${user.name}") href="#" name="online-add-friend-bnt" class="${btnDisplay} rounded-full hover:bg-gray-700 bg-gray-800 w-10 h-10 p-2">
+                            <svg class="w-full h-full fill-current" viewBox="0 0 24 24">
+                                <path d="M17 11a1 1 0 0 1 0 2h-4v4a1 1 0 0 1-2 0v-4H7a1 1 0 0 1 0-2h4V7a1 1 0 0 1 2 0v4h4z"></path>
+                            </svg>
+                        </a>
+        `
+                        
+        onlineUserList.appendChild(onlineUserContainer);
+    });
+}
+
+function updateChatRooms(){
+    const chatRoomList = document.getElementById('contact-list');
+    chatRoomList.innerHTML = "";
+    
+    chatRooms.forEach(room => {
+        var chatRoomBtn = document.createElement("div");
+        chatRoomBtn.className = "flex justify-between items-center p-3 hover:bg-gray-800 rounded-lg relative";
+        const lastMessage = room.messages[room.messages.length - 1];
+        chatRoomBtn.innerHTML = `
+        <div class="w-16 h-16 relative flex flex-shrink-0">
+        <img class="shadow-md rounded-full w-full h-full object-cover"
+        src="img3.png"
+        alt=""
+   />
+        </div>
+        <div class="flex-auto min-w-0 ml-4 mr-6 hidden md:block group-hover:block">
+            <p name="chat-room-name">${room.name}</p>
+            <div class="flex items-center text-sm text-gray-600">
+                <div class="min-w-0">
+                    <p name="chat-room-recent" class="truncate">${lastMessage.content}</p>
+                </div>
+            </div>
+        </div>
+        `;
+        chatRoomBtn.onclick = () => changeChatRoom(room);
+        chatRoomList.appendChild(chatRoomBtn);
+    });
+}
+
 function displayMessages(chatRoom){
     const messageContainer = document.getElementById('chat-body');
     messageContainer.innerHTML = '';
     chatRoom.messages.forEach(message => {
         if (message.user == username){
             var sentMessageContainer = document.createElement("div");
-        sentMessageContainer.className = "flex flex-row justify-end mb-4";
-        sentMessageContainer.innerHTML = `
+            sentMessageContainer.className = "flex flex-row justify-end mb-4";
+            sentMessageContainer.innerHTML = `
             <div class="messages text-sm text-white grid grid-flow-row gap-2">
                 <div class="flex items-center flex-row-reverse group">
                     <p class="px-6 py-3 rounded-t-full rounded-l-full bg-blue-700 max-w-xs lg:max-w-md">${message.content}</p>
@@ -215,62 +243,64 @@ function displayMessages(chatRoom){
     });
 }
 
-function displayChatMemberx(room){
-    var memberListBody = document.createElement("div");
-    memberListBody.className = "relative z-10";
-    memberListBody.innerHTML = `<div class="fixed inset-0 bg-gray-900 bg-opacity-0 transition-opacity"></div>
-  
-    <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
-        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-            <div class="relative transform overflow-hidden rounded-lg bg-gray-800 text-left shadow-xl transition-all sm:my-8 sm:80 sm:max-w-lg">
-                <div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-                    
-                    <ul id="mem_list" class="max-w-md divide-y divide-gray-200 dark:divide-gray-700">
-                        <li class="pb-3 sm:pb-4">
-                            <div class="flex items-center space-x-4 rtl:space-x-reverse">
-                                <div class="flex-shrink-0">
-                                    <img class="w-8 h-8 rounded-full" src="img.png" alt="Neil image">
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <p class="text-sm font-medium text-white truncate dark:text-white">
-                                        Member name
-                                    </p>
-                                    
-                                </div>
-                                <div class="inline-flex items-center text-base font-semibold text-gray-700 dark:text-white">
-                                    member
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                    <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                <button onclick=list_close() id="close_button" type="button" class="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-900 sm:ml-3 sm:w-auto">Close</button>
-            </div>
+function updateMemberList(chatRoom){
+    const membersContainer = document.getElementById('list-window');
+    membersContainer.innerHTML = '';
+    chatRoom.members.forEach(member => {
+            var memberContainer = document.createElement("ul");
+            memberContainer.className = "max-w-md divide-y divide-gray-100 dark:divide-gray-500";
+            memberContainer.innerHTML = `
+                <li class="pb-3 sm:pb-4">
+                <div class="flex items-center space-x-4 rtl:space-x-reverse">
+                    <div class="flex-shrink-0">
+                        <img class="w-8 h-8 rounded-full" src="img.png" alt="Neil image">
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-medium text-white truncate dark:text-white">
+                            ${member.memberName}
+                        </p>
+                        
+                    </div>
+                    <div class="inline-flex items-center text-base font-semibold text-gray-700 dark:text-white">
+                        member
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>`
-
-    document.body.appendChild(memberListBody);
-    
-    var memberListTable = document.getElementById("memlist");
-    chatRooms.forEach(chatRoom=>{
-        if(chatRoom.name == room){
-            chatRoom.member.forEach(m=>{
-                
-            })
-        }
-    })
-}
-
-function list_close(){
-    var closeBtn = document.getElementById()
+                </li>
+            `;
+            membersContainer.appendChild(memberContainer);
+    });
 }
 
 function changeChatRoom(chatRoom) {
     document.getElementById('chat-name').textContent = chatRoom.name;
     document.getElementById('chat-status').textContent = chatRoom.id;
     displayMessages(chatRoom);
+    updateMemberList(chatRoom);
+}
+
+function sendMessage() {
+    var messageText = document.getElementById("messageInput").value;
+    const roomId = document.getElementById("chat-status").innerHTML;
+    if (messageText.trim() !== "") {
+        var timestamp = new Date().toLocaleString();
+ 
+        var sentMessageContainer = document.createElement("div");
+        sentMessageContainer.className = "flex flex-row justify-end mb-4";
+        sentMessageContainer.innerHTML = `
+            <div class="messages text-sm text-white grid grid-flow-row gap-2">
+                <div class="flex items-center flex-row-reverse group">
+                    <p class="px-6 py-3 rounded-t-full rounded-l-full bg-blue-700 max-w-xs lg:max-w-md">${messageText}</p>
+                    <button type="button" class="hidden group-hover:block">
+                        <p class="p-4 text-center text-sm text-gray-500">${timestamp}</p>
+                    </button>
+                </div> 
+            </div>
+        `;
+        
+        windowSendMessage(roomId, messageText);
+        document.getElementById("chat-body").appendChild(sentMessageContainer);
+        document.getElementById("messageInput").value = "";
+    }
 }
 
 document.getElementById("messageInput").addEventListener("keydown", function (event) {
@@ -279,70 +309,91 @@ document.getElementById("messageInput").addEventListener("keydown", function (ev
     }
 });
 
+function displayChatMember(){  
+    document.getElementById("remove_button").style.display = "none";
+    document.getElementById("username-input").style.display = "none";
+    document.getElementById("add_button").style.display = "none";
+    document.getElementById("list-status").style.display = "none";
+    document.getElementById("member-list-window").style.display = "block";
+}
+
+function displayAddMember(){
+    document.getElementById("remove_button").style.display = "none";
+    document.getElementById("username-input").style.display = "block";
+    document.getElementById("add_button").style.display = "block";
+    document.getElementById("list-status").style.display = "none";
+    document.getElementById("member-list-window").style.display = "block";
+}
+
+function displayRemoveMember(){
+    document.getElementById("remove_button").style.display = "block";
+    document.getElementById("username-input").style.display = "block";
+    document.getElementById("add_button").style.display = "none";
+    document.getElementById("list-status").style.display = "none";
+    document.getElementById("member-list-window").style.display = "block";
+}
+
+function listAdd(){
+    let user = document.getElementById("username-input").value;
+    let roomId = document.getElementById("chat-status").innerHTML;
+    
+    document.getElementById("list-status").innerHTML = windowAddMember(user, roomId);
+    document.getElementById("list-status").style.display = "block";
+}
+
+function listRemove(){
+    let user = document.getElementById("username-input").value;
+    let roomId = document.getElementById("chat-status").innerHTML;
+    
+    document.getElementById("list-status").innerHTML = windowRemoveMember(user, roomId);
+    document.getElementById("list-status").style.display = "block";
+}
+
+function exitChat(){
+    let roomId = document.getElementById("chat-status").innerHTML;
+    for (let i = 0; i < chatRooms.length; i++) { 
+        if (chatRooms[i].id == roomId) { 
+            changeChatRoom(chatRooms[0]);
+            let spliced = chatRooms.splice(i, 1); 
+        } 
+    }
+    document.getElementById('chat-body').innerHTML = '';
+    updateChatRooms();
+    console.log(windowRemoveMember(username, roomId));
+}
+
+function createNew(){
+    let roomName = document.getElementById("room-name-input").value;
+    if (roomName.trim() !== "") {
+        windowCreateRoom(roomName);
+        document.getElementById("create_room-window").style.display = "none";
+    }
+}
+
+function checkRequestQueue(){
+    if(requestQueue.length>0){
+        showNotification(requestQueue[0].name);
+    }
+}
+
+function addFriend(friendname){
+    windowSendFriendRequest(friendname);
+}
+
 function showNotification(friend){
     document.getElementById("friend-request-name").innerHTML = friend;
     document.getElementById("friend-notification").style.display = "block";
 }
 
-function updateData(){
-
+function acceptFriend(name){
+    windowResponseRequest(name, "accept");
+    requestQueue.shift();
 }
 
-function displayChatMember(){
-    document.getElementById("member-list-window").style.display = "block"
-
+function denyFriend(name){
+    windowResponseRequest(name, "deny");
+    requestQueue.shift();
 }
 
-function addMemberDisplay(){
-
-}
-
-function removeMemberDisplay(){
-
-}
-
-function exitChat(){
-
-}
-
-function addMember(member, room){
-
-}
-
-function removeMember(member, room){
-
-}
-
-function accept_friend(name){
-
-}
-
-function deny_friend(name){
-
-}
-
-function createRoom(name){
-
-}
-
-displayChatRooms();
-displayOnlineUsers();
-displayFriends();
-//showNotification("quinn");
-setInterval(displayOnlineUsers, 1000);
-setInterval(displayFriends, 1000);
-setInterval(testList, 2000);
-
-function testList(){   
-    const data = '{ "friend": ['+
-        '{"name": "friend1"},'+
-        '{"name": "friend2"},'+
-        '{"name": "friend3"} ]}';
-    const obj = JSON.parse(data);
-    friends = obj.friend;
-    onlineUsers = [
-        {name: "friend3", friend: true},
-        {name: "user2", friend: false},
-        {name: "user4", friend: false}
-    ];
-}
+setInterval(checkRequestQueue, 2000);
+parseData(sampleData);
