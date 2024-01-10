@@ -82,49 +82,30 @@ typedef struct {
     char *password;
 } UserInfo;
 
-// Function to parse username and password from a request string
-void parseReq(const char* req, char params[][50]) {
-    // Find the position of the first double quote
-    const char* firstQuote = strchr(req, '\"');
-    if (firstQuote == NULL) {
-        fprintf(stderr, "Invalid request format\n");
-        return;
+// Function to parse parameters from the given format
+int parseReq(const char* req, char(*params)[50]) {
+    int count = 0;
+
+    // Check if the input string starts with "[" and ends with "]"
+    if (req[0] == '[' && req[strlen(req) - 1] == ']') {
+        // Copy the string without "[" and "]"
+        char reqCopy[255]; // Adjust the size as needed
+        strncpy(reqCopy, req + 1, strlen(req) - 2);
+        reqCopy[strlen(req) - 2] = '\0';
+
+        // Tokenize the string using ","
+        char* token = strtok(reqCopy, ",");
+        while (token != NULL && count < 50) {
+            // Copy each parameter to the params array
+            strncpy(params[count], token + 1, strlen(token) - 2);
+            params[count][strlen(token) - 2] = '\0';
+
+            token = strtok(NULL, ",");
+            count++;
+        }
     }
 
-    // Find the position of the second double quote
-    const char* secondQuote = strchr(firstQuote + 1, '\"');
-    if (secondQuote == NULL) {
-        fprintf(stderr, "Invalid request format\n");
-        return;
-    }
-
-    // Calculate the length of the substring between the quotes
-    size_t length = secondQuote - firstQuote - 1;
-
-    // Copy the substring into the username parameter
-    strncpy(params[0], firstQuote + 1, length);
-    params[0][length] = '\0';
-
-    // Find the position of the third double quote
-    const char* thirdQuote = strchr(secondQuote + 1, '\"');
-    if (thirdQuote == NULL) {
-        fprintf(stderr, "Invalid request format\n");
-        return;
-    }
-
-    // Find the position of the fourth double quote
-    const char* fourthQuote = strchr(thirdQuote + 1, '\"');
-    if (fourthQuote == NULL) {
-        fprintf(stderr, "Invalid request format\n");
-        return;
-    }
-
-    // Calculate the length of the substring between the quotes
-    length = fourthQuote - thirdQuote - 1;
-
-    // Copy the substring into the password parameter
-    strncpy(params[1], thirdQuote + 1, length);
-    params[1][length] = '\0';
+    return count;
 }
 
 typedef struct {
@@ -155,15 +136,8 @@ void *login_thread_proc(void *arg) {
 
   char params[2][50];
   parseReq(params->req, params);
-  //sscanf(params->req,"[\"%s\",\"%s\"]", username, password);
   printf("Login for %s by %s\n", params[0], params[1]);
-  //["username","password"]
-  // auto username = webview::detail::json_parse(params->req, "", 0);
-	// auto password = webview::detail::json_parse(params->req, "", 1);
-  // thread_sleep(1);
-  // if(atoi(username[0])==atoi(password[0])){
-  //   webview_return(params->w, params->seq, 0, "1");
-  // }
+
   webview_return(params->w, params->seq, 0, "0");
   
   login_thread_params_free(params);
@@ -188,7 +162,7 @@ int main() {
   webview_t w = webview_create(0, NULL);
   context_t context = {.w = w, .count = 0};
   webview_set_title(w, "Authentication");
-  webview_set_size(w, 450, 800, WEBVIEW_HINT_NONE);
+  webview_set_size(w, 380, 800, WEBVIEW_HINT_NONE);
 
   webview_bind(w, "u_login", u_login, &context);
 
