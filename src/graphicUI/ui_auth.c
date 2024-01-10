@@ -120,6 +120,11 @@ void u_login(const char *seq, const char *req, void *arg) {
   }
 }
 
+typedef struct {
+  webview_t w;
+  unsigned int count;
+} context_t;
+
 int main() {
   const char* filenames[] = {"src/auth.cui", "src/tailwind.cui"}; // Replace with your file names
   int numFiles = sizeof(filenames) / sizeof(filenames[0]);
@@ -127,7 +132,7 @@ int main() {
   const char* concatenatedContent = concatenateFiles(filenames, numFiles);
 
   webview_t w = webview_create(0, NULL);
-
+  context_t context = {.w = w, .count = 0};
   webview_set_title(w, "Authentication");
   webview_set_size(w, 700, 500, WEBVIEW_HINT_NONE);
 

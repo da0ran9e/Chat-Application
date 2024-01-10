@@ -79,7 +79,7 @@ int main() {
   const char* application = concatenateFiles(filenames, numFiles);
 
   webview_t w = webview_create(0, NULL);
-  context_t context = {.w = w, .count = 0};
+  //context_t context = {.w = w, .count = 0};
   webview_set_title(w, "App");
   webview_set_size(w, 1300, 700, WEBVIEW_HINT_NONE);
 
