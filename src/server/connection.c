@@ -21,12 +21,13 @@ ssize_t receiveMessage(int clientSocket, char *buffer) {
 }
 
 ssize_t sendMessage(int clientSocket, const void *message, size_t len) {
-    printf("Send: ");
+    printf("About to send: ");
     printCodes(message, len);
     size_t totalSent = 0;
     while (totalSent < len) {
         ssize_t sent = send(clientSocket, message + totalSent, len - totalSent, 0);
-
+        printf("Sent: ");
+        printCodes(message, sent);
         if (sent == -1) {
             perror("Error in send");
             return -1;

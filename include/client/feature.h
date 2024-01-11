@@ -61,6 +61,7 @@ void c_add_member();
 void c_remove_member();
 void c_conversation();
 void c_chat();
+void c_load_all();
 
 void sendMessage(void *args, const char *buffer, int size);
 int recvAndProcess(void *args);

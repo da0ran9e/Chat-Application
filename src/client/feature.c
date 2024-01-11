@@ -9,6 +9,7 @@ char g_username[50];
 char g_user[MAX_CLIENTS][50];
 int g_rtds[MAX_CLIENTS];
 char g_friend[MAX_CLIENTS][50];
+char g_request[MAX_CLIENTS][50];
 Room g_rooms[MAX_CLIENTS];
 Message g_message[BUFFER];
 RoomMember g_room_member[MAX_CLIENTS * MAX_CLIENTS];
@@ -76,6 +77,7 @@ void showFeatures()
     {
     case 0:
         c_online();
+        break;
     case 1:
         c_login();
         break;
@@ -117,6 +119,9 @@ void showFeatures()
         break;
     case 14:
         c_chat();
+        break;
+    case 15:
+        c_load_all();
         break;
     default:
         break;
@@ -515,6 +520,161 @@ void c_chat()
         printf("Connection lost!\n");
     }
 }
+
+void c_load_all(){
+    /* PORT */
+    
+    /* RTD */
+    
+    /* Username */
+
+    /* Friend list */
+    
+    Parameters params;
+    char buffer[BUFFER];
+    strcpy(params.Param1, "\0");
+    strcpy(params.Param2, "\0");
+    strcpy(params.Param3, "\0");
+
+    int len = generateMessage(1, 0, params, buffer);
+    sendMessage(g_args, buffer, len);
+    int res = recvAndProcess(g_args);
+    /* Online list */
+    
+    len = generateMessage(0, 0, params, buffer);
+    sendMessage(g_args, buffer, len);
+    res = recvAndProcess(g_args);
+
+    /* Request list */
+    
+    len = generateMessage(1, 3, params, buffer);
+    sendMessage(g_args, buffer, len);
+    res = recvAndProcess(g_args);
+    /* Room list */
+    
+    strcpy(params.Param1, g_username);
+
+    len = generateMessage(2, 0, params, buffer);
+    sendMessage(g_args, buffer, len);
+    res = recvAndProcess(g_args);
+
+    for (int i=0; i<MAX_CLIENTS; i++){
+        if (g_rooms[i].roomId != -1){
+            strcpy(params.Param1, util_int_to_str(g_rooms[i].roomId));
+
+            len = generateMessage(2, 1, params, buffer);
+            sendMessage(g_args, buffer, len);
+            res = recvAndProcess(g_args);
+
+            len = generateMessage(3, 0, params, buffer);
+            sendMessage(g_args, buffer, len);
+            res = recvAndProcess(g_args);
+        }
+    }
+
+    /* Print */
+    printf("Port: %d/n", g_port);
+    printf("RTD: %d/n", g_rtd);
+    printf("Username: %s/n", g_username);
+    /*
+        "friends": [
+            {"name": "friend3"},
+            {"name": "friend4"},
+            {"name": "user3"}
+        ],
+    */
+    printf("\t\"friends\": [\n");
+    for (int i=0; i<MAX_CLIENTS; i++){
+                if (g_friend[i][0] != '\0'){
+                    printf("\t\t{\"name\": \"%s\"},\n",g_friend[i]);
+                }
+            }
+    printf("\t],\n");
+    /*
+        "onlineUsers": [
+            {"name": "user3", "friend": false},
+            {"name": "user4", "friend": true}
+        ], 
+    */
+    printf("\t\"onlineUser\": [\n");
+    for (int i=0; i<MAX_CLIENTS; i++){
+                if (g_user[i][0] != '\0'){
+                    for (int j=0; i<MAX_CLIENTS; j++){
+                        if(g_friend[i][0]!='\0'){
+                            printf("\t\t{\"name\": \"%s\", \"friend\":true},\n",g_user[i]);
+                            continue;
+                        }
+                    }
+                    printf("\t\t{\"name\": \"%s\", \"friend\":false},\n",g_user[i]);
+                }
+            }
+    printf("\t],\n");
+    /*
+        "requests": [
+            {"name": "new_request1"},
+            {"name": "new_request2"}
+        ],
+    */
+    printf("\t\"requests\": [\n");
+    for (int i=0; i<MAX_CLIENTS; i++){
+                if (g_request[i][0] != '\0'){
+                    printf("\t\t{\"name\": \"%s\"},\n",g_request[i]);
+                }
+            }
+    printf("\t],\n");
+    /*
+    "chatRooms": [
+        {
+            "id": 1,
+            "name": "New_Room1",
+            "members": [
+                {"memberName": "new_member1"},
+                {"memberName": "new_member2"},
+                {"memberName": "new_user"}
+            ],
+            "messages": [
+                {
+                    "user": "new_member1",
+                    "timestamp": "01-09-2024 10:15:30",
+                    "content": "Hello! How are you?"
+                },
+                {
+                    "user": "new_user",
+                    "timestamp": "01-09-2024 10:20:45",
+                    "content": "Hi there!"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "name": "New_Room2",
+            "members": [
+                {"memberName": "new_member1"},
+                {"memberName": "new_member2"},
+                {"memberName": "new_user"}
+            ],
+            "messages": [
+                {
+                    "user": "new_member2",
+                    "timestamp": "01-09-2024 10:30:00",
+                    "content": "Hey! What's up?"
+                },
+                {
+                    "user": "new_user",
+                    "timestamp": "01-09-2024 10:35:20",
+                    "content": "Not much, just chilling."
+                },
+                {
+                    "user": "new_member1",
+                    "timestamp": "01-09-2024 10:40:10",
+                    "content": "Cool! Let's chat."
+                }
+            ]
+        }
+    ]
+    */
+}
+
 int handle_receive_message(const char *message, int len)
 {
     int status;
@@ -535,7 +695,7 @@ int handle_receive_message(const char *message, int len)
     case 00:
         if (params.Param1[0] == '\0')
         {
-            printf("-------------Online list-------------\nRTTs\tUsername\n");
+            printf("-------------Online list-------------\nUsername\tRTTs\n");
             status = 200;
             break;
         }
@@ -743,6 +903,7 @@ int handle_receive_message(const char *message, int len)
             status = 213;
         }
         break;
+        
     default:
         break;
     }
@@ -753,16 +914,17 @@ void in_online_list(const char *username, const int rtd)
 {
     for (int i = 0; i < MAX_CLIENTS; i++)
     {
-        if (g_user[i][0] != '\0')
+        if (g_user[i][0] == '\0')
         {
             strcpy(g_user[i], username);
             printf("User online: %s\n", username);
             g_rtds[i] = rtd;
+            break;
         }
     }
     char buffer[BUFFER];
     Parameters params;
-    strcpy(params.Param1, util_int_to_str(g_rtd));
+    strcpy(params.Param1, "\0");
     strcpy(params.Param2, "\0");
     strcpy(params.Param3, "\0");
     int len = generateMessage(0, 0, params, buffer);
@@ -773,10 +935,11 @@ void in_friend_list(const char *username)
 {
     for (int i = 0; i < MAX_CLIENTS; i++)
     {
-        if (g_friend[i][0] != '\0')
+        if (g_friend[i][0] == '\0')
         {
             strcpy(g_friend[i], username);
             printf("Friend: %s\n", username);
+            break;
         }
     }
     char buffer[BUFFER];
@@ -792,10 +955,11 @@ void in_request_list(const char *username)
 {
     for (int i = 0; i < MAX_CLIENTS; i++)
     {
-        if (g_friend[i][0] != '\0')
+        if (g_request[i][0] == '\0')
         {
-            strcpy(g_friend[i], username);
+            strcpy(g_request[i], username);
             printf("Request: %s\n", username);
+            break;
         }
     }
     char buffer[BUFFER];
@@ -811,11 +975,12 @@ void in_room_list(const int roomId, const char *roomName)
 {
     for (int i = 0; i < MAX_CLIENTS; i++)
     {
-        if (g_rooms[i].roomId != -1)
+        if (g_rooms[i].roomId == -1)
         {
             g_rooms[i].roomId = roomId;
             strcpy(g_rooms[i].roomName, roomName);
             printf("Room: %d\tName:%s\n", roomId, roomName);
+            break;
         }
     }
     char buffer[BUFFER];
@@ -919,6 +1084,7 @@ void run_client(const char *address, const int port){
         g_user[i][0] = '\0';
         g_rtds[i] = 9999;
         g_friend[i][0] = '\0';
+        g_request[i][0] = '\0';
         g_rooms[i].roomId = -1;
     }
     strcpy(g_address, address);

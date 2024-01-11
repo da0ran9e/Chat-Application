@@ -87,7 +87,7 @@ int feat_online_list(const int clientSock, const int rtd)
             char readBuffer[BUFFER];
             strcpy(p.Param1, g_clientNames[i]);
             strcpy(p.Param2, util_int_to_str(g_rtds[i]));
-            p.Param3[0] = '\0';
+            strcpy(p.Param3, "\0");
             int len = writeMessage(0, 0, p, buffer);
 
             // send message
@@ -95,15 +95,15 @@ int feat_online_list(const int clientSock, const int rtd)
             count++;
             if (receiveMessage(clientSock, readBuffer) <= 0)
                 break;
-        }
-        Parameters p;
+        }       
+    }
+    Parameters p;
         p.Param1[0] = '\0';
         p.Param2[0] = '\0';
         p.Param3[0] = '\0';
         char buffer[BUFFER];
         int len = generateMessage(0, 0, p, buffer);
         sendMessage(clientSock, buffer, len);
-    }
     if (count > 0)
         return 200;
     else if (count == 0)
@@ -364,8 +364,8 @@ int feat_request_friend(int clientSock, const char *username, const char *destin
     }
     */
 
-        int res = s_rela_sendrequest(username, destination);
-        if (res == 211)
+    int res = s_rela_sendrequest(username, destination);
+    if (res == 211)
     {
         // sent response
         Parameters p;
