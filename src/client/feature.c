@@ -598,7 +598,7 @@ void c_load_all(){
     printf("\t\"onlineUser\": [\n");
     for (int i=0; i<MAX_CLIENTS; i++){
                 if (g_user[i][0] != '\0'){
-                    for (j=0; i<MAX_CLIENTS; j++){
+                    for (int j=0; i<MAX_CLIENTS; j++){
                         if(g_friend[i][0]!='\0'){
                             printf("\t\t{\"name\": \"%s\", \"friend\":true},\n",g_user[i]);
                             continue;
