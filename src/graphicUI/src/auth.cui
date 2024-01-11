@@ -236,10 +236,10 @@
     function changepass(){
         username = document.getElementById("username_changepass").value;
         password = document.getElementById("change_password").value;
-        password = document.getElementById("new_password").value;
-        password = document.getElementById("confirm_password").value;
+        newPassword = document.getElementById("new_password").value;
+        confirmPassword = document.getElementById("confirm_password").value;
 
-        if(new_password == confirm_password){
+        if(newPassword == confirmPassword){
             window.u_change_password(username, password, newPassword).then(result => {
             document.getElementById("tester").innerHTML = result;
             });
