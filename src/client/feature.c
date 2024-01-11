@@ -119,6 +119,9 @@ void showFeatures()
     case 14:
         c_chat();
         break;
+    case 15:
+        c_load_all();
+        break;
     default:
         break;
     }
