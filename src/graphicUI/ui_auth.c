@@ -89,10 +89,10 @@ int parseReq(const char* req, char(*params)[50]) {
 }
 
 void u_login(const char *seq, const char *req, void *arg) {
-  context_t *context = (context_t *)arg;
-  char p[2][50];
-  int count = parseReq(req, p);
-
+    context_t *context = (context_t *)arg;
+    char p[2][50];
+    int count = parseReq(req, p);
+    /*code go here*/
     printf("Input: %s", req);
     printf("Number of parameters: %d\n", count);
     for (int i = 0; i < count; i++) {
@@ -102,21 +102,49 @@ void u_login(const char *seq, const char *req, void *arg) {
   webview_return(context->w, seq, 0, "OK");
 }
 
+void u_register(const char *seq, const char *req, void *arg){
+    context_t *context = (context_t *)arg;
+    char p[2][50];
+    int count = parseReq(req, p);
+    /*code go here*/
+    printf("Number of parameters: %d\n", count);
+    for (int i = 0; i < count; i++) {
+        printf("Parameter %d: %s\n", i + 1, p[i]);
+    }
+
+  webview_return(context->w, seq, 0, "OK");
+}
+
+void u_change_password(const char *seq, const char *req, void *arg){
+    context_t *context = (context_t *)arg;
+    char p[3][50];
+    int count = parseReq(req, p);
+    /*code go here*/
+    printf("Number of parameters: %d\n", count);
+    for (int i = 0; i < count; i++) {
+        printf("Parameter %d: %s\n", i + 1, p[i]);
+    }
+
+  webview_return(context->w, seq, 0, "OK");
+}
+
 int main() {
-  const char* filenames[] = {"src/auth.cui", "src/tailwind.cui"}; // Replace with your file names
-  int numFiles = sizeof(filenames) / sizeof(filenames[0]);
+    const char* filenames[] = {"src/auth.cui", "src/tailwind.cui"};
+    int numFiles = sizeof(filenames) / sizeof(filenames[0]);
 
-  const char* concatenatedContent = concatenateFiles(filenames, numFiles);
+    const char* concatenatedContent = concatenateFiles(filenames, numFiles);
 
-  webview_t w = webview_create(0, NULL);
-  context_t context = {.w = w, .count = 0};
-  webview_set_title(w, "Authentication");
-  webview_set_size(w, 350, 700, WEBVIEW_HINT_NONE);
+    webview_t w = webview_create(0, NULL);
+    context_t context = {.w = w, .count = 0};
+    webview_set_title(w, "Authentication");
+    webview_set_size(w, 350, 700, WEBVIEW_HINT_NONE);
 
-  webview_bind(w, "u_login", u_login, &context);
-
-  webview_set_html(w, concatenatedContent);
-  webview_run(w);
-  webview_destroy(w);
-  return 0;
+    webview_bind(w, "u_login", u_login, &context);
+    webview_bind(w, "u_register", u_register, &context);
+    webview_bind(w, "u_change_password", u_change_password, &context);
+    
+    webview_set_html(w, concatenatedContent);
+    webview_run(w);
+    webview_destroy(w);
+    return 0;
 }

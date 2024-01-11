@@ -228,13 +228,18 @@
     function register(){
         username = document.getElementById("register_username").value;
         password = document.getElementById("register_password").value;
+        window.u_register(username, password).then(result => {
+            document.getElementById("tester").innerHTML = result;
+        });
     }
 
     function changepass(){
         username = document.getElementById("username_changepass").value;
         password = document.getElementById("change_password").value;
         password = document.getElementById("new_password").value;
-
+        window.u_change_password(username, password, newPassword).then(result => {
+            document.getElementById("tester").innerHTML = result;
+        });
 
     }
 </script>
