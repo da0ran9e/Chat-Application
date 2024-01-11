@@ -62,7 +62,13 @@ void c_remove_member();
 void c_leave();
 void c_conversation();
 void c_chat();
-void c_load_all();
+void ca_load_all(char *jsonStr);
+void ca_create_room(const char *roomName);
+void ca_send_message(const int roomId, const char *message);
+void ca_add_room_member(const int roomId, const char *user);
+void ca_remove_member(const int roomId, const char *user);
+void ca_send_request(const char *friendName);
+void ca_response_request(const char *friendName, const int resonse);
 
 void sendMessage(void *args, const char *buffer, int size);
 int recvAndProcess(void *args);
