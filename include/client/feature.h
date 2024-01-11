@@ -3,7 +3,9 @@
 
 #include "../shared/common.h"
 #include "../client/connection.h"
+#include "../webview/webview.h"
 
+#define UNUSED(x) (void)x
 #define PING_INTERVAL 500 // Interval in seconds for sending ping messages
 
 // Structure to pass arguments to the thread

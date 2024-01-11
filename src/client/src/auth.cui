@@ -1,0 +1,255 @@
+<style>
+        /* can be configured in tailwind.config.js */
+        .group:hover .group-hover\:block {
+            display: block;
+        }
+    .hover\:w-64:hover {
+            width: 45%;
+        }
+    /* NO NEED THIS CSS - just for custom scrollbar which can also be configured in tailwind.config.js*/
+    ::-webkit-scrollbar {
+        width: 2px;
+        height: 2px;
+    }
+    ::-webkit-scrollbar-button {
+        width: 0px;
+        height: 0px;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #2d3748;
+        border: 0px none #ffffff;
+        border-radius: 50px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: #2b6cb0;
+    }
+    ::-webkit-scrollbar-thumb:active {
+        background: #000000;
+    }
+    ::-webkit-scrollbar-track {
+        background: #1a202c;
+        border: 0px none #ffffff;
+        border-radius: 50px;
+    }
+    ::-webkit-scrollbar-track:hover {
+        background: #666666;
+    }
+    ::-webkit-scrollbar-track:active {
+        background: #333333;
+    }
+    ::-webkit-scrollbar-corner {
+        background: transparent;
+    }
+</style>
+<!--auth scr-->
+<div class="relative z-10" id="login_body" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-100 transition-opacity"></div>
+  
+    <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <div class="relative transform overflow-hidden rounded-lg bg-gray-500 text-left shadow-xl transition-all sm:my-8 sm:80 sm:max-w-lg">
+                <div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+                    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+                    <img class="mx-auto h-20 w-auto shadow-md rounded-full object-cover" src="img.png" alt="Your App">
+                    <h1 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">ChatPals</h1>
+                    <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign in</h2>
+                    </div>
+                
+                    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+                    <div class="space-y-6">
+                        <div>
+                        <label for="username" class="block text-sm font-medium leading-6 text-gray-900">Username</label>
+                        <div class="mt-2">
+                            <input id="username" name="username" type="username" autocomplete="username" required="" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                        </div>
+                        </div>
+                
+                        <div>
+                        <div class="flex items-center justify-between">
+                            <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
+                            <div class="text-sm">
+                            <a onclick=show_change_pass() class="font-semibold text-indigo-600 hover:text-indigo-500">Change password?</a>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <input id="password" name="password" type="password" required="" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                        </div>
+                        </div>
+                
+                        <div>
+                        <button onclick=login() id="loginbtn" type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
+                        </div>
+
+                        <div id="tester">hold</div>
+                    </div>
+                
+                    <p class="mt-10 text-center text-sm text-gray-500">
+                        Not a member?
+                        <!-- space -->
+                        <a onclick=show_register() class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Create new user</a>
+                    </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function show_register(){
+        document.getElementById("register_body").className = "relative z-10";
+    }
+    function show_change_pass(){
+        document.getElementById("change_pass_body").className = "relative z-10";
+    }
+</script>
+  <!--register-->
+<div id="register_body" class="hidden relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-100 transition-opacity"></div>
+  
+    <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <div class="relative transform overflow-hidden rounded-lg bg-gray-500 text-left shadow-xl transition-all sm:my-8 sm:80 sm:max-w-lg">
+                <div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+                    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+                    <h1 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">ChatPal</h1>
+                    <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign up</h2>
+                    </div>
+                
+                    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+                    <div class="space-y-6">
+                        <div>
+                        <label for="register_username" class="block text-sm font-medium leading-6 text-gray-900">Username</label>
+                        <div class="mt-2">
+                            <input id="register_username" name="register_username" type="register_username" autocomplete="register_username" required="" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                        </div>
+                        </div>
+                
+                        <div>
+                        <div class="flex items-center justify-between">
+                            <label for="register_password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
+                            
+                        </div>
+                        <div class="mt-2">
+                            <input id="register_password" name="register_password" type="password" required="" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                        </div>
+                        </div>
+                
+                        <div>
+                        <button onclick=register() type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Register</button>
+                        </div>
+                    </div>
+                
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--change password-->
+<div id="change_pass_body" class="hidden relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-100 transition-opacity"></div>
+  
+    <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <div class="relative transform overflow-hidden rounded-lg bg-gray-500 text-left shadow-xl transition-all sm:my-8 sm:80 sm:max-w-lg">
+                <div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+                    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+                    <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Change password</h2>
+                    </div>
+                
+                    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+                    <div class="space-y-6">
+                        <div>
+                        <label for="username_changepass" class="block text-sm font-medium leading-6 text-gray-900">Username</label>
+                        <div class="mt-2">
+                            <input id="username_changepass" name="username_changepass" type="email" autocomplete="email" required="" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                        </div>
+                        </div>
+                        <div>
+                            <div class="flex items-center justify-between">
+                                <label for="change_password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
+                                
+                            </div>
+                            <div class="mt-2">
+                                <input id="change_password" name="change_password" type="password" required="" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex items-center justify-between">
+                                <label for="new_password" class="block text-sm font-medium leading-6 text-gray-900">New password</label>
+                                
+                            </div>
+                            <div class="mt-2">
+                                <input id="new_password" name="new_password" type="password" required="" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex items-center justify-between">
+                                <label id="confirm_label" for="confirm_password" class="block text-sm font-medium leading-6 text-gray-900">Confirm password</label>
+                                
+                            </div>
+                            <div class="mt-2">
+                                <input id="confirm_password" name="confirm_password" type="password" required="" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            </div>
+                        </div>
+                
+                        <div>
+                        <button onclick=changepass() type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Confirm</button>
+                        </div>
+                    </div>
+                
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function login(){
+        username = document.getElementById("username").value;
+        password = document.getElementById("password").value;
+        window.u_login(username, password).then(result => {
+            document.getElementById("tester").innerHTML = result;
+        });
+
+        window.u_login(username, password).then(result =>{
+            if(result == "1") {
+                document.getElementById("loginbtn").innerHTML = "login done"
+            }
+            else{
+                document.getElementById("loginbtn").innerHTML = "login false"
+            }
+        })
+    }
+
+    function register(){
+        username = document.getElementById("register_username").value;
+        password = document.getElementById("register_password").value;
+        window.u_register(username, password).then(result => {
+            document.getElementById("tester").innerHTML = result;
+        });
+    }
+
+    function changepass(){
+        username = document.getElementById("username_changepass").value;
+        password = document.getElementById("change_password").value;
+        newPassword = document.getElementById("new_password").value;
+        confirmPassword = document.getElementById("confirm_password").value;
+
+        if(newPassword == confirmPassword){
+            window.u_change_password(username, password, newPassword).then(result => {
+            document.getElementById("tester").innerHTML = result;
+            });
+        }else{
+            document.getElementById("confirm_label").innerHTML = "Your new password match!";
+            password = document.getElementById("new_password").value = "";
+            password = document.getElementById("confirm_password").value = "";
+        }
+        
+        
+
+    }
+</script>
