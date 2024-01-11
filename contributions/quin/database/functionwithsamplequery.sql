@@ -217,6 +217,7 @@ DECLARE
     friendship_exists BOOLEAN;
 	request_exists BOOLEAN;
     success INTEGER;
+	new_room_id INTEGER;
 BEGIN
     -- Get user IDs
     SELECT user_id INTO user1_id FROM account WHERE username = in_username1;
@@ -248,6 +249,9 @@ BEGIN
             VALUES (user1_id, user2_id);
 
             GET DIAGNOSTICS success = ROW_COUNT;
+			-- Create a private room for the two users
+            new_room_id := create_private_room(in_username1, in_username2);
+       
         ELSE
             -- Friendship already exists or no request
             success := 0;
@@ -263,7 +267,7 @@ $$ LANGUAGE plpgsql;
 -- query to add a friend
 --SELECT add_friend('user3', 'user4') AS add_friend_status;
 --SELECT add_friend('user4', 'user3') AS add_friend_status;
---SELECT add_friend('user20', 'user1') AS add_friend_status;
+--SELECT add_friend('user7', 'user8') AS add_friend_status;
 
 -- Function to delete a friend (remove a relationship)
 CREATE OR REPLACE FUNCTION delete_friend(in_username1 VARCHAR(50), in_username2 VARCHAR(50))
