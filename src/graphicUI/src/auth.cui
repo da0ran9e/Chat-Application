@@ -239,8 +239,8 @@
         password = document.getElementById("new_password").value;
         password = document.getElementById("confirm_password").value;
 
-        if(new_password !== confirm_password){
-            document.getElementById("tester").innerHTML = "Your new password match!";
+        if(new_password != confirm_password){
+            document.getElementById("confirm_label").innerHTML = "Your new password match!";
             password = document.getElementById("new_password").value = "";
             password = document.getElementById("confirm_password").value = "";
         }
