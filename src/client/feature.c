@@ -125,7 +125,7 @@ void showFeatures()
         c_chat();
         break;
     case 16:
-        c_load_all();
+        //c_load_all();
         break;
     default:
         break;
@@ -713,6 +713,9 @@ void ca_load_all(char *jsonStr){
 }
 
 void ca_create_room(const char *roomName){
+    Parameters params;
+    char buffer[BUFFER];
+
     strcpy(params.Param1, roomName);
     strcpy(params.Param2, g_username);
     strcpy(params.Param3, "\0");
@@ -723,6 +726,9 @@ void ca_create_room(const char *roomName){
 }
 
 void ca_send_message(const int roomId, const char *message){
+    Parameters params;
+    char buffer[BUFFER];
+
     strcpy(params.Param1, g_username);
     strcpy(params.Param2, util_int_to_str(roomId));
     strcpy(params.Param3, message);
@@ -733,6 +739,9 @@ void ca_send_message(const int roomId, const char *message){
 }
 
 void ca_add_room_member(const int roomId, const char *user){
+    Parameters params;
+    char buffer[BUFFER];
+
     strcpy(params.Param1, util_int_to_str(roomId));
     strcpy(params.Param2, user);
     strcpy(params.Param3, "\0");
@@ -743,6 +752,9 @@ void ca_add_room_member(const int roomId, const char *user){
 }
 
 void ca_remove_member(const int roomId, const char *user){
+    Parameters params;
+    char buffer[BUFFER];
+
     strcpy(params.Param1, util_int_to_str(roomId));
     strcpy(params.Param2, user);
     strcpy(params.Param3, "\0");
@@ -753,6 +765,9 @@ void ca_remove_member(const int roomId, const char *user){
 }
 
 void ca_send_request(const char *friendName){
+    Parameters params;
+    char buffer[BUFFER];
+
     strcpy(params.Param1, g_username);
     strcpy(params.Param2, friendName);
     strcpy(params.Param3, "300");
@@ -763,6 +778,9 @@ void ca_send_request(const char *friendName){
 }
 
 void ca_response_request(const char *friendName, const int resonse){
+    Parameters params;
+    char buffer[BUFFER];
+
     strcpy(params.Param1, friendName);
     strcpy(params.Param2, g_username);
     switch (resonse)

@@ -25,7 +25,7 @@ int s_rela_addfriendship(const char * username, const char * destination, int *r
     switch (dbc_add_friend(username, destination))
     {
     case ACCEPT:
-        *room = dbc_create_private_room(username, destination);
+        //*room = dbc_create_private_room(username, destination);
         return 211;
         break;
     case DENY:
