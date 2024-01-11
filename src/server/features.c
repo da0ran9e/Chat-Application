@@ -95,15 +95,15 @@ int feat_online_list(const int clientSock, const int rtd)
             count++;
             if (receiveMessage(clientSock, readBuffer) <= 0)
                 break;
-        }
-        Parameters p;
+        }       
+    }
+    Parameters p;
         p.Param1[0] = '\0';
         p.Param2[0] = '\0';
         p.Param3[0] = '\0';
         char buffer[BUFFER];
         int len = generateMessage(0, 0, p, buffer);
         sendMessage(clientSock, buffer, len);
-    }
     if (count > 0)
         return 200;
     else if (count == 0)
