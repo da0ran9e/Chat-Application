@@ -357,7 +357,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 -- query to get list of people in a room
-SELECT * FROM get_people_in_room(1); -- if room_id = 1
+--SELECT * FROM get_people_in_room(1); -- if room_id = 1
 
 -- Function to create a private room between two users
 CREATE OR REPLACE FUNCTION create_private_room(user1_username VARCHAR(50), user2_username VARCHAR(50))
