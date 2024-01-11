@@ -600,7 +600,7 @@ void c_load_all(){
     for (int i=0; i<MAX_CLIENTS; i++){
                 if (g_user[i][0] != '\0'){
                     int fr = 0;
-                    for (int j=0; i<MAX_CLIENTS; j++){
+                    for (int j=0; j<MAX_CLIENTS; j++){
                         if(g_friend[i][0]!='\0') fr++;
                     }
                     
@@ -673,6 +673,39 @@ void c_load_all(){
         }
     ]
     */
+    printf("\t\"chatRooms\": [\n");
+int start = 0;
+for (int i = 0; i < MAX_CLIENTS; i++) {
+    if (g_rooms[i].roomId != -1) {
+        if (start > 0) printf(",\n");  // Add comma before each new chat room (except the first one)
+        printf("\t\t{\n");
+        printf("\t\t\t\"id\": \"%d\",\n", g_rooms[i].roomId);
+        printf("\t\t\t\"name\": \"%s\",\n", g_rooms[i].roomName);
+
+        printf("\t\t\t\"members\": [\n");
+        for (int j = 0; j < MAX_CLIENTS; j++) {
+            if (g_room_member[j].roomId == g_rooms[i].roomId) {
+                printf("\t\t\t\t{\"memberName\": \"%s\"},\n", g_room_member[j].memName);
+            }
+        }
+        printf("\t\t\t],\n");
+
+        printf("\t\t\t\"messages\": [\n");
+        for (int j = 0; j < MAX_CLIENTS; j++) {
+            if (g_message[j].roomId == g_rooms[i].roomId) {
+                printf("\t\t\t\t{\n");
+                printf("\t\t\t\t\t\"user\": \"%s\",\n", g_message[j].userId);
+                printf("\t\t\t\t\t\"timestamp\": \"%s\",\n", g_message[j].timestamp);
+                printf("\t\t\t\t\t\"content\": \"%s\"\n", g_message[j].content);
+                printf("\t\t\t\t},\n");
+            }
+        }
+        printf("\t\t\t]\n\t\t}");
+        start++;
+    }
+}
+printf("\n\t]\n");
+
 }
 
 int handle_receive_message(const char *message, int len)
@@ -1086,6 +1119,8 @@ void run_client(const char *address, const int port){
         g_friend[i][0] = '\0';
         g_request[i][0] = '\0';
         g_rooms[i].roomId = -1;
+        g_message[i].roomId = -1;
+        g_room_member[i].roomId = -1;
     }
     strcpy(g_address, address);
     g_port = port;
