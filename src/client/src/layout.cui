@@ -1,0 +1,289 @@
+
+<!-- Messenger Clone -->
+<div class="h-screen w-full flex antialiased text-gray-200 bg-gray-900 overflow-hidden">
+    <div class="flex-1 flex flex-col">
+        <div name = "control-bar" class="border-b-2 border-gray-800 p-2 flex flex-row z-20">
+            <div class="bg-red-600 w-3 h-3 rounded-full mr-2"></div>
+            <div class="bg-yellow-500 w-3 h-3 rounded-full mr-2"></div>
+            <div class="bg-green-500 w-3 h-3 rounded-full mr-2"></div>
+        </div>
+        <main class="flex-grow flex flex-row min-h-0">
+            <section class="flex flex-col flex-none overflow-auto w-24 hover:w-64 group lg:max-w-sm md:w-2/5 transition-all duration-300 ease-in-out">
+                <div class="header p-4 flex flex-row justify-between items-center flex-none">
+                    <div class="w-16 h-16 relative flex flex-shrink-0" style="filter: invert(100%);">
+                        <img class="rounded-full w-full h-full object-cover" alt="0ran9e" src="img.png"/>    
+                    </div>
+                    <p class="text-md font-bold hidden md:block group-hover:block">ChatPals</p>
+                    <a onclick=displayCreateRoom() class="block rounded-full hover:bg-gray-700 bg-gray-800 w-10 h-10 p-2">
+                        <svg class="w-full h-full fill-current" viewBox="0 0 24 24">
+                            <path d="M17 11a1 1 0 0 1 0 2h-4v4a1 1 0 0 1-2 0v-4H7a1 1 0 0 1 0-2h4V7a1 1 0 0 1 2 0v4h4z"></path>
+                        </svg>
+                    </a>
+                </div>
+        
+                <div id="friend-list" class="active-users flex flex-row p-2 overflow-auto w-0 min-w-full">
+                    
+
+                </div>
+                <div id="contact-list" class="contacts p-2 flex-1 overflow-y-scroll"></div>
+            </section>
+            <section class="flex flex-col flex-auto border-l border-gray-800">
+                <div class="chat-header px-6 py-4 flex flex-row flex-none justify-between items-center shadow">
+                    <div class="flex">
+                        <div class="w-12 h-12 mr-4 relative flex flex-shrink-0">
+                            <img class="shadow-md rounded-full w-full h-full object-cover"
+                                 src="img.png"
+                                 alt=""
+                            />
+                        </div>
+                        <div class="text-sm">
+                            <p id="chat-name" class="font-bold">Quinn</p>
+                            <p>ID: <a id="chat-status">Online</a></p>
+                        </div>
+                    </div>
+                    <div class="relative inline-block text-left">
+                        <div>
+                          <div type="button" class="inline-flex w-full justify-center gap-x-1.5 rounded-md px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" id="menu-button" aria-expanded="true" aria-haspopup="true">
+                            <a onclick=show_room_menu() class="block rounded-full hover:bg-gray-700 bg-gray-800 w-10 h-10 p-2 ml-4">
+                                <svg viewBox="0 0 20 20" class="w-full h-full fill-current text-blue-500">
+                                    <path d="M2.92893219,17.0710678 C6.83417511,20.9763107 13.1658249,20.9763107 17.0710678,17.0710678 C20.9763107,13.1658249 20.9763107,6.83417511 17.0710678,2.92893219 C13.1658249,-0.976310729 6.83417511,-0.976310729 2.92893219,2.92893219 C-0.976310729,6.83417511 -0.976310729,13.1658249 2.92893219,17.0710678 Z M9,11 L9,10.5 L9,9 L11,9 L11,15 L9,15 L9,11 Z M9,5 L11,5 L11,7 L9,7 L9,5 Z"/>
+                                </svg>
+                            </a>
+                        </div>
+                        </div>
+                        <div action="/tailwindlabs/tailwindcss/lists" id="chat_room_menu" class="hidden absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-gray-700 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                          <div class="py-1" role="none">
+                            <a onclick=displayChatMember() class="cursor-pointer text-white block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0">See chat members</a>
+                            <a onclick=displayAddMember() class="cursor-pointer text-white block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-1">Add member</a>
+                            <a onclick=displayRemoveMember() class="cursor-pointer text-white block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-2">Remove member</a>
+                            <a onclick=exitChat() class="cursor-pointer text-red-500 block w-full px-4 py-2 text-left text-sm" role="menuitem" tabindex="-1" id="menu-item-3">Leave chat</a>
+                          </div>
+                        </div>
+                        <script>
+                            function show_room_menu(){
+                                x = document.getElementById("chat_room_menu");
+                                if (x.style.display === 'none') {
+                                    x.style.display = 'block';
+                                  } else {
+                                    x.style.display = 'none';
+                                  }
+                            }
+                        </script>
+                      </div>
+                </div>
+                <div id="chat-body" class="chat-body p-4 flex-1 overflow-y-scroll">
+                    
+                    <div class="flex flex-row justify-start">
+                        <div class="w-8 h-8 relative flex flex-shrink-0 mr-4">
+                            <img class="shadow-md rounded-full w-full h-full object-cover" src="img.png" alt="">
+                        </div>
+                        <div class="messages text-sm text-gray-700 grid grid-flow-row gap-2">
+                            <p class="p-0 text-left text-sm text-gray-50">user1</p>
+                            <div class="flex items-center group">
+                                <p class="px-6 py-3 rounded-b-full rounded-r-full bg-gray-800 max-w-xs lg:max-w-md text-gray-200">Lorem ipsum
+                                    dolor sit
+                                    amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                                    dolore magna aliqua. Volutpat lacus laoreet non curabitur gravida.</p>
+                                
+                                <button type="button" class="hidden group-hover:block">
+                                    <p class="p-4 text-center text-sm text-gray-500">2023-12-12 12:40:45</p>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-row justify-end">
+                        <div class="messages text-sm text-white grid grid-flow-row gap-2">
+                            <div class="flex items-center flex-row-reverse group">
+                                <p class="px-6 py-3 rounded-t-full rounded-l-full bg-blue-700 max-w-xs lg:max-w-md">Hey! How are you?</p>
+                                
+                                <button type="button" class="hidden group-hover:block">
+                                    <p class="p-4 text-center text-sm text-gray-500">2023-12-12 12:40:45</p>
+                                </button>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-footer flex-none">
+                    <div class="flex flex-row items-center p-4">
+
+                        <div class="relative flex-grow">
+                            <label>
+                                <input class="rounded-full py-2 pl-3 pr-10 w-full border border-gray-800 focus:border-gray-700 bg-gray-800 focus:bg-gray-900 focus:outline-none text-gray-200 focus:shadow-md transition duration-300 ease-in"
+                                       type="text" id="messageInput" value="" placeholder="Type your message here."/>
+                                
+                            </label>
+                        </div>
+                        <button onclick="sendMessage()" type="button" class="flex flex-shrink-0 focus:outline-none mx-2 block text-blue-600 hover:text-blue-700 w-6 h-6">
+                            <svg viewBox="0 0 20 20" class="w-full h-full fill-current">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M16.0636 0.199431C18.1242 -0.65915 20.1914 1.40807 19.3328 3.46866L13.4093 17.6851C12.2509 20.4654 8.17606 19.9954 7.68089 17.0245L6.94188 12.5904L2.5078 11.8514C-0.463191 11.3562 -0.933129 7.2814 1.84715 6.12295L16.0636 0.199431ZM17.4867 2.69943C17.6584 2.28731 17.2449 1.87387 16.8328 2.04558L2.61638 7.9691C1.68962 8.35525 1.84627 9.71352 2.83659 9.87857L7.27068 10.6176C8.11362 10.7581 8.77417 11.4186 8.91467 12.2616L9.65368 16.6957C9.81873 17.686 11.177 17.8426 11.5631 16.9159L17.4867 2.69943Z" fill="#777E91"/>
+                            </svg>
+                            
+                        </button>
+                    </div>
+                </div>
+            </section>
+            <section class="flex flex-col flex-none overflow-auto w-10 hover:w-12 group lg:max-w-sm md:w-1/5 transition-all duration-300 ease-in-out">
+                <div class="header p-4 flex flex-row justify-between items-center flex-none">
+                    <div class="w-16 h-16 relative flex flex-shrink-0" style="filter: invert(100%);">
+                        <img class="rounded-full w-full h-full object-cover" alt="ravisankarchinnam"
+                             src="img.png"/>
+                    </div>
+                    
+                    <div class="text-sm">
+                        <p name="username-label" id="username" class="text-md font-bold hidden md:block group-hover:block">Username</p>
+                        <p name="username-ping" id="rtd">29ms</p>
+                    </div>
+                    <div class="relative inline-block text-left">
+                        <div>
+                          <button onclick=user_menu() type="button" class="inline-flex w-full justify-center gap-x-1.5 rounded-md px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" id="menu-button" aria-expanded="true" aria-haspopup="true">
+                            <a class="block rounded-full hover:bg-gray-700 bg-gray-800 w-10 h-10 p-2">
+                                <svg class="w-full h-full fill-current" viewBox="-2 -2 24 24">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M15.5 13C15.0478 13 14.4089 13.0625 13.7438 13.1536C13.4331 13.1962 13.1962 13.4331 13.1536 13.7438C13.0625 14.4089 13 15.0478 13 15.5C13 15.9522 13.0625 16.5911 13.1536 17.2562C13.1962 17.5669 13.4331 17.8038 13.7438 17.8464C14.4089 17.9375 15.0478 18 15.5 18C15.9522 18 16.5911 17.9375 17.2562 17.8464C17.5669 17.8038 17.8038 17.5669 17.8464 17.2562C17.9375 16.5911 18 15.9522 18 15.5C18 15.0478 17.9375 14.4089 17.8464 13.7438C17.8038 13.4331 17.5669 13.1962 17.2562 13.1536C16.5911 13.0625 15.9522 13 15.5 13ZM13.4724 11.1721C12.2725 11.3364 11.3364 12.2725 11.1721 13.4724C11.0778 14.1606 11 14.9082 11 15.5C11 16.0918 11.0778 16.8394 11.1721 17.5276C11.3364 18.7275 12.2725 19.6636 13.4724 19.8279C14.1606 19.9222 14.9082 20 15.5 20C16.0918 20 16.8394 19.9222 17.5276 19.8279C18.7275 19.6636 19.6636 18.7275 19.8279 17.5276C19.9222 16.8394 20 16.0918 20 15.5C20 14.9082 19.9222 14.1606 19.8279 13.4724C19.6636 12.2725 18.7275 11.3364 17.5276 11.1721C16.8394 11.0778 16.0918 11 15.5 11C14.9082 11 14.1606 11.0778 13.4724 11.1721Z" fill="#5F6388"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M4.5 13C4.04782 13 3.40893 13.0625 2.74381 13.1536C2.43308 13.1962 2.19615 13.4331 2.15359 13.7438C2.0625 14.4089 2 15.0478 2 15.5C2 15.9522 2.0625 16.5911 2.15359 17.2562C2.19615 17.5669 2.43308 17.8038 2.74381 17.8464C3.40893 17.9375 4.04782 18 4.5 18C4.95218 18 5.59107 17.9375 6.25619 17.8464C6.56692 17.8038 6.80385 17.5669 6.84641 17.2562C6.9375 16.5911 7 15.9522 7 15.5C7 15.0478 6.9375 14.4089 6.84641 13.7438C6.80385 13.4331 6.56692 13.1962 6.25619 13.1536C5.59107 13.0625 4.95218 13 4.5 13ZM2.47244 11.1721C1.27253 11.3364 0.336423 12.2725 0.172092 13.4724C0.0778385 14.1606 0 14.9082 0 15.5C0 16.0918 0.0778385 16.8394 0.172092 17.5276C0.336423 18.7275 1.27253 19.6636 2.47244 19.8279C3.16065 19.9222 3.90816 20 4.5 20C5.09184 20 5.83935 19.9222 6.52756 19.8279C7.72747 19.6636 8.66358 18.7275 8.82791 17.5276C8.92216 16.8394 9 16.0918 9 15.5C9 14.9082 8.92216 14.1606 8.82791 13.4724C8.66358 12.2725 7.72747 11.3364 6.52756 11.1721C5.83935 11.0778 5.09184 11 4.5 11C3.90816 11 3.16065 11.0778 2.47244 11.1721Z" fill="#5F6388"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M15.5 2C15.0478 2 14.4089 2.0625 13.7438 2.15359C13.4331 2.19615 13.1962 2.43308 13.1536 2.74381C13.0625 3.40893 13 4.04782 13 4.5C13 4.95218 13.0625 5.59107 13.1536 6.25619C13.1962 6.56692 13.4331 6.80385 13.7438 6.84641C14.4089 6.9375 15.0478 7 15.5 7C15.9522 7 16.5911 6.9375 17.2562 6.84641C17.5669 6.80385 17.8038 6.56692 17.8464 6.25619C17.9375 5.59107 18 4.95218 18 4.5C18 4.04782 17.9375 3.40893 17.8464 2.74381C17.8038 2.43308 17.5669 2.19615 17.2562 2.15359C16.5911 2.0625 15.9522 2 15.5 2ZM13.4724 0.172092C12.2725 0.336423 11.3364 1.27253 11.1721 2.47244C11.0778 3.16065 11 3.90816 11 4.5C11 5.09184 11.0778 5.83935 11.1721 6.52756C11.3364 7.72747 12.2725 8.66358 13.4724 8.82791C14.1606 8.92216 14.9082 9 15.5 9C16.0918 9 16.8394 8.92216 17.5276 8.82791C18.7275 8.66358 19.6636 7.72747 19.8279 6.52756C19.9222 5.83935 20 5.09184 20 4.5C20 3.90816 19.9222 3.16065 19.8279 2.47244C19.6636 1.27253 18.7275 0.336423 17.5276 0.172092C16.8394 0.0778385 16.0918 0 15.5 0C14.9082 0 14.1606 0.0778385 13.4724 0.172092Z" fill="#5F6388"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M4.5 2C4.04782 2 3.40893 2.0625 2.74381 2.15359C2.43308 2.19615 2.19615 2.43308 2.15359 2.74381C2.0625 3.40893 2 4.04782 2 4.5C2 4.95218 2.0625 5.59107 2.15359 6.25619C2.19615 6.56692 2.43308 6.80385 2.74381 6.84641C3.40893 6.9375 4.04782 7 4.5 7C4.95218 7 5.59107 6.9375 6.25619 6.84641C6.56692 6.80385 6.80385 6.56692 6.84641 6.25619C6.9375 5.59107 7 4.95218 7 4.5C7 4.04782 6.9375 3.40893 6.84641 2.74381C6.80385 2.43308 6.56692 2.19615 6.25619 2.15359C5.59107 2.0625 4.95218 2 4.5 2ZM2.47244 0.172092C1.27253 0.336423 0.336423 1.27253 0.172092 2.47244C0.0778385 3.16065 0 3.90816 0 4.5C0 5.09184 0.0778385 5.83935 0.172092 6.52756C0.336423 7.72747 1.27253 8.66358 2.47244 8.82791C3.16065 8.92216 3.90816 9 4.5 9C5.09184 9 5.83935 8.92216 6.52756 8.82791C7.72747 8.66358 8.66358 7.72747 8.82791 6.52756C8.92216 5.83935 9 5.09184 9 4.5C9 3.90816 8.92216 3.16065 8.82791 2.47244C8.66358 1.27253 7.72747 0.336423 6.52756 0.172092C5.83935 0.0778385 5.09184 0 4.5 0C3.90816 0 3.16065 0.0778385 2.47244 0.172092Z" fill="#5F6388"/>
+                                </svg>
+                                
+                            </a>
+                          </button>
+                        </div>
+                        <div id="user_menu" class="hidden absolute right-0 z-10 mt-2 w-42 origin-top-right rounded-md bg-gray-700 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                            <div class="py-1" role="none">
+                                <a class="cursor-pointer text-white block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-2">About</a>
+                                <form method="POST" action="#" role="none">
+                                <button type="submit" class=" text-red-500 block w-full px-4 py-2 text-left text-sm" role="menuitem" tabindex="-1" id="menu-item-1">Logout</button>
+                                </form>
+                            </div>
+                        </div>
+                        <script>
+                            function user_menu(){
+                                x = document.getElementById("user_menu");
+                                if (x.style.display === 'none') {
+                                    x.style.display = 'block';
+                                  } else {
+                                    x.style.display = 'none';
+                                  }
+                            }
+                        </script>
+                    </div>
+                </div>
+        
+                <div id="active-list" class="contacts p-2 flex-1 overflow-y-scroll"></div>
+            </section>
+        </main>
+    </div>
+</div>
+
+<!--popup create room-->
+<div class="hidden relative z-10" id="create_room-window" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <div class="relative transform overflow-hidden rounded-lg bg-gray-600 text-left shadow-xl transition-all sm:my-8 sm:80 sm:max-w-lg">
+                <a class=" text-white block px-4 py-2 text-sm">Create new chat room</a>
+                
+                <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                    <button onclick=createClose() id="close_button" type="button" class="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-900 sm:ml-3 sm:w-auto">Close</button>
+                    <button onclick=createNew() id="add_room_button" type="button" class="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-900 sm:ml-3 sm:w-auto">Create</button>
+                    <input class="rounded-lg pl-3 pr-10 border border-gray-800 focus:border-gray-700 bg-gray-800 focus:bg-gray-900 focus:outline-none text-gray-200 focus:shadow-md transition duration-300 ease-in" type="text" id="room-name-input" value="" placeholder="Room name">
+                </div>
+    
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--popup -->
+<div id="friend-notification" class="hidden relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-0 transition-opacity"></div>
+  
+    <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <div class="relative transform overflow-hidden rounded-lg bg-gray-500 text-left shadow-xl transition-all sm:my-8 sm:80 sm:max-w-lg">
+            <div class="bg-gery-500 px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                <div class="sm:flex sm:items-start">
+                <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                    <img class="shadow-md rounded-full w-full h-full object-cover"
+                                    src="img.png"
+                                    alt=""
+                                />
+                </div>
+                <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                    <h3 class="text-base font-semibold leading-6 text-white" id="friend-request-name">Somebody</h3>
+                    <div class="mt-2">
+                    <p class="text-sm text-white">Sent you a friend request!</p>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                <button onclick=requestAccept() type="button" class="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:ml-3 sm:w-auto">Accept</button>
+                <button onclick=requestDeny() type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Deny</button>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+  <!--member list-->
+<div class="hidden relative z-10" id="member-list-window" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <div class="relative transform overflow-hidden rounded-lg bg-gray-600 text-left shadow-xl transition-all sm:my-8 sm:80 sm:max-w-lg">
+                <a class=" text-white block px-4 py-2 text-sm">Member List</a>
+                <div id="list-window" class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+                </div>
+                <p id="list-status" class="text-white block px-4 py-2 text-sm">status</p>
+                <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                    <button onclick=listClose() id="close_button" type="button" class="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-900 sm:ml-3 sm:w-auto">Close</button>
+                    <button onclick=listAdd() id="add_button" type="button" class="hidden inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-900 sm:ml-3 sm:w-auto">Add</button>
+                    <button onclick=listRemove() id="remove_button" type="button" class="hidden inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-900 sm:ml-3 sm:w-auto">Remove</button>
+                    <input class="hidden rounded-lg pl-3 pr-10 border border-gray-800 focus:border-gray-700 bg-gray-800 focus:bg-gray-900 focus:outline-none text-gray-200 focus:shadow-md transition duration-300 ease-in" type="text" id="username-input" value="" placeholder="Input username">
+                </div>
+    
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function displayCreateRoom(){
+        document.getElementById("create_room-window").style.display = "block";
+    }
+    
+    function createClose(){
+        document.getElementById("create_room-window").style.display = "none";
+    }
+    function createNew(){
+        var roomName = document.getElementById("room-name-input").value
+        createRoom(roomName);
+        document.getElementById("create_room-window").style.display = "none";
+    }
+
+    function requestAccept(){
+        var friendName = document.getElementById("friend-request-name").innerHTML;
+        acceptFriend(friendName);
+        document.getElementById("friend-notification").style.display = "none";
+    }
+    function requestDeny(){
+        var friendName = document.getElementById("friend-request-name").innerHTML;
+        denyFriend(friendName);
+        document.getElementById("friend-notification").style.display = "none";
+    }
+
+    function listClose(){
+        document.getElementById("member-list-window").style.display = "none";
+    }
+    function listAdd(){
+        var userAdd = document.getElementById("usernameInput").value;
+        var roomId = document.getElementById("chat-status").value;
+        addMember(userAdd, roomId);
+    }
+    function listRemove(){
+        var memberRemove = document.getElementById("usernameInput").value;
+        var roomId = document.getElementById("chat-status").value;
+        removeMember(memberRemove, roomId);
+    }
+    function leaveRoom(){
+        var roomId = document.getElementById("chat-status").value;
+        removeMember(username, memberRemove);
+    }
+</script>
