@@ -398,28 +398,40 @@
     setInterval(checkRequestQueue, 2000);
     parseData(sampleData);
     /////////////////////////////////////////////////////////////
+
+    function windowUpdateData(){
+        window.a_update_data(username).then(result => {
+        });
+    }
+
     function windowCreateRoom(roomName){
-        console.log("Created room: "+roomName);
+        window.a_create_room(roomName).then(result => {
+        });
     }
 
     function windowSendMessage(roomId, message){
-        console.log("Sent: "+message+" to "+roomId);
+        window.a_send_message(roomId, message).then(result => {
+        });
     }
 
     function windowAddMember(user, roomId){
-        console.log("add done");
+        window.a_add_member(user, roomId).then(result => {
+        });
     }
 
     function windowRemoveMember(user, roomId){
-        console.log("remove done");
+        window.a_remove_member(user, roomId).then(result => {
+        });
     }
 
     function windowSendFriendRequest(friend){
-        console.log("Sent request to: "+friend);
+        window.a_send_request(friend).then(result => {
+        });
     }
 
     function windowResponseRequest(friend, response){
-        console.log("Just "+ response+" the request from "+ friend);
+        window.a_response_request(friend, response).then(result => {
+        });
     }
 
     /////////////////////////////////////////////////////////////////
