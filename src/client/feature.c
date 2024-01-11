@@ -675,12 +675,26 @@ void c_load_all(){
     */
     printf("\t\"chatRooms\": [\n");
     for (int i=0; i<MAX_CLIENTS; i++){
-                if (g_rooms[i].roomId = -1){
+                if (g_rooms[i].roomId != -1){
                     printf("\t\t{\"id\": \"%d\"},\n",g_rooms[i].roomId);
                     printf("\t\t{\"name\": \"%s\"},\n",g_rooms[i].roomName);
+                    printf("\t\t\"members\": [\n");
+                    for (int j=0; j<MAX_CLIENTS; j++){
+                                if (g_room_member[j].roomId != -1){
+                                    printf("\t\t\t{\"memberName\": \"%s\"},\n",g_room_member[j].memName);
+                                }
+                            }
+                    printf("\t\t],\n");
+                    printf("\t\t\"messages\": [\n");
+                    for (int j=0; j<MAX_CLIENTS; j++){
+                                if (g_message[j].roomId != -1){
+                                    printf("\t\t\t{\n\t\t\t\t\"user\": \"%s\",\n\t\t\t\t\"timestamp\": \"%s\",\n\t\t\t\t\"content\": \"%s\"},\n",g_message[j].userId, g_message[j].timestamp, g_message[j].content);
+                                }
+                            }
+                    printf("\t\t],\n");
                 }
             }
-    printf("\t],\n");
+    printf("\t]\n");
 }
 
 int handle_receive_message(const char *message, int len)
