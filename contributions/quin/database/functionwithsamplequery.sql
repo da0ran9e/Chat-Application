@@ -153,6 +153,8 @@ $$ LANGUAGE plpgsql;
 -- query to get friend request list
 --SELECT * FROM get_request_list('user20');
 
+
+-- DROP FUNCTION IF EXISTS friend_request(VARCHAR(50), VARCHAR(50));
 -- Function to save friend request
 CREATE OR REPLACE FUNCTION friend_request(in_username1 VARCHAR(50), in_username2 VARCHAR(50))
 RETURNS INTEGER AS $$
@@ -160,6 +162,7 @@ DECLARE
     user1_id INTEGER;
     user2_id INTEGER;
     request_exists BOOLEAN;
+	friendship_exists BOOLEAN;
     success INTEGER;
 BEGIN
     -- Get user IDs
@@ -174,15 +177,22 @@ BEGIN
             FROM request
             WHERE (user1 = user1_id AND user2 = user2_id) OR (user1 = user2_id AND user2 = user1_id)
         ) INTO request_exists;
+		
+		-- Check if the friendship already exists
+        SELECT EXISTS (
+            SELECT 1
+            FROM friendship
+            WHERE (user1 = user1_id AND user2 = user2_id) OR (user1 = user2_id AND user2 = user1_id)
+        ) INTO friendship_exists;
 
-        -- If the request doesn't exist, insert it
-        IF NOT request_exists THEN
+        -- If the request and friendship don't exist, insert it
+        IF NOT request_exists AND NOT friendship_exists THEN
             INSERT INTO request (user1, user2)
             VALUES (user1_id, user2_id);
 
             GET DIAGNOSTICS success = ROW_COUNT;
         ELSE
-            -- request already exists
+            -- request/friendship already exists
             success := 0;
         END IF;
     ELSE
@@ -193,11 +203,11 @@ BEGIN
     RETURN success;
 END;
 $$ LANGUAGE plpgsql;
--- SELECT friend_request('user14', 'user5') AS friend_request_status;
+-- SELECT friend_request('user13', 'user20') AS friend_request_status;
 
 
 -- Drop the old add_friend function
-DROP FUNCTION IF EXISTS add_friend(VARCHAR(50), VARCHAR(50));
+--DROP FUNCTION IF EXISTS add_friend(VARCHAR(50), VARCHAR(50));
 -- Function to add a friend (add a relationship)
 CREATE OR REPLACE FUNCTION add_friend(in_username1 VARCHAR(50), in_username2 VARCHAR(50))
 RETURNS INTEGER AS $$
@@ -253,7 +263,7 @@ $$ LANGUAGE plpgsql;
 -- query to add a friend
 --SELECT add_friend('user3', 'user4') AS add_friend_status;
 --SELECT add_friend('user4', 'user3') AS add_friend_status;
---SELECT add_friend('user5', 'user14') AS add_friend_status;
+--SELECT add_friend('user20', 'user1') AS add_friend_status;
 
 -- Function to delete a friend (remove a relationship)
 CREATE OR REPLACE FUNCTION delete_friend(in_username1 VARCHAR(50), in_username2 VARCHAR(50))

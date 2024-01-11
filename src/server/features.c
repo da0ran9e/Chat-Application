@@ -36,6 +36,7 @@ int handle_features(const int userSock, int op, int func, const Parameters param
         break;
     case 31:
         result = feat_request_list(userSock);
+        break;
     case 2:
         result = feat_room_list(userSock, params.Param1);
         break;

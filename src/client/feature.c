@@ -276,7 +276,7 @@ void c_request_list()
 
     int res = recvAndProcess(g_args);
     if (res == 201)
-        printf("Get friend successfully!\n");
+        printf("Get request successfully!\n");
     else if (res == 301)
         printf("Please login first!\n");
     else
@@ -762,7 +762,7 @@ int handle_receive_message(const char *message, int len)
         else
         {
             status = 211;
-            printf("Request sent!");
+            //printf("Request sent!");
         }
         break;
     case 21:
