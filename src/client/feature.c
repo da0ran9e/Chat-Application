@@ -77,6 +77,7 @@ void showFeatures()
     {
     case 0:
         c_online();
+        break;
     case 1:
         c_login();
         break;
@@ -694,7 +695,7 @@ int handle_receive_message(const char *message, int len)
     case 00:
         if (params.Param1[0] == '\0')
         {
-            printf("-------------Online list-------------\nRTTs\tUsername\n");
+            printf("-------------Online list-------------\nUsername\tRTTs\n");
             status = 200;
             break;
         }
