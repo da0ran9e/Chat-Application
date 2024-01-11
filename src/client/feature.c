@@ -676,7 +676,7 @@ void c_load_all(){
     printf("\t\"chatRooms\": [\n");
     int start = 0;
     for (int i=0; i<MAX_CLIENTS; i++){
-                if(!start) printf(',\n');
+                if(!start) printf(",\n");
                 if (g_rooms[i].roomId != -1){
                     printf("\t\t{\n\t\t\t\"id\": \"%d\"\n\t\t\t\"name\": \"%s\"\n},\n",g_rooms[i].roomId,g_rooms[i].roomName);
                     printf("\t\t\"members\": [\n");
