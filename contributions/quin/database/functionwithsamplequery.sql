@@ -229,6 +229,7 @@ $$ LANGUAGE plpgsql;
 -- SELECT delete_friend_request('user13', 'user7') AS delete_friend_request_status;
 
 
+
 -- Drop the old add_friend function
 --DROP FUNCTION IF EXISTS add_friend(VARCHAR(50), VARCHAR(50));
 -- Function to add a friend (add a relationship)
@@ -240,6 +241,7 @@ DECLARE
     friendship_exists BOOLEAN;
 	request_exists BOOLEAN;
     success INTEGER;
+	new_room_id INTEGER;
 BEGIN
     -- Get user IDs
     SELECT user_id INTO user1_id FROM account WHERE username = in_username1;
@@ -271,6 +273,9 @@ BEGIN
             VALUES (user1_id, user2_id);
 
             GET DIAGNOSTICS success = ROW_COUNT;
+			-- Create a private room for the two users
+            new_room_id := create_private_room(in_username1, in_username2);
+       
         ELSE
             -- Friendship already exists or no request
             success := 0;
@@ -286,7 +291,7 @@ $$ LANGUAGE plpgsql;
 -- query to add a friend
 --SELECT add_friend('user3', 'user4') AS add_friend_status;
 --SELECT add_friend('user4', 'user3') AS add_friend_status;
---SELECT add_friend('user20', 'user1') AS add_friend_status;
+--SELECT add_friend('user7', 'user8') AS add_friend_status;
 
 -- Function to delete a friend (remove a relationship)
 CREATE OR REPLACE FUNCTION delete_friend(in_username1 VARCHAR(50), in_username2 VARCHAR(50))
@@ -376,7 +381,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 -- query to get list of people in a room
---SELECT * FROM get_people_in_room(20); -- if room_id = 1
+--SELECT * FROM get_people_in_room(1); -- if room_id = 1
 
 -- Function to create a private room between two users
 CREATE OR REPLACE FUNCTION create_private_room(user1_username VARCHAR(50), user2_username VARCHAR(50))
@@ -598,5 +603,4 @@ $$ LANGUAGE plpgsql;
 --DROP FUNCTION IF EXISTS add_person_to_room(INT, INT);
 --DROP FUNCTION IF EXISTS remove_person_from_room(INT, INT);
 -- DROP FUNCTION IF EXISTS add_message_to_conversation(INT, INT, VARCHAR(500));
-
 
