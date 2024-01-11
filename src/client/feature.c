@@ -329,7 +329,21 @@ void c_response_friend_request()
     printf("Friend name: ");
     scanf("%s", params.Param1);
     strcpy(params.Param2, g_username);
-    strcpy(params.Param2, "accept");
+    printf("1.accept\n2.deny\nChoose response: ");
+    int c;
+    scanf("%d",&c);
+    switch (c)
+    {
+    case 1:
+        strcpy(params.Param3, "accept");
+        break;
+    case 2:
+        strcpy(params.Param3, "deny");
+        break;
+    default:
+        break;
+    }
+    
 
     int len = generateMessage(1, 2, params, buffer);
     sendMessage(g_args, buffer, len);
@@ -338,10 +352,10 @@ void c_response_friend_request()
     if (res == 221)
         printf("Friend added!\n");
     else if (res == 321)
-        printf("User: %s is not online!\n", params.Param2);
+        printf("Friend request deleted!\n");
     else
     {
-        printf("Connection lost!\n");
+        printf("No request/Already friend!\n");
     }
 }
 

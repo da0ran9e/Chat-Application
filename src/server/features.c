@@ -71,7 +71,7 @@ int handle_features(const int userSock, int op, int func, const Parameters param
 int feat_online_list(const int clientSock, const int rtd)
 {
     int count = -1;
-    
+
     for (int i = 0; i < MAX_CLIENTS; i++)
     {
         if (g_clientSockets[i] == clientSock)
@@ -95,15 +95,15 @@ int feat_online_list(const int clientSock, const int rtd)
             count++;
             if (receiveMessage(clientSock, readBuffer) <= 0)
                 break;
-        }       
+        }
     }
     Parameters p;
-        p.Param1[0] = '\0';
-        p.Param2[0] = '\0';
-        p.Param3[0] = '\0';
-        char buffer[BUFFER];
-        int len = generateMessage(0, 0, p, buffer);
-        sendMessage(clientSock, buffer, len);
+    p.Param1[0] = '\0';
+    p.Param2[0] = '\0';
+    p.Param3[0] = '\0';
+    char buffer[BUFFER];
+    int len = generateMessage(0, 0, p, buffer);
+    sendMessage(clientSock, buffer, len);
     if (count > 0)
         return 200;
     else if (count == 0)
@@ -264,7 +264,6 @@ int feat_friend_list(const int clientSock)
     return res;
 }
 
-
 // get request list
 int feat_request_list(const int clientSock)
 {
@@ -329,7 +328,6 @@ int feat_request_list(const int clientSock)
     return res;
 }
 
-
 // request
 int feat_request_friend(int clientSock, const char *username, const char *destination)
 {
@@ -342,7 +340,7 @@ int feat_request_friend(int clientSock, const char *username, const char *destin
             destSock = g_clientSockets[i];
         }
     }
-    
+
     if (destSock != -1)
     {
         printf("found destination user at socket %d\n", destSock);
@@ -390,7 +388,7 @@ int feat_request_friend(int clientSock, const char *username, const char *destin
 int feat_response_request(int clientSock, const char *username, const char *destination, const char *response)
 {
     // get destination socket
-    int destSock = -1;
+    /*int destSock = -1;
     for (int i = 0; i < MAX_CLIENTS; i++)
     {
         if (!strcmp(g_clientNames[i], destination))
@@ -399,13 +397,14 @@ int feat_response_request(int clientSock, const char *username, const char *dest
         }
     }
     if (destSock != -1)
+    {*/
+    int res;
+    int room = -1;
+    if (!strcmp(response, "accept"))
     {
+        res = s_rela_addfriendship(username, destination, &room);
         printf("accept request!\n");
-        int room = -1;
-        if (!strcmp(response, "accept"))
-        {
-            s_rela_addfriendship(username, destination, &room);
-        }
+
         // send response
         //  char buffer1[BUFFER];
         //  Parameters p1;
@@ -417,25 +416,29 @@ int feat_response_request(int clientSock, const char *username, const char *dest
         // adding new room
         char buffer[BUFFER];
         Parameters p2;
-        strcpy(p2.Param1, util_int_to_str(room));
-        strcpy(p2.Param2, destination);
-        int len = writeMessage(2, 2, p2, buffer);
-        sendMessage(clientSock, buffer, len); // send to friend
+        // strcpy(p2.Param1, util_int_to_str(room));
+        // strcpy(p2.Param2, destination);
+        // int len = writeMessage(2, 2, p2, buffer);
+        // sendMessage(clientSock, buffer, len); // send to friend
 
-        strcpy(p2.Param2, username);
-        len = writeMessage(2, 2, p2, buffer);
-        sendMessage(destSock, buffer, len); // send to client
+        // strcpy(p2.Param2, username);
+        strcpy(p2.Param1, "accept");
+        int len = writeMessage(1, 2, p2, buffer);
+        sendMessage(clientSock, buffer, len); // send to client
     }
-    else
+    //}
+    else if (!strcmp(response, "deny"))
     {
-        printf("user not online!\n");
+        res = 111;
+        printf("reject request!\n");
         Parameters p;
         char message[BUFFER];
         strcpy(p.Param1, "error");
-        int len = writeMessage(1, 1, p, message);
+        int len = writeMessage(1, 2, p, message);
         sendMessage(clientSock, message, len);
     }
-    return destSock;
+    //return destSock;
+    return res;
 }
 
 // get room list
@@ -788,7 +791,7 @@ void *handleClient(void *args)
         // readMessage(buffer, sizeof(buffer), p);
         handle_features(clientSocket, op, func, params);
 
-        //sendMessage(clientSocket, buffer, bytesReceived); // Echo the message back to the client
+        // sendMessage(clientSocket, buffer, bytesReceived); // Echo the message back to the client
     }
     for (int i = 0; i < MAX_CLIENTS; i++)
     {
