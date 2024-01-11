@@ -68,8 +68,9 @@ void showFeatures()
     printf("\t10. Create room\n");
     printf("\t11. Add user to room\n");
     printf("\t12. Remove a member\n");
-    printf("\t13. Conversation\n");
-    printf("\t14. Send message\n");
+    printf("\t13. Leave a room\n");
+    printf("\t14. Conversation\n");
+    printf("\t15. Send message\n");
 
     int choose;
     scanf("%d", &choose);
@@ -115,12 +116,15 @@ void showFeatures()
         c_remove_member();
         break;
     case 13:
-        c_conversation();
+        c_leave();
         break;
     case 14:
-        c_chat();
+        c_conversation();
         break;
     case 15:
+        c_chat();
+        break;
+    case 16:
         c_load_all();
         break;
     default:
@@ -462,6 +466,32 @@ void c_remove_member()
         printf("Member removed!\n");
     else if (res == 342)
         printf("User not found!\n");
+    else
+    {
+        printf("Connection lost!\n");
+    }
+}
+
+
+void c_leave()
+{
+    printf("\t---------------Leave A Room---------------\nPlease Login first!\n");
+    Parameters params;
+    char buffer[BUFFER];
+
+    printf("Room id: ");
+    scanf("%s", params.Param1);
+    strcpy(params.Param2, g_username);
+    strcpy(params.Param3, "\0");
+
+    int len = generateMessage(2, 4, params, buffer);
+    sendMessage(g_args, buffer, len);
+
+    int res = recvAndProcess(g_args);
+    if (res == 242)
+        printf("You have left the room!\n");
+    else if (res == 342)
+        printf("You are not in the room!\n");
     else
     {
         printf("Connection lost!\n");
