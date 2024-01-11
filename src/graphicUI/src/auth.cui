@@ -239,15 +239,17 @@
         password = document.getElementById("new_password").value;
         password = document.getElementById("confirm_password").value;
 
-        if(new_password != confirm_password){
+        if(new_password == confirm_password){
+            window.u_change_password(username, password, newPassword).then(result => {
+            document.getElementById("tester").innerHTML = result;
+            });
+        }else{
             document.getElementById("confirm_label").innerHTML = "Your new password match!";
             password = document.getElementById("new_password").value = "";
             password = document.getElementById("confirm_password").value = "";
         }
         
-        window.u_change_password(username, password, newPassword).then(result => {
-            document.getElementById("tester").innerHTML = result;
-        });
+        
 
     }
 </script>
