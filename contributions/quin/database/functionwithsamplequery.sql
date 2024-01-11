@@ -205,6 +205,30 @@ END;
 $$ LANGUAGE plpgsql;
 -- SELECT friend_request('user13', 'user20') AS friend_request_status;
 
+-- Function to delete friend request
+CREATE OR REPLACE FUNCTION delete_friend_request(in_sender_username VARCHAR(50), in_receiver_username VARCHAR(50))
+RETURNS INTEGER AS $$
+DECLARE
+    sender_id INT;
+    receiver_id INT;
+    success INTEGER;
+BEGIN
+    -- Get user IDs
+    SELECT user_id INTO sender_id FROM account WHERE username = in_sender_username;
+    SELECT user_id INTO receiver_id FROM account WHERE username = in_receiver_username;
+
+    -- Delete the friend request
+    DELETE FROM request
+    WHERE user1 = sender_id AND user2 = receiver_id;
+
+    GET DIAGNOSTICS success = ROW_COUNT;
+
+    RETURN success;
+END;
+$$ LANGUAGE plpgsql;
+-- SELECT delete_friend_request('user13', 'user7') AS delete_friend_request_status;
+
+
 
 -- Drop the old add_friend function
 --DROP FUNCTION IF EXISTS add_friend(VARCHAR(50), VARCHAR(50));
@@ -579,5 +603,4 @@ $$ LANGUAGE plpgsql;
 --DROP FUNCTION IF EXISTS add_person_to_room(INT, INT);
 --DROP FUNCTION IF EXISTS remove_person_from_room(INT, INT);
 -- DROP FUNCTION IF EXISTS add_message_to_conversation(INT, INT, VARCHAR(500));
-
 
