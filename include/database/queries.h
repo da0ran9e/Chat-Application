@@ -7,6 +7,7 @@ int execute_login_query(PGconn *conn, const char *username, const char *password
 int execute_register_query(PGconn *conn, const char *username, const char *password);
 int execute_change_password_query(PGconn *conn, const char *username, const char *oldPassword, const char *newPassword);
 int execute_send_friend_query(PGconn *conn, const char *username1, const char *username2);
+int execute_delete_request_query(PGconn *conn, const char *username1, const char *username2);
 int execute_add_friend_query(PGconn *conn, const char *username1, const char *username2);
 int execute_delete_friend_query(PGconn *conn, const char *username1, const char *username2);
 int execute_create_private_room_query(PGconn *conn, const char *username1, const char *username2);
