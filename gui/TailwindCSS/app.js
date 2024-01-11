@@ -9,70 +9,65 @@ var chatRooms = [];
 var requestQueue = [];
 
 const sampleData = `{
-    "PORT": 8080,
-    "rtd": 12345,
-    "username": "new_user",
-    "onlineUsers": [
-        {"name": "user3", "friend": false},
-        {"name": "user4", "friend": true}
-    ],
+    "PORT": 5500,
+    "rtd": 240322,
+    "username": "user2",
     "friends": [
-        {"name": "friend3"},
-        {"name": "friend4"},
-        {"name": "user3"}
+            {"name": "user1"},
+            {"name": "user3"}
+    ],
+    "onlineUser": [
+            {"name": "user2", "friend":true}
     ],
     "requests": [
-        {"name": "new_request1"},
-        {"name": "new_request2"}
+
     ],
     "chatRooms": [
-        {
-            "id": 1,
-            "name": "New_Room1",
-            "members": [
-                {"memberName": "new_member1"},
-                {"memberName": "new_member2"},
-                {"memberName": "new_user"}
-            ],
-            "messages": [
-                {
-                    "user": "new_member1",
-                    "timestamp": "01-09-2024 10:15:30",
-                    "content": "Hello! How are you?"
-                },
-                {
-                    "user": "new_user",
-                    "timestamp": "01-09-2024 10:20:45",
-                    "content": "Hi there!"
-                }
-            ]
-        },
-        {
-            "id": 3,
-            "name": "New_Room2",
-            "members": [
-                {"memberName": "new_member1"},
-                {"memberName": "new_member2"},
-                {"memberName": "new_user"}
-            ],
-            "messages": [
-                {
-                    "user": "new_member2",
-                    "timestamp": "01-09-2024 10:30:00",
-                    "content": "Hey! What's up?"
-                },
-                {
-                    "user": "new_user",
-                    "timestamp": "01-09-2024 10:35:20",
-                    "content": "Not much, just chilling."
-                },
-                {
-                    "user": "new_member1",
-                    "timestamp": "01-09-2024 10:40:10",
-                    "content": "Cool! Let's chat."
-                }
-            ]
-        }
+            {
+                    "id": "1",
+                    "name": "Room A",
+                    "members": [
+                            {"memberName": "user1"},
+                            {"memberName": "user2"}
+                    ],
+                    "messages": [
+                            {
+                                    "user": "user1",
+                                    "timestamp": "2024-01-10 02:21:11.",
+                                    "content": "0Now!"
+                            },
+                            {
+                                    "user": "user2",
+                                    "timestamp": "2023-12-01 12:05:000",
+                                    "content": "0Hi, user1!"
+                            },
+                            {
+                                    "user": "user1",
+                                    "timestamp": "2023-12-01 12:00:000",
+                                    "content": "0Hello, Room A!"
+                            }
+                    ]
+            },
+            {
+                    "id": "2",
+                    "name": "Room B",
+                    "members": [
+                            {"memberName": "user2"},
+                            {"memberName": "user3"}
+                    ],
+                    "messages": [
+                            {
+                                    "user": "user3",
+                                    "timestamp": "2023-12-01 12:15:000",
+                                    "content": "0Thanks!"
+                            },
+                            {
+                                    "user": "user2",
+                                    "timestamp": "2023-12-01 12:10:000",
+                                    "content": "0Welcome to Room B!"
+                            }
+                    ]
+            }
     ]
 }`;
 
