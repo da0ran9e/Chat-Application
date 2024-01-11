@@ -924,7 +924,7 @@ void in_online_list(const char *username, const int rtd)
     }
     char buffer[BUFFER];
     Parameters params;
-    strcpy(params.Param1, util_int_to_str(g_rtd));
+    strcpy(params.Param1, "\0");
     strcpy(params.Param2, "\0");
     strcpy(params.Param3, "\0");
     int len = generateMessage(0, 0, params, buffer);
