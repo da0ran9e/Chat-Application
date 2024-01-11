@@ -565,7 +565,7 @@ void c_chat()
     }
 }
 
-void c_load_all(){
+void ca_load_all(char *jsonStr){
     struct timeval startTime, endTime;
     gettimeofday(&startTime, NULL);
 
@@ -619,7 +619,6 @@ void c_load_all(){
     g_rtd = (int) roundTripTime;
 
     char jsonFrac[100][100];
-    char jsonStr[10000];
     int count = 0;
     sprintf(jsonFrac[++count], "{\n");
     sprintf(jsonFrac[++count], "\t\"PORT\": %d,\n", g_port);
@@ -711,6 +710,77 @@ void c_load_all(){
         strcat(jsonStr, jsonFrac[i]);
     }
     printf("%s", jsonStr);
+}
+
+void ca_create_room(const char *roomName){
+    strcpy(params.Param1, roomName);
+    strcpy(params.Param2, g_username);
+    strcpy(params.Param3, "\0");
+
+    int len = generateMessage(2, 2, params, buffer);
+    sendMessage(g_args, buffer, len);
+    int res = recvAndProcess(g_args);
+}
+
+void ca_send_message(const int roomId, const char *message){
+    strcpy(params.Param1, g_username);
+    strcpy(params.Param2, util_int_to_str(roomId));
+    strcpy(params.Param3, message);
+
+    int len = generateMessage(3, 1, params, buffer);
+    sendMessage(g_args, buffer, len);
+    int res = recvAndProcess(g_args);
+}
+
+void ca_add_room_member(const int roomId, const char *user){
+    strcpy(params.Param1, util_int_to_str(roomId));
+    strcpy(params.Param2, user);
+    strcpy(params.Param3, "\0");
+
+    int len = generateMessage(2, 3, params, buffer);
+    sendMessage(g_args, buffer, len);
+    int res = recvAndProcess(g_args);
+}
+
+void ca_remove_member(const int roomId, const char *user){
+    strcpy(params.Param1, util_int_to_str(roomId));
+    strcpy(params.Param2, user);
+    strcpy(params.Param3, "\0");
+
+    int len = generateMessage(2, 4, params, buffer);
+    sendMessage(g_args, buffer, len);
+    int res = recvAndProcess(g_args);
+}
+
+void ca_send_request(const char *friendName){
+    strcpy(params.Param1, g_username);
+    strcpy(params.Param2, friendName);
+    strcpy(params.Param3, "300");
+
+    int len = generateMessage(1, 1, params, buffer);
+    sendMessage(g_args, buffer, len);
+    int res = recvAndProcess(g_args);
+}
+
+void ca_response_request(const char *friendName, const int resonse){
+    strcpy(params.Param1, friendName);
+    strcpy(params.Param2, g_username);
+    switch (resonse)
+    {
+    case 1:
+        strcpy(params.Param3, "accept");
+        break;
+    case 2:
+        strcpy(params.Param3, "deny");
+        break;
+    default:
+        break;
+    }
+    
+
+    int len = generateMessage(1, 2, params, buffer);
+    sendMessage(g_args, buffer, len);
+    int res = recvAndProcess(g_args);
 }
 
 int handle_receive_message(const char *message, int len)
