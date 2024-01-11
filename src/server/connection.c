@@ -52,6 +52,7 @@ void initializeServer(int *serverSocket, int port) {
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_port = htons(port);
     serverAddr.sin_addr.s_addr = INADDR_ANY;
+    //serverAddr.sin_addr.s_addr = inet_addr("192.168.137.49");
 
     if (bind(*serverSocket, (struct sockaddr *)&serverAddr, sizeof(serverAddr)) == -1) {
         perror("Error binding server socket");

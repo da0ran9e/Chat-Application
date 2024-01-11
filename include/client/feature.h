@@ -59,6 +59,7 @@ void c_members();
 void c_create();
 void c_add_member();
 void c_remove_member();
+void c_leave();
 void c_conversation();
 void c_chat();
 void c_load_all();
