@@ -673,6 +673,14 @@ void c_load_all(){
         }
     ]
     */
+    printf("\t\"chatRooms\": [\n");
+    for (int i=0; i<MAX_CLIENTS; i++){
+                if (g_rooms[i].roomId = -1){
+                    printf("\t\t{\"id\": \"%d\"},\n",g_rooms[i].roomId);
+                    printf("\t\t{\"name\": \"%s\"},\n",g_rooms[i].roomName);
+                }
+            }
+    printf("\t],\n");
 }
 
 int handle_receive_message(const char *message, int len)
@@ -1086,6 +1094,8 @@ void run_client(const char *address, const int port){
         g_friend[i][0] = '\0';
         g_request[i][0] = '\0';
         g_rooms[i].roomId = -1;
+        g_message[i].roomId = -1;
+        g_room_member[i].roomId = -1;
     }
     strcpy(g_address, address);
     g_port = port;
