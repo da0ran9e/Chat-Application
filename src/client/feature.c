@@ -600,7 +600,7 @@ void c_load_all(){
     for (int i=0; i<MAX_CLIENTS; i++){
                 if (g_user[i][0] != '\0'){
                     int fr = 0;
-                    for (int j=0; i<MAX_CLIENTS; j++){
+                    for (int j=0; j<MAX_CLIENTS; j++){
                         if(g_friend[i][0]!='\0') fr++;
                     }
                     
