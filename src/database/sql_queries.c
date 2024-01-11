@@ -130,6 +130,25 @@ int execute_send_friend_query(PGconn *conn, const char *username1, const char *u
     return sendFriendStatus;
 }
 
+int execute_delete_request_query(PGconn *conn, const char *username1, const char *username2) {
+    const char *query = "SELECT delete_friend_request($1, $2) AS delete_friend_request_status";
+    const char *paramValues[2] = {username1, username2};
+
+    // Execute the query
+    PGresult *result = PQexecParams(conn, query, 2, NULL, paramValues, NULL, NULL, 0);
+
+    // Check the result
+    check_result(result, conn);
+
+    // Process the result
+    int deleteFriendStatus = atoi(PQgetvalue(result, 0, 0));
+
+    // Free the result
+    PQclear(result);
+
+    return deleteFriendStatus;
+}
+
 
 int execute_add_friend_query(PGconn *conn, const char *username1, const char *username2) {
     const char *query = "SELECT add_friend($1, $2) AS add_friend_status";
