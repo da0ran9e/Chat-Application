@@ -566,14 +566,10 @@ void c_chat()
 }
 
 void c_load_all(){
-    /* PORT */
-    
-    /* RTD */
-    
-    /* Username */
+    struct timeval startTime, endTime;
+    gettimeofday(&startTime, NULL);
 
-    /* Friend list */
-    
+    /* Friend list */    
     Parameters params;
     char buffer[BUFFER];
     strcpy(params.Param1, "\0");
@@ -615,141 +611,106 @@ void c_load_all(){
             res = recvAndProcess(g_args);
         }
     }
+    gettimeofday(&endTime, NULL);
+    long int roundTripTime = (endTime.tv_sec - startTime.tv_sec) * 100L +
+                                 (endTime.tv_usec - startTime.tv_usec);
 
     /* Print */
-    printf("Port: %d/n", g_port);
-    printf("RTD: %d/n", g_rtd);
-    printf("Username: %s/n", g_username);
-    /*
-        "friends": [
-            {"name": "friend3"},
-            {"name": "friend4"},
-            {"name": "user3"}
-        ],
-    */
-    printf("\t\"friends\": [\n");
+    g_rtd = (int) roundTripTime;
+
+    char jsonFrac[100][100];
+    char jsonStr[10000];
+    int count = 0;
+    sprintf(jsonFrac[++count], "{\n");
+    sprintf(jsonFrac[++count], "\t\"PORT\": %d,\n", g_port);
+    sprintf(jsonFrac[++count], "\t\"rtd\": %d,\n", g_rtd);
+    sprintf(jsonFrac[++count], "\t\"username\": \"%s\",\n", g_username);
+
+    int fStart = 0;
+    sprintf(jsonFrac[++count], "\t\"friends\": [\n");
     for (int i=0; i<MAX_CLIENTS; i++){
                 if (g_friend[i][0] != '\0'){
-                    printf("\t\t{\"name\": \"%s\"},\n",g_friend[i]);
+                    if (fStart > 0) sprintf(jsonFrac[++count], ",\n"); 
+                    sprintf(jsonFrac[++count], "\t\t{\"name\": \"%s\"}",g_friend[i]);
+                    fStart++;
                 }
             }
-    printf("\t],\n");
-    /*
-        "onlineUsers": [
-            {"name": "user3", "friend": false},
-            {"name": "user4", "friend": true}
-        ], 
-    */
-    printf("\t\"onlineUser\": [\n");
+    sprintf(jsonFrac[++count], "\n\t],\n");
+
+    int oStart=0;
+    sprintf(jsonFrac[++count], "\t\"onlineUser\": [\n");
     for (int i=0; i<MAX_CLIENTS; i++){
                 if (g_user[i][0] != '\0'){
+                    if (oStart > 0) sprintf(jsonFrac[++count], ",\n"); 
                     int fr = 0;
                     for (int j=0; j<MAX_CLIENTS; j++){
                         if(g_friend[i][0]!='\0') fr++;
                     }
                     
-                    if(fr) printf("\t\t{\"name\": \"%s\", \"friend\":true},\n",g_user[i]);
-                    else printf("\t\t{\"name\": \"%s\", \"friend\":false},\n",g_user[i]);
+                    if(fr) sprintf(jsonFrac[++count], "\t\t{\"name\": \"%s\", \"friend\":true}",g_user[i]);
+                    else sprintf(jsonFrac[++count], "\t\t{\"name\": \"%s\", \"friend\":false}",g_user[i]);
+                    oStart++;
                 }
             }
-    printf("\t],\n");
-    /*
-        "requests": [
-            {"name": "new_request1"},
-            {"name": "new_request2"}
-        ],
-    */
-    printf("\t\"requests\": [\n");
+    sprintf(jsonFrac[++count], "\n\t],\n");
+
+    int rStart=0;
+    sprintf(jsonFrac[++count], "\t\"requests\": [\n");
     for (int i=0; i<MAX_CLIENTS; i++){
                 if (g_request[i][0] != '\0'){
-                    printf("\t\t{\"name\": \"%s\"},\n",g_request[i]);
+                    if (rStart > 0) sprintf(jsonFrac[++count], ",\n"); 
+                    sprintf(jsonFrac[++count], "\t\t{\"name\": \"%s\"}",g_request[i]);
+                    rStart++;
                 }
             }
-    printf("\t],\n");
-    /*
-    "chatRooms": [
-        {
-            "id": 1,
-            "name": "New_Room1",
-            "members": [
-                {"memberName": "new_member1"},
-                {"memberName": "new_member2"},
-                {"memberName": "new_user"}
-            ],
-            "messages": [
-                {
-                    "user": "new_member1",
-                    "timestamp": "01-09-2024 10:15:30",
-                    "content": "Hello! How are you?"
-                },
-                {
-                    "user": "new_user",
-                    "timestamp": "01-09-2024 10:20:45",
-                    "content": "Hi there!"
-                }
-            ]
-        },
-        {
-            "id": 3,
-            "name": "New_Room2",
-            "members": [
-                {"memberName": "new_member1"},
-                {"memberName": "new_member2"},
-                {"memberName": "new_user"}
-            ],
-            "messages": [
-                {
-                    "user": "new_member2",
-                    "timestamp": "01-09-2024 10:30:00",
-                    "content": "Hey! What's up?"
-                },
-                {
-                    "user": "new_user",
-                    "timestamp": "01-09-2024 10:35:20",
-                    "content": "Not much, just chilling."
-                },
-                {
-                    "user": "new_member1",
-                    "timestamp": "01-09-2024 10:40:10",
-                    "content": "Cool! Let's chat."
-                }
-            ]
-        }
-    ]
-    */
-    printf("\t\"chatRooms\": [\n");
-int start = 0;
-for (int i = 0; i < MAX_CLIENTS; i++) {
-    if (g_rooms[i].roomId != -1) {
-        if (start > 0) printf(",\n");  // Add comma before each new chat room (except the first one)
-        printf("\t\t{\n");
-        printf("\t\t\t\"id\": \"%d\",\n", g_rooms[i].roomId);
-        printf("\t\t\t\"name\": \"%s\",\n", g_rooms[i].roomName);
+    sprintf(jsonFrac[++count], "\n\t],\n");
 
-        printf("\t\t\t\"members\": [\n");
-        for (int j = 0; j < MAX_CLIENTS; j++) {
-            if (g_room_member[j].roomId == g_rooms[i].roomId) {
-                printf("\t\t\t\t{\"memberName\": \"%s\"},\n", g_room_member[j].memName);
-            }
-        }
-        printf("\t\t\t],\n");
+    sprintf(jsonFrac[++count], "\t\"chatRooms\": [\n");
+    int start = 0;
+    int visited[MAX_CLIENTS];
+    for (int i = 0; i < MAX_CLIENTS; i++) {
+        if (g_rooms[i].roomId != -1&&visited[i]!=1) {
+            if (start > 0) sprintf(jsonFrac[++count], ",\n"); 
+            sprintf(jsonFrac[++count], "\t\t{\n");
+            sprintf(jsonFrac[++count], "\t\t\t\"id\": \"%d\",\n", g_rooms[i].roomId);
+            sprintf(jsonFrac[++count], "\t\t\t\"name\": \"%s\",\n", g_rooms[i].roomName);
+            sprintf(jsonFrac[++count], "\t\t\t\"members\": [\n");
 
-        printf("\t\t\t\"messages\": [\n");
-        for (int j = 0; j < MAX_CLIENTS; j++) {
-            if (g_message[j].roomId == g_rooms[i].roomId) {
-                printf("\t\t\t\t{\n");
-                printf("\t\t\t\t\t\"user\": \"%s\",\n", g_message[j].userId);
-                printf("\t\t\t\t\t\"timestamp\": \"%s\",\n", g_message[j].timestamp);
-                printf("\t\t\t\t\t\"content\": \"%s\"\n", g_message[j].content);
-                printf("\t\t\t\t},\n");
+            int start1 = 0;
+            for (int j = 0; j < MAX_CLIENTS; j++) {
+                if (g_room_member[j].roomId == g_rooms[i].roomId) {
+                    if (start1 > 0) sprintf(jsonFrac[++count], ",\n");
+                    sprintf(jsonFrac[++count], "\t\t\t\t{\"memberName\": \"%s\"}", g_room_member[j].memName);
+                    start1++;
+                }
             }
+            sprintf(jsonFrac[++count], "\n\t\t\t],\n");
+            sprintf(jsonFrac[++count], "\t\t\t\"messages\": [\n");
+
+            int start2=0;
+            for (int j = 0; j < MAX_CLIENTS; j++) {
+                if (g_message[j].roomId == g_rooms[i].roomId) {
+                    if (start2 > 0){ sprintf(jsonFrac[++count], ",\n");}
+                    sprintf(jsonFrac[++count], "\t\t\t\t{\n");
+                    sprintf(jsonFrac[++count], "\t\t\t\t\t\"user\": \"%s\",\n", g_message[j].userId);
+                    sprintf(jsonFrac[++count], "\t\t\t\t\t\"timestamp\": \"%s\",\n", g_message[j].timestamp);
+                    sprintf(jsonFrac[++count], "\t\t\t\t\t\"content\": \"%s\"\n", g_message[j].content);
+                    sprintf(jsonFrac[++count], "\t\t\t\t}");
+                    start2++;
+                }
+            }
+            sprintf(jsonFrac[++count], "\n\t\t\t]\n\t\t}");
+            start++;
+            visited[i]=1;
         }
-        printf("\t\t\t]\n\t\t}");
-        start++;
     }
-}
-printf("\n\t]\n");
+    sprintf(jsonFrac[++count], "\n\t]\n");
+    sprintf(jsonFrac[++count], "}\n");
 
+    for (int i=0; i<=count; i++) {
+        strcat(jsonStr, jsonFrac[i]);
+    }
+    printf("%s", jsonStr);
 }
 
 int handle_receive_message(const char *message, int len)
@@ -1073,11 +1034,12 @@ void in_member_list(const char *member, const int roomId)
 {
     for (int i = 0; i < 10000; i++)
     {
-        if (g_room_member[i].memName[0] != '\0')
+        if (g_room_member[i].roomId == -1)
         {
             g_room_member[i].roomId = roomId;
             strcpy(g_room_member[i].memName, member);
             printf("Room: %d\tUser:%s\n", roomId, member);
+            break;
         }
     }
     char buffer[BUFFER];
