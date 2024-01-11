@@ -101,6 +101,17 @@ enum DBStatus dbc_request_friend (const char * username, const char * friendname
     else return ACCEPT;
 }
 
+enum DBStatus dbc_delete_request (const char * username1, const char * username2){
+    PGconn * conn = database_start ();
+    
+    int result = execute_delete_request_query(conn, username1, username2);
+
+    database_exit(conn);
+
+    if(result == 0) return DENY;
+    else return ACCEPT;
+}
+
 /*
 * dbc_add_friend
 *
