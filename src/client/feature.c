@@ -599,13 +599,13 @@ void c_load_all(){
     printf("\t\"onlineUser\": [\n");
     for (int i=0; i<MAX_CLIENTS; i++){
                 if (g_user[i][0] != '\0'){
+                    int fr = 0;
                     for (int j=0; i<MAX_CLIENTS; j++){
-                        if(g_friend[i][0]!='\0'){
-                            printf("\t\t{\"name\": \"%s\", \"friend\":true},\n",g_user[i]);
-                            continue;
-                        }
+                        if(g_friend[i][0]!='\0') fr++;
                     }
-                    printf("\t\t{\"name\": \"%s\", \"friend\":false},\n",g_user[i]);
+                    
+                    if(fr) printf("\t\t{\"name\": \"%s\", \"friend\":true},\n",g_user[i]);
+                    else printf("\t\t{\"name\": \"%s\", \"friend\":false},\n",g_user[i]);
                 }
             }
     printf("\t],\n");
