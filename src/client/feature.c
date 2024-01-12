@@ -17,8 +17,8 @@ void *g_args;
 
 void sendMessage(void *args, const char *buffer, int size)
 {
-    printf("Send: ");
-    printCode(buffer, size);
+    // printf("Send: ");
+    // printCode(buffer, size);
 
     struct ThreadArgs *threadArgs = (struct ThreadArgs *)args;
     int clientSocket = threadArgs->clientSocket;
@@ -41,8 +41,8 @@ int recvAndProcess(void *args)
     ssize_t bytesReceived = recv(clientSocket, buffer, BUFFER - 1, 0);
     buffer[bytesReceived] = '\0';
 
-    printf("Received: ");
-    printCode(buffer, bytesReceived+1);
+    // printf("Received: ");
+    // printCode(buffer, bytesReceived+1);
 
     if (bytesReceived <= 0)
     {
@@ -389,7 +389,7 @@ void c_members()
     Parameters params;
     char buffer[BUFFER];
 
-    printf("Room id:");
+    printf("Room id: ");
     scanf("%s", params.Param1);
     strcpy(params.Param2, "\0");
     strcpy(params.Param3, "\0");
@@ -1013,9 +1013,9 @@ int handle_receive_message(const char *message, int len)
             in_conversation(atoi(params.Param1), params.Param2, params.Param3);
             int res = recvAndProcess(g_args);
             printf("\t%.*s\t",20, params.Param3);
-            printCode(params.Param3, strlen(params.Param3));
+            // printCode(params.Param3, strlen(params.Param3));
             printf("%s: %s\n", params.Param2, params.Param3+51);
-            printCode(params.Param3+51, strlen(params.Param3)-51);
+            // printCode(params.Param3+51, strlen(params.Param3)-51);
             
         }
         break;
