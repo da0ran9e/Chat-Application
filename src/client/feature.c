@@ -821,7 +821,7 @@ int handle_receive_message(const char *message, int len)
     case 00:
         if (params.Param1[0] == '\0')
         {
-            printf("-------------Online list-------------\nUsername\tRTTs\n");
+            //printf("-------------Online list-------------\nUsername\tRTTs\n");
             status = 200;
             break;
         }
@@ -875,7 +875,7 @@ int handle_receive_message(const char *message, int len)
             status = 201;
             if (params.Param1[0] == '\0')
             {
-                printf("\t-------------Online list-------------\n\tFriendname:\n");
+                //printf("\t-------------Online list-------------\n\tFriendname:\n");
                 break;
             }
 
@@ -919,7 +919,7 @@ int handle_receive_message(const char *message, int len)
             status = 201;
             if (params.Param1[0] == '\0')
             {
-                printf("\t-------------Friend Request list-------------\n\tUsername:\n");
+                //printf("\t-------------Friend Request list-------------\n\tUsername:\n");
                 break;
             }
 
@@ -938,7 +938,7 @@ int handle_receive_message(const char *message, int len)
             status = 202;
             if (params.Param1[0] == '\0')
             {
-                printf("\t-------------Room list-------------\n\tRoom ID\tRoom name\n");
+                //printf("\t-------------Room list-------------\n\tRoom ID\tRoom name\n");
                 break;
             }
 
@@ -957,7 +957,7 @@ int handle_receive_message(const char *message, int len)
             status = 212;
             if (params.Param1[0] == '\0')
             {
-                printf("\t-------------Member list of %s-------------\n\tMember name\n", params.Param2);
+                //printf("\t-------------Member list of %s-------------\n\tMember name\n", params.Param2);
                 break;
             }
 
@@ -1006,7 +1006,7 @@ int handle_receive_message(const char *message, int len)
             status = 203;
             if (params.Param1[0] == '\0')
             {
-                printf("\t-------------Room: %s-------------\n", params.Param1);
+                // printf("\t-------------Room: %s-------------\n", params.Param1);
                 break;
             }
             status = 203;
