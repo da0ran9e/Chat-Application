@@ -1043,7 +1043,7 @@ void in_online_list(const char *username, const int rtd)
         if (g_user[i][0] == '\0')
         {
             strcpy(g_user[i], username);
-            printf("User online: %s\n", username);
+            // printf("User online: %s\n", username);
             g_rtds[i] = rtd;
             break;
         }
@@ -1064,7 +1064,7 @@ void in_friend_list(const char *username)
         if (g_friend[i][0] == '\0')
         {
             strcpy(g_friend[i], username);
-            printf("Friend: %s\n", username);
+            // printf("Friend: %s\n", username);
             break;
         }
     }
@@ -1084,7 +1084,7 @@ void in_request_list(const char *username)
         if (g_request[i][0] == '\0')
         {
             strcpy(g_request[i], username);
-            printf("Request: %s\n", username);
+            // printf("Request: %s\n", username);
             break;
         }
     }
@@ -1105,7 +1105,7 @@ void in_room_list(const int roomId, const char *roomName)
         {
             g_rooms[i].roomId = roomId;
             strcpy(g_rooms[i].roomName, roomName);
-            printf("Room: %d\tName:%s\n", roomId, roomName);
+            // printf("Room: %d\tName:%s\n", roomId, roomName);
             break;
         }
     }
@@ -1126,7 +1126,7 @@ void in_member_list(const char *member, const int roomId)
         {
             g_room_member[i].roomId = roomId;
             strcpy(g_room_member[i].memName, member);
-            printf("Room: %d\tUser:%s\n", roomId, member);
+            // printf("Room: %d\tUser:%s\n", roomId, member);
             break;
         }
     }
