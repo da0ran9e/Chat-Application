@@ -14,8 +14,8 @@ ssize_t receiveMessage(int clientSocket, char *buffer) {
         return -1;
     }
     buffer[bytesRead] = '\0'; // end message
-    printf("Received: ");
-    printCodes(buffer, bytesRead);
+    // printf("Received: ");
+    // printCodes(buffer, bytesRead);
 
     return bytesRead;
 }
@@ -26,8 +26,8 @@ ssize_t sendMessage(int clientSocket, const void *message, size_t len) {
     size_t totalSent = 0;
     while (totalSent < len) {
         ssize_t sent = send(clientSocket, message + totalSent, len - totalSent, 0);
-        printf("Sent: ");
-        printCodes(message, sent);
+        // printf("Sent: ");
+        // printCodes(message, sent);
         if (sent == -1) {
             perror("Error in send");
             return -1;

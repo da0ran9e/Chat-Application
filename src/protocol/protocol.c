@@ -51,9 +51,9 @@ int generateMessage(uint32_t op, uint32_t func, Parameters parameters, char * bu
     // printf("len2: %d\n", len2);
     // printf("len3: %d\n", len3);
 
-    printf("Param1: %s\n", parameters.Param1);
-    printf("Param2: %s\n", parameters.Param2);
-    printf("Param3: %s\n", parameters.Param3);
+    // printf("Param1: %s\n", parameters.Param1);
+    // printf("Param2: %s\n", parameters.Param2);
+    // printf("Param3: %s\n", parameters.Param3);
 
     int bufferSize = 20 + len1 + len2 + len3;
 

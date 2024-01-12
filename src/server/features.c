@@ -433,6 +433,8 @@ int feat_response_request(int clientSock, const char *username, const char *dest
         printf("reject request!\n");
         Parameters p;
         char message[BUFFER];
+        printf("sender: %s, receiver: %s\n", username, destination);
+        dbc_delete_request(username, destination);
         strcpy(p.Param1, "error");
         int len = writeMessage(1, 2, p, message);
         sendMessage(clientSock, message, len);
