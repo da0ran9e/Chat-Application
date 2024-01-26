@@ -5,7 +5,7 @@
 #include <arpa/inet.h>
 #include <ifaddrs.h>
 
-void getIPAddress() {
+void getNetworkIPAddress() {
     struct ifaddrs* ifaddr, *ifa;
 
     if (getifaddrs(&ifaddr) == -1) {
@@ -21,16 +21,19 @@ void getIPAddress() {
             char ipstr[INET_ADDRSTRLEN];
             struct sockaddr_in* addr = (struct sockaddr_in*)ifa->ifa_addr;
             inet_ntop(AF_INET, &(addr->sin_addr), ipstr, INET_ADDRSTRLEN);
-            printf("Interface: %s\t Address: %s\n", ifa->ifa_name, ipstr);
+            printf("Network Interface: %s\t Network IP Address: %s\n", ifa->ifa_name, ipstr);
         }
     }
 
     freeifaddrs(ifaddr);
 }
 
+
+
+
 /* Setup Server */
 
 int main() {
-    getIPAddress();
+    getNetworkIPAddress();
     return 0;
 }
