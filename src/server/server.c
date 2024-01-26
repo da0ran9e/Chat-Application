@@ -13,17 +13,12 @@ void getNetworkIPAddress() {
         return;
     }
 
-    for (ifa = ifaddr; ifa != NULL; ifa = ifa->ifa_next) {
-        if (ifa->ifa_addr == NULL)
-            continue;
-
-        if (ifa->ifa_addr->sa_family == AF_INET) {
+        if (ifa->ifa_next->ifa_addr->sa_family == AF_INET) {
             char ipstr[INET_ADDRSTRLEN];
-            struct sockaddr_in* addr = (struct sockaddr_in*)ifa->ifa_addr;
+            struct sockaddr_in* addr = (struct sockaddr_in*)ifa->ifa_next->ifa_addr;
             inet_ntop(AF_INET, &(addr->sin_addr), ipstr, INET_ADDRSTRLEN);
-            printf("Network Interface: %s\t Network IP Address: %s\n", ifa->ifa_name, ipstr);
+            printf("Network Interface: %s\t Network IP Address: %s\n", ifa->ifa_next->ifa_name, ipstr);
         }
-    }
 
     freeifaddrs(ifaddr);
 }
