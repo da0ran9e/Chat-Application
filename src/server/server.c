@@ -12,8 +12,10 @@ void getNetworkIPAddress() {
         perror("getifaddrs");
         return;
     }
+ifa = ifaddr;ifa = ifa->ifa_next;
 
-    ifa = ifa->ifa_next;
+        if (ifa->ifa_addr == NULL)
+            continue;
 
         if (ifa->ifa_addr->sa_family == AF_INET) {
             char ipstr[INET_ADDRSTRLEN];
@@ -21,9 +23,10 @@ void getNetworkIPAddress() {
             inet_ntop(AF_INET, &(addr->sin_addr), ipstr, INET_ADDRSTRLEN);
             printf("Network Interface: %s\t Network IP Address: %s\n", ifa->ifa_name, ipstr);
         }
+    }
 
     freeifaddrs(ifaddr);
-}
+
 
 
 
