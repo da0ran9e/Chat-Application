@@ -1,9 +1,12 @@
 
 /* Get the system IP address */
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <ifaddrs.h>
+#include <netinet/in.h>
 
 void getIPAddress(char *ipBuffer, size_t bufferSize) {
     WSADATA wsaData;
@@ -82,15 +85,16 @@ int main() {
     return 0;
 }
 
-// int main(int argc, char const *argv[]) {
-//     if (argc != 2) {
-//         printf("Usage: %s PortNumber\n", argv[0]);
-//         exit(1);
-//     }
+
+int main(int argc, char const *argv[]) {
+    if (argc != 2) {
+        printf("Usage: %s PortNumber\n", argv[0]);
+        exit(1);
+    }
 
 
-//     int port = atoi(argv[1]);
+    int port = atoi(argv[1]);
 
-//     _s_init(port);
-//     return 0;
-// }
+    _s_init(port);
+    return 0;
+}
