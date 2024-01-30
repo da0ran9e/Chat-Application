@@ -1,5 +1,39 @@
 #include "../../include/server/connection.h"
 
+
+// Get local area network ip address
+void getLocalIPAddress(char* ipBuffer, size_t bufferSize, int index) {
+    struct ifaddrs* ifaddr, * ifa;
+    int current_index = 0;
+
+    if (getifaddrs(&ifaddr) == -1) {
+        perror("getifaddrs");
+        exit(EXIT_FAILURE);
+    }
+
+    for (ifa = ifaddr; ifa != NULL; ifa = ifa->ifa_next) {
+        if (ifa->ifa_addr == NULL)
+            continue;
+
+        if (ifa->ifa_addr->sa_family == AF_INET) {
+            if (current_index == index) {
+                struct sockaddr_in* addr = (struct sockaddr_in*)ifa->ifa_addr;
+                inet_ntop(AF_INET, &(addr->sin_addr), ipBuffer, bufferSize);
+                break;  // Found the desired index
+            }
+            current_index++;
+        }
+    }
+
+    freeifaddrs(ifaddr);
+
+    if (current_index < index) {
+        fprintf(stderr, "Error: Index %d is out of bounds\n", index);
+        exit(EXIT_FAILURE);
+    }
+}
+
+// debuger
 void printCodes(const char * binaryStr, size_t size){
     for (size_t i = 0; i < size; i++) {
         printf("\\x%02X", (unsigned char)binaryStr[i]);
@@ -7,6 +41,7 @@ void printCodes(const char * binaryStr, size_t size){
     printf("\n");
 }
 
+// receive message from client
 ssize_t receiveMessage(int clientSocket, char *buffer) {
     ssize_t bytesRead = recv(clientSocket, buffer, BUFFER - 1, 0);
     if (bytesRead <= 0) {
@@ -20,6 +55,7 @@ ssize_t receiveMessage(int clientSocket, char *buffer) {
     return bytesRead;
 }
 
+//send message to client
 ssize_t sendMessage(int clientSocket, const void *message, size_t len) {
     printf("About to send: ");
     printCodes(message, len);
@@ -40,6 +76,7 @@ ssize_t sendMessage(int clientSocket, const void *message, size_t len) {
     return totalSent;
 }
 
+// start initially server properties 
 void initializeServer(int *serverSocket, int port) {
     struct sockaddr_in serverAddr;
 
@@ -51,8 +88,16 @@ void initializeServer(int *serverSocket, int port) {
     memset(&serverAddr, 0, sizeof(serverAddr));
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_port = htons(port);
-    serverAddr.sin_addr.s_addr = INADDR_ANY;
-    //serverAddr.sin_addr.s_addr = inet_addr("192.168.137.49");
+
+    // Get the local IP address
+    char ipBuffer[INET_ADDRSTRLEN];
+    getLocalIPAddress(ipBuffer, sizeof(ipBuffer), 1);
+
+    if (inet_pton(AF_INET, ipBuffer, &serverAddr.sin_addr) != 1) {
+        perror("Error converting IP address");
+        close(*serverSocket);
+        exit(EXIT_FAILURE);
+    }
 
     if (bind(*serverSocket, (struct sockaddr *)&serverAddr, sizeof(serverAddr)) == -1) {
         perror("Error binding server socket");
@@ -66,5 +111,6 @@ void initializeServer(int *serverSocket, int port) {
         exit(EXIT_FAILURE);
     }
 
+    printf("Server LAN: %s\n", ipBuffer);
     printf("Server is listening on port %d...\n", port);
 }
