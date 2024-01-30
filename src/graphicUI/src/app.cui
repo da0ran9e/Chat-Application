@@ -396,7 +396,7 @@
     }
 
     setInterval(checkRequestQueue, 2000);
-    //parseData(sampleData);
+    parseData(sampleData);
     /////////////////////////////////////////////////////////////
 
     function windowUpdateData(){
