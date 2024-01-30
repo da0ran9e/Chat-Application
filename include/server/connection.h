@@ -11,6 +11,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <pthread.h>
+#include <ifaddrs.h>
 
 #define MAX_CLIENTS 100
 #define BUFFER 1024

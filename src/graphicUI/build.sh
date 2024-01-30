@@ -4,8 +4,8 @@ g++ -c ../../include/webview/webview.cc -std=c++11 -DWEBVIEW_STATIC $(pkg-config
 # gcc -c gui.c -std=c99 -Ilibs/webview -o ../../build/gui/gui.o
 # g++ ../../build/gui/gui.o ../../build/gui/webview.o $(pkg-config --libs gtk+-3.0 webkit2gtk-4.0) -o gui && gui
 
-# gcc -c ui_auth.c -std=c99 -Ilibs/webview -o ../../build/gui/auth.o
-# g++ ../../build/gui/auth.o ../../build/gui/webview.o $(pkg-config --libs gtk+-3.0 webkit2gtk-4.0) -o auth && auth=
+gcc -c ui_auth.c -std=c99 -Ilibs/webview -o ../../build/gui/auth.o
+g++ ../../build/gui/auth.o ../../build/gui/webview.o $(pkg-config --libs gtk+-3.0 webkit2gtk-4.0) -o auth 
 
 gcc -c ui_app.c -std=c99 -Ilibs/webview -o ../../build/gui/app.o
-g++ ../../build/gui/app.o ../../build/gui/webview.o $(pkg-config --libs gtk+-3.0 webkit2gtk-4.0) -o app && app
+g++ ../../build/gui/app.o ../../build/gui/webview.o $(pkg-config --libs gtk+-3.0 webkit2gtk-4.0) -o app 
