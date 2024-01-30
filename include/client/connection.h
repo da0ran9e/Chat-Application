@@ -11,6 +11,7 @@
 #include <arpa/inet.h>
 #include <pthread.h>
 #include <sys/time.h>
+#include <ifaddrs.h>
 
 #define BUFFER_SIZE 1024
 #define MAX_CLIENTS 100
