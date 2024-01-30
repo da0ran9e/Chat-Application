@@ -1,2 +1,3 @@
-chmod 755 src/graphicUI/build.sh
-./src/graphicUI/build.sh
+cd src/graphicUI
+chmod 755 build.sh
+./build.sh

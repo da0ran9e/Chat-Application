@@ -1,2 +1,3 @@
-chmod 755 src/server/build.sh 
-./src/server/build.sh 
+cd src/server/
+chmod 755 build.sh 
+./build.sh 

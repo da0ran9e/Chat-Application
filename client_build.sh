@@ -1,2 +1,3 @@
-chmod src/client/build.sh
-./src/client/build.sh
+cd src/client
+chmod build.sh
+./build.sh
