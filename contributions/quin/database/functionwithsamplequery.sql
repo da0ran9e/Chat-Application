@@ -20,7 +20,7 @@ $$ LANGUAGE plpgsql;
 
 
 -- Drop the old register_user function
-DROP FUNCTION IF EXISTS register_user(VARCHAR(50), VARCHAR(50));
+-- DROP FUNCTION IF EXISTS register_user(VARCHAR(50), VARCHAR(50));
 -- Function for registering a new account (add an account to the database)
 -- CREATE OR REPLACE FUNCTION register_user(in_username VARCHAR(50), in_password VARCHAR(50))
 -- RETURNS INTEGER AS $$
@@ -413,7 +413,7 @@ BEGIN
     END IF;
 END;
 $$ LANGUAGE plpgsql;
---SELECT create_private_room('user20', 'user5') AS new_room_id;
+--SELECT create_private_room('user2', 'user5') AS new_room_id;
 
 
 -- Function to create a new room with admin (add a room to the database)
@@ -448,11 +448,12 @@ $$ LANGUAGE plpgsql;
 --SELECT create_new_room('Room 20','user20') AS new_room_id;
 
 
--- Function to add a person to a room
+-- Function to add a person to a public room
 CREATE OR REPLACE FUNCTION add_person_to_room(in_username VARCHAR(50), in_roomid INT)
 RETURNS INTEGER AS $$
 DECLARE
     in_userid INT;
+	not_private_room BOOLEAN;
     success INTEGER;
 BEGIN
     -- Get user ID
@@ -460,26 +461,34 @@ BEGIN
 
     -- Check if both username and roomid exist
     IF in_userid IS NOT NULL AND EXISTS (SELECT 1 FROM room WHERE room_id = in_roomid) THEN
-        INSERT INTO member_in_room (user_id, room_id)
-        VALUES (in_userid, in_roomid);
+	-- Check if room name is not null
+        SELECT room_name IS NOT NULL INTO not_private_room FROM room WHERE room_id = in_roomid;
+		IF not_private_room THEN
+        	INSERT INTO member_in_room (user_id, room_id)
+        	VALUES (in_userid, in_roomid);
 
-        GET DIAGNOSTICS success = ROW_COUNT;
+        	GET DIAGNOSTICS success = ROW_COUNT;
 
-        RETURN success;
+        	RETURN success;
+		ELSE
+			-- Return 0 if room name is null
+            RETURN 0;
+        END IF;
     ELSE
         -- Return 0 if either username or roomid doesn't exist
         RETURN 0;
     END IF;
 END;
 $$ LANGUAGE plpgsql;
---SELECT add_person_to_room('user14', 3); -- username = user14 and room_id = 3
+--SELECT add_person_to_room('user8', 1); -- username = user14 and room_id = 3
 
 
--- Function to remove a person from a room
+-- Function to remove a person from a public room
 CREATE OR REPLACE FUNCTION remove_person_from_room(in_username VARCHAR(50), in_roomid INT)
 RETURNS INTEGER AS $$
 DECLARE
     in_userid INT;
+	not_private_room BOOLEAN;
     success INTEGER;
 BEGIN
     -- Get user ID
@@ -487,19 +496,26 @@ BEGIN
 
     -- Check if both username and roomid exist
     IF in_userid IS NOT NULL AND EXISTS (SELECT 1 FROM room WHERE room_id = in_roomid) THEN
-        DELETE FROM member_in_room
-        WHERE user_id = in_userid AND room_id = in_roomid;
+	-- Check if room name is not null
+        SELECT room_name IS NOT NULL INTO not_private_room FROM room WHERE room_id = in_roomid;
+		IF not_private_room THEN
+        	DELETE FROM member_in_room
+        	WHERE user_id = in_userid AND room_id = in_roomid;
 
-        GET DIAGNOSTICS success = ROW_COUNT;
+        	GET DIAGNOSTICS success = ROW_COUNT;
 
-        RETURN success;
+        	RETURN success;
+    	ELSE
+			-- Return 0 if room name is null
+            RETURN 0;
+        END IF;
     ELSE
         -- Return 0 if either username or roomid doesn't exist
         RETURN 0;
     END IF;
 END;
 $$ LANGUAGE plpgsql;
---SELECT remove_person_from_room('user14', 3); -- username = user14 and room_id = 2
+--SELECT remove_person_from_room('user2', 3); -- username = user14 and room_id = 2
 
 -- Function to get the conversation of a room (get the recent last 100 messages in conversation from a timestamp)
 CREATE OR REPLACE FUNCTION get_room_conversation(in_room_id INT, in_timestamp TIMESTAMP)
