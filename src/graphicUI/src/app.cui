@@ -435,7 +435,7 @@
         });
     }
 
-    setInterval(windowUpdateData, 1000);
+    //setInterval(windowUpdateData, 1000);
 
     /////////////////////////////////////////////////////////////////
 </script>
