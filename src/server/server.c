@@ -8,8 +8,9 @@
 #include <ifaddrs.h>
 #include <netinet/in.h>
 
-void getLocalIPAddress(char* ipBuffer, size_t bufferSize) {
-    struct ifaddrs* ifaddr, *ifa;
+void getLocalIPAddress(char* ipBuffer, size_t bufferSize, int index) {
+    struct ifaddrs* ifaddr, * ifa;
+    int current_index = 0;
 
     if (getifaddrs(&ifaddr) == -1) {
         perror("getifaddrs");
@@ -21,13 +22,21 @@ void getLocalIPAddress(char* ipBuffer, size_t bufferSize) {
             continue;
 
         if (ifa->ifa_addr->sa_family == AF_INET) {
-            struct sockaddr_in* addr = (struct sockaddr_in*)ifa->ifa_addr;
-            inet_ntop(AF_INET, &(addr->sin_addr), ipBuffer, bufferSize);
-            break;  // Assuming the first IPv4 address found is the one to use
+            if (current_index == index) {
+                struct sockaddr_in* addr = (struct sockaddr_in*)ifa->ifa_addr;
+                inet_ntop(AF_INET, &(addr->sin_addr), ipBuffer, bufferSize);
+                break;  // Found the desired index
+            }
+            current_index++;
         }
     }
 
     freeifaddrs(ifaddr);
+
+    if (current_index <= index) {
+        fprintf(stderr, "Error: Index %d is out of bounds\n", index);
+        exit(EXIT_FAILURE);
+    }
 }
 
 /* Setup Server */
@@ -35,7 +44,7 @@ void getLocalIPAddress(char* ipBuffer, size_t bufferSize) {
 int main() {
     // Get the local IP address
     char ipBuffer[INET_ADDRSTRLEN];
-    getLocalIPAddress(ipBuffer, sizeof(ipBuffer));
+    getLocalIPAddress(ipBuffer, sizeof(ipBuffer), 1);
     printf("%s\n", ipBuffer);
     return 0;
 }
