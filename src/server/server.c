@@ -85,7 +85,7 @@ int main() {
     return 0;
 }
 
-
+/*
 int main(int argc, char const *argv[]) {
     if (argc != 2) {
         printf("Usage: %s PortNumber\n", argv[0]);
@@ -98,3 +98,4 @@ int main(int argc, char const *argv[]) {
     _s_init(port);
     return 0;
 }
+*/
