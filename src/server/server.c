@@ -33,7 +33,7 @@ void getLocalIPAddress(char* ipBuffer, size_t bufferSize, int index) {
 
     freeifaddrs(ifaddr);
 
-    if (current_index <= index) {
+    if (current_index < index) {
         fprintf(stderr, "Error: Index %d is out of bounds\n", index);
         exit(EXIT_FAILURE);
     }
