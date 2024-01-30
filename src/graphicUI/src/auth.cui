@@ -6,7 +6,6 @@
     .hover\:w-64:hover {
             width: 45%;
         }
-    /* NO NEED THIS CSS - just for custom scrollbar which can also be configured in tailwind.config.js*/
     ::-webkit-scrollbar {
         width: 2px;
         height: 2px;

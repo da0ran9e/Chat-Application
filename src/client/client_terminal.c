@@ -32,10 +32,6 @@ void getLocalIPAddress(char* ipBuffer, size_t bufferSize, int index) {
 }
 
 int main(){
-    if (argc != 3) {
-        printf("Usage: %s ServerIPAddress PortNumber\n", argv[0]);
-        exit(1);
-    }
     // Get the local IP address
     char ipBuffer[INET_ADDRSTRLEN];
     getLocalIPAddress(ipBuffer, sizeof(ipBuffer), 1);
