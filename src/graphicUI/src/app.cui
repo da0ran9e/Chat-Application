@@ -9,72 +9,112 @@
     var requestQueue = [];
 
     const sampleData = `{
-        "PORT": 8080,
-        "rtd": 12345,
-        "username": "new_user",
-        "onlineUsers": [
-            {"name": "user3", "friend": false},
-            {"name": "user4", "friend": true}
+    "PORT": 8080,
+    "rtd": 98,
+    "username": "Annnnnn",
+    "onlineUsers": [
+      {"name": "John", "friend": true},
+      {"name": "Emma", "friend": false},
+      {"name": "Daniel", "friend": true},
+      {"name": "Sophia", "friend": false},
+      {"name": "Michael", "friend": true},
+      {"name": "Olivia", "friend": false}
+    ],
+    "friends": [
+      {"name": "Ava"},
+      {"name": "Matthew"},
+      {"name": "John"},
+      {"name": "Emma"}
+    ],
+    "requests": [
+      {"name": "Liam"},
+      {"name": "Isabella"},
+      {"name": "Ethan"}
+    ],
+    "chatRooms": [
+      {
+        "id": 15,
+        "name": "Work Discussions",
+        "member": [
+          {"memberName": "John"},
+          {"memberName": "Emma"},
+          {"memberName": "big_user"},
+          {"memberName": "Ava"}
         ],
-        "friends": [
-            {"name": "friend3"},
-            {"name": "friend4"},
-            {"name": "user3"}
-        ],
-        "requests": [
-            {"name": "new_request1"},
-            {"name": "new_request2"}
-        ],
-        "chatRooms": [
-            {
-                "id": 1,
-                "name": "New_Room1",
-                "members": [
-                    {"memberName": "new_member1"},
-                    {"memberName": "new_member2"},
-                    {"memberName": "new_user"}
-                ],
-                "messages": [
-                    {
-                        "user": "new_member1",
-                        "timestamp": "01-09-2024 10:15:30",
-                        "content": "Hello! How are you?"
-                    },
-                    {
-                        "user": "new_user",
-                        "timestamp": "01-09-2024 10:20:45",
-                        "content": "Hi there!"
-                    }
-                ]
-            },
-            {
-                "id": 3,
-                "name": "New_Room2",
-                "members": [
-                    {"memberName": "new_member1"},
-                    {"memberName": "new_member2"},
-                    {"memberName": "new_user"}
-                ],
-                "messages": [
-                    {
-                        "user": "new_member2",
-                        "timestamp": "01-09-2024 10:30:00",
-                        "content": "Hey! What's up?"
-                    },
-                    {
-                        "user": "new_user",
-                        "timestamp": "01-09-2024 10:35:20",
-                        "content": "Not much, just chilling."
-                    },
-                    {
-                        "user": "new_member1",
-                        "timestamp": "01-09-2024 10:40:10",
-                        "content": "Cool! Let's chat."
-                    }
-                ]
-            }
+        "messages": [
+          {
+            "user": "John",
+            "timestamp": "01-09-2024 18:30:20",
+            "content": "Hello team! Let's discuss the upcoming project."
+          },
+          {
+            "user": "big_user",
+            "timestamp": "01-09-2024 18:35:45",
+            "content": "Sure, I have some ideas we can consider."
+          },
+          {
+            "user": "Emma",
+            "timestamp": "01-09-2024 18:40:15",
+            "content": "I'll handle the documentation part."
+          }
         ]
-    }`;
+      },
+      {
+        "id": 23,
+        "name": "Tech Enthusiasts Club",
+        "member": [
+          {"memberName": "Daniel"},
+          {"memberName": "Sophia"},
+          {"memberName": "big_user"},
+          {"memberName": "Matthew"}
+        ],
+        "messages": [
+          {
+            "user": "Daniel",
+            "timestamp": "01-09-2024 20:15:10",
+            "content": "Check out this latest tech gadget, it's amazing!"
+          },
+          {
+            "user": "big_user",
+            "timestamp": "01-09-2024 20:20:30",
+            "content": "Wow, that's cool! Where did you find it?"
+          },
+          {
+            "user": "Sophia",
+            "timestamp": "01-09-2024 20:25:15",
+            "content": "I saw it on a tech blog. It's gaining popularity."
+          }
+        ]
+      },
+      {
+        "id": 31,
+        "name": "Family Chat",
+        "member": [
+          {"memberName": "Michael"},
+          {"memberName": "Olivia"},
+          {"memberName": "big_user"}
+        ],
+        "messages": [
+          {
+            "user": "Michael",
+            "timestamp": "01-09-2024 22:10:45",
+            "content": "How's everyone doing? Any plans for the weekend?"
+          },
+          {
+            "user": "big_user",
+            "timestamp": "01-09-2024 22:15:20",
+            "content": "I'm good! Just relaxing at home. No plans yet."
+          },
+          {
+            "user": "Olivia",
+            "timestamp": "01-09-2024 22:20:10",
+            "content": "I might go shopping. Anyone wants to join?"
+          }
+        ]
+      }
+    ]
+  }
+  `;
 
 
     function parseData(data){
@@ -395,7 +435,7 @@
         requestQueue.shift();
     }
 
-    setInterval(checkRequestQueue, 2000);
+    setInterval(checkRequestQueue, 20000);
     parseData(sampleData);
     /////////////////////////////////////////////////////////////
 

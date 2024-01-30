@@ -80,10 +80,7 @@
                         <div class="messages text-sm text-gray-700 grid grid-flow-row gap-2">
                             <p class="p-0 text-left text-sm text-gray-50">user1</p>
                             <div class="flex items-center group">
-                                <p class="px-6 py-3 rounded-b-full rounded-r-full bg-gray-800 max-w-xs lg:max-w-md text-gray-200">Lorem ipsum
-                                    dolor sit
-                                    amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                                    dolore magna aliqua. Volutpat lacus laoreet non curabitur gravida.</p>
+                                <p class="px-6 py-3 rounded-b-full rounded-r-full bg-gray-800 max-w-xs lg:max-w-md text-gray-200">Welcome to ChatPals<br \>This is a demo version of our chat application<br \>On the left most is app name, friend list and room list, online friend will have green dot<br \>On the right is online user list</p>
                                 
                                 <button type="button" class="hidden group-hover:block">
                                     <p class="p-4 text-center text-sm text-gray-500">2023-12-12 12:40:45</p>
@@ -94,7 +91,7 @@
                     <div class="flex flex-row justify-end">
                         <div class="messages text-sm text-white grid grid-flow-row gap-2">
                             <div class="flex items-center flex-row-reverse group">
-                                <p class="px-6 py-3 rounded-t-full rounded-l-full bg-blue-700 max-w-xs lg:max-w-md">Hey! How are you?</p>
+                                <p class="px-6 py-3 rounded-t-full rounded-l-full bg-blue-700 max-w-xs lg:max-w-md">Try to type something down there👇?</p>
                                 
                                 <button type="button" class="hidden group-hover:block">
                                     <p class="p-4 text-center text-sm text-gray-500">2023-12-12 12:40:45</p>
