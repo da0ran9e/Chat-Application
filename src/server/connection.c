@@ -91,7 +91,7 @@ void initializeServer(int *serverSocket, int port) {
 
     // Get the local IP address
     char ipBuffer[INET_ADDRSTRLEN];
-    getLocalIPAddress(ipBuffer, sizeof(ipBuffer), 0);
+    getLocalIPAddress(ipBuffer, sizeof(ipBuffer), 1);
 
     if (inet_pton(AF_INET, ipBuffer, &serverAddr.sin_addr) != 1) {
         perror("Error converting IP address");
