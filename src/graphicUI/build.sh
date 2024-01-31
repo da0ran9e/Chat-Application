@@ -34,4 +34,4 @@ g++ ../../build/gui/app.o ../../build/gui/webview.o $(pkg-config --libs gtk+-3.0
 
 cd ../../bin
 ./auth
-./auth
+./app
