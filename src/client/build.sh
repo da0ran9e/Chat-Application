@@ -16,5 +16,8 @@ else
     echo "g++ is already installed."
 fi
 
-gcc -o client client_terminal.c connection.c feature.c ../utility.c ../protocol/protocol.c
+# compile
+mkdir ../../bin
+gcc -o ../../client client_terminal.c connection.c feature.c ../utility.c ../protocol/protocol.c
+cd ../../bin
 ./client
