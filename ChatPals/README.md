@@ -10,3 +10,4 @@ chmod 755 start.sh
 ./start.sh
 
 ```
+The client executable file will be create in the `bin` folder.

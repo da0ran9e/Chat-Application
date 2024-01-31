@@ -1,3 +1,3 @@
 cd src/client
-chmod build.sh
+chmod 755 build.sh
 ./build.sh
