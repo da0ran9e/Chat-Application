@@ -15,6 +15,7 @@ Message g_message[BUFFER];
 RoomMember g_room_member[MAX_CLIENTS * MAX_CLIENTS];
 void *g_args;
 
+// Function to send protocol message
 void sendMessage(void *args, const char *buffer, int size)
 {
     // printf("Send: ");
@@ -30,6 +31,7 @@ void sendMessage(void *args, const char *buffer, int size)
     //usleep(PING_INTERVAL * 3000);
 }
 
+// Function to receive and process the message responded by server
 int recvAndProcess(void *args)
 {
     struct ThreadArgs *threadArgs = (struct ThreadArgs *)args;
@@ -142,10 +144,10 @@ void c_online()
     strcpy(params.Param2, "\0");
     strcpy(params.Param3, "\0");
 
-    int len = generateMessage(0, 0, params, buffer);
-    sendMessage(g_args, buffer, len);
-
-    int res = recvAndProcess(g_args);
+    int len = generateMessage(0, 0, params, buffer); 
+    sendMessage(g_args, buffer, len); // Client sends protocol message for online list to server
+    // Server is done processing client request and sends back the result
+    int res = recvAndProcess(g_args); // Client extracts the needed information from the payload
     if (res == 200)
         printf("Get online list!\n");
     else if (res == 300)
@@ -565,6 +567,7 @@ void c_chat()
     }
 }
 
+// Function for GUI
 void ca_load_all(char *jsonStr){
     struct timeval startTime, endTime;
     gettimeofday(&startTime, NULL);
@@ -804,15 +807,15 @@ void ca_response_request(const char *friendName, const int resonse){
 int handle_receive_message(const char *message, int len)
 {
     int status;
-    int op = getProtocolOpcode(message);
-    int func = getProtocolFunctionCode(message);
+    int op = getProtocolOpcode(message); // extract Opcode from Server message
+    int func = getProtocolFunctionCode(message); // extract Func from Server message
     int code = 10 * func + op;
     Parameters params;
     char payload[BUFFER - 8];
     int plSize = len - 8;
 
     getProtocolPayload(message, payload, plSize);
-    getProtocolParameters(payload, &params);
+    getProtocolParameters(payload, &params); // extract Parameters from Server message
 
     // printf("code: %d\n", code);
     // handle

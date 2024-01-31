@@ -25,37 +25,37 @@ int handle_features(const int userSock, int op, int func, const Parameters param
     case 30: // op 0, func 3
         result = feat_change_password(userSock, params.Param1, params.Param2, params.Param3);
         break;
-    case 1:
+    case 1: // op 1, func 0
         result = feat_friend_list(userSock);
         break;
-    case 11:
+    case 11: // op 1, func 1
         result = feat_request_friend(userSock, params.Param1, params.Param2);
         break;
-    case 21:
+    case 21: // op 1, func 2
         result = feat_response_request(userSock, params.Param1, params.Param2, params.Param3);
         break;
-    case 31:
+    case 31: // op 1, func 3
         result = feat_request_list(userSock);
         break;
-    case 2:
+    case 2: // op 2, func 0
         result = feat_room_list(userSock, params.Param1);
         break;
-    case 12:
+    case 12: // op 2, func 1
         result = feat_room_members(userSock, atoi(params.Param1));
         break;
-    case 22:
+    case 22: // op 2, func 2
         result = feat_room_create(userSock, params.Param1, params.Param2);
         break;
-    case 32:
+    case 32: // op 2, func 3
         result = feat_add_member(userSock, atoi(params.Param1), params.Param2);
         break;
-    case 42:
+    case 42: // op 2, func 4
         result = feat_remove_member(userSock, atoi(params.Param1), params.Param2);
         break;
-    case 3:
+    case 3: // op 3, func 0
         result = feat_conversation(userSock, atoi(params.Param1));
         break;
-    case 13:
+    case 13:  // op 3, func 1
         result = feat_new_message(userSock, params.Param1, atoi(params.Param2), params.Param3);
         break;
     default:
@@ -328,7 +328,7 @@ int feat_request_list(const int clientSock)
     return res;
 }
 
-// request
+// send request
 int feat_request_friend(int clientSock, const char *username, const char *destination)
 {
     /*// get destination socket
@@ -487,7 +487,7 @@ int feat_room_list(const int clientSock, const char *username)
     return res;
 }
 
-// get memberlist
+// get memberlist of room
 int feat_room_members(const int clientSock, const int roomId)
 {
     char peopleList[MAX_CLIENTS][50];
@@ -528,7 +528,7 @@ int feat_room_members(const int clientSock, const int roomId)
     return res;
 }
 
-// create room
+// create new public room
 int feat_room_create(const int clientSock, const char *roomName, const char *username)
 {
     int roomId;
@@ -553,7 +553,7 @@ int feat_room_create(const int clientSock, const char *roomName, const char *use
     return res;
 }
 
-// add members
+// add a member in a room
 int feat_add_member(const int clientSock, const int roomId, const char *username)
 {
     int res = s_room_add_member(roomId, username);
@@ -579,7 +579,7 @@ int feat_add_member(const int clientSock, const int roomId, const char *username
     return res;
 }
 
-// remove
+// remove a member in a room
 int feat_remove_member(const int clientSock, const int roomId, const char *username)
 {
     int res = s_room_remove_member(roomId, username);
@@ -677,6 +677,7 @@ int feat_conversation(const int clientSock, const int roomId)
     return res;
 }
 
+//load older conversation
 int feat_load_more(const int clientSock, const int roomId, const char *timestamp)
 {
     int count;

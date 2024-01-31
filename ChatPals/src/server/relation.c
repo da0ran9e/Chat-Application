@@ -37,7 +37,11 @@ int s_rela_addfriendship(const char * username, const char * destination, int *r
     }
 }
 
-
+/*
+* 211: success
+* 111: fail
+* 411: connection lost
+*/
 int s_rela_sendrequest(const char * username, const char * destination){
     switch (dbc_request_friend(username, destination))
     {

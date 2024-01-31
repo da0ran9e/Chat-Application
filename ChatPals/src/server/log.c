@@ -1,5 +1,6 @@
 #include "../../include/server/log.h"
 
+// Function to open the json file and start writing
 void write_log(const char *log){
     FILE *logFile = fopen("../../log.json", "a");
     if (logFile == NULL) {
