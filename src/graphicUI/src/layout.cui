@@ -10,7 +10,7 @@
         <main class="flex-grow flex flex-row min-h-0">
             <section class="flex flex-col flex-none overflow-auto w-24 hover:w-64 group lg:max-w-sm md:w-2/5 transition-all duration-300 ease-in-out">
                 <div class="header p-4 flex flex-row justify-between items-center flex-none">
-                    <div class="w-16 h-16 relative flex flex-shrink-0" style="filter: invert(100%);">
+                    <div class="w-16 h-16 relative flex flex-shrink-0">
                         <img class="rounded-full w-full h-full object-cover" alt="0ran9e" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAEKSURBVHhe7dixDYNADIVhRuAYAokyomEIxqABSjZgCDahp0mfMn1WSGrnJCjdYaRD/i09XYe5r7AFmVxQbSuSxSennjz/SjzsCwAA9IapxT1ACD/fAEUBAADxsC8AbgLAGgQAAIZgPOwLAAD0hqnFPUAIbAEA4mFf7gGm6SNN8zbN4/GSsnyapq63awDWdZVlWUwzz7N0XWeacRwBAOB4Z9MC4CYAfd8DAMDxzqYFAEMQAPUSZwIAAPYAwzD4BmANAuAcwP0MYA0CAEAE0P4XJ5itqtRLnMm+BZRmKQYAAABQL3Em7ocgAAA4B9g/hpRmKeYKANYgAM4B3M8A1iAAAPgGYA0C4B6glz+ZTgIqGIcgggAAAABJRU5ErkJggg=="/>    
                     </div>
                     <p class="text-md font-bold hidden md:block group-hover:block">ChatPals</p>
