@@ -38,7 +38,7 @@
         "member": [
           {"memberName": "John"},
           {"memberName": "Emma"},
-          {"memberName": "big_user"},
+          {"memberName": "Annnnnn"},
           {"memberName": "Ava"}
         ],
         "messages": [
@@ -48,7 +48,7 @@
             "content": "Hello team! Let's discuss the upcoming project."
           },
           {
-            "user": "big_user",
+            "user": "Annnnnn",
             "timestamp": "01-09-2024 18:35:45",
             "content": "Sure, I have some ideas we can consider."
           },
@@ -65,7 +65,7 @@
         "member": [
           {"memberName": "Daniel"},
           {"memberName": "Sophia"},
-          {"memberName": "big_user"},
+          {"memberName": "Annnnnn"},
           {"memberName": "Matthew"}
         ],
         "messages": [
@@ -75,7 +75,7 @@
             "content": "Check out this latest tech gadget, it's amazing!"
           },
           {
-            "user": "big_user",
+            "user": "Annnnnn",
             "timestamp": "01-09-2024 20:20:30",
             "content": "Wow, that's cool! Where did you find it?"
           },
@@ -92,7 +92,7 @@
         "member": [
           {"memberName": "Michael"},
           {"memberName": "Olivia"},
-          {"memberName": "big_user"}
+          {"memberName": "Annnnnn"}
         ],
         "messages": [
           {
@@ -101,7 +101,7 @@
             "content": "How's everyone doing? Any plans for the weekend?"
           },
           {
-            "user": "big_user",
+            "user": "Annnnnn",
             "timestamp": "01-09-2024 22:15:20",
             "content": "I'm good! Just relaxing at home. No plans yet."
           },
