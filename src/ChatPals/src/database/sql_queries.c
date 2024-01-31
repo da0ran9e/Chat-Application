@@ -314,6 +314,7 @@ int execute_remove_person_from_room_query(PGconn *conn, const char *username, co
     return removePersonStatus;
 }
 
+// Load 100 latest messages
 int execute_get_room_current_conversation_query(PGconn *conn, const int room_id, char (*messageList)[50]) {
     const char *query = "SELECT * FROM get_room_conversation($1, CURRENT_TIMESTAMP::TIMESTAMP)";
     char* room_id_str = util_int_to_str(room_id);

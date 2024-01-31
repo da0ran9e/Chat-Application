@@ -74,6 +74,16 @@ int dbc_get_friendlist (const char * username, char (* friendList)[50]){
     database_exit(conn);
     return result;
 }
+
+/*
+* dbc_get_requestlist
+*
+* [IN] param1: username[]
+* [IN] param2: requestList[][]
+*
+* [OUT]: number of rows
+*/
+
 int dbc_get_requestlist (const char * username, char (* requestList)[50]){
     PGconn * conn = database_start ();
     
@@ -82,8 +92,9 @@ int dbc_get_requestlist (const char * username, char (* requestList)[50]){
     database_exit(conn);
     return result;
 }
+
 /*
-* dbc_add_friend
+* dbc_request_friend
 *
 * [IN] param1: username[]
 * [IN] param2: friendname[]
@@ -101,6 +112,14 @@ enum DBStatus dbc_request_friend (const char * username, const char * friendname
     else return ACCEPT;
 }
 
+/*
+* dbc_delete_request
+*
+* [IN] param1: username[]
+* [IN] param2: friendname[]
+*
+* [OUT]: enum {DENY/ACCEPT}
+*/
 enum DBStatus dbc_delete_request (const char * username1, const char * username2){
     PGconn * conn = database_start ();
     
