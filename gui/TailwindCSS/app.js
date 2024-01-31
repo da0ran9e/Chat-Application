@@ -9,67 +9,112 @@ var chatRooms = [];
 var requestQueue = [];
 
 const sampleData = `{
-    "PORT": 5500,
-    "rtd": 240322,
-    "username": "user2",
-    "friends": [
-            {"name": "user1"},
-            {"name": "user3"}
+    "PORT": 8080,
+    "rtd": 98,
+    "username": "Annnnnn",
+    "onlineUsers": [
+      {"name": "John", "friend": true},
+      {"name": "Emma", "friend": false},
+      {"name": "Daniel", "friend": true},
+      {"name": "Sophia", "friend": false},
+      {"name": "Michael", "friend": true},
+      {"name": "Olivia", "friend": false}
     ],
-    "onlineUser": [
-            {"name": "user2", "friend":true}
+    "friends": [
+      {"name": "Ava"},
+      {"name": "Matthew"},
+      {"name": "John"},
+      {"name": "Emma"}
     ],
     "requests": [
-
+      {"name": "Liam"},
+      {"name": "Isabella"},
+      {"name": "Ethan"}
     ],
     "chatRooms": [
-            {
-                    "id": "1",
-                    "name": "Room A",
-                    "members": [
-                            {"memberName": "user1"},
-                            {"memberName": "user2"}
-                    ],
-                    "messages": [
-                            {
-                                    "user": "user1",
-                                    "timestamp": "2024-01-10 02:21:11.",
-                                    "content": "0Now!"
-                            },
-                            {
-                                    "user": "user2",
-                                    "timestamp": "2023-12-01 12:05:000",
-                                    "content": "0Hi, user1!"
-                            },
-                            {
-                                    "user": "user1",
-                                    "timestamp": "2023-12-01 12:00:000",
-                                    "content": "0Hello, Room A!"
-                            }
-                    ]
-            },
-            {
-                    "id": "2",
-                    "name": "Room B",
-                    "members": [
-                            {"memberName": "user2"},
-                            {"memberName": "user3"}
-                    ],
-                    "messages": [
-                            {
-                                    "user": "user3",
-                                    "timestamp": "2023-12-01 12:15:000",
-                                    "content": "0Thanks!"
-                            },
-                            {
-                                    "user": "user2",
-                                    "timestamp": "2023-12-01 12:10:000",
-                                    "content": "0Welcome to Room B!"
-                            }
-                    ]
-            }
+      {
+        "id": 15,
+        "name": "Work Discussions",
+        "member": [
+          {"memberName": "John"},
+          {"memberName": "Emma"},
+          {"memberName": "big_user"},
+          {"memberName": "Ava"}
+        ],
+        "messages": [
+          {
+            "user": "John",
+            "timestamp": "01-09-2024 18:30:20",
+            "content": "Hello team! Let's discuss the upcoming project."
+          },
+          {
+            "user": "big_user",
+            "timestamp": "01-09-2024 18:35:45",
+            "content": "Sure, I have some ideas we can consider."
+          },
+          {
+            "user": "Emma",
+            "timestamp": "01-09-2024 18:40:15",
+            "content": "I'll handle the documentation part."
+          }
+        ]
+      },
+      {
+        "id": 23,
+        "name": "Tech Enthusiasts Club",
+        "member": [
+          {"memberName": "Daniel"},
+          {"memberName": "Sophia"},
+          {"memberName": "big_user"},
+          {"memberName": "Matthew"}
+        ],
+        "messages": [
+          {
+            "user": "Daniel",
+            "timestamp": "01-09-2024 20:15:10",
+            "content": "Check out this latest tech gadget, it's amazing!"
+          },
+          {
+            "user": "big_user",
+            "timestamp": "01-09-2024 20:20:30",
+            "content": "Wow, that's cool! Where did you find it?"
+          },
+          {
+            "user": "Sophia",
+            "timestamp": "01-09-2024 20:25:15",
+            "content": "I saw it on a tech blog. It's gaining popularity."
+          }
+        ]
+      },
+      {
+        "id": 31,
+        "name": "Family Chat",
+        "member": [
+          {"memberName": "Michael"},
+          {"memberName": "Olivia"},
+          {"memberName": "big_user"}
+        ],
+        "messages": [
+          {
+            "user": "Michael",
+            "timestamp": "01-09-2024 22:10:45",
+            "content": "How's everyone doing? Any plans for the weekend?"
+          },
+          {
+            "user": "big_user",
+            "timestamp": "01-09-2024 22:15:20",
+            "content": "I'm good! Just relaxing at home. No plans yet."
+          },
+          {
+            "user": "Olivia",
+            "timestamp": "01-09-2024 22:20:10",
+            "content": "I might go shopping. Anyone wants to join?"
+          }
+        ]
+      }
     ]
-}`;
+  }
+  `;
 
 
 function parseData(data){
