@@ -1,5 +1,7 @@
 # Chat-Application
 💬🪼a message machine
+![420172881_345626925008445_1409240495039094021_n](https://github.com/da0ran9e/Chat-Application/assets/98570451/08b5cb07-4a25-43c9-8adb-993feeadf62b)
+
 ## Folder structure:
 ```c
 project_root/
